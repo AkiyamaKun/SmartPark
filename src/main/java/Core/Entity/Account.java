@@ -25,6 +25,8 @@ public class Account {
     private Integer role;
     //Active: 1 , deactive: 0
     private boolean isActive;
+    //Token is used verify account
+    private String token;
 
     public Account() {
     }
@@ -33,7 +35,7 @@ public class Account {
      * Constructor full arguments
      */
     public Account(String email, String password, String phoneNumber, String firstName,
-                   String middleName, String lastName, Date createDate, Integer role, boolean isActive) {
+                   String middleName, String lastName, Date createDate, Integer role, boolean isActive, String token) {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -43,6 +45,7 @@ public class Account {
         this.createDate = createDate;
         this.role = role;
         this.isActive = isActive;
+        this.token = token;
     }
 
 
@@ -124,5 +127,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

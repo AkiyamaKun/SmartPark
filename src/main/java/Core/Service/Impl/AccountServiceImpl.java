@@ -60,16 +60,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Register New Account
-     * @param accountDTO
-     * @return
-     */
-    @Override
-    public ResponseDTO register(AccountDTO accountDTO) {
-        return null;
-    }
-
-    /**
      * Change Password
      * @param changePasswordDTO
      * @return
@@ -123,36 +113,6 @@ public class AccountServiceImpl implements AccountService {
 //        }
 //        return null;
 //    }
-
-    /**
-     * Create Driver Account
-     * @param accountDTO
-     * @return
-     */
-    @Override
-    public ResponseDTO createAccount(AccountDTO accountDTO) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        try{
-            Account account = accountRepository.findByEmail(accountDTO.getEmail());
-            if(account == null){
-                Date createDate = new Date();
-                account = new Account(accountDTO.getEmail(), accountDTO.getPassword(), accountDTO.getPhoneNumber(), accountDTO.getFirstName(),
-                        accountDTO.getMiddleName(), accountDTO.getLastName(), createDate, accountDTO.getRole(), true);
-                accountRepository.save(account);
-                responseDTO.setStatus(true);
-                responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
-                responseDTO.setObjectResponse(account);
-            }else{
-                responseDTO.setStatus(false);
-                responseDTO.setMessage(Const.DRIVER_ACCOUNT_EXISTED);
-                responseDTO.setObjectResponse(account);
-            }
-        }catch (Exception e){
-            responseDTO.setStatus(false);
-            responseDTO.setMessage(Const.CREATE_ACCOUNT_FAIL);
-        }
-        return responseDTO;
-    }
 
     /**
      * Update Driver Account

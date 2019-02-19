@@ -47,6 +47,13 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
+        <!-- SMTP - JavaMail API -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.5</version>
+        </dependency>
+
         <!--&lt;!&ndash; Spring Security &ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
