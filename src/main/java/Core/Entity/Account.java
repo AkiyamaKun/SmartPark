@@ -1,6 +1,7 @@
 package Core.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
@@ -11,22 +12,43 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "Account")
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "accountId")
     private Integer accountId;
+
+    @Column(name = "email")
     private String email;
-    private String password;
+
+    @Column(name = "phoneNumber")
     private String phoneNumber;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "firstName")
     private String firstName;
+
+    @Column(name = "middleName")
     private String middleName;
+
+    @Column(name = "lastName")
     private String lastName;
+
+    @Column(name = "createdDate")
     private Date createdDate;
+
     //Admin: 1, Supervisor: 2, Driver: 3
+    @Column(name = "roleId")
     private Integer roleId;
+
     //Active: 1 , deactive: 0
+    @Column(name = "isActive")
     private boolean isActive;
+
     //Token is used verify account
+    @Column(name = "token")
     private String token;
 
     public Account() {

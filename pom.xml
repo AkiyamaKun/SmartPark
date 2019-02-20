@@ -54,6 +54,13 @@
             <version>1.5.5</version>
         </dependency>
 
+        <!-- Model mapper to map entity and dto -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+
         <!--&lt;!&ndash; Spring Security &ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->

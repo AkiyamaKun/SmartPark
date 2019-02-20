@@ -1,5 +1,6 @@
 package Core.DTO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  *
  * Author: DangNHH - 16/02/2019
  */
-public class AccountDTO {
+public class AccountDTO implements Serializable {
     private Integer id;
     private String email;
     private String password;

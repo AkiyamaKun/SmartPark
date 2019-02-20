@@ -12,7 +12,10 @@ import javax.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "roleId")
     private Integer roleId;
+
+    @Column(name = "role")
     private String role;
 
     public Role() {

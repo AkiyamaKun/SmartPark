@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Account Controller
@@ -52,4 +53,12 @@ public class AccountController {
         return accountService.deleteAccount(id);
     }
 
+    /**
+     * Get List Account
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
+    public List<AccountDTO> getListAccount(@PathVariable Integer roleId) {
+        return accountService.getListAccount(roleId);
+    }
 }

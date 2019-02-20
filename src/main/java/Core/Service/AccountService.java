@@ -4,6 +4,8 @@ import Core.DTO.AccountDTO;
 import Core.DTO.ChangePasswordDTO;
 import Core.DTO.ResponseDTO;
 
+import java.util.List;
+
 /**
  * Account Service Interface
  *
@@ -15,4 +17,6 @@ public interface AccountService {
     AccountDTO getAccount(Integer id);
     ResponseDTO updateAccount(Integer id, AccountDTO accountDTO);
     ResponseDTO deleteAccount(Integer id);
+
+    List<AccountDTO> getListAccount(Integer roleId);
 }

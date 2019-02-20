@@ -7,10 +7,13 @@ import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Account Service Implements
@@ -141,5 +144,17 @@ public class AccountServiceImpl implements AccountService {
             responseDTO.setMessage(Const.DELETE_ACCOUNT_FAIL);
         }
         return responseDTO;
+    }
+
+    @Override
+    public List<AccountDTO> getListAccount(Integer roleId) {
+        List<Account> accounts = accountRepository.getAllByRoleId(roleId);
+        List<AccountDTO> accountDTOS = new ArrayList<>();
+        for (Account account: accounts) {
+            AccountDTO tmp = new AccountDTO();
+            convertDTOFromEntity(tmp, account);
+            accountDTOS.add(tmp);
+        }
+        return accountDTOS;
     }
 }
