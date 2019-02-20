@@ -4,12 +4,16 @@ import Core.Constant.Const;
 import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.DriverAccountService;
-import Core.Service.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * Driver Account Controller
+ *
+ * Author: DangNHH - 17/02/2019
+ */
 @RestController
 @RequestMapping(value = Const.DRIVER_ACCOUNT)
 public class DriverAccountController{
@@ -17,7 +21,7 @@ public class DriverAccountController{
     DriverAccountService driverAccountService;
 
     /**
-     * Create New Account
+     * Create New Driver Account
      * @param accountDTO
      * @return
      */

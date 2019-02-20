@@ -23,7 +23,7 @@ public class ParkingSlot {
      * Busy: Slot is used
      * Closing: Slot can not used
      */
-    private String status;
+    private Integer statusId;
     /**
      * Id of Parking Lot
      */
@@ -35,9 +35,9 @@ public class ParkingSlot {
     /**
      * Constructor full arguments
      */
-    public ParkingSlot(String name, String status, Integer parkingLotId) {
+    public ParkingSlot(String name, Integer statusId, Integer parkingLotId) {
         this.name = name;
-        this.status = status;
+        this.statusId = statusId;
         this.parkingLotId = parkingLotId;
     }
 
@@ -57,12 +57,12 @@ public class ParkingSlot {
         this.name = name;
     }
 
-    public String getStatus() {
-        return status;
+    public Integer getStatusId() {
+        return statusId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusId(Integer statusId) {
+        this.statusId = statusId;
     }
 
     public Integer getParkingLotId() {

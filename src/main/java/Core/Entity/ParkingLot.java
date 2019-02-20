@@ -21,9 +21,9 @@ public class ParkingLot {
     /**
      * Name of owner ParkingLot
      */
-    private String ownedBy;
-    private String longitude;
-    private String latitude;
+    private Integer ownedBy;
+    private float longitude;
+    private float latitude;
     private Integer totalSlot;
     private String address;
     /**
@@ -56,10 +56,9 @@ public class ParkingLot {
     /**
      * Constructor full arguments
      */
-    public ParkingLot(String displayName, String ownedBy, String longitude,
-                      String latitude, Integer totalSlot, String address,
-                      String phoneNumber, String timeOfOperation, boolean isActive,
-                      Integer createdBy, Date createDate, Integer editedBy, Date lastEdited) {
+    public ParkingLot(String displayName, Integer ownedBy, float longitude, float latitude,
+                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation,
+                      boolean isActive, Integer createdBy, Date createDate, Integer editedBy, Date lastEdited) {
         this.displayName = displayName;
         this.ownedBy = ownedBy;
         this.longitude = longitude;
@@ -91,27 +90,27 @@ public class ParkingLot {
         this.displayName = displayName;
     }
 
-    public String getOwnedBy() {
+    public Integer getOwnedBy() {
         return ownedBy;
     }
 
-    public void setOwnedBy(String ownedBy) {
+    public void setOwnedBy(Integer ownedBy) {
         this.ownedBy = ownedBy;
     }
 
-    public String getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 

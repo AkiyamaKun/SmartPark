@@ -1,5 +1,10 @@
 package Core.Constant;
 
+/**
+ * Constants Class
+ *
+ * Author: DangNHH - 17/02/2019
+ */
 public class Const {
     //Public API
     public static final String PUBLIC = "/public";
@@ -39,7 +44,7 @@ public class Const {
     public static final String MAIL_PASSWORD = "Dang7183496";
     public static final String MAIL_TILLE = "Verify Register Your Mail";
     public static final String MAIL_PERSONAL = "Smart Parking Support";
-    public static final String MAIL_CONTENT = "Very your account by click here";
+    public static final String MAIL_CONTENT = "Verify your account by click here";
     public static final String SEND_EMAIL_CREATE_ACCOUNT_ERROR = "Can not send email verify";
 
 }

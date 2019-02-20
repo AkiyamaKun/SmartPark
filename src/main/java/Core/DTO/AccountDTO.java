@@ -15,8 +15,8 @@ public class AccountDTO {
     private String firstName;
     private String middleName;
     private String lastName;
-    private Date createDate;
-    private Integer role;
+    private Date createdDate;
+    private Integer roleId;
     private boolean isActive;
 
     public AccountDTO() {
@@ -31,13 +31,13 @@ public class AccountDTO {
      * @param firstName
      * @param middleName
      * @param lastName
-     * @param createDate
-     * @param role
+     * @param createdDate
+     * @param roleId
      * @param isActive
      */
     public AccountDTO(Integer id, String email, String password, String phoneNumber,
                       String firstName, String middleName, String lastName,
-                      Date createDate, Integer role, boolean isActive) {
+                      Date createdDate, Integer roleId, boolean isActive) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -45,8 +45,8 @@ public class AccountDTO {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.createDate = createDate;
-        this.role = role;
+        this.createdDate = createdDate;
+        this.roleId = roleId;
         this.isActive = isActive;
     }
 
@@ -106,20 +106,20 @@ public class AccountDTO {
         this.lastName = lastName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Integer getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Integer role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public boolean isActive() {

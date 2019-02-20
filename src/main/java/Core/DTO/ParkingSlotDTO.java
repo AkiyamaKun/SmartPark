@@ -1,5 +1,10 @@
 package Core.DTO;
 
+/**
+ * Parking sLot DTO
+ *
+ * Author: DangNHH - 17/02/2019
+ */
 public class ParkingSlotDTO {
     private Integer slotId;
     private String name;

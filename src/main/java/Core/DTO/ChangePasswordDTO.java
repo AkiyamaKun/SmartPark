@@ -1,5 +1,10 @@
 package Core.DTO;
 
+/**
+ * Change Password DTO
+ *
+ * Author: DangNHH - 17/02/2019
+ */
 public class ChangePasswordDTO {
     private Integer accountId;
     private String oldPassword;

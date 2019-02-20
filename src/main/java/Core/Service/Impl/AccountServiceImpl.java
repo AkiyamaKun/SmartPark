@@ -36,27 +36,9 @@ public class AccountServiceImpl implements AccountService {
         dto.setFirstName(entity.getFirstName());
         dto.setMiddleName(entity.getMiddleName());
         dto.setLastName(entity.getLastName());
-        dto.setCreateDate(entity.getCreateDate());
-        dto.setRole(entity.getRole());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setRoleId(entity.getRoleId());
         dto.setActive(entity.isActive());
-    }
-
-    /**
-     *
-     * @param entity
-     * @param dto
-     */
-    public void convertEntityFromDTO(Account entity, AccountDTO dto){
-        entity.setAccountId(dto.getId());
-        entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
-        entity.setPhoneNumber(dto.getPhoneNumber());
-        entity.setFirstName(dto.getFirstName());
-        entity.setMiddleName(dto.getMiddleName());
-        entity.setLastName(dto.getLastName());
-        entity.setCreateDate(dto.getCreateDate());
-        entity.setRole(dto.getRole());
-        entity.setActive(dto.isActive());
     }
 
     /**

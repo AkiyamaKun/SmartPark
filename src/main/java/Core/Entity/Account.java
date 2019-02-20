@@ -2,6 +2,7 @@ package Core.Entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Account Entity
@@ -20,9 +21,9 @@ public class Account {
     private String firstName;
     private String middleName;
     private String lastName;
-    private Date createDate;
-    //Admin: 0, Supervisor: 1, Driver: 2
-    private Integer role;
+    private Date createdDate;
+    //Admin: 1, Supervisor: 2, Driver: 3
+    private Integer roleId;
     //Active: 1 , deactive: 0
     private boolean isActive;
     //Token is used verify account
@@ -35,15 +36,15 @@ public class Account {
      * Constructor full arguments
      */
     public Account(String email, String password, String phoneNumber, String firstName,
-                   String middleName, String lastName, Date createDate, Integer role, boolean isActive, String token) {
+                   String middleName, String lastName, Date createdDate, Integer roleId, boolean isActive, String token) {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.createDate = createDate;
-        this.role = role;
+        this.createdDate = createdDate;
+        this.roleId = roleId;
         this.isActive = isActive;
         this.token = token;
     }
@@ -97,20 +98,20 @@ public class Account {
         this.lastName = lastName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Integer getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Integer role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public boolean isActive() {
@@ -136,4 +137,5 @@ public class Account {
     public void setToken(String token) {
         this.token = token;
     }
+
 }
