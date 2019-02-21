@@ -1,4 +1,4 @@
-package Core.Controller;
+package Core.Controller.REST;
 
 import Core.Constant.Const;
 import Core.DTO.AccountDTO;
