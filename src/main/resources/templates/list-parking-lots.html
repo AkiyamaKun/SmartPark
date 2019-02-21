@@ -204,7 +204,7 @@
     <script>
 
         doAjax(domain + "parkinglot/listparkinglots", "GET", function (data) {
-            parkingLots = JSON.parse(data);
+            let parkingLots = JSON.parse(data);
             $("#list-parking-lot").empty();
             $.each(parkingLots, function (index, lot) {
                 let tr =
