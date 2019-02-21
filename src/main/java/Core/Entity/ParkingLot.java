@@ -23,8 +23,8 @@ public class ParkingLot {
     /**
      * Name of owner ParkingLot
      */
-    @Column(name = "ownedBy")
-    private Integer ownedBy;
+//    @Column(name = "ownedBy")
+//    private Integer ownedBy;
 
     @Column(name = "longitude")
     private float longitude;
@@ -71,14 +71,8 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
-    /**
-     * Constructor full arguments
-     */
-    public ParkingLot(String displayName, Integer ownedBy, float longitude, float latitude,
-                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation,
-                      boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
+    public ParkingLot(String displayName, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
         this.displayName = displayName;
-        this.ownedBy = ownedBy;
         this.longitude = longitude;
         this.latitude = latitude;
         this.totalSlot = totalSlot;
@@ -90,6 +84,26 @@ public class ParkingLot {
         this.editedBy = editedBy;
         this.lastEdited = lastEdited;
     }
+
+    /**
+     * Constructor full arguments
+     */
+//    public ParkingLot(String displayName, Integer ownedBy, float longitude, float latitude,
+////                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation,
+////                      boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
+////        this.displayName = displayName;
+////        this.ownedBy = ownedBy;
+////        this.longitude = longitude;
+////        this.latitude = latitude;
+////        this.totalSlot = totalSlot;
+////        this.address = address;
+////        this.phoneNumber = phoneNumber;
+////        this.timeOfOperation = timeOfOperation;
+////        this.isActive = isActive;
+////        this.createdBy = createdBy;
+////        this.editedBy = editedBy;
+////        this.lastEdited = lastEdited;
+////    }
 
     public Integer getParkingLotId() {
         return parkingLotId;
@@ -107,13 +121,13 @@ public class ParkingLot {
         this.displayName = displayName;
     }
 
-    public Integer getOwnedBy() {
-        return ownedBy;
-    }
-
-    public void setOwnedBy(Integer ownedBy) {
-        this.ownedBy = ownedBy;
-    }
+//    public Integer getOwnedBy() {
+//        return ownedBy;
+//    }
+//
+//    public void setOwnedBy(Integer ownedBy) {
+//        this.ownedBy = ownedBy;
+//    }
 
     public float getLongitude() {
         return longitude;
