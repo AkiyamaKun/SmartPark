@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Account Controller
  *
  * Author: DangNHH - 17/02/2019
  */
+
 @RestController
+@RequestMapping(value = Const.ACCOUNT)
 public class AccountController {
     @Autowired
     AccountService accountService;
@@ -27,16 +30,6 @@ public class AccountController {
     @RequestMapping(value = Const.GET_ACCOUNT, method = RequestMethod.GET)
     public AccountDTO getAccount(@PathVariable Integer id){
         return accountService.getAccount(id);
-    }
-
-    /**
-     * Create New Account
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createAccount(@RequestBody @Valid AccountDTO accountDTO){
-        return accountService.createAccount(accountDTO);
     }
 
     /**
@@ -60,5 +53,13 @@ public class AccountController {
         return accountService.deleteAccount(id);
     }
 
-
+    /**
+     * Get List Account
+     * @return
+     */
+    @CrossOrigin
+    @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
+    public List<AccountDTO> getListAccount(@PathVariable Integer roleId) {
+        return accountService.getListAccount(roleId);
+    }
 }

@@ -3,6 +3,11 @@ package Core.DTO;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Response DTO
+ *
+ * Author: DangNHH - 17/02/2019
+ */
 public class ResponseDTO {
     /**
      * Success: 1, Fail:0

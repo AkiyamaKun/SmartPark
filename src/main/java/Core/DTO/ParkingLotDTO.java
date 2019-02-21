@@ -20,7 +20,7 @@ public class ParkingLotDTO {
     private String timeOfOperation;
     private boolean isActive;
     private Integer createdBy;
-    private Date createDate;
+    private Date createdDate;
     private Integer editedBy;
     private Date lastEdited;
 
@@ -33,7 +33,7 @@ public class ParkingLotDTO {
     public ParkingLotDTO(Integer parkingLotId, String displayName, String ownedBy, String longitude,
                          String latitude, Integer totalSlot, String address, String phoneNumber,
                          String timeOfOperation, boolean isActive, Integer createdBy,
-                         Date createDate, Integer editedBy, Date lastEdited) {
+                         Date createdDate, Integer editedBy, Date lastEdited) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.ownedBy = ownedBy;
@@ -45,7 +45,7 @@ public class ParkingLotDTO {
         this.timeOfOperation = timeOfOperation;
         this.isActive = isActive;
         this.createdBy = createdBy;
-        this.createDate = createDate;
+        this.createdDate = createdDate;
         this.editedBy = editedBy;
         this.lastEdited = lastEdited;
     }
@@ -138,12 +138,12 @@ public class ParkingLotDTO {
         this.createdBy = createdBy;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createDate) {
+        this.createdDate = createDate;
     }
 
     public Integer getEditedBy() {

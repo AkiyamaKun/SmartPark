@@ -7,10 +7,13 @@ import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Account Service Implements
@@ -29,44 +32,16 @@ public class AccountServiceImpl implements AccountService {
      * @param entity
      */
     public void convertDTOFromEntity(AccountDTO dto, Account entity){
-        dto.setId(entity.getAccountId());
+        dto.setAccountId(entity.getAccountId());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setFirstName(entity.getFirstName());
         dto.setMiddleName(entity.getMiddleName());
         dto.setLastName(entity.getLastName());
-        dto.setCreateDate(entity.getCreateDate());
-        dto.setRole(entity.getRole());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setRoleId(entity.getRoleId());
         dto.setActive(entity.isActive());
-    }
-
-    /**
-     *
-     * @param entity
-     * @param dto
-     */
-    public void convertEntityFromDTO(Account entity, AccountDTO dto){
-        entity.setAccountId(dto.getId());
-        entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
-        entity.setPhoneNumber(dto.getPhoneNumber());
-        entity.setFirstName(dto.getFirstName());
-        entity.setMiddleName(dto.getMiddleName());
-        entity.setLastName(dto.getLastName());
-        entity.setCreateDate(dto.getCreateDate());
-        entity.setRole(dto.getRole());
-        entity.setActive(dto.isActive());
-    }
-
-    /**
-     * Register New Account
-     * @param accountDTO
-     * @return
-     */
-    @Override
-    public ResponseDTO register(AccountDTO accountDTO) {
-        return null;
     }
 
     /**
@@ -125,36 +100,6 @@ public class AccountServiceImpl implements AccountService {
 //    }
 
     /**
-     * Create Driver Account
-     * @param accountDTO
-     * @return
-     */
-    @Override
-    public ResponseDTO createAccount(AccountDTO accountDTO) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        try{
-            Account account = accountRepository.findByEmail(accountDTO.getEmail());
-            if(account == null){
-                Date createDate = new Date();
-                account = new Account(accountDTO.getEmail(), accountDTO.getPassword(), accountDTO.getPhoneNumber(), accountDTO.getFirstName(),
-                        accountDTO.getMiddleName(), accountDTO.getLastName(), createDate, accountDTO.getRole(), true);
-                accountRepository.save(account);
-                responseDTO.setStatus(true);
-                responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
-                responseDTO.setObjectResponse(account);
-            }else{
-                responseDTO.setStatus(false);
-                responseDTO.setMessage(Const.DRIVER_ACCOUNT_EXISTED);
-                responseDTO.setObjectResponse(account);
-            }
-        }catch (Exception e){
-            responseDTO.setStatus(false);
-            responseDTO.setMessage(Const.CREATE_ACCOUNT_FAIL);
-        }
-        return responseDTO;
-    }
-
-    /**
      * Update Driver Account
      * @param accountDTO
      * @return
@@ -199,5 +144,17 @@ public class AccountServiceImpl implements AccountService {
             responseDTO.setMessage(Const.DELETE_ACCOUNT_FAIL);
         }
         return responseDTO;
+    }
+
+    @Override
+    public List<AccountDTO> getListAccount(Integer roleId) {
+        List<Account> accounts = accountRepository.getAllByRoleId(roleId);
+        List<AccountDTO> accountDTOS = new ArrayList<>();
+        ModelMapper modelMapper = new ModelMapper();
+        accounts.stream().forEach(e -> {
+            AccountDTO dto = modelMapper.map(e, AccountDTO.class);
+            accountDTOS.add(dto);
+        });
+        return accountDTOS;
     }
 }

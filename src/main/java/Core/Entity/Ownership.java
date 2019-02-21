@@ -1,6 +1,7 @@
 package Core.Entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Ownership Entity
@@ -16,10 +17,12 @@ public class Ownership {
     /**
      * Id of Parking Lot
      */
+
     private Integer parkingLotId;
     /**
-     * Id of supervisor (accountId with role is 1)
+     * Id of supervisor (accountId with role is 2)
      */
+
     private Integer supervisorId;
 
     public Ownership() {

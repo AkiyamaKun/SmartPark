@@ -13,55 +13,66 @@ import java.util.Date;
 public class ParkingLot {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "parkingLotId")
     private Integer parkingLotId;
     /**
      * Name of ParkingLot
      */
+    @Column(name = "displayName")
     private String displayName;
     /**
      * Name of owner ParkingLot
      */
-    private String ownedBy;
-    private String longitude;
-    private String latitude;
+//    @Column(name = "ownedBy")
+//    private Integer ownedBy;
+
+    @Column(name = "longitude")
+    private float longitude;
+
+    @Column(name = "latitude")
+    private float latitude;
+
+    @Column(name = "totalSlot")
     private Integer totalSlot;
+
+    @Column(name = "address")
     private String address;
     /**
      * Phone number of owner ParkingLot
      */
+    @Column(name = "phoneNumber")
     private String phoneNumber;
     /**
      * Time ParkingLot open-close
      */
+    @Column(name = "timeOfOperation")
     private String timeOfOperation;
     /**
      * Active: 1, Deactive: 0
      */
+    @Column(name = "isActive")
     private boolean isActive;
     /**
      * Id of Admin Account
      */
+    @Column(name = "createdBy")
     private Integer createdBy;
-    private Date createDate;
+
     /**
      * Name of ParkingLot
      */
     //Id of Supervisor/Admin Account
+    @Column(name = "editedBy")
     private Integer editedBy;
+
+    @Column(name = "lastEdited")
     private Date lastEdited;
 
     public ParkingLot() {
     }
 
-    /**
-     * Constructor full arguments
-     */
-    public ParkingLot(String displayName, String ownedBy, String longitude,
-                      String latitude, Integer totalSlot, String address,
-                      String phoneNumber, String timeOfOperation, boolean isActive,
-                      Integer createdBy, Date createDate, Integer editedBy, Date lastEdited) {
+    public ParkingLot(String displayName, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
         this.displayName = displayName;
-        this.ownedBy = ownedBy;
         this.longitude = longitude;
         this.latitude = latitude;
         this.totalSlot = totalSlot;
@@ -70,10 +81,29 @@ public class ParkingLot {
         this.timeOfOperation = timeOfOperation;
         this.isActive = isActive;
         this.createdBy = createdBy;
-        this.createDate = createDate;
         this.editedBy = editedBy;
         this.lastEdited = lastEdited;
     }
+
+    /**
+     * Constructor full arguments
+     */
+//    public ParkingLot(String displayName, Integer ownedBy, float longitude, float latitude,
+////                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation,
+////                      boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
+////        this.displayName = displayName;
+////        this.ownedBy = ownedBy;
+////        this.longitude = longitude;
+////        this.latitude = latitude;
+////        this.totalSlot = totalSlot;
+////        this.address = address;
+////        this.phoneNumber = phoneNumber;
+////        this.timeOfOperation = timeOfOperation;
+////        this.isActive = isActive;
+////        this.createdBy = createdBy;
+////        this.editedBy = editedBy;
+////        this.lastEdited = lastEdited;
+////    }
 
     public Integer getParkingLotId() {
         return parkingLotId;
@@ -91,27 +121,27 @@ public class ParkingLot {
         this.displayName = displayName;
     }
 
-    public String getOwnedBy() {
-        return ownedBy;
-    }
+//    public Integer getOwnedBy() {
+//        return ownedBy;
+//    }
+//
+//    public void setOwnedBy(Integer ownedBy) {
+//        this.ownedBy = ownedBy;
+//    }
 
-    public void setOwnedBy(String ownedBy) {
-        this.ownedBy = ownedBy;
-    }
-
-    public String getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
@@ -161,14 +191,6 @@ public class ParkingLot {
 
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     public Integer getEditedBy() {

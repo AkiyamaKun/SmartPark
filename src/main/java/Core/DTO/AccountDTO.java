@@ -1,5 +1,6 @@
 package Core.DTO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,16 +8,16 @@ import java.util.Date;
  *
  * Author: DangNHH - 16/02/2019
  */
-public class AccountDTO {
-    private Integer id;
+public class AccountDTO implements Serializable {
+    private Integer accountId;
     private String email;
     private String password;
     private String phoneNumber;
     private String firstName;
     private String middleName;
     private String lastName;
-    private Date createDate;
-    private Integer role;
+    private Date createdDate;
+    private Integer roleId;
     private boolean isActive;
 
     public AccountDTO() {
@@ -24,38 +25,38 @@ public class AccountDTO {
 
     /**
      * Constructor full arguments
-     * @param id
+     * @param accountId
      * @param email
      * @param password
      * @param phoneNumber
      * @param firstName
      * @param middleName
      * @param lastName
-     * @param createDate
-     * @param role
+     * @param createdDate
+     * @param roleId
      * @param isActive
      */
-    public AccountDTO(Integer id, String email, String password, String phoneNumber,
+    public AccountDTO(Integer accountId, String email, String password, String phoneNumber,
                       String firstName, String middleName, String lastName,
-                      Date createDate, Integer role, boolean isActive) {
-        this.id = id;
+                      Date createdDate, Integer roleId, boolean isActive) {
+        this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.createDate = createDate;
-        this.role = role;
+        this.createdDate = createdDate;
+        this.roleId = roleId;
         this.isActive = isActive;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getEmail() {
@@ -106,20 +107,20 @@ public class AccountDTO {
         this.lastName = lastName;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public Integer getRole() {
-        return role;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Integer role) {
-        this.role = role;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public boolean isActive() {
