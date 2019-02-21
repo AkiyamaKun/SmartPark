@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
      * @param entity
      */
     public void convertDTOFromEntity(AccountDTO dto, Account entity){
-        dto.setId(entity.getAccountId());
+        dto.setAccountId(entity.getAccountId());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setPhoneNumber(entity.getPhoneNumber());
@@ -150,11 +150,11 @@ public class AccountServiceImpl implements AccountService {
     public List<AccountDTO> getListAccount(Integer roleId) {
         List<Account> accounts = accountRepository.getAllByRoleId(roleId);
         List<AccountDTO> accountDTOS = new ArrayList<>();
-        for (Account account: accounts) {
-            AccountDTO tmp = new AccountDTO();
-            convertDTOFromEntity(tmp, account);
-            accountDTOS.add(tmp);
-        }
+        ModelMapper modelMapper = new ModelMapper();
+        accounts.stream().forEach(e -> {
+            AccountDTO dto = modelMapper.map(e, AccountDTO.class);
+            accountDTOS.add(dto);
+        });
         return accountDTOS;
     }
 }

@@ -48,4 +48,8 @@ public class Const {
     public static final String MAIL_CONTENT = "Verify your account by click here";
     public static final String SEND_EMAIL_CREATE_ACCOUNT_ERROR = "Can not send email verify";
 
+    //Parking Lot API
+    public static final String PARKINGLOT = "/parkinglot";
+    public static final String LIST_PARKINGLOT = "/listparkinglots";
+
 }

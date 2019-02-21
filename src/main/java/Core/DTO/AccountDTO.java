@@ -9,7 +9,7 @@ import java.util.Date;
  * Author: DangNHH - 16/02/2019
  */
 public class AccountDTO implements Serializable {
-    private Integer id;
+    private Integer accountId;
     private String email;
     private String password;
     private String phoneNumber;
@@ -25,7 +25,7 @@ public class AccountDTO implements Serializable {
 
     /**
      * Constructor full arguments
-     * @param id
+     * @param accountId
      * @param email
      * @param password
      * @param phoneNumber
@@ -36,10 +36,10 @@ public class AccountDTO implements Serializable {
      * @param roleId
      * @param isActive
      */
-    public AccountDTO(Integer id, String email, String password, String phoneNumber,
+    public AccountDTO(Integer accountId, String email, String password, String phoneNumber,
                       String firstName, String middleName, String lastName,
                       Date createdDate, Integer roleId, boolean isActive) {
-        this.id = id;
+        this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
@@ -51,12 +51,12 @@ public class AccountDTO implements Serializable {
         this.isActive = isActive;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getEmail() {
