@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Smart Parking - Home</title>
+    <title>Smart Parking - Edit Profile</title>
     <meta name="description" content="Sufee Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -47,7 +47,7 @@
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="home.html"> <i class="menu-icon fa fa-home"></i>Home</a>
                     </li>
 
@@ -106,7 +106,9 @@
 
                 <div class="col-sm-7">
                     <div class="header-left">
-                        <a href="#"><h3>Dashboard</h3></a>
+                        <a href="#">
+                            <h3>Edit Profile</h3>
+                        </a>
                     </div>
                 </div>
 
@@ -119,7 +121,7 @@
                         <div class="user-menu dropdown-menu">
                             <a class="nav-link" href="edit-profile.html"><i class="fa fa-user"></i> My Profile</a>
                             <a class="nav-link" href="change-password.html"><i class="fa fa-key"></i> Change Password</a>
-                            <hr/>
+                            <hr />
                             <a class="nav-link" href="login.html"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
@@ -147,11 +149,11 @@
                                     let dd = today.getDate();
                                     let mm = today.getMonth() + 1;
                                     let yyyy = today.getFullYear();
-                                    if(dd<10) {
-                                        dd = '0'+ dd;
-                                    } 
-                                    if(mm<10) {
-                                        mm = '0'+ mm;
+                                    if (dd < 10) {
+                                        dd = '0' + dd;
+                                    }
+                                    if (mm < 10) {
+                                        mm = '0' + mm;
                                     }
                                     document.write(mm + '/' + dd + '/' + yyyy);
                                 </script>
@@ -162,56 +164,33 @@
             </div>
         </div>
 
-        <div class="content mt-3">
-            <div class="col-xl-12 col-lg-6">
-                <div class="card text-white bg-flat-color-1">
-                    <div class="card-body pb-0">
-                        <h4 class="mb-0">
-                            <span class="count">10468</span>
-                        </h4>
-                        <p class="text-light">Total Drivers</p>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <b>Manager</b>
+                </div>
+                <div class="card-body card-block">
+                    <div class="form-group">
+                        <label for="name" class=" form-control-label">Full name</label>
+                        <input type="text" id="name" value="Minh Che" class="form-control" disabled>
                     </div>
+                    <div class="form-group">
+                        <label for="phone" class=" form-control-label">Phone number</label>
+                        <input type="text" id="phone" value="0702751588" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-danger float-left" disabled>
+                        <i class="fa fa-ban"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary float-right">
+                        <i class="fa fa-pencil"></i> Edit
+                    </button>
                 </div>
             </div>
-            <!--/.col-->
+        </div>
 
-            <div class="col-xl-12 col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-car text-success border-success"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Active Drivers</div>
-                                <div class="stat-digit count">10012</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Active Supervisors</div>
-                                <div class="stat-digit count">961</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-one">
-                            <div class="stat-icon dib"><i class="ti-map-alt text-danger border-danger"></i></div>
-                            <div class="stat-content dib">
-                                <div class="stat-text">Active Parking Lots</div>
-                                <div class="stat-digit count">770</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div> <!-- .content -->
+    </div> <!-- .content -->
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -222,13 +201,13 @@
     <script src="../static/assets/js/main.js"></script>
 
 
-    <script src="../static/vendors/chart.js/dist/Chart.bundle.min.js"></script>
-    <script src="../static/assets/js/dashboard.js"></script>
-    <script src="../static/assets/js/widgets.js"></script>
+    <!-- <script src="vendors/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/widgets.js"></script> -->
     <script src="../static/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
     <script src="../static/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <script src="../static/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    
+
 </body>
 
 </html>
