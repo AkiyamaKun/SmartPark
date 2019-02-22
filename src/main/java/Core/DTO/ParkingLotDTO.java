@@ -11,7 +11,6 @@ public class ParkingLotDTO {
 
     private Integer parkingLotId;
     private String displayName;
-    private String ownedBy;
     private String longitude;
     private String latitude;
     private Integer totalSlot;
@@ -23,6 +22,9 @@ public class ParkingLotDTO {
     private Date createdDate;
     private Integer editedBy;
     private Date lastEdited;
+    private String firstName;
+    private String middleName;
+    private String lastName;
 
     public ParkingLotDTO() {
     }
@@ -36,7 +38,6 @@ public class ParkingLotDTO {
                          Date createdDate, Integer editedBy, Date lastEdited) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
-        this.ownedBy = ownedBy;
         this.longitude = longitude;
         this.latitude = latitude;
         this.totalSlot = totalSlot;
@@ -48,6 +49,30 @@ public class ParkingLotDTO {
         this.createdDate = createdDate;
         this.editedBy = editedBy;
         this.lastEdited = lastEdited;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Integer getParkingLotId() {
@@ -64,14 +89,6 @@ public class ParkingLotDTO {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getOwnedBy() {
-        return ownedBy;
-    }
-
-    public void setOwnedBy(String ownedBy) {
-        this.ownedBy = ownedBy;
     }
 
     public String getLongitude() {
