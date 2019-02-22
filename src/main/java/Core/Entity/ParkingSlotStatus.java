@@ -12,14 +12,17 @@ import javax.persistence.*;
 public class ParkingSlotStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "statusId")
     private Integer statusId;
-    private String status;
+
+    @Column(name = "statusName")
+    private String statusName;
 
     public ParkingSlotStatus() {
     }
 
-    public ParkingSlotStatus(String status) {
-        this.status = status;
+    public ParkingSlotStatus(String statusName) {
+        this.statusName = statusName;
     }
 
     public Integer getStatusId() {
@@ -30,11 +33,12 @@ public class ParkingSlotStatus {
         this.statusId = statusId;
     }
 
-    public String getStatus() {
-        return status;
+
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

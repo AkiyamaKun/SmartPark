@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class ParkingSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "slotId")
     private Integer slotId;
     /**
      * Name of slot: A1, A2, A3
@@ -23,11 +24,15 @@ public class ParkingSlot {
      * Busy: Slot is used
      * Closing: Slot can not used
      */
-    private Integer statusId;
+    @OneToOne(targetEntity=ParkingSlotStatus.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="statusId",referencedColumnName="statusId")
+    private ParkingSlotStatus parkingSlotStatus;
     /**
      * Id of Parking Lot
      */
-    private Integer parkingLotId;
+    @OneToOne(targetEntity=ParkingLot.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="parkingLotId",referencedColumnName="parkingLotId")
+    private ParkingLot parkingLot;
 
     public ParkingSlot() {
     }
@@ -35,10 +40,10 @@ public class ParkingSlot {
     /**
      * Constructor full arguments
      */
-    public ParkingSlot(String name, Integer statusId, Integer parkingLotId) {
+    public ParkingSlot(String name, ParkingSlotStatus parkingSlotStatus, ParkingLot parkingLot) {
         this.name = name;
-        this.statusId = statusId;
-        this.parkingLotId = parkingLotId;
+        this.parkingSlotStatus = parkingSlotStatus;
+        this.parkingLot = parkingLot;
     }
 
     public Integer getSlotId() {
@@ -57,19 +62,19 @@ public class ParkingSlot {
         this.name = name;
     }
 
-    public Integer getStatusId() {
-        return statusId;
+    public ParkingSlotStatus getParkingSlotStatus() {
+        return parkingSlotStatus;
     }
 
-    public void setStatusId(Integer statusId) {
-        this.statusId = statusId;
+    public void setParkingSlotStatus(ParkingSlotStatus parkingSlotStatus) {
+        this.parkingSlotStatus = parkingSlotStatus;
     }
 
-    public Integer getParkingLotId() {
-        return parkingLotId;
+    public ParkingLot getParkingLot() {
+        return parkingLot;
     }
 
-    public void setParkingLotId(Integer parkingLotId) {
-        this.parkingLotId = parkingLotId;
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
     }
 }

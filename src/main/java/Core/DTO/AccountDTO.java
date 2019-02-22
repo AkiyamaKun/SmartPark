@@ -14,7 +14,6 @@ public class AccountDTO implements Serializable {
     private String password;
     private String phoneNumber;
     private String firstName;
-    private String middleName;
     private String lastName;
     private Date createdDate;
     private Integer roleId;
@@ -30,21 +29,18 @@ public class AccountDTO implements Serializable {
      * @param password
      * @param phoneNumber
      * @param firstName
-     * @param middleName
      * @param lastName
      * @param createdDate
      * @param roleId
      * @param isActive
      */
-    public AccountDTO(Integer accountId, String email, String password, String phoneNumber,
-                      String firstName, String middleName, String lastName,
-                      Date createdDate, Integer roleId, boolean isActive) {
+    public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
+                      String lastName, Date createdDate, Integer roleId, boolean isActive) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
         this.createdDate = createdDate;
         this.roleId = roleId;
@@ -89,14 +85,6 @@ public class AccountDTO implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getLastName() {

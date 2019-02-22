@@ -18,37 +18,35 @@ public class Account implements Serializable {
     @Column(name = "accountId")
     private Integer accountId;
 
-    @Column(name = "email")
+    @Column(name = "email", columnDefinition = "VARCHAR(100)")
     private String email;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber", columnDefinition = "VARCHAR(15)")
     private String phoneNumber;
 
-    @Column(name = "password")
+    @Column(name = "password", columnDefinition = "VARCHAR(100)")
     private String password;
 
-    @Column(name = "firstName")
+    @Column(name = "firstName", columnDefinition = "NVARCHAR(50)")
     private String firstName;
 
-    @Column(name = "middleName")
-    private String middleName;
-
-    @Column(name = "lastName")
+    @Column(name = "lastName", columnDefinition = "NVARCHAR(50)")
     private String lastName;
 
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", columnDefinition = "DATETIME")
     private Date createdDate;
 
     //Admin: 1, Supervisor: 2, Driver: 3
-    @Column(name = "roleId")
-    private Integer roleId;
+    @OneToOne(targetEntity=Role.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="roleId",referencedColumnName="roleId")
+    private Role role;
 
     //Active: 1 , deactive: 0
-    @Column(name = "isActive")
+    @Column(name = "isActive", columnDefinition = "BIT")
     private boolean isActive;
 
     //Token is used verify account
-    @Column(name = "token")
+    @Column(name = "token", columnDefinition = "VARCHAR(100)")
     private String token;
 
     public Account() {
@@ -57,20 +55,19 @@ public class Account implements Serializable {
     /**
      * Constructor full arguments
      */
-    public Account(String email, String password, String phoneNumber, String firstName,
-                   String middleName, String lastName, Date createdDate, Integer roleId, boolean isActive, String token) {
+    public Account(String email, String phoneNumber, String password,
+                   String firstName, String lastName, Date createdDate,
+                   Role role, boolean isActive, String token) {
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
+        this.password = password;
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
         this.createdDate = createdDate;
-        this.roleId = roleId;
+        this.role = role;
         this.isActive = isActive;
         this.token = token;
     }
-
 
     public Integer getAccountId() {
         return accountId;
@@ -96,20 +93,20 @@ public class Account implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getLastName() {
@@ -128,12 +125,12 @@ public class Account implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public boolean isActive() {
@@ -144,14 +141,6 @@ public class Account implements Serializable {
         isActive = active;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getToken() {
         return token;
     }
@@ -159,5 +148,4 @@ public class Account implements Serializable {
     public void setToken(String token) {
         this.token = token;
     }
-
 }

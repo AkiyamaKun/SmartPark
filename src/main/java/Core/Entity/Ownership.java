@@ -13,17 +13,23 @@ import java.util.Set;
 public class Ownership {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ownershipId")
     private Integer ownershipId;
     /**
      * Id of Parking Lot
      */
 
-    private Integer parkingLotId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="parkingLotId",referencedColumnName="parkingLotId")
+    private ParkingLot parkingLot;
+
     /**
      * Id of supervisor (accountId with role is 2)
      */
-
-    private Integer supervisorId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="supervisorId",referencedColumnName="accountId")
+    private Account supervisor;
 
     public Ownership() {
     }
@@ -31,9 +37,9 @@ public class Ownership {
     /**
      * Constructor full arguments
      */
-    public Ownership(Integer parkingLotId, Integer supervisorId) {
-        this.parkingLotId = parkingLotId;
-        this.supervisorId = supervisorId;
+    public Ownership(ParkingLot parkingLot, Account supervisor) {
+        this.parkingLot = parkingLot;
+        this.supervisor = supervisor;
     }
 
     public Integer getOwnershipId() {
@@ -44,19 +50,19 @@ public class Ownership {
         this.ownershipId = ownershipId;
     }
 
-    public Integer getParkingLotId() {
-        return parkingLotId;
+    public ParkingLot getParkingLot() {
+        return parkingLot;
     }
 
-    public void setParkingLotId(Integer parkingLotId) {
-        this.parkingLotId = parkingLotId;
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
     }
 
-    public Integer getSupervisorId() {
-        return supervisorId;
+    public Account getSupervisor() {
+        return supervisor;
     }
 
-    public void setSupervisorId(Integer supervisorId) {
-        this.supervisorId = supervisorId;
+    public void setSupervisor(Account supervisor) {
+        this.supervisor = supervisor;
     }
 }

@@ -11,7 +11,7 @@ public class ParkingLotDTO {
 
     private Integer parkingLotId;
     private String displayName;
-    private String ownedBy;
+    private Integer ownedBy;
     private String longitude;
     private String latitude;
     private Integer totalSlot;
@@ -30,7 +30,7 @@ public class ParkingLotDTO {
     /**
      * Constructor full arguments
      */
-    public ParkingLotDTO(Integer parkingLotId, String displayName, String ownedBy, String longitude,
+    public ParkingLotDTO(Integer parkingLotId, String displayName, Integer ownedBy, String longitude,
                          String latitude, Integer totalSlot, String address, String phoneNumber,
                          String timeOfOperation, boolean isActive, Integer createdBy,
                          Date createdDate, Integer editedBy, Date lastEdited) {
@@ -66,11 +66,11 @@ public class ParkingLotDTO {
         this.displayName = displayName;
     }
 
-    public String getOwnedBy() {
+    public Integer getOwnedBy() {
         return ownedBy;
     }
 
-    public void setOwnedBy(String ownedBy) {
+    public void setOwnedBy(Integer ownedBy) {
         this.ownedBy = ownedBy;
     }
 
