@@ -37,7 +37,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             ParkingLotDTO dto = new ParkingLotDTO();
             dto.setDisplayName(parkingLot.getDisplayName());
             dto.setTotalSlot(parkingLot.getTotalSlot());
-            dto.setOwnedBy(ownershipRepository.findByParkingLot(parkingLot).getSupervisor().getAccountId());
+            dto.setOwnedBy(ownershipRepository.findByParkingLot(parkingLot).getSupervisor());
             parkingLotDTOS.add(dto);
         }
         return parkingLotDTOS;
