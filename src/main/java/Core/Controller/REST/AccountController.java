@@ -53,13 +53,4 @@ public class AccountController {
         return accountService.deleteAccount(id);
     }
 
-    /**
-     * Get List Account
-     * @return
-     */
-    @CrossOrigin
-    @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
-    public List<AccountDTO> getListAccount(@PathVariable Integer roleId) {
-        return accountService.getListAccount(roleId);
-    }
 }

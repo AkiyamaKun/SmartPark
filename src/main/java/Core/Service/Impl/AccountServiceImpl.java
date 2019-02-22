@@ -3,8 +3,10 @@ package Core.Service.Impl;
 import Core.Constant.Const;
 import Core.DTO.AccountDTO;
 import Core.DTO.ChangePasswordDTO;
+import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Account Service Implements
@@ -37,7 +40,6 @@ public class AccountServiceImpl implements AccountService {
         dto.setPassword(entity.getPassword());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setFirstName(entity.getFirstName());
-        dto.setMiddleName(entity.getMiddleName());
         dto.setLastName(entity.getLastName());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setRoleId(entity.getRoleId());
@@ -110,7 +112,6 @@ public class AccountServiceImpl implements AccountService {
         ResponseDTO responseDTO = new ResponseDTO();
         try{
             account.setFirstName(accountDTO.getFirstName());
-            account.setMiddleName(accountDTO.getMiddleName());
             account.setLastName(accountDTO.getLastName());
             account.setPhoneNumber(accountDTO.getPhoneNumber());
             accountRepository.save(account);
@@ -147,7 +148,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDTO> getListAccount(Integer roleId) {
+    public List<AccountDTO> getListManagers(Integer roleId) {
         List<Account> accounts = accountRepository.getAllByRoleId(roleId);
         List<AccountDTO> accountDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
@@ -156,5 +157,10 @@ public class AccountServiceImpl implements AccountService {
             accountDTOS.add(dto);
         });
         return accountDTOS;
+    }
+
+    @Override
+    public List<AccountDTO> getListSupervisor() {
+        return null;
     }
 }

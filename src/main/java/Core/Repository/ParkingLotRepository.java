@@ -17,9 +17,4 @@ import java.util.List;
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer> {
 
     //ParkingLot findByCreatedBy(String createdBy);
-
-    @Query("select p.displayName, a.firstName, a.middleName, a.lastName, p.totalSlot " +
-            "from Account a, ParkingLot p " +
-            "where a.accountId = p.createdBy")
-    List<ParkingLot> getListParkingLot();
 }

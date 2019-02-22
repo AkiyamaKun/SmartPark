@@ -35,7 +35,7 @@ public class DriverAccountServiceImpl implements DriverAccountService {
                 String token = TokenGenerator.generateToken(accountDTO.getEmail());
                 Date createDate = new Date();
                 account = new Account(accountDTO.getEmail(), accountDTO.getPassword(), accountDTO.getPhoneNumber(), accountDTO.getFirstName(),
-                        accountDTO.getMiddleName(), accountDTO.getLastName(), createDate, 2, false, token);
+                        accountDTO.getLastName(), createDate, 2, false, token);
                 ResponseDTO tmp = publicService.sendEmail(account.getEmail(), account.getToken());
                 if(tmp.isStatus()){
                     responseDTO.setStatus(true);

@@ -30,9 +30,6 @@ public class Account implements Serializable {
     @Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "middleName")
-    private String middleName;
-
     @Column(name = "lastName")
     private String lastName;
 
@@ -58,12 +55,11 @@ public class Account implements Serializable {
      * Constructor full arguments
      */
     public Account(String email, String password, String phoneNumber, String firstName,
-                   String middleName, String lastName, Date createdDate, Integer roleId, boolean isActive, String token) {
+                   String lastName, Date createdDate, Integer roleId, boolean isActive, String token) {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
         this.createdDate = createdDate;
         this.roleId = roleId;
@@ -102,14 +98,6 @@ public class Account implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getLastName() {

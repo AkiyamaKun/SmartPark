@@ -18,5 +18,7 @@ public interface AccountService {
     ResponseDTO updateAccount(Integer id, AccountDTO accountDTO);
     ResponseDTO deleteAccount(Integer id);
 
-    List<AccountDTO> getListAccount(Integer roleId);
+    List<AccountDTO> getListManagers(Integer roleId);
+
+    List<AccountDTO> getListSupervisor();
 }

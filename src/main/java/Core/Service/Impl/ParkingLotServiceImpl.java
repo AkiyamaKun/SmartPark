@@ -33,11 +33,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                 ModelMapper modelMapper = new ModelMapper();
                 ParkingLotDTO dto = modelMapper.map(e, ParkingLotDTO.class);
                 dto.setFirstName(o.getFirstName());
-                if (o.getMiddleName() != null) {
-                    dto.setMiddleName(o.getMiddleName());
-                } else {
-                    dto.setMiddleName("");
-                }
                 dto.setLastName(o.getLastName());
                 parkingLotDTOS.add(dto);
             });
