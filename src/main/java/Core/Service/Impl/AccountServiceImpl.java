@@ -133,7 +133,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDTO> getListAccount(Integer roleId) {
         Role role = roleRepository.findByRoleId(roleId);
-        List<Account> accounts = accountRepository.getAllByRole(role);
+        List<Account> accounts = accountRepository.findAllByRole(role);
         List<AccountDTO> accountDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         accounts.stream().forEach(e -> {

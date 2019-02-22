@@ -181,7 +181,7 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Created Date</th>
+                                            <th>Phone</th>
                                             <th>More</th>
                                         </tr>
                                     </thead>
@@ -201,14 +201,14 @@
 
     <script>
 
-        doAjax(domain + "account/listmanagers/3", "GET", function (data) {
+        doAjax(domain + "account/listmanagers/1", "GET", function (data) {
             let accounts = JSON.parse(data);
             $("#list-managers").empty();
-            $.each(accounts, function (index, account) {
+            $.each(accounts, function (index, lot) {
                 let tr =
                     "<tr>\n" +
-                    "<td><a href=\"manager-detail.html\">" + account.firstName + " " + account.lastName + " " + "</a></td>\n" +
-                    "<td>" + account.createdDate + "</td>\n" +
+                    "<td>" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
+                    "<td>" + lot.phoneNumber + "</td>\n" +
                     "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
                     "</tr>";
                 $("#list-managers").append(tr);
