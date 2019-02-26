@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -175,19 +175,19 @@
                 <div class="card-body card-block">
                     <div class="form-group">
                         <label for="email" class=" form-control-label">Email</label>
-                        <input type="text" id="email" value="teramind244@gmail.com" class="form-control" disabled>
+                        <input type="text" id="email" th:value="${manager.email}" class="form-control" disabled>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="firstname" class=" form-control-label">First name</label>
-                        <input type="text" id="firstname" value="Minh" class="form-control" disabled>
+                        <input type="text" id="firstname" th:value="${manager.firstName}" class="form-control" disabled>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="lastname" class=" form-control-label">Last name</label>
-                        <input type="text" id="lastname" value="Che" class="form-control" disabled>
+                        <input type="text" id="lastname" th:value="${manager.lastName}" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label for="phone" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phone" value="0702751588" class="form-control" disabled>
+                        <input type="text" id="phone" th:value="${manager.phoneNumber}" class="form-control" disabled>
                     </div>
                 </div>
                 <div class="card-footer">

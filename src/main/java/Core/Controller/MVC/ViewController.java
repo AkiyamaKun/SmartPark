@@ -127,7 +127,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/manager-detail")
     public ModelAndView toManagerDetail(@RequestParam int id){
-        ModelAndView view = new ModelAndView("manager-detail.jsp");
+        ModelAndView view = new ModelAndView("manager-detail");
 
         AccountDTO managerAccount = accountService.getAccount(id);
         view.addObject("manager", managerAccount);
