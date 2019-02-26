@@ -1,4 +1,12 @@
 //Fetch API
+function ready(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
 function GetAjaxWithFetch(url, success, fail = () => {}){
     fetch(url)
         .then((respond) => {
