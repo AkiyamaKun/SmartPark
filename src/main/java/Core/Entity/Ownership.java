@@ -21,14 +21,14 @@ public class Ownership {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="parkingLotId",referencedColumnName="parkingLotId")
+    @JoinColumn(name="parkingLotId", referencedColumnName="parkingLotId")
     private ParkingLot parkingLot;
 
     /**
      * Id of supervisor (accountId with role is 2)
      */
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="supervisorId",referencedColumnName="accountId")
+    @JoinColumn(name="supervisorId", referencedColumnName="accountId")
     private Account supervisor;
 
     public Ownership() {

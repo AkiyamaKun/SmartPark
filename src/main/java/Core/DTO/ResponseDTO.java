@@ -34,14 +34,6 @@ public class ResponseDTO {
     public ResponseDTO() {
     }
 
-    public ResponseDTO(boolean status, String message, List<String> listMessage, Map<Integer, String> mapMessage, Object objectResponse) {
-        this.status = status;
-        this.message = message;
-        this.listMessage = listMessage;
-        this.mapMessage = mapMessage;
-        this.objectResponse = objectResponse;
-    }
-
     public boolean isStatus() {
         return status;
     }
@@ -81,4 +73,5 @@ public class ResponseDTO {
     public void setObjectResponse(Object objectResponse) {
         this.objectResponse = objectResponse;
     }
+
 }

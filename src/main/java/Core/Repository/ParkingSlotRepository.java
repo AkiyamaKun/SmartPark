@@ -1,8 +1,11 @@
 package Core.Repository;
 
+import Core.Entity.ParkingLot;
 import Core.Entity.ParkingSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Parking Slot Repository
@@ -11,4 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ParkingSlotRepository extends JpaRepository<ParkingSlot, Integer> {
+    ParkingSlot findBySlotId(Integer slotId);
+    List<ParkingSlot> findByParkingLot(ParkingLot parkingLot);
 }

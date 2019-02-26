@@ -2,12 +2,17 @@ package Core.Controller.REST;
 
 import Core.Constant.Const;
 import Core.DTO.AccountDTO;
+import Core.DTO.ChangePasswordDTO;
+import Core.DTO.InformationAccountDTO;
 import Core.DTO.ResponseDTO;
+import Core.Entity.Account;
 import Core.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,13 +28,33 @@ public class AccountController {
     AccountService accountService;
 
     /**
+     * Convert InformationAccountDTO form AccountDTO
+     * @param informationAccountDTO
+     * @param accountDTO
+     */
+    public void convertInformationAccountDTOFromAccountDTO(InformationAccountDTO informationAccountDTO, AccountDTO accountDTO){
+        informationAccountDTO.setAccountId(accountDTO.getAccountId());
+        informationAccountDTO.setEmail(accountDTO.getEmail());
+        informationAccountDTO.setPassword(accountDTO.getPassword());
+        informationAccountDTO.setPhoneNumber(accountDTO.getPhoneNumber());
+        informationAccountDTO.setFirstName(accountDTO.getFirstName());
+        informationAccountDTO.setLastName(accountDTO.getLastName());
+    }
+
+    /**
      * Get Account
      * @param id
      * @return
      */
     @RequestMapping(value = Const.GET_ACCOUNT, method = RequestMethod.GET)
-    public AccountDTO getAccount(@PathVariable Integer id){
-        return accountService.getAccount(id);
+    public ResponseDTO getAccount(@PathVariable Integer id){
+        ResponseDTO responseDTO = accountService.getAccount(id);
+        if(responseDTO.isStatus()){
+            InformationAccountDTO dto = new InformationAccountDTO();
+            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO)responseDTO.getObjectResponse());
+            responseDTO.setObjectResponse(dto);
+        }
+        return responseDTO;
     }
 
     /**
@@ -40,7 +65,14 @@ public class AccountController {
     @RequestMapping(value = Const.UPDATE_ACCOUNT, method = RequestMethod.PUT)
     public ResponseDTO updateAccount(@RequestBody @Valid AccountDTO accountDTO,
                                      @PathVariable Integer id){
-        return accountService.updateAccount(id, accountDTO);
+        ResponseDTO responseDTO = accountService.updateAccount(id, accountDTO);
+        if(responseDTO.isStatus()){
+            AccountDTO accountResponseDTO = (AccountDTO)responseDTO.getObjectResponse();
+            InformationAccountDTO dto = new InformationAccountDTO();
+            convertInformationAccountDTOFromAccountDTO(dto, accountResponseDTO);
+            responseDTO.setObjectResponse(dto);
+        }
+        return responseDTO;
     }
 
     /**
@@ -59,8 +91,31 @@ public class AccountController {
      * @return
      */
     @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
-    public List<AccountDTO> getListAccount(@PathVariable Integer roleId){
+    public ResponseDTO getListAccount(@PathVariable Integer roleId){
+//        ResponseDTO responseDTO = accountService.getListAccount(roleId);
+//        if(responseDTO.isStatus()){
+//            List<InformationAccountDTO> dtos = new ArrayList<>();
+//            List<Object> accountDTOS = responseDTO.getListObjectResponse();
+//            for(Object obj : accountDTOS){
+//                InformationAccountDTO tmp = new InformationAccountDTO();
+//                AccountDTO accountTmp = (AccountDTO) obj;
+//                convertInformationAccountDTOFromAccountDTO(tmp, accountTmp);
+//                dtos.add(tmp);
+//            }
+//            responseDTO.setListObjectResponse(Collections.singletonList(dtos));
+//        }
+//        return responseDTO;
         return accountService.getListAccount(roleId);
+    }
+
+    /**
+     * Change Password
+     * @param dto
+     * @return
+     */
+    @RequestMapping(value = Const.CHANGE_PASSWORD, method = RequestMethod.PUT)
+    public ResponseDTO changePassword(@RequestBody @Valid ChangePasswordDTO dto){
+        return accountService.changePassword(dto);
     }
 
 }

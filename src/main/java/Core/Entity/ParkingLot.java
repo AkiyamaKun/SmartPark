@@ -25,12 +25,12 @@ public class ParkingLot {
      * Id of Admin Account
      */
     @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
-    @JoinColumn(name="createdBy",referencedColumnName="accountId")
+    @JoinColumn(name="createdBy", referencedColumnName="accountId")
     private Account createdBy;
 
     //Id of Supervisor/Admin Account
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "editedBy", updatable = false, insertable = false)
+    @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
+    @JoinColumn(name = "editedBy", referencedColumnName="accountId")
     private Account editedBy;
 
     @Column(name = "longitude")
@@ -61,16 +61,22 @@ public class ParkingLot {
     private boolean isActive;
 
     /**
-     * Name of ParkingLot
+     * Late Edit Date
      */
     @Column(name = "lastEdited")
     private Date lastEdited;
+
+    /**
+     * Create Date
+     */
+    @Column(name = "createdDate")
+    private Date createdDate;
 
     public ParkingLot() {
     }
 
     public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude,
-                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited) {
+                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate) {
         this.displayName = displayName;
         this.createdBy = createdBy;
         this.editedBy = editedBy;
@@ -82,6 +88,7 @@ public class ParkingLot {
         this.timeOfOperation = timeOfOperation;
         this.isActive = isActive;
         this.lastEdited = lastEdited;
+        this.createdDate = createdDate;
     }
 
     public Integer getParkingLotId() {
@@ -178,5 +185,13 @@ public class ParkingLot {
 
     public void setLastEdited(Date lastEdited) {
         this.lastEdited = lastEdited;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

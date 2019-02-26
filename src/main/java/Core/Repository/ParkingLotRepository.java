@@ -15,4 +15,5 @@ import java.util.List;
  */
 @Repository
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer> {
+    ParkingLot findByParkingLotId(Integer id);
 }

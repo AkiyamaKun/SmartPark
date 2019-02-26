@@ -9,14 +9,16 @@ public class ChangePasswordDTO {
     private Integer accountId;
     private String oldPassword;
     private String newPassword;
+    private String confirmPassword;
 
     public ChangePasswordDTO() {
     }
 
-    public ChangePasswordDTO(Integer accountId, String oldPassword, String newPassword) {
+    public ChangePasswordDTO(Integer accountId, String oldPassword, String newPassword, String confirmPassword) {
         this.accountId = accountId;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;
+        this.confirmPassword = confirmPassword;
     }
 
     public Integer getAccountId() {
@@ -41,5 +43,13 @@ public class ChangePasswordDTO {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

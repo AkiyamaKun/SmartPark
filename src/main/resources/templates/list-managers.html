@@ -28,6 +28,7 @@
 
     <script src="/vendors/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/js/app.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
 </head>
 
 <body>
@@ -200,9 +201,9 @@
     <!-- Right Panel -->
 
     <script>
-
-        doAjax(domain + "account/listmanagers/1", "GET", function (data) {
-            let accounts = JSON.parse(data);
+        doAjax(domain + "account/list_accounts/1", "GET", function (data) {
+            let responseData = JSON.parse(data);
+            let accounts = responseData.objectResponse;
             $("#list-managers").empty();
             $.each(accounts, function (index, lot) {
                 let tr =
