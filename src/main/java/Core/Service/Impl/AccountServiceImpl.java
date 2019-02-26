@@ -6,8 +6,10 @@ import Core.DTO.ChangePasswordDTO;
 import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.Role;
 import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
+import Core.Repository.RoleRepository;
 import Core.Service.AccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepository accountRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     /**
      *
      * @param dto
@@ -42,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setCreatedDate(entity.getCreatedDate());
-        dto.setRoleId(entity.getRoleId());
+        dto.setRoleId(entity.getRole().getRoleId());
         dto.setActive(entity.isActive());
     }
 
@@ -81,25 +86,6 @@ public class AccountServiceImpl implements AccountService {
         }
         return null;
     }
-
-//    /**
-//     * Get All Accounts
-//     * @return
-//     */
-//    @Override
-//    public List<AccountDTO> getAllAccounts() {
-//        List<Account> accounts = accountRepository.findAll();
-//        if(!accounts.isEmpty()){
-//            List<AccountDTO> accountDTOS = new ArrayList<>();
-//            for (Account account: accounts) {
-//                AccountDTO tmp = new AccountDTO();
-//                convertDTOFromEntity(tmp, account);
-//                accountDTOS.add(tmp);
-//            }
-//            return accountDTOS;
-//        }
-//        return null;
-//    }
 
     /**
      * Update Driver Account
@@ -149,7 +135,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> getListManagers(Integer roleId) {
-        List<Account> accounts = accountRepository.getAllByRoleId(roleId);
+        Role role = roleRepository.findByRoleId(roleId);
+        List<Account> accounts = accountRepository.findAllByRole(role);
         List<AccountDTO> accountDTOS = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         accounts.stream().forEach(e -> {

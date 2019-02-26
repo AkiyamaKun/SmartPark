@@ -34,9 +34,8 @@ public class AccountDTO implements Serializable {
      * @param roleId
      * @param isActive
      */
-    public AccountDTO(Integer accountId, String email, String password, String phoneNumber,
-                      String firstName, String lastName,
-                      Date createdDate, Integer roleId, boolean isActive) {
+    public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
+                      String lastName, Date createdDate, Integer roleId, boolean isActive) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;

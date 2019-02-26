@@ -1,5 +1,7 @@
 package Core.DTO;
 
+import Core.Entity.Account;
+
 import java.util.Date;
 
 /**
@@ -11,6 +13,7 @@ public class ParkingLotDTO {
 
     private Integer parkingLotId;
     private String displayName;
+    private Account ownedBy;
     private String longitude;
     private String latitude;
     private Integer totalSlot;
@@ -32,12 +35,13 @@ public class ParkingLotDTO {
     /**
      * Constructor full arguments
      */
-    public ParkingLotDTO(Integer parkingLotId, String displayName, String ownedBy, String longitude,
+    public ParkingLotDTO(Integer parkingLotId, String displayName, Account ownedBy, String longitude,
                          String latitude, Integer totalSlot, String address, String phoneNumber,
                          String timeOfOperation, boolean isActive, Integer createdBy,
                          Date createdDate, Integer editedBy, Date lastEdited) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
+        this.ownedBy = ownedBy;
         this.longitude = longitude;
         this.latitude = latitude;
         this.totalSlot = totalSlot;
@@ -89,6 +93,14 @@ public class ParkingLotDTO {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Account getOwnedBy() {
+        return ownedBy;
+    }
+
+    public void setOwnedBy(Account ownedBy) {
+        this.ownedBy = ownedBy;
     }
 
     public String getLongitude() {

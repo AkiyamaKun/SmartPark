@@ -1,9 +1,14 @@
 package Core.Controller.MVC;
 
+import Core.DTO.AccountDTO;
+import Core.Service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * View Controller for MVC
@@ -12,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ViewController {
+
+    @Autowired
+    private AccountService accountService;
+
     /**
      * Login Page
      * @param model
@@ -113,13 +122,17 @@ public class ViewController {
 
     /**
      * Manager Detail Page
-     * @param model
+     * @param id
      * @return
      */
     @RequestMapping(value = "/manager-detail")
-    public String toManagerDetail(Model model){
-        //Excute anything here
-        return "manager-detail";
+    public ModelAndView toManagerDetail(@RequestParam int id){
+        ModelAndView view = new ModelAndView("manager-detail.jsp");
+
+        AccountDTO managerAccount = accountService.getAccount(id);
+        view.addObject("manager", managerAccount);
+
+        return view;
     }
 }
 

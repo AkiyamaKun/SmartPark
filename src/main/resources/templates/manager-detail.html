@@ -174,8 +174,16 @@
                 </div>
                 <div class="card-body card-block">
                     <div class="form-group">
-                        <label for="name" class=" form-control-label">Full name</label>
-                        <input type="text" id="name" value="Minh Che" class="form-control" disabled>
+                        <label for="email" class=" form-control-label">Email</label>
+                        <input type="text" id="email" value="" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="firstname" class=" form-control-label">First name</label>
+                        <input type="text" id="firstname" value="Minh" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="lastname" class=" form-control-label">Last name</label>
+                        <input type="text" id="lastname" value="Che" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label for="phone" class=" form-control-label">Phone number</label>
@@ -237,6 +245,42 @@
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
+
+    <script>
+
+        function loadList() {
+            $('#list-managers').load('/account/listmanagers/1');
+        }
+        $(function () {
+            loadList();
+            $(document).on('click', '#button-update-cart', function () {
+                var quantity = $('.productQuantity');
+                var prod = [];
+                quantity.each(function (index, element) {
+                    prod.push({
+                        'proId': element.getAttribute('prodId'),
+                        'quantity': element.value
+                    });
+                });
+            doAjax(domain + "account/listmanagers/1", "GET", function (data) {
+                let accounts = JSON.parse(data);
+                $("#list-managers").empty();
+                $.each(accounts, function (index, lot) {
+                    let tr =
+                        "<tr>\n" +
+                        "<td><a href=\"manager-detail.html\">" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
+                        "<td>" + lot.phoneNumber + "</td>\n" +
+                        "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
+                        "</tr>";
+                    $("#list-managers").append(tr);
+                });
+                buildBootrapTable();
+            }, function (error) {
+                console.log(error);
+            });
+        });
+
+    </script>
 
     <script src="/vendors/jquery/dist/jquery.min.js"></script>
     <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>

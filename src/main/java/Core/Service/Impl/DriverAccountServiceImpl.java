@@ -4,7 +4,9 @@ import Core.Constant.Const;
 import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.Role;
 import Core.Repository.AccountRepository;
+import Core.Repository.RoleRepository;
 import Core.Service.DriverAccountService;
 import Core.Service.PublicService;
 import Core.Utils.TokenGenerator;
@@ -21,6 +23,9 @@ public class DriverAccountServiceImpl implements DriverAccountService {
 
     @Autowired
     PublicService publicService;
+
+    @Autowired
+    RoleRepository roleRepository;
     /**
      * Create Driver Account
      * @param accountDTO
@@ -29,27 +34,56 @@ public class DriverAccountServiceImpl implements DriverAccountService {
     @Override
     public ResponseDTO createDriverAccount(AccountDTO accountDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        responseDTO.setMessage("Nothing");
         try{
             Account account = accountRepository.findByEmail(accountDTO.getEmail());
-            if(account == null){
-                String token = TokenGenerator.generateToken(accountDTO.getEmail());
-                Date createDate = new Date();
-                account = new Account(accountDTO.getEmail(), accountDTO.getPassword(), accountDTO.getPhoneNumber(), accountDTO.getFirstName(),
-                        accountDTO.getLastName(), createDate, 2, false, token);
-                ResponseDTO tmp = publicService.sendEmail(account.getEmail(), account.getToken());
-                if(tmp.isStatus()){
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
-                    responseDTO.setObjectResponse(account);
-                    accountRepository.save(account);
-                }else{
-                    responseDTO.setStatus(false);
-                    responseDTO.setMessage(Const.SEND_EMAIL_CREATE_ACCOUNT_ERROR);
+            String token = TokenGenerator.generateToken(accountDTO.getEmail());
+            Date createDate = new Date();
+            Role role = roleRepository.findByRoleId(3);
+            if(account == null ){
+                ResponseDTO tmp = publicService.sendEmail(accountDTO.getEmail(), token);
+                if(tmp != null){
+                    if(tmp.isStatus()){
+                        //Create New Account
+                        account = new Account(accountDTO.getEmail(), accountDTO.getPassword(), accountDTO.getPhoneNumber(), accountDTO.getFirstName(),
+                                accountDTO.getLastName(), createDate, role, false, token);
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
+                        responseDTO.setObjectResponse(account);
+                        accountRepository.save(account);
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_CREATE_ACCOUNT_ERROR);
+                    }
                 }
             }else{
-                responseDTO.setStatus(false);
-                responseDTO.setMessage(Const.DRIVER_ACCOUNT_EXISTED);
-                responseDTO.setObjectResponse(account);
+                String lastToken = account.getToken();
+                if(lastToken == null){
+                    //Account is created ->response fail
+                    responseDTO.setStatus(false);
+                    responseDTO.setMessage(Const.DRIVER_ACCOUNT_EXISTED);
+                }else{
+                    //Account had create but it is not verify -> Excute update and send again Mail Verify
+                    ResponseDTO tmp = publicService.sendEmail(account.getEmail(), token);
+                    if(tmp != null){
+                        if(tmp.isStatus()){
+                            account.setToken(token);
+                            account.setPassword(accountDTO.getPassword());
+                            account.setPhoneNumber(accountDTO.getPhoneNumber());
+                            account.setFirstName(accountDTO.getFirstName());
+                            account.setLastName(accountDTO.getLastName());
+                            account.setCreatedDate(createDate);
+                            responseDTO.setStatus(true);
+                            responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
+                            responseDTO.setObjectResponse(account);
+                            accountRepository.save(account);
+                        }
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_CREATE_ACCOUNT_ERROR);
+                    }
+                }
             }
         }catch (Exception e){
             responseDTO.setStatus(false);

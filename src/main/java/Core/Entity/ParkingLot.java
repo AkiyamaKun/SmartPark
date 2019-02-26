@@ -20,11 +20,18 @@ public class ParkingLot {
      */
     @Column(name = "displayName")
     private String displayName;
+
     /**
-     * Name of owner ParkingLot
+     * Id of Admin Account
      */
-//    @Column(name = "ownedBy")
-//    private Integer ownedBy;
+    @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="createdBy",referencedColumnName="accountId")
+    private Account createdBy;
+
+    //Id of Supervisor/Admin Account
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "editedBy", updatable = false, insertable = false)
+    private Account editedBy;
 
     @Column(name = "longitude")
     private float longitude;
@@ -52,27 +59,21 @@ public class ParkingLot {
      */
     @Column(name = "isActive")
     private boolean isActive;
-    /**
-     * Id of Admin Account
-     */
-    @Column(name = "createdBy")
-    private Integer createdBy;
 
     /**
      * Name of ParkingLot
      */
-    //Id of Supervisor/Admin Account
-    @Column(name = "editedBy")
-    private Integer editedBy;
-
     @Column(name = "lastEdited")
     private Date lastEdited;
 
     public ParkingLot() {
     }
 
-    public ParkingLot(String displayName, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
+    public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude,
+                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited) {
         this.displayName = displayName;
+        this.createdBy = createdBy;
+        this.editedBy = editedBy;
         this.longitude = longitude;
         this.latitude = latitude;
         this.totalSlot = totalSlot;
@@ -80,30 +81,8 @@ public class ParkingLot {
         this.phoneNumber = phoneNumber;
         this.timeOfOperation = timeOfOperation;
         this.isActive = isActive;
-        this.createdBy = createdBy;
-        this.editedBy = editedBy;
         this.lastEdited = lastEdited;
     }
-
-    /**
-     * Constructor full arguments
-     */
-//    public ParkingLot(String displayName, Integer ownedBy, float longitude, float latitude,
-////                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation,
-////                      boolean isActive, Integer createdBy, Integer editedBy, Date lastEdited) {
-////        this.displayName = displayName;
-////        this.ownedBy = ownedBy;
-////        this.longitude = longitude;
-////        this.latitude = latitude;
-////        this.totalSlot = totalSlot;
-////        this.address = address;
-////        this.phoneNumber = phoneNumber;
-////        this.timeOfOperation = timeOfOperation;
-////        this.isActive = isActive;
-////        this.createdBy = createdBy;
-////        this.editedBy = editedBy;
-////        this.lastEdited = lastEdited;
-////    }
 
     public Integer getParkingLotId() {
         return parkingLotId;
@@ -120,14 +99,6 @@ public class ParkingLot {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
-//    public Integer getOwnedBy() {
-//        return ownedBy;
-//    }
-//
-//    public void setOwnedBy(Integer ownedBy) {
-//        this.ownedBy = ownedBy;
-//    }
 
     public float getLongitude() {
         return longitude;
@@ -185,19 +156,19 @@ public class ParkingLot {
         isActive = active;
     }
 
-    public Integer getCreatedBy() {
+    public Account getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(Account createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Integer getEditedBy() {
+    public Account getEditedBy() {
         return editedBy;
     }
 
-    public void setEditedBy(Integer editedBy) {
+    public void setEditedBy(Account editedBy) {
         this.editedBy = editedBy;
     }
 
