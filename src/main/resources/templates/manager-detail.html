@@ -195,7 +195,7 @@
                     <button type="button" class="btn btn-danger float-left" disabled>
                         <i class="fa fa-ban"></i> Cancel
                     </button>
-                    <button id="btnUpdate" type="button" class="btn btn-primary float-right">
+                    <button type="button" class="btn btn-primary float-right">
                         <i class="fa fa-pencil"></i> Edit
                     </button>
                 </div>
@@ -279,6 +279,19 @@
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phone").value;
 
+    $(document).ready(function () {
+        doAjax(domain + "account/2", "GET", function (data) {
+            let responseData = JSON.parse(data);
+            let account = responseData.objectResponse;
+            document.getElementById("email").value = account.email;
+            document.getElementById("firstName").value = account.firstName;
+            document.getElementById("lastName").value = account.lastName;
+            document.getElementById("phoneNumber").value = account.phoneNumber;
+            alert(account);
+        }, function (error) {
+            console.log(error);
+        });
+
         CallAjaxWithFetch(`/account/update/${accountId}`,
             "PUT",
             { accountId, firstName, lastName, phoneNumber },
@@ -289,8 +302,9 @@
             (err) => {
                 alert(err.message);
             }
-        );
-    }
+        )});
+
+
 
 </script>
 </html>

@@ -200,6 +200,11 @@ public class AccountServiceImpl implements AccountService {
             Role role = roleRepository.findByRoleId(roleAccount);
             if(role != null){
                 if(accountDTO != null){
+                    Account accountExisted = accountRepository.findByEmail(accountDTO.getEmail());
+                    if(accountExisted != null){
+                        responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
+                        return responseDTO;
+                    }
                     Account account = new Account();
                     Date date = new Date();
                     account.setEmail(accountDTO.getEmail());

@@ -143,6 +143,12 @@ public class ViewController {
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
         return view;
     }
+
+    @RequestMapping(value = "/create-parking-lot")
+    public String toCreateParkingLot(Model model){
+        //Excute anything here
+        return "create-parking-lot";
+    }
 }
 
 
