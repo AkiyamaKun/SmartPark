@@ -202,15 +202,15 @@
     <!-- Right Panel -->
 
     <script>
-
-        doAjax(domain + "parkinglot/listparkinglots", "GET", function (data) {
-            let parkingLots = JSON.parse(data);
+        doAjax(domain + "/parking_lot/list_parking_lots", "GET", function (data) {
+            let responseData = JSON.parse(data);
+            let parkingLots = responseData.objectResponse;
             $("#list-parking-lot").empty();
             $.each(parkingLots, function (index, lot) {
                 let tr =
                     "<tr>\n" +
                         "<td>" + lot.displayName + "</td>\n" +
-                        "<td><a href=\"manager-detail.html\">" + lot.ownedBy.lastName + " " + lot.ownedBy.firstName + "</a></td>\n" +
+                        "<td><a href=\"manager-detail.html\">" + lot.ownedBy + "</a></td>\n" +
                         "<td>" + lot.totalSlot + "</td>\n" +
                         "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
                     "</tr>";

@@ -200,16 +200,16 @@
 
     <!-- Right Panel -->
     <script>
-
-        doAjax(domain + "account/listaccounts/2", "GET", function (data) {
-            let accounts = JSON.parse(data);
+        doAjax(domain + "account/list_accounts/2", "GET", function (data) {
+            let responseData = JSON.parse(data);
+            let accounts = responseData.objectResponse;
             $("#list-supervisors").empty();
-            $.each(accounts, function (index, lot) {
+            $.each(accounts, function (index, value) {
                 let tr =
                     "<tr>\n" +
-                    "<td>" + lot.email + "</td>\n" +
-                    "<td>" + lot.lastName + " " + lot.firstName + "</a></td>\n" +
-                    "<td>" + lot.phoneNumber + "</td>\n" +
+                    "<td>" + value.email +"</td>\n" +
+                    "<td>" + value.lastName + " " + value.firstName + "</a></td>\n" +
+                    "<td>" + value.phoneNumber + "</td>\n" +
                     "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
                     "</tr>";
                 $("#list-supervisors").append(tr);

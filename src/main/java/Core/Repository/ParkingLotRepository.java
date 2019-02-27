@@ -15,6 +15,5 @@ import java.util.List;
  */
 @Repository
 public interface ParkingLotRepository extends JpaRepository<ParkingLot, Integer> {
-
-    //ParkingLot findByCreatedBy(String createdBy);
+    ParkingLot findByParkingLotId(Integer id);
 }

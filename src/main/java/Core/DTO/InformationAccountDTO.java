@@ -1,49 +1,24 @@
 package Core.DTO;
 
-import java.util.Date;
 
-/**
- * Account DTO
- *
- * Author: DangNHH - 16/02/2019
- */
-public class AccountDTO{
+public class InformationAccountDTO {
     private Integer accountId;
     private String email;
     private String password;
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private Date createdDate;
-    private Integer roleId;
-    private boolean isActive;
 
-    public AccountDTO() {
+    public InformationAccountDTO() {
     }
 
-    /**
-     * Constructor full arguments
-     * @param accountId
-     * @param email
-     * @param password
-     * @param phoneNumber
-     * @param firstName
-     * @param lastName
-     * @param createdDate
-     * @param roleId
-     * @param isActive
-     */
-    public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
-                      String lastName, Date createdDate, Integer roleId, boolean isActive) {
+    public InformationAccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName, String lastName) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.createdDate = createdDate;
-        this.roleId = roleId;
-        this.isActive = isActive;
     }
 
     public Integer getAccountId() {
@@ -92,29 +67,5 @@ public class AccountDTO{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
     }
 }

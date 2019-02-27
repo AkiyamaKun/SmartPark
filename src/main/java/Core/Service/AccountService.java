@@ -2,6 +2,7 @@ package Core.Service;
 
 import Core.DTO.AccountDTO;
 import Core.DTO.ChangePasswordDTO;
+import Core.DTO.InformationAccountDTO;
 import Core.DTO.ResponseDTO;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.List;
 public interface AccountService {
     ResponseDTO changePassword(ChangePasswordDTO changePasswordDTO);
     ResponseDTO authorize(AccountDTO accountDTO);
-    AccountDTO getAccount(Integer id);
+    ResponseDTO getAccount(Integer id);
     ResponseDTO updateAccount(Integer id, AccountDTO accountDTO);
     ResponseDTO deleteAccount(Integer id);
+    ResponseDTO createAccount(Integer roleAccount, AccountDTO accountDTO);
+    ResponseDTO getListAccount(Integer roleId);
 
     List<AccountDTO> getListManagers(Integer roleId);
 

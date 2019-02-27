@@ -14,8 +14,8 @@ public class ParkingLotDTO {
     private Integer parkingLotId;
     private String displayName;
     private Account ownedBy;
-    private String longitude;
-    private String latitude;
+    private float longitude;
+    private float latitude;
     private Integer totalSlot;
     private String address;
     private String phoneNumber;
@@ -35,8 +35,8 @@ public class ParkingLotDTO {
     /**
      * Constructor full arguments
      */
-    public ParkingLotDTO(Integer parkingLotId, String displayName, Account ownedBy, String longitude,
-                         String latitude, Integer totalSlot, String address, String phoneNumber,
+    public ParkingLotDTO(Integer parkingLotId, String displayName, Account ownedBy, float longitude,
+                         float latitude, Integer totalSlot, String address, String phoneNumber,
                          String timeOfOperation, boolean isActive, Integer createdBy,
                          Date createdDate, Integer editedBy, Date lastEdited) {
         this.parkingLotId = parkingLotId;
@@ -103,19 +103,19 @@ public class ParkingLotDTO {
         this.ownedBy = ownedBy;
     }
 
-    public String getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 

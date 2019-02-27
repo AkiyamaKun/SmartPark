@@ -4,14 +4,12 @@ import Core.Constant.Const;
 import Core.DTO.ResponseDTO;
 import Core.Service.PublicService;
 import Core.Utils.EmailUtil;
-import Core.Utils.TokenGenerator;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class PublicServiceImpl implements PublicService {

@@ -9,7 +9,7 @@ import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.DriverAccountService;
 import Core.Service.PublicService;
-import Core.Utils.TokenGenerator;
+import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ public class DriverAccountServiceImpl implements DriverAccountService {
         responseDTO.setMessage("Nothing");
         try{
             Account account = accountRepository.findByEmail(accountDTO.getEmail());
-            String token = TokenGenerator.generateToken(accountDTO.getEmail());
+            String token = Utilities.generateToken(accountDTO.getEmail());
             Date createDate = new Date();
             Role role = roleRepository.findByRoleId(3);
             if(account == null ){
@@ -62,7 +62,7 @@ public class DriverAccountServiceImpl implements DriverAccountService {
                 if(lastToken == null){
                     //Account is created ->response fail
                     responseDTO.setStatus(false);
-                    responseDTO.setMessage(Const.DRIVER_ACCOUNT_EXISTED);
+                    responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
                 }else{
                     //Account had create but it is not verify -> Excute update and send again Mail Verify
                     ResponseDTO tmp = publicService.sendEmail(account.getEmail(), token);
