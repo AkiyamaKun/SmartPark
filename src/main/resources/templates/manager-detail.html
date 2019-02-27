@@ -283,11 +283,11 @@
             "PUT",
             { accountId, firstName, lastName, phoneNumber },
             (data) => {
-                alert("Cập nhật thành công");
+                alert(data.message);
                 document.location.href = "/list-managers";
             },
             (err) => {
-                alert("Cập nhật thất bại");
+                alert(err.message);
             }
         );
     }

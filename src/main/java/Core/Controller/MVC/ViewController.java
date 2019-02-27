@@ -1,6 +1,7 @@
 package Core.Controller.MVC;
 
 import Core.DTO.AccountDTO;
+import Core.DTO.ResponseDTO;
 import Core.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -126,12 +127,20 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/manager-detail")
-    public ModelAndView toManagerDetail(@RequestParam int id){
+    public ModelAndView toManagerDetail(@RequestParam Integer id){
         ModelAndView view = new ModelAndView("manager-detail");
+        ResponseDTO managerAccount = accountService.getAccount(id);
+        view.addObject("manager", managerAccount.getObjectResponse());
+        //view.addObject("message", managerAccount.getMessage());
+        //System.out.println("aaaaaaaaaa " + managerAccount.getMessage());
+        return view;
+    }
 
-        AccountDTO managerAccount = accountService.getAccount(id);
-        view.addObject("manager", managerAccount);
-
+    @RequestMapping(value = "/supervisor-detail")
+    public ModelAndView toSupervisorDetail(@RequestParam Integer id){
+        ModelAndView view = new ModelAndView("supervisor-detail");
+        ResponseDTO supervisorAccount = accountService.getAccount(id);
+        view.addObject("supervisor", supervisorAccount.getObjectResponse());
         return view;
     }
 }

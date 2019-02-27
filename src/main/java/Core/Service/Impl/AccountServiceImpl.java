@@ -146,9 +146,11 @@ public class AccountServiceImpl implements AccountService {
                 account.setLastName(accountDTO.getLastName());
                 account.setPhoneNumber(accountDTO.getPhoneNumber());
                 accountRepository.save(account);
+                AccountDTO dto = new AccountDTO();
+                convertDTOFromEntity(dto, account);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.UPDATE_ACCOUNT_SUCCESS);
-                responseDTO.setObjectResponse(account);
+                responseDTO.setObjectResponse(dto);
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
             }
@@ -258,10 +260,5 @@ public class AccountServiceImpl implements AccountService {
             responseDTO.setMessage("Get List Account Exception: " + e.getMessage());
         }
         return responseDTO;
-    }
-
-    @Override
-    public List<AccountDTO> getListSupervisor() {
-        return null;
     }
 }

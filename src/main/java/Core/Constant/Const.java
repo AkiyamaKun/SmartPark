@@ -20,7 +20,6 @@ public class Const {
     public static final String UPDATE_ACCOUNT = "/update/{id}";
     public static final String DELETE_ACCOUNT = "/delete/{id}";
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
-    public static final String LIST_MANAGERS = "/listmanagers/{roleId}";
 
     //Account Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
