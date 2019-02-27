@@ -22,14 +22,4 @@ public class ManagerAccountController {
     @Autowired
     AccountService accountService;
 
-    /**
-     * Create Admin Account
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_ADMIN_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createAccountAdmin(@RequestBody @Valid AccountDTO accountDTO){
-        Integer roleId = 1;
-        return accountService.createAccount(roleId, accountDTO);
-    }
 }

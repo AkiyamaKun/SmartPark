@@ -1,9 +1,13 @@
 package Core.Controller.MVC;
 
+import Core.Entity.Account;
+import Core.Repository.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * View Controller for MVC
@@ -12,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ViewController {
+
+    @Autowired
+    AccountRepository accountRepository;
+
+
     /**
      * Login Page
      * @param model
@@ -126,6 +135,24 @@ public class ViewController {
     public String toCreateParkingLot(Model model){
         //Excute anything here
         return "create-parking-lot";
+    }
+
+    @RequestMapping(value = "account/set_password_page")
+    public String toSetPasswordPage(@RequestParam (value = "email", required = true) String email,
+                                    @RequestParam (value = "token", required = true) String token,
+                                    Model model){
+        String url = "verify-account-fail-page";
+        Account account = accountRepository.findByEmail(email);
+        if(account != null){
+            String oldToken = account.getToken();
+            if(oldToken != null){
+                if(oldToken.equals(token)){
+                    model.addAttribute("checkToken", true);
+                    url = "set-password-page";
+                }
+            }
+        }
+        return url;
     }
 }
 

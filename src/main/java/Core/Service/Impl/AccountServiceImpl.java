@@ -9,6 +9,8 @@ import Core.Entity.Role;
 import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.AccountService;
+import Core.Service.PublicService;
+import Core.Utils.Utilities;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +35,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    PublicService publicService;
 
     /**
      *
@@ -182,53 +187,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Create Account by RoleId
-     * Manager Account: 1
-     * Supervisor Account: 2
-     * @param roleAccount
-     * @param accountDTO
-     * @return
-     */
-    @Override
-    public ResponseDTO createAccount(Integer roleAccount, AccountDTO accountDTO) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setStatus(false);
-        try{
-            Role role = roleRepository.findByRoleId(roleAccount);
-            if(role != null){
-                if(accountDTO != null){
-                    Account accountExisted = accountRepository.findByEmail(accountDTO.getEmail());
-                    if(accountExisted != null){
-                        responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
-                        return responseDTO;
-                    }
-                    Account account = new Account();
-                    Date date = new Date();
-                    account.setEmail(accountDTO.getEmail());
-                    account.setPassword(accountDTO.getPassword());
-                    account.setCreatedDate(date);
-                    account.setFirstName(accountDTO.getFirstName());
-                    account.setLastName(accountDTO.getLastName());
-                    account.setPhoneNumber(accountDTO.getPhoneNumber());
-                    account.setActive(true);
-                    account.setRole(role);
-                    accountRepository.save(account);
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
-                    responseDTO.setObjectResponse(account);
-                }else{
-                    responseDTO.setMessage(Const.LACK_OF_DATA);
-                }
-            }else{
-                responseDTO.setMessage(Const.ROLE_IS_NOT_EXISTED);
-            }
-        }catch (Exception e){
-            responseDTO.setMessage(Const.CREATE_ACCOUNT_FAIL);
-        }
-        return responseDTO;
-    }
-
-    /**
      * Get List Account by Role Id
      * @param roleId
      * @return
@@ -260,6 +218,118 @@ public class AccountServiceImpl implements AccountService {
             }
         }catch (Exception e){
             responseDTO.setMessage("Get List Account Exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Register Account
+     * Admin: 1
+     * Supervisor: 2
+     * Driver: 3
+     * @param accountDTO
+     * @return
+     */
+    @Override
+    public ResponseDTO registerAccount(AccountDTO accountDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        responseDTO.setMessage("Nothing");
+        Integer roleAccount = accountDTO.getRoleId();
+        try{
+            Account account = accountRepository.findByEmail(accountDTO.getEmail());
+            String token = Utilities.generateToken(accountDTO.getEmail());
+            Date createDate = new Date();
+            Role role = roleRepository.findByRoleId(roleAccount);
+            if(account == null ){
+                //Account is not existed
+                ResponseDTO tmp = publicService.sendEmail(accountDTO.getEmail(), token, roleAccount);
+                if(tmp != null){
+                    if(tmp.isStatus()){
+                        //Create New Account
+                        account = new Account();
+                        account.setEmail(accountDTO.getEmail());
+                        account.setPassword(accountDTO.getPassword());
+                        account.setPhoneNumber(accountDTO.getPhoneNumber());
+                        account.setFirstName(accountDTO.getFirstName());
+                        account.setLastName(accountDTO.getLastName());
+                        account.setCreatedDate(createDate);
+                        account.setRole(role);
+                        account.setActive(false);
+                        account.setToken(token);
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
+                        responseDTO.setObjectResponse(account);
+                        accountRepository.save(account);
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_CREATE_ACCOUNT_ERROR);
+                    }
+                }
+            }else{
+                //Account is existed on Database
+                String lastToken = account.getToken();
+                if(lastToken == null){
+                    //Account is created ->response fail
+                    responseDTO.setStatus(false);
+                    responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
+                }else{
+                    //Account had create but it is not verify -> Excute update and send again Mail Verify
+                    ResponseDTO tmp = publicService.sendEmail(account.getEmail(), token, roleAccount);
+                    if(tmp != null){
+                        if(tmp.isStatus()){
+                            account.setToken(token);
+                            account.setPassword(accountDTO.getPassword());
+                            account.setPhoneNumber(accountDTO.getPhoneNumber());
+                            account.setFirstName(accountDTO.getFirstName());
+                            account.setLastName(accountDTO.getLastName());
+                            account.setCreatedDate(createDate);
+                            account.setRole(role);
+                            accountRepository.save(account);
+
+                            AccountDTO dto = new AccountDTO();
+                            convertDTOFromEntity(dto, account);
+
+                            responseDTO.setStatus(true);
+                            responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
+                            responseDTO.setObjectResponse(dto);
+                        }
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_CREATE_ACCOUNT_ERROR);
+                    }
+                }
+            }
+        }catch (Exception e){
+            responseDTO.setStatus(false);
+            responseDTO.setMessage(Const.CREATE_ACCOUNT_FAIL);
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Set First Password For Admin/Supervisor Account
+     * @param email
+     * @param password
+     * @return
+     */
+    @Override
+    public ResponseDTO setFirstPassword(String email, String password) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        Account account = accountRepository.findByEmail(email);
+        if(account != null){
+            account.setPassword(password);
+            account.setToken(null);
+            account.setActive(true);
+            accountRepository.save(account);
+            AccountDTO accountDTO = new AccountDTO();
+            convertDTOFromEntity(accountDTO,account);
+            responseDTO.setStatus(true);
+            responseDTO.setMessage(Const.VERIFY_ACCOUNT_SUCCESS);
+            responseDTO.setObjectResponse(accountDTO);
+        }else{
+            responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
         }
         return responseDTO;
     }

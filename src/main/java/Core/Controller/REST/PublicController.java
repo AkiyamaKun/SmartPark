@@ -26,7 +26,8 @@ public class PublicController {
      */
     @RequestMapping(value = Const.SEND_EMAIL, method = RequestMethod.PUT)
     public ResponseDTO sendEmail(@RequestParam(value = "email", required = true) String email,
-                                 @RequestParam(value = "token", required = true) String token){
-        return publicService.sendEmail(email,token);
+                                 @RequestParam(value = "token", required = true) String token,
+                                 @RequestParam(value = "roleAccountId", required = true) Integer roleAccountId){
+        return publicService.sendEmail(email,token, roleAccountId);
     }
 }

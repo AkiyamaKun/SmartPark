@@ -20,14 +20,4 @@ public class SupervisorAccountController{
     @Autowired
     AccountService accountService;
 
-    /**
-     * Create Supervisor Account
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_SUPERVISOR_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createSupervisorAccount(@RequestBody @Valid AccountDTO accountDTO){
-        Integer roleId = 2;
-        return accountService.createAccount(roleId, accountDTO);
-    }
 }

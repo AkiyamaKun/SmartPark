@@ -45,6 +45,9 @@ public class Const {
     public static final String GET_ALL_DRIVER = "/all_driver";
     public static final String CREATE_DRIVER_ACCOUNT = "/create_driver";
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
+    public static final String SET_PASSWORD_PAGE ="/set_password_page";
+    public static final String REGISTER =  "/register";
+    public static final String SET_FIRST_PASSWORD = "/set_first_password";
 
     //Driver Accoount Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -65,6 +68,7 @@ public class Const {
     public static final String MAIL_PERSONAL = "Smart Parking Support";
     public static final String MAIL_CONTENT = "Verify your account by click here";
     public static final String SEND_EMAIL_CREATE_ACCOUNT_ERROR = "Can not send email verify";
+    public static final String SEND_EMAIL_SUCCESSFUL = "Send Email Successful";
 
     //Parking Lot API
     public static final String PARKING_LOT = "/parking_lot";

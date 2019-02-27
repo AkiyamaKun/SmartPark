@@ -91,19 +91,6 @@ public class AccountController {
      */
     @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
     public ResponseDTO getListAccount(@PathVariable Integer roleId){
-//        ResponseDTO responseDTO = accountService.getListAccount(roleId);
-//        if(responseDTO.isStatus()){
-//            List<InformationAccountDTO> dtos = new ArrayList<>();
-//            List<Object> accountDTOS = responseDTO.getListObjectResponse();
-//            for(Object obj : accountDTOS){
-//                InformationAccountDTO tmp = new InformationAccountDTO();
-//                AccountDTO accountTmp = (AccountDTO) obj;
-//                convertInformationAccountDTOFromAccountDTO(tmp, accountTmp);
-//                dtos.add(tmp);
-//            }
-//            responseDTO.setListObjectResponse(Collections.singletonList(dtos));
-//        }
-//        return responseDTO;
         return accountService.getListAccount(roleId);
     }
 
@@ -115,6 +102,38 @@ public class AccountController {
     @RequestMapping(value = Const.CHANGE_PASSWORD, method = RequestMethod.PUT)
     public ResponseDTO changePassword(@RequestBody @Valid ChangePasswordDTO dto){
         return accountService.changePassword(dto);
+    }
+
+    /**
+     * Register Account
+     * @param accountDTO
+     * @return
+     */
+    @RequestMapping(value = Const.REGISTER, method = RequestMethod.PUT)
+    public ResponseDTO register(@RequestBody @Valid AccountDTO accountDTO){
+        ResponseDTO responseDTO = accountService.registerAccount(accountDTO);
+        return responseDTO;
+    }
+
+    /**
+     * Set First Password for Admin/Supervisor Account
+     * @param email
+     * @param password
+     * @param passwordConfirm
+     * @return
+     */
+    @RequestMapping(value = Const.SET_FIRST_PASSWORD, method = RequestMethod.PUT)
+    public ResponseDTO setFirstPassword(@RequestParam(value = "email", required = true) String email,
+                                        @RequestParam(value = "password", required = true) String password,
+                                        @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        if(!password.equals(passwordConfirm)){
+            responseDTO.setStatus(false);
+            responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
+        }else{
+            responseDTO = accountService.setFirstPassword(email,password);
+        }
+        return responseDTO;
     }
 
 }

@@ -20,16 +20,6 @@ public class DriverAccountController{
     @Autowired
     DriverAccountService driverAccountService;
 
-    /**
-     * Create New Driver Account
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_DRIVER_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createDriverAccount(@RequestBody @Valid AccountDTO accountDTO){
-        return driverAccountService.createDriverAccount(accountDTO);
-    }
-
     @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
     public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
                                            @RequestParam(value = "token", required = true) String token){
@@ -40,4 +30,5 @@ public class DriverAccountController{
     public ResponseDTO getAllDrivers(){
         return driverAccountService.getAllDrivers();
     }
+
 }
