@@ -29,12 +29,8 @@ function doAjax(url, method, callback, error) {
     xhttp.send();
 }
 
-function buildBootrapTable() {
-    $('#bootstrap-data-table').DataTable({
-        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
-    });
-
-    $('#bootstrap-data-table-export').DataTable({
+function buildBootrapTable(tableId) {
+    $(`#${tableId}`).DataTable({
         lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
     });

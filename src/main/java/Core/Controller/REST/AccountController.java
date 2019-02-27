@@ -67,9 +67,8 @@ public class AccountController {
                                      @PathVariable Integer id){
         ResponseDTO responseDTO = accountService.updateAccount(id, accountDTO);
         if(responseDTO.isStatus()){
-            AccountDTO accountResponseDTO = (AccountDTO)responseDTO.getObjectResponse();
             InformationAccountDTO dto = new InformationAccountDTO();
-            convertInformationAccountDTOFromAccountDTO(dto, accountResponseDTO);
+            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO)responseDTO.getObjectResponse());
             responseDTO.setObjectResponse(dto);
         }
         return responseDTO;

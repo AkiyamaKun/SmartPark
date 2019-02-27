@@ -143,9 +143,11 @@ public class AccountServiceImpl implements AccountService {
                 account.setLastName(accountDTO.getLastName());
                 account.setPhoneNumber(accountDTO.getPhoneNumber());
                 accountRepository.save(account);
+                AccountDTO dto = new AccountDTO();
+                convertDTOFromEntity(dto, account);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.UPDATE_ACCOUNT_SUCCESS);
-                responseDTO.setObjectResponse(account);
+                responseDTO.setObjectResponse(dto);
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
             }
@@ -195,6 +197,11 @@ public class AccountServiceImpl implements AccountService {
             Role role = roleRepository.findByRoleId(roleAccount);
             if(role != null){
                 if(accountDTO != null){
+                    Account accountExisted = accountRepository.findByEmail(accountDTO.getEmail());
+                    if(accountExisted != null){
+                        responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
+                        return responseDTO;
+                    }
                     Account account = new Account();
                     Date date = new Date();
                     account.setEmail(accountDTO.getEmail());

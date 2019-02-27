@@ -121,6 +121,12 @@ public class ViewController {
         //Excute anything here
         return "manager-detail";
     }
+
+    @RequestMapping(value = "/create-parking-lot")
+    public String toCreateParkingLot(Model model){
+        //Excute anything here
+        return "create-parking-lot";
+    }
 }
 
 

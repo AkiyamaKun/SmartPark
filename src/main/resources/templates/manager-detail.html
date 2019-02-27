@@ -175,19 +175,19 @@
                 <div class="card-body card-block">
                     <div class="form-group">
                         <label for="email" class=" form-control-label">Email</label>
-                        <input type="text" id="email" value="teramind244@gmail.com" class="form-control" disabled>
+                        <input type="text" id="email" value="email" class="form-control" disabled>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label for="firstname" class=" form-control-label">First name</label>
-                        <input type="text" id="firstname" value="Minh" class="form-control" disabled>
+                        <label for="firstName" class=" form-control-label">First name</label>
+                        <input type="text" id="firstName" class="form-control" disabled>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label for="lastname" class=" form-control-label">Last name</label>
-                        <input type="text" id="lastname" value="Che" class="form-control" disabled>
+                        <label for="lastName" class=" form-control-label">Last name</label>
+                        <input type="text" id="lastName" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="phone" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phone" value="0702751588" class="form-control" disabled>
+                        <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                        <input type="text" id="phoneNumber" class="form-control" disabled>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -260,5 +260,21 @@
     <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
+<script>
+    $(document).ready(function () {
+        doAjax(domain + "account/2", "GET", function (data) {
+            let responseData = JSON.parse(data);
+            let account = responseData.objectResponse;
+            document.getElementById("email").value = account.email;
+            document.getElementById("firstName").value = account.firstName;
+            document.getElementById("lastName").value = account.lastName;
+            document.getElementById("phoneNumber").value = account.phoneNumber;
+            alert(account);
+        }, function (error) {
+            console.log(error);
+        });
 
+    });
+
+</script>
 </html>
