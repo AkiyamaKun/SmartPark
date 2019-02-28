@@ -231,7 +231,7 @@
             $.each(accounts, function (index, value) {
                 let tr =
                     "<tr>\n" +
-                    "<td><a href=\"supervisor-detail.html\">" + value.email + "</td>\n" +
+                    "<td><a href=\"/supervisor-detail?id=" + value.accountId + "\">" + value.email + "</td>\n" +
                     "<td>" + value.lastName + " " + value.firstName + "</a></td>\n" +
                     "<td>" + value.phoneNumber + "</td>\n" +
                     "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +

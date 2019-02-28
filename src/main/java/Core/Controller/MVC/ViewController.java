@@ -3,6 +3,7 @@ package Core.Controller.MVC;
 import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.AccountService;
+import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -131,8 +132,6 @@ public class ViewController {
         ModelAndView view = new ModelAndView("manager-detail");
         ResponseDTO managerAccount = accountService.getAccount(id);
         view.addObject("manager", managerAccount.getObjectResponse());
-        //view.addObject("message", managerAccount.getMessage());
-        //System.out.println("aaaaaaaaaa " + managerAccount.getMessage());
         return view;
     }
 
