@@ -1,0 +1,71 @@
+<!-- Left Panel -->
+<aside id="left-panel" class="left-panel" xmlns:th="http://www.thymeleaf.org" th:fragment="left_panel">
+    <nav class="navbar navbar-expand-sm navbar-default">
+
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
+                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="../home.html">
+                <h2>Smart Parking</h2>
+            </a>
+            <a class="navbar-brand hidden" href="../home.html">
+                <h2>SP</h2>
+            </a>
+        </div>
+
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="../home.html"> <i class="menu-icon fa fa-home"></i>Home</a>
+                </li>
+
+                <h3 class="menu-title">Supervisors</h3><!-- /.menu-title -->
+                <li>
+                    <a href="../create-supervisor.html">
+                        <i class="menu-icon ti-plus"></i>Create Supervisor
+                    </a>
+                </li>
+                <li>
+                    <a href="../list-supervisors.html">
+                        <i class="menu-icon fa fa-table"></i>List Supervisors
+                    </a>
+                </li>
+
+                <h3 class="menu-title">Parking Lots</h3><!-- /.menu-title -->
+                <li>
+                    <a href="../list-parking-lots.html">
+                        <i class="menu-icon fa fa-table"></i>List Parking Lots
+                    </a>
+                </li>
+                <li class="nav-button active-pro">
+                    <a href="../login.html">
+                        <p>Logout</p>
+                    </a>
+                </li>
+
+                <!--TODO Check role-->
+                <!-- IMPORTANT This is showed only if "System Admin" -->
+                <h3 class="menu-title">Managers</h3><!-- /.menu-title -->
+                <li>
+                    <a href="../create-manager.html">
+                        <i class="menu-icon ti-plus"></i>Create Manager
+                    </a>
+                </li>
+                <li>
+                    <a href="../list-managers.html">
+                        <i class="menu-icon fa fa-table"></i>List Managers
+                    </a>
+                </li>
+                <!-- END IMPORTANT -->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <script>
+        //TODO Activate li
+    </script>
+
+</aside><!-- /#left-panel -->
+<!-- Left Panel -->

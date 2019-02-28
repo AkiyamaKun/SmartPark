@@ -39,7 +39,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/home")
     public String toHome(Model model){
-        //Excute anything here
+        model.addAttribute("Title", "Home");
         return "home";
     }
 
