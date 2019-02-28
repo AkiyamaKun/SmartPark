@@ -175,33 +175,28 @@
                 <div class="card-body card-block">
                     <div class="form-group">
                         <label for="name" class=" form-control-label">Full name</label>
-                        <input type="text" id="name" th:value="${supervisor.firstName} + ' ' + ${supervisor.lastName}" class="form-control" disabled>
+                        <input type="text" id="name" th:value="${supervisor.lastName} + ' ' + ${supervisor.firstName}" class="form-control" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="phone" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" disabled>
-                    </div>
-                    <div class="form-group form-check-inline form-check">
-                        <label for="inline-checkbox1" class="form-check-label disabled">
-                            <input type="checkbox" disabled id="add-lot-cb" value="addParkingLot" class="form-check-input"> Add new Parking Lot
-                        </label>
+                        <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                        <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" disabled>
                     </div>
                     <div id="add-parking-lot" style="display: none;">
                         <div class="form-group">
                             <label for="lot-name" class=" form-control-label">Parking Lot Name</label>
-                            <input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control">    
+                            <input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="long" class=" form-control-label">Longitude</label>
-                            <input type="text" id="long" placeholder="Longitude" class="form-control">
+                            <label for="longitude" class=" form-control-label">Longitude</label>
+                            <input type="text" id="longitude" placeholder="Longitude" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="lat" class=" form-control-label">Latitude</label>
-                            <input type="text" id="lat" placeholder="Latitude" class="form-control">
+                            <label for="latidue" class=" form-control-label">Latitude</label>
+                            <input type="number" id="latidue" placeholder="Latitude" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="slots" class=" form-control-label">Total Slots</label>
-                            <input type="number" id="slots" placeholder="Total Slots" class="form-control">
+                            <label for="totalSlot" class=" form-control-label">Total Slots</label>
+                            <input type="number" id="totalSlot" placeholder="Total Slots" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -226,10 +221,6 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                 aria-controls="home" aria-selected="true">Parking Lot #8</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                aria-controls="profile" aria-selected="false">Parking Lot #9</a>
                         </li>
                     </ul>
                     <div class="tab-content pl-3 p-1" id="myTabContent">
@@ -268,46 +259,10 @@
                                 <i class="fa fa-trash-o"></i> Deactive
                             </button>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="form-group">
-                                <div class="col col-sm-3">
-                                    <label for="long" class=" form-control-label">Longitude</label>
-                                </div>
-                                <div class="col-12 col-sm-9">
-                                    <input type="text" id="long" value="12.232121" class="form-control" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col col-sm-3">
-                                    <label for="lat" class=" form-control-label">Latitude</label>
-                                </div>
-                                <div class="col-12 col-sm-9">
-                                    <input type="text" id="lat" value="38.21312" class="form-control" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col col-sm-3">
-                                    <label for="slots" class=" form-control-label">Total Slots</label>
-                                </div>
-                                <div class="col-12 col-sm-9">
-                                    <input type="number" id="slots" value="312" class="form-control" disabled>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-danger float-left" disabled>
-                                <i class="fa fa-ban"></i> Cancel
-                            </button>
-                            <button type="button" class="btn btn-primary float-right">
-                                <i class="fa fa-pencil"></i> Edit
-                            </button>
-                            <button type="button" class="btn btn-danger float-right">
-                                <i class="fa fa-trash-o"></i> Deactive
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
 
     </div><!-- /#right-panel -->
 

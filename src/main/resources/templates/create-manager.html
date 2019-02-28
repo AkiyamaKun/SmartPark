@@ -172,20 +172,19 @@
                 <div class="card-body card-block">
                     <div class="form-group col-lg-6">
                         <label for="firstName" class=" form-control-label">First Name</label>
-                        <input type="hidden" id="roleId" value="3">
-                        <input type="text" id="firstName" placeholder="First Name" class="form-control" />
+                        <input type="text" id="firstName" placeholder="First Name" class="form-control" required/>
                     </div>
                     <div class="form-group col-lg-6">
                         <label for="lastName" class=" form-control-label">Last Name</label>
-                        <input type="text" id="lastName" placeholder="Last Name" class="form-control" />
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-control" required/>
                     </div>
                     <div class="form-group">
-                        <label for="phone" class="form-control-label">Email</label>
-                        <input type="text" id="email" placeholder="Email" class="form-control">
+                        <label for="email" class="form-control-label">Email</label>
+                        <input type="email" id="email" placeholder="Email" class="form-control" required/>
                     </div>
                     <div class="form-group">
                         <label for="phone" class="form-control-label">Phone Number</label>
-                        <input type="text" id="phone" placeholder="Phone Number" class="form-control">
+                        <input type="tel" id="phone" placeholder="Phone Number" class="form-control" required/>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -232,7 +231,7 @@ function createAccount() {
     let lastName = document.getElementById("lastName").value;
     let email = document.getElementById("email").value;
     let phoneNumber = document.getElementById("phone").value;
-    let roleId = document.getElementById("roleId").value;
+    let roleId = 1;
 
     CallAjaxWithFetch(`/account/register`,
         "POST",
