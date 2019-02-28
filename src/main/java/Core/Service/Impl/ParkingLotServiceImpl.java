@@ -8,12 +8,10 @@ import Core.DTO.ShortInfoParkingLotDTO;
 import Core.Entity.*;
 import Core.Repository.*;
 import Core.Service.ParkingLotService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,9 +22,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     private ParkingLotRepository parkingLotRepository;
 
     @Autowired
-    private OwnershipRepository ownershipRepository;
-
-    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -34,6 +29,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Autowired
     private ParkingSlotRepository parkingSlotRepository;
+
+    @Autowired
+    private OwnerRepository ownerRepository;
+
+    @Autowired
+    private SupervisionRepository supervisionRepository;
 
     /**
      * Conver Short Info Parking Lot From Entity
@@ -47,6 +48,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setAddress(entity.getAddress());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setTimeOfOperation(entity.getTimeOfOperation());
+        dto.setOwner(entity.getOwner());
     }
 
     /**
@@ -74,6 +76,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(id);
             if(parkingLot != null){
                 ShortInfoParkingLotDTO dto = new ShortInfoParkingLotDTO();
+                parkingLot.getEditedBy().setPassword(null);
+                parkingLot.getCreatedBy().setPassword(null);
                 convertShortInfoParkingLotFromEntity(dto, parkingLot);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
@@ -99,6 +103,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         if(!parkingLots.isEmpty()){
             List<ShortInfoParkingLotDTO> shortInfoParkingLotDTOS = new ArrayList<>();
             for(ParkingLot parkingLot: parkingLots){
+                parkingLot.getCreatedBy().setPassword(null);
+                parkingLot.getEditedBy().setPassword(null);
                 ShortInfoParkingLotDTO tmp = new ShortInfoParkingLotDTO();
                 convertShortInfoParkingLotFromEntity(tmp, parkingLot);
                 shortInfoParkingLotDTOS.add(tmp);
@@ -125,9 +131,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
-            Account ownerAccount = accountRepository.findByAccountId(ownerId);
+            Owner owner = ownerRepository.findByOwnerId(ownerId);
             Account adminAccount = accountRepository.findByAccountId(adminId);
-            if(ownerAccount != null && adminAccount != null){
+            adminAccount.setPassword(null);
+            if(owner != null && adminAccount != null){
                 if(dto != null){
                     //Create new record 'Parking Lot' on table Parking Lot
                     Date date = new Date();
@@ -144,13 +151,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLot.setActive(true);
                     parkingLot.setLastEdited(date);
                     parkingLot.setCreatedDate(date);
+                    parkingLot.setOwner(owner);
                     parkingLotRepository.save(parkingLot);
-
-                    //Create new reocrd 'Owner' on table Ownership
-                    Ownership ownership = new Ownership();
-                    ownership.setParkingLot(parkingLot);
-                    ownership.setSupervisor(ownerAccount);
-                    ownershipRepository.save(ownership);
 
                     //Generate Slot for Parking Lot
                     //Status default 'Free'
@@ -205,10 +207,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
                     if(adminId != null){
                         //Update Parking Lot for Admin
-                        Account admmin = accountRepository.findByAccountId(adminId);
-                        if(admmin != null){
+                        Account admin = accountRepository.findByAccountId(adminId);
+                        admin.setPassword(null);
+                        if(admin != null){
                             //Only admin account can be edit
-                            parkingLot.setEditedBy(admmin);
+                            parkingLot.setEditedBy(admin);
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
                         }else{
@@ -217,7 +220,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         }
                     }else{
                         //Update Parking Lot for Supervisor
-                        Account supervisor = ownershipRepository.findByParkingLot(parkingLot).getSupervisor();
+                        Account supervisor = supervisionRepository.findByParkingLot(parkingLot).getSupervisor();
+                        supervisor.setPassword(null);
                         if(supervisor != null){
                             parkingLot.setEditedBy(supervisor);
                         }else{
@@ -258,6 +262,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                 List<ParkingSlotDTO> parkingSlotDTOS = new ArrayList<>();
                 if(!parkingSlots.isEmpty()){
                     for(ParkingSlot parkingSlot : parkingSlots){
+                        parkingLot.getCreatedBy().setPassword(null);
+                        parkingLot.getEditedBy().setPassword(null);
                         ParkingSlotDTO tmp = new ParkingSlotDTO();
                         convertParkingSlotDTOFormEntity(tmp, parkingSlot);
                         parkingSlotDTOS.add(tmp);

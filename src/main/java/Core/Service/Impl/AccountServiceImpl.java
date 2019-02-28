@@ -79,6 +79,7 @@ public class AccountServiceImpl implements AccountService {
                     }else{
                         account.setPassword(newPassword);
                         accountRepository.save(account);
+                        account.setPassword(null);
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.CHANGE_PASSWORD_SUCCESS);
                         responseDTO.setObjectResponse(account);
@@ -148,6 +149,7 @@ public class AccountServiceImpl implements AccountService {
                 account.setLastName(accountDTO.getLastName());
                 account.setPhoneNumber(accountDTO.getPhoneNumber());
                 accountRepository.save(account);
+                account.setPassword(null);
                 AccountDTO dto = new AccountDTO();
                 convertDTOFromEntity(dto, account);
                 responseDTO.setStatus(true);
@@ -174,9 +176,16 @@ public class AccountServiceImpl implements AccountService {
         try{
             Account account = accountRepository.findByAccountId(id);
             if(account != null){
-                accountRepository.delete(account);
-                responseDTO.setStatus(true);
-                responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
+                if(account.getRole().getRoleId() == 3){
+                    accountRepository.delete(account);
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
+                }else{
+                    account.setActive(false);
+                    accountRepository.save(account);
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
+                }
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
             }

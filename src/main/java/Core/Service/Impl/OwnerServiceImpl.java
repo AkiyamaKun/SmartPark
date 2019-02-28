@@ -7,11 +7,13 @@ import Core.Entity.Owner;
 import Core.Repository.OwnerRepository;
 import Core.Service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class OwnerServiceImpl implements OwnerService {
     @Autowired
     OwnerRepository ownerRepository;

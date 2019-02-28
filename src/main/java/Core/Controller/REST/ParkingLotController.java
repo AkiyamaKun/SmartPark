@@ -3,14 +3,11 @@ package Core.Controller.REST;
 import Core.Constant.Const;
 import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
-import Core.Entity.Ownership;
 import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = Const.PARKING_LOT)
