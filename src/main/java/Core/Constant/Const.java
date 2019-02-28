@@ -20,6 +20,7 @@ public class Const {
     public static final String UPDATE_ACCOUNT = "/update/{id}";
     public static final String DELETE_ACCOUNT = "/delete/{id}";
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
+    public static final String LOGIN = "/login";
 
     //Account Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
@@ -98,5 +99,24 @@ public class Const {
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
 
+    //Owner API
+    public static final String OWNER = "/owner";
+    public static final String CREATE_OWNER = "/create";
+    public static final String UPDATE_OWNER = "/update/{id}";
+    public static final String GET_OWNER = "/{id}";
+    public static final String GET_ALL_OWNER = "/all_owners";
+    public static final String DEACTIVE_OWNER = "/deactive/{id}";
 
+    //Owner Message
+    public static final String GET_OWNER_SUCCESS = "Get Owner Successful";
+    public static final String GET_OWNER_FAIL = "Get Owner Fail";
+    public static final String OWNER_IS_NOT_EXISTED = "Owner is not existed";
+    public static final String GET_LIST_OWNER_SUCCESS = "Get List Owner Successful";
+    public static final String GET_LIST_OWNER_FAIL = "Get List Owner Fail";
+    public static final String CREATE_OWNER_SUCCESS = "Create Owner Successful";
+    public static final String CREATE_OWNER_FAIL = "Create Owner Fail";
+    public static final String UPDATE_OWNER_SUCCESS = "Update Owner Successful";
+    public static final String UPDATE_OWNER_FAIL = "Update Owner Fail";
+    public static final String DEACTIVE_OWNER_SUCCESS = "Deacitve Owner Successful";
+    public static final String DEACTIVE_OWNER_FAIL = "Deacitve Owner Fail";
 }

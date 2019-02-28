@@ -43,13 +43,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public void convertShortInfoParkingLotFromEntity(ShortInfoParkingLotDTO dto, ParkingLot entity){
         dto.setParkingLotId(entity.getParkingLotId());
         dto.setDisplayName(entity.getDisplayName());
-        String ownedBy = "";
-        Ownership ownership = ownershipRepository.findByParkingLot(entity);
-        if(ownership != null){
-            Account account = ownership.getSupervisor();
-            ownedBy = account.getLastName() + " " + account.getFirstName();
-        }
-        dto.setOwnedBy(ownedBy);
         dto.setTotalSlot(entity.getTotalSlot());
         dto.setAddress(entity.getAddress());
         dto.setPhoneNumber(entity.getPhoneNumber());

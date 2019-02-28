@@ -10,6 +10,8 @@ import Core.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,7 +49,8 @@ public class AccountController {
      * @return
      */
     @RequestMapping(value = Const.GET_ACCOUNT, method = RequestMethod.GET)
-    public ResponseDTO getAccount(@PathVariable Integer id){
+    public ResponseDTO getAccount(@PathVariable Integer id,
+                                  HttpServletRequest request){
         ResponseDTO responseDTO = accountService.getAccount(id);
         if(responseDTO.isStatus()){
             InformationAccountDTO dto = new InformationAccountDTO();
@@ -109,7 +112,7 @@ public class AccountController {
      * @param accountDTO
      * @return
      */
-    @RequestMapping(value = Const.REGISTER, method = RequestMethod.PUT)
+    @RequestMapping(value = Const.REGISTER, method = RequestMethod.POST)
     public ResponseDTO register(@RequestBody @Valid AccountDTO accountDTO){
         ResponseDTO responseDTO = accountService.registerAccount(accountDTO);
         return responseDTO;
@@ -136,4 +139,17 @@ public class AccountController {
         return responseDTO;
     }
 
+    /**
+     * Login
+     * @param email
+     * @param password
+     * @return
+     */
+    @RequestMapping(value = Const.LOGIN, method = RequestMethod.PUT)
+    public ResponseDTO login(@RequestParam (value = "email", required = true) String email,
+                             @RequestParam (value = "password", required = true) String password){
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        return responseDTO;
+    }
 }

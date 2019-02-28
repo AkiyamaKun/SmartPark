@@ -12,7 +12,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping(value = Const.PARKING_LOT)
 public class ParkingLotController {

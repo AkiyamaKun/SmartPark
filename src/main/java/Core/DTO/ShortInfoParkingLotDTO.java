@@ -1,6 +1,7 @@
 package Core.DTO;
 
 import Core.Entity.Account;
+import Core.Entity.Owner;
 
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 public class ShortInfoParkingLotDTO {
     private Integer parkingLotId;
     private String displayName;
-    private String ownedBy;
+    private Owner owner;
     private Integer totalSlot;
     private String address;
     private String phoneNumber;
@@ -21,11 +22,11 @@ public class ShortInfoParkingLotDTO {
     public ShortInfoParkingLotDTO() {
     }
 
-    public ShortInfoParkingLotDTO(Integer parkingLotId, String displayName, String ownedBy,
+    public ShortInfoParkingLotDTO(Integer parkingLotId, String displayName, Owner owner,
                                   Integer totalSlot, String address, String phoneNumber, String timeOfOperation) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
-        this.ownedBy = ownedBy;
+        this.owner = owner;
         this.totalSlot = totalSlot;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -46,14 +47,6 @@ public class ShortInfoParkingLotDTO {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getOwnedBy() {
-        return ownedBy;
-    }
-
-    public void setOwnedBy(String ownedBy) {
-        this.ownedBy = ownedBy;
     }
 
     public Integer getTotalSlot() {
@@ -86,5 +79,13 @@ public class ShortInfoParkingLotDTO {
 
     public void setTimeOfOperation(String timeOfOperation) {
         this.timeOfOperation = timeOfOperation;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }

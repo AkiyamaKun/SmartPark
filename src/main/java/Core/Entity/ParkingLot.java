@@ -72,11 +72,19 @@ public class ParkingLot {
     @Column(name = "createdDate")
     private Date createdDate;
 
+    /**
+     * Owner of Parking Lot (Unique)
+     */
+    @OneToOne(targetEntity=Owner.class, cascade=CascadeType.ALL)
+    @JoinColumn(name="ownerId", referencedColumnName="ownerId")
+    private Owner owner;
+
     public ParkingLot() {
     }
 
     public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude,
-                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate) {
+                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive,
+                      Date lastEdited, Date createdDate, Owner owner) {
         this.displayName = displayName;
         this.createdBy = createdBy;
         this.editedBy = editedBy;
@@ -89,6 +97,7 @@ public class ParkingLot {
         this.isActive = isActive;
         this.lastEdited = lastEdited;
         this.createdDate = createdDate;
+        this.owner = owner;
     }
 
     public Integer getParkingLotId() {
@@ -193,5 +202,13 @@ public class ParkingLot {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
