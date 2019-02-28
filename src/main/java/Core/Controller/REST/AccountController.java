@@ -109,7 +109,7 @@ public class AccountController {
      * @param accountDTO
      * @return
      */
-    @RequestMapping(value = Const.REGISTER, method = RequestMethod.PUT)
+    @RequestMapping(value = Const.REGISTER, method = RequestMethod.POST)
     public ResponseDTO register(@RequestBody @Valid AccountDTO accountDTO){
         ResponseDTO responseDTO = accountService.registerAccount(accountDTO);
         return responseDTO;

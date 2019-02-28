@@ -172,6 +172,7 @@
                 <div class="card-body card-block">
                     <div class="form-group col-lg-6">
                         <label for="firstName" class=" form-control-label">First Name</label>
+                        <input type="hidden" id="roleId" value="3">
                         <input type="text" id="firstName" placeholder="First Name" class="form-control" />
                     </div>
                     <div class="form-group col-lg-6">
@@ -185,10 +186,6 @@
                     <div class="form-group">
                         <label for="phone" class="form-control-label">Phone Number</label>
                         <input type="text" id="phone" placeholder="Phone Number" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="form-control-label">Generated Password</label>
-                        <input type="text" id="password" placeholder="Password" class="form-control" >
                     </div>
                 </div>
                 <div class="card-footer">
@@ -219,7 +216,7 @@
     <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
-<script> //cái script này lúc nào cũng phải để dưới cuối cùng, sau tất cả các lệnh import script khác
+<script>
 
 ready(function () {
     document.getElementById("btnCreate").addEventListener("click", function () {
@@ -234,11 +231,11 @@ function createAccount() {
     let lastName = document.getElementById("lastName").value;
     let email = document.getElementById("email").value;
     let phoneNumber = document.getElementById("phone").value;
-    let password = document.getElementById("password").value;
+    let roleId = document.getElementById("roleId").value;
 
-    CallAjaxWithFetch(`/admin_account/create_admin`,
+    CallAjaxWithFetch(`/account/register`,
         "POST",
-        { firstName, lastName, email, phoneNumber, password },
+        { firstName, lastName, email, phoneNumber, roleId },
         (data) => {
             alert(data.message);
             document.location.href = "/list-managers";

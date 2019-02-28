@@ -47,7 +47,9 @@ public class ViewController {
      */
     @RequestMapping(value = "/home")
     public String toHome(Model model) {
-        //Excute anything here
+//        ModelAndView view = new ModelAndView("edit-profile");
+//        ResponseDTO managerAccount = accountService.getAccount(id);
+//        view.addObject("profile", managerAccount.getObjectResponse());
         return "home";
     }
 
@@ -90,13 +92,15 @@ public class ViewController {
     /**
      * Edit Profile Page
      *
-     * @param model
+     * @param id
      * @return
      */
     @RequestMapping(value = "/edit-profile")
-    public String toEditProfile(Model model) {
-        //Excute anything here
-        return "edit-profile";
+    public ModelAndView toEditProfile(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("edit-profile");
+        ResponseDTO managerAccount = accountService.getAccount(id);
+        view.addObject("profile", managerAccount.getObjectResponse());
+        return view;
     }
 
     /**
