@@ -26,7 +26,13 @@ public class ParkingLotDTO {
     private Date createdDate;
     private Integer editedBy;
     private Date lastEdited;
+<<<<<<< HEAD
     private Owner owner;
+=======
+    private String firstName;
+    private String middleName;
+    private String lastName;
+>>>>>>> origin/thupnm/web
 
     public ParkingLotDTO() {
     }
@@ -53,6 +59,30 @@ public class ParkingLotDTO {
         this.editedBy = editedBy;
         this.lastEdited = lastEdited;
         this.owner = owner;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public Integer getParkingLotId() {

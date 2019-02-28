@@ -1,13 +1,21 @@
 //Fetch API
+function ready(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
 function GetAjaxWithFetch(url, success, fail = () => {}){
     fetch(url)
         .then((respond) => {
             if (respond.ok) {
-                return response.json();
+                // noinspection JSAnnotator
+        return response.json();
             }
             throw Error(response.statusText);
-        })
-        .then((result)=> {
+        }).then((result)=> {
             success(result);
         }).catch((err)=>{
         fail(err);
@@ -25,7 +33,8 @@ function CallAjaxWithFetch(url, method, data, success, fail = () => {}){
         }
     }).then((response)=>{
         if(response.ok){
-            return response.json();
+            // noinspection JSAnnotator
+        return response.json();
         }
         throw Error(response.statusText);
     }).then((result)=>{
