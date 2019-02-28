@@ -2,8 +2,11 @@ package Core.Service.Impl;
 
 import Core.Constant.Const;
 import Core.DTO.ResponseDTO;
+import Core.Entity.Account;
+import Core.Repository.AccountRepository;
 import Core.Service.PublicService;
 import Core.Utils.EmailUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Authenticator;
@@ -13,8 +16,11 @@ import java.util.Properties;
 
 @Service
 public class PublicServiceImpl implements PublicService {
+    @Autowired
+    AccountRepository accountRepository;
+
     @Override
-    public ResponseDTO sendEmail(String email, String token) {
+    public ResponseDTO sendEmail(String email, String token, Integer roleAccount) {
         ResponseDTO responseDTO = new ResponseDTO();
         String fromEmail = Const.MAIL_ACCOUNT; //requires valid gmail id
         String password = Const.MAIL_PASSWORD; // correct password for gmail id
@@ -35,10 +41,26 @@ public class PublicServiceImpl implements PublicService {
             }
         };
         Session session = Session.getDefaultInstance(props, auth);
-        String urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
+        String urlVerify = "";
+        switch (roleAccount){
+            case 1:
+                //Admin Account
+            case 2:
+                //Supervisor Account
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email +"&token=" + token;
+                break;
+            case 3:
+                //Driver Account
+                urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
+                break;
+            default:
+                //Exception
+                break;
+        }
+
         EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT + ": " + urlVerify);
         responseDTO.setStatus(true);
-        responseDTO.setMessage("Email Send Successful");
+        responseDTO.setMessage(Const.SEND_EMAIL_SUCCESSFUL);
         return responseDTO;
     }
 }

@@ -1,14 +1,13 @@
 package Core.Controller.MVC;
 
-import Core.DTO.AccountDTO;
-import Core.DTO.ResponseDTO;
-import Core.Service.AccountService;
-import Core.Service.ParkingLotService;
+import Core.Entity.Account;
+import Core.Repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ViewController {
 
     @Autowired
-    private AccountService accountService;
+    AccountRepository accountRepository;
+
 
     /**
      * Login Page
@@ -147,6 +147,24 @@ public class ViewController {
     public String toCreateParkingLot(Model model){
         //Excute anything here
         return "create-parking-lot";
+    }
+
+    @RequestMapping(value = "account/set_password_page")
+    public String toSetPasswordPage(@RequestParam (value = "email", required = true) String email,
+                                    @RequestParam (value = "token", required = true) String token,
+                                    Model model){
+        String url = "verify-account-fail-page";
+        Account account = accountRepository.findByEmail(email);
+        if(account != null){
+            String oldToken = account.getToken();
+            if(oldToken != null){
+                if(oldToken.equals(token)){
+                    model.addAttribute("checkToken", true);
+                    url = "set-password-page";
+                }
+            }
+        }
+        return url;
     }
 }
 
