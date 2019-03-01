@@ -27,7 +27,7 @@ public class JwtServiceImpl implements JwtService {
      */
     @Override
     public String generateTokenLogin(String email) {
-        String token = "";
+        String token =  null;
         try{
             //Create HMAC signer
             JWSSigner signer = new MACSigner(generateShareSecret());

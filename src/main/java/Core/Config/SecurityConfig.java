@@ -45,20 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-
-        // Disable crsf cho đường dẫn /rest/**
-        http.csrf().ignoringAntMatchers("/**");
-        http.authorizeRequests().antMatchers("/account/login**").permitAll();
-
-
-//        http.antMatcher("/account/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/account/**").access("hasRole('Admin') or hasRole('Supervisor')")
-//                .antMatchers(HttpMethod.POST, "/account/**").access("hasRole('Admin')")
-//                .antMatchers(HttpMethod.DELETE, "/account/**").access("hasRole('Admin')").and()
-//                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
-
-
+        // Disable CSRF (cross site request forgery)
+        http.csrf().disable();
+        //Pages do not need login
+        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register").permitAll();
+        //Pages need login with any role
+//        http.authorizeRequests().antMatchers("/home").access("hasAnyRole('ADMIN', 'SUPVISOR','DRIVER')");
+//        //Pages only access with Admin
+//        http.authorizeRequests().antMatchers("/create-supervisor", "/create-manager", "/list-supervisors").access("hasRole('ADMIN')");
+        //Access Denied Exception
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+        //Config for Login Form
+        http.authorizeRequests().and().formLogin()//
+                // Submit URL của trang login
+                .loginPage("/login")//
+                .defaultSuccessUrl("/home")//
+                .failureUrl("/login?error=true")//
+                .usernameParameter("email")//
+                .passwordParameter("password")
+                // Cấu hình cho Logout Page.
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
     }
 }

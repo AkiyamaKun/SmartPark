@@ -228,6 +228,7 @@
         doAjax(domain + "account/list_accounts/1", "GET", function (data) {
             let responseData = JSON.parse(data);
             let accounts = responseData.objectResponse;
+            alert(accounts);
             $("#list-managers").empty();
             $.each(accounts, function (index, lot) {
                 let tr =
@@ -243,6 +244,7 @@
         }, function (error) {
             console.log(error);
         });
+
     });
 
 </script>

@@ -1,4 +1,6 @@
 //Fetch API
+var jwtTokenGlobalVariable;
+
 function ready(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
         fn();
@@ -29,7 +31,8 @@ function CallAjaxWithFetch(url, method, data, success, fail = () => {}){
         body: JSON.stringify(data),
         headers: {
             'Accept' : 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': window.jwtTokenGlobalVariable
         }
     }).then((response)=>{
         if(response.ok){

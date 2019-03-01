@@ -93,6 +93,7 @@ function loginAccount() {
         (data) => {
             if (data.status === true) {
                 alert(data.message);
+                window.jwtTokenGlobalVariable = data.objectResponse;
                 window.location.href = "/home";
             }
             if (data.status === false) {
