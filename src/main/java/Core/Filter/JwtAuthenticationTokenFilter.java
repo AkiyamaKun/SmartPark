@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
-    private final static String TOKEN_HEADER = "authorization";
+    private final static String TOKEN_HEADER = "Authorization";
 
     @Autowired
     JwtService jwtService;

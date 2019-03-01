@@ -45,15 +45,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
+
         // Disable crsf cho đường dẫn /rest/**
         http.csrf().ignoringAntMatchers("/**");
         http.authorizeRequests().antMatchers("/account/login**").permitAll();
-        http.antMatcher("/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/**").access("hasRole('Admin') or hasRole('Supervisor') or hasRole('Driver')")
-                .antMatchers(HttpMethod.POST, "/**").access("hasRole('Admin')")
-                .antMatchers(HttpMethod.DELETE, "/**").access("hasRole('Admin')").and()
-                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+
+
+//        http.antMatcher("/account/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/account/**").access("hasRole('Admin') or hasRole('Supervisor')")
+//                .antMatchers(HttpMethod.POST, "/account/**").access("hasRole('Admin')")
+//                .antMatchers(HttpMethod.DELETE, "/account/**").access("hasRole('Admin')").and()
+//                .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+
+
     }
 }

@@ -4,9 +4,12 @@ import Core.Service.JwtService;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSSigner;
+import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,7 +17,7 @@ import java.util.Date;
 @Service
 public class JwtServiceImpl implements JwtService {
     public static final String EMAIL = "email";
-    public static final String SECRET_KEY = "7183496";
+    public static final String SECRET_KEY = "1111_1111_1111_1111_1111_1111_1111_1111"; //32 bytes
     public static final int EXPIRE_TIME = 86400000; //24 hours
 
     /**
@@ -49,7 +52,17 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public JWTClaimsSet getClaimsFromToken(String token) {
-        return null;
+        JWTClaimsSet claims = null;
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            JWSVerifier verifier = new MACVerifier(generateShareSecret());
+            if (signedJWT.verify(verifier)) {
+                claims = signedJWT.getJWTClaimsSet();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return claims;
     }
 
     /**
