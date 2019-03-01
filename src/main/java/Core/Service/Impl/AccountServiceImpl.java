@@ -1,10 +1,7 @@
 package Core.Service.Impl;
 
 import Core.Constant.Const;
-import Core.DTO.AccountDTO;
-import Core.DTO.ChangePasswordDTO;
-import Core.DTO.ParkingLotDTO;
-import Core.DTO.ResponseDTO;
+import Core.DTO.*;
 import Core.Entity.Account;
 import Core.Entity.Role;
 import Core.Entity.ParkingLot;
@@ -101,12 +98,28 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Authorize Account
+     * Check Login
+     * @param dto
+     * @return
+     */
+    @Override
+    public boolean checkLogin(UserLoginDTO dto) {
+        Account account = accountRepository.findByEmail(dto.getEmail());
+        if(account != null){
+            if(account.getPassword().equals(dto.getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Authentication
      * @param accountDTO
      * @return
      */
     @Override
-    public ResponseDTO authorize(AccountDTO accountDTO) {
+    public ResponseDTO authentication(AccountDTO accountDTO) {
         return null;
     }
 

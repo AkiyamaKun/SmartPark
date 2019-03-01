@@ -1,12 +1,10 @@
 package Core.Controller.REST;
 
 import Core.Constant.Const;
-import Core.DTO.AccountDTO;
-import Core.DTO.ChangePasswordDTO;
-import Core.DTO.InformationAccountDTO;
-import Core.DTO.ResponseDTO;
+import Core.DTO.*;
 import Core.Entity.Account;
 import Core.Service.AccountService;
+import Core.Service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +26,9 @@ import java.util.List;
 public class AccountController {
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    JwtService jwtService;
 
     /**
      * Convert InformationAccountDTO form AccountDTO
@@ -141,15 +142,27 @@ public class AccountController {
 
     /**
      * Login
-     * @param email
-     * @param password
+     * @param dto
      * @return
      */
-    @RequestMapping(value = Const.LOGIN, method = RequestMethod.PUT)
-    public ResponseDTO login(@RequestParam (value = "email", required = true) String email,
-                             @RequestParam (value = "password", required = true) String password){
+    @RequestMapping(value = Const.LOGIN, method = RequestMethod.POST)
+    public ResponseDTO login(@RequestBody @Valid UserLoginDTO dto,
+                             HttpServletRequest request){
         ResponseDTO responseDTO = new ResponseDTO();
-
+        responseDTO.setStatus(false);
+        String result = "";
+        try{
+            if(accountService.checkLogin(dto)){
+                result = jwtService.generateTokenLogin(dto.getEmail());
+                responseDTO.setStatus(true);
+                responseDTO.setMessage("Login Successful");
+                responseDTO.setObjectResponse(result);
+            }else{
+                responseDTO.setMessage("Wrong userId and password");
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Server Error");
+        }
         return responseDTO;
     }
 }
