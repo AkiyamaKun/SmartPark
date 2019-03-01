@@ -170,6 +170,12 @@ public class ViewController {
         return "create-parking-lot";
     }
 
+    @RequestMapping(value = "/create-owner")
+    public String toCreateOwner(Model model) {
+        //Excute anything here
+        return "create-owner";
+    }
+
     @RequestMapping(value = "account/set_password_page")
     public String toSetPasswordPage(@RequestParam(value = "email", required = true) String email,
                                     @RequestParam(value = "token", required = true) String token,

@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <!--TODO Normalize head-->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Smart Parking - Create Owner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--TODO: add app icon-->
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" th:href="@{vendors/bootstrap/dist/css/bootstrap.min.css}" type='text/css'>
+    <link rel="stylesheet" th:href="@{vendors/font-awesome/css/font-awesome.min.css}" type='text/css'>
+    <link rel="stylesheet" th:href="@{vendors/themify-icons/css/themify-icons.css}" type='text/css'>
+    <link rel="stylesheet" th:href="@{vendors/flag-icon-css/css/flag-icon.min.css}" type='text/css'>
+    <!--<link rel="stylesheet" th:href="@{vendors/selectFX/css/cs-skin-elastic.css}" type='text/css'>-->
+    <!--<link rel="stylesheet" th:href="@{vendors/jqvmap/dist/jqvmap.min.css}" type='text/css'>-->
+
+    <link rel="stylesheet" th:href="@{assets/css/style.css}" type='text/css'>
+
+    <link rel='stylesheet' th:href="@{assets/css/googleapi_font.css}" type='text/css'>
+</head>
+
+<body>
+
+    <div th:replace="shared/left_panel :: left_panel"></div>
+
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+
+        <div th:replace="shared/header :: header"></div>
+
+        <div th:replace="shared/breadcrumbs :: breadcrumbs"></div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <b>Owner</b>
+                </div>
+                <div class="card-body card-block">
+                    <div class="form-group col-lg-6">
+                        <label class=" form-control-label">First Name</label>
+                        <input type="text" id="firstName" placeholder="First Name" class="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label class=" form-control-label">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label class=" form-control-label">Birthday</label>
+                        <input type="date" id="birthday" placeholder="Birthday" class="form-control"/>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label class=" form-control-label">Sex</label>
+                        <select id="sex" class="form-control">
+                            <option>Please select</option>
+                            <option value="1">Male</option>
+                            <option value="2">Female</option>
+                            <option value="3">Unspecified</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class=" form-control-label">Address</label>
+                        <input type="text" id="address" placeholder="Address" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label class=" form-control-label">Phone Number</label>
+                        <input type="text" id="phoneNumber" placeholder="Phone Number" class="form-control"/>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="reset" class="btn btn-danger float-left" id="btnReset">
+                        <i class="fa fa-ban"></i> Reset
+                    </button>
+                    <button type="button" class="btn btn-primary float-right" id="btnCreate">
+                        <i class="fa fa-check"></i> Create
+                    </button>
+                </div>
+            </div>
+        </div> <!-- .content -->
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
+</body>
+
+</html>
