@@ -9,7 +9,6 @@
         <meta name="description" content="Sufee Admin - HTML5 Admin Template">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-icon.png">
         <link rel="shortcut icon" href="favicon.ico">
 
         <link rel="stylesheet" th:href="@{vendors/bootstrap/dist/css/bootstrap.min.css}" type='text/css'>
@@ -94,9 +93,9 @@
 
     <script>
         $(document).ready(function () {
-            doAjax("/parking_lot/list_parking_lots", "GET", function (data) {
-                let responseData = JSON.parse(data);
-                let parkingLots = responseData.objectResponse;
+            doAjax("/parking_lot/list_parking_lots", "GET", null, function (data) {
+                //TODO Check empty
+                let parkingLots = data.objectResponse;
                 $("#list-parking-lot").empty();
                 $.each(parkingLots, function (index, lot) {
                     let tr =

@@ -12,21 +12,29 @@ $('.count').each(function () {
     });
 });
 
-function doAjax(url, method, callback, error) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            let response = xhttp.responseText;
-            if (!response || (response && response.indexOf('error') > 0)) {
-                error(response);
-            } else {
-                callback(response);
-            }
-        }
-    };
-    xhttp.open(method, url, true);
-    xhttp.send();
+function doAjax(url, method, data, callback, onError) {
+    $.ajax({
+        url: url,
+        type: method,
+        data: JSON.stringify(data),
+        error: function(error) {
+            console.log(error);
+        },
+        success: function(response) {
+            callback(response);
+        },
+        error: function(xhr, status, error) {
+            debugger;
+            console.log("AJAX failed!");
+            onError();
+        },
+        dataType: "json",
+        contentType: "application/json"
+    });
+
 }
+
+
 
 function buildBootrapTable(tableId) {
     $(`#${tableId}`).DataTable({
