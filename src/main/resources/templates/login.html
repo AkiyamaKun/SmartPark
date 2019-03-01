@@ -91,11 +91,16 @@ function loginAccount() {
         "POST",
         {email, password},
         (data) => {
-            alert(data.message);
-            window.location.href = "/home";
+            if (data.status === true) {
+                alert(data.message);
+                window.location.href = "/home";
+            }
+            if (data.status === false) {
+                alert(data.message);
+            }
         },
         (err) => {
-            alert(err.message);
+            //alert(err.message);
         }
     )
 };
