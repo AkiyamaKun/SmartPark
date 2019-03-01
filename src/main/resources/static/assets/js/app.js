@@ -1,4 +1,3 @@
-let domain = "http://localhost:8080/";
 
 // Counter Number
 $('.count').each(function () {
