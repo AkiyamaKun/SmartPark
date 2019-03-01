@@ -233,7 +233,7 @@
 
         CallAjaxWithFetch(`/account/register`,
             "POST",
-            { firstName, lastName, email, phoneNumber, password, roleId },
+            { firstName, lastName, email, phoneNumber, roleId },
             (data) => {
                 alert(data.message);
                 document.location.href = "/list-supervisors";

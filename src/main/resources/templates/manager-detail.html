@@ -229,26 +229,6 @@ ready(function () {
     document.getElementById("btnUpdate").addEventListener("click", function () {
         updateAccount();
     });
-
-    // document.getElementById("list-supervisors").on('load', function () {
-    //     doAjax(domain + "account/list_accounts/2", "GET", function (data) {
-    //         let responseData = JSON.parse(data);
-    //         let accounts = responseData.objectResponse;
-    //         $("#list-supervisors").empty();
-    //         $.each(accounts, function (index, value) {
-    //             let tr =
-    //                 "<tr>\n" +
-    //                 "<td><a href=\"/supervisor-detail?id=" + value.accountId + "\">" + value.email + "</td>\n" +
-    //                 "<td>" + value.createdDate + "</td>\n" +
-    //                 "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
-    //                 "</tr>";
-    //             $("#list-supervisors").append(tr);
-    //         });
-    //         //buildBootrapTable("table-list-supervisors");
-    //     }, function (error) {
-    //         console.log(error);
-    //     });
-    // })
     //chỗ này mai mốt bind listener cho element nào thì làm ở đây
 });
 

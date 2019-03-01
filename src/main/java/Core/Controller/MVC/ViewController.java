@@ -1,6 +1,8 @@
 package Core.Controller.MVC;
 
+import Core.Controller.REST.AccountController;
 import Core.DTO.ResponseDTO;
+import Core.DTO.UserLoginDTO;
 import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
@@ -27,6 +29,9 @@ public class ViewController {
     @Autowired
     AccountService accountService;
 
+    @Autowired
+    AccountController accountController;
+
     /**
      * Login Page
      *
@@ -35,7 +40,6 @@ public class ViewController {
      */
     @RequestMapping(value = {"/login", "/"})
     public String toLogin(Model model) {
-        //Excute anything here
         return "login";
     }
 
@@ -48,9 +52,6 @@ public class ViewController {
     @RequestMapping(value = "/home")
     public String toHome(Model model) {
         model.addAttribute("Title", "Home");
-//        ModelAndView view = new ModelAndView("edit-profile");
-//        ResponseDTO managerAccount = accountService.getAccount(id);
-//        view.addObject("profile", managerAccount.getObjectResponse());
         return "home";
     }
 
