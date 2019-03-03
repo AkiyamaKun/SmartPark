@@ -75,7 +75,6 @@
         doAjax("/account/list_accounts/1", "GET", null, function (data) {
             //let responseData = JSON.parse(data);
             let accounts = data.objectResponse;
-            alert(accounts);
             $("#list-managers").empty();
             $.each(accounts, function (index, lot) {
                 let tr =
