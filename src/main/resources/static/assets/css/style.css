@@ -1082,7 +1082,7 @@ aside.left-panel {
         display: inline-block;
         font-family: 'Open Sans';
         font-size: 16px;
-        line-height: 30px;
+        line-height: 24px;
         padding: 10px 0;
         position: relative;
         width: 100%; }
@@ -2514,4 +2514,8 @@ ul.nav.navbar-nav li.active-pro {
   opacity: 0;
   border-radius: 10%;
   box-shadow: 2px 2px #888888;
+}
+label.form-control-label.required::after {
+  content: " (*)";
+  color: red;
 }
