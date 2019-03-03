@@ -18,13 +18,13 @@ import Core.Handler.RestAuthenticationEntryPoint;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //Register JwtAuthenticationTokenFilter
-    @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
-        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
-        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
-        return jwtAuthenticationTokenFilter;
-    }
+//    //Register JwtAuthenticationTokenFilter
+//    @Bean
+//    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
+//        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
+//        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
+//        return jwtAuthenticationTokenFilter;
+//    }
 
     //Register RestAuthenticationEntryPoint
     @Bean

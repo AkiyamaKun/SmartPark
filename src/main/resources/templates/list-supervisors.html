@@ -224,9 +224,8 @@
 
 <script>
     $(document).ready(function () {
-        doAjax(domain + "account/list_accounts/2", "GET", null, function (data) {
-            let responseData = JSON.parse(data);
-            let accounts = responseData.objectResponse;
+        doAjax("/account/list_accounts/2", "GET", null, function (data) {
+            let accounts = data.objectResponse;
             $("#list-supervisors").empty();
             $.each(accounts, function (index, value) {
                 let tr =
