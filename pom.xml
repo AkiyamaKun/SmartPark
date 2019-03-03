@@ -78,6 +78,12 @@
             <version>3.0.0.RELEASE</version>
         </dependency>
 
+        <!-- optional, it brings userful tags to display spring security stuff -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+        </dependency>
+
         <!-- JWT -->
         <dependency>
             <groupId>com.nimbusds</groupId>

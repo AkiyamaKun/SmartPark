@@ -18,7 +18,7 @@
             <div class="card">
                 <div class="card-header">
                     <b>Manager</b>
-                    <button type="button" class="btn btn-danger float-right">
+                    <button type="button" id="btnDeactive" class="btn btn-danger float-right">
                         <i class="fa fa-trash-o"></i> Deactive
                     </button>
                 </div>
@@ -65,13 +65,16 @@
     <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
-<script> //cái script này lúc nào cũng phải để dưới cuối cùng, sau tất cả các lệnh import script khác
+<script>
 
 ready(function () {
     document.getElementById("btnUpdate").addEventListener("click", function () {
         updateAccount();
     });
-    //chỗ này mai mốt bind listener cho element nào thì làm ở đây
+    
+    document.getElementById("btnDeactive").addEventListener("click", function () {
+        deactiveAccount();
+    })
 });
 
 function updateAccount() {
@@ -97,6 +100,22 @@ function updateAccount() {
     CallAjaxWithFetch(`/account/update/${accountId}`,
         "PUT",
         {accountId, firstName, lastName, phoneNumber},
+        (data) => {
+            alert(data.message);
+            document.location.href = "/list-managers";
+        },
+        (err) => {
+            alert(err.message);
+        }
+    )
+};
+
+function deactiveAccount() {
+
+    let accountId = document.getElementById("accountId").value;
+
+    CallAjaxWithFetch(`/account/delete/${accountId}`,
+        "DELETE",
         (data) => {
             alert(data.message);
             document.location.href = "/list-managers";
