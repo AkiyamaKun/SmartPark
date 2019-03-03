@@ -18,18 +18,23 @@
             <div class="card">
                 <div class="card-header">
                     <b>Supervisor</b>
-                    <button type="button" class="btn btn-danger float-right">
+                    <button type="button" id="btnDeactive" class="btn btn-danger float-right">
                         <i class="fa fa-trash-o"></i> Deactive
                     </button>
                 </div>
                 <div class="card-body card-block">
+                    <input id="accountId" type="hidden" th:value="${supervisor.accountId}"/>
                     <div class="form-group">
-                        <label for="name" class=" form-control-label">Full name</label>
-                        <input type="text" id="name" th:value="${supervisor.lastName} + ' ' + ${supervisor.firstName}" class="form-control" disabled>
+                        <label for="firstName" class=" form-control-label">First name</label>
+                        <input type="text" id="firstName" th:value="${supervisor.firstName}" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class=" form-control-label">Last name</label>
+                        <input type="text" id="lastName" th:value="${supervisor.lastName}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="phoneNumber" class=" form-control-label">Phone number</label>
-                        <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" disabled>
+                        <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" required>
                     </div>
                     <div id="add-parking-lot" style="display: none;">
                         <div class="form-group">
@@ -119,6 +124,7 @@
     <script src="vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="/js/app.js"></script>
 
     <script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
     <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
@@ -154,5 +160,52 @@
     </script>
 
 </body>
+<script>
 
+    ready(function () {
+        document.getElementById("btn-edit-supervisor").addEventListener("click", function () {
+            updateAccount();
+        });
+
+        document.getElementById("btnDeactive").addEventListener("click", function () {
+            deactiveAccount();
+        })
+    });
+
+    function updateAccount() {
+        let accountId = document.getElementById("accountId").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+
+        CallAjaxWithFetch(`/account/update/${accountId}`,
+            "PUT",
+            {accountId, firstName, lastName, phoneNumber},
+            (data) => {
+                alert(data.message);
+                document.location.href = "/list-supervisors";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
+
+    function deactiveAccount() {
+
+        let accountId = document.getElementById("accountId").value;
+
+        CallAjaxWithFetch(`/account/delete/${accountId}`,
+            "DELETE",
+            (data) => {
+                alert(data.message);
+                document.location.href = "/list-supervisors";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
+
+</script>
 </html>

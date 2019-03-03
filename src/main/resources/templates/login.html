@@ -40,6 +40,9 @@
                         <div class="register-link m-t-15 text-center">
                             <p>Don't have an account? <a href="#">Contact us!</a></p>
                         </div>
+                        <div class="error">
+
+                        </div>
                     </form>
                 </div>
             </div>
@@ -51,9 +54,15 @@
     <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/assets/js/main.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/asset/js/app.js"></script>
 
 </body>
     <script> //cái script này lúc nào cũng phải để dưới cuối cùng, sau tất cả các lệnh import script khác
+
+    var loginFailed = function(data, status) {
+        $(".error").remove();
+        $('#username-label').before('<div class="error">Login failed, please try again.</div>');
+    };
 
     ready(function () {
         document.getElementById("btnLogin").addEventListener("click", function () {
@@ -77,6 +86,7 @@
                 }
                 if (data.status === false) {
                     // alert(data.message);
+                    loginFailed(data);
                 }
             },
             (err) => {
