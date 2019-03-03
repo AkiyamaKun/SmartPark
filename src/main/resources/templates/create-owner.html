@@ -91,6 +91,7 @@
     <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="/js/app.js"></script>
 
     <script src="/assets/js/app.js"></script>
     <script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
@@ -98,5 +99,35 @@
     <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
+<script>
 
+    ready(function () {
+        document.getElementById("btnCreate").addEventListener("click", function () {
+            createOwner();
+        });
+
+    });
+
+    function createOwner() {
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let yearOfBirth = document.getElementById("birthday").value;
+        let sex = document.getElementById("sex");
+        let strSex = sex.options[sex.selectedIndex].value;
+        let address = document.getElementById("address").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+
+        CallAjaxWithFetch(`/owner/create`,
+            "POST",
+            { firstName, lastName, strSex, address, phoneNumber, yearOfBirth },
+            (data) => {
+                alert(data.message);
+                //document.location.href = "/list-managers";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )};
+
+</script>
 </html>
