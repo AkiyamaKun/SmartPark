@@ -4,6 +4,7 @@ import Core.Constant.Const;
 import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.AccountService;
+import Core.Service.DriverAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,5 +22,9 @@ public class ManagerAccountController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    DriverAccountService driverAccountService;
+
 
 }

@@ -21,6 +21,9 @@ public class Const {
     public static final String DELETE_ACCOUNT = "/delete/{id}";
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
     public static final String LOGIN = "/login";
+    public static final String REGISTER =  "/register";
+    public static final String SET_FIRST_PASSWORD = "/set_first_password";
+    public static final String SET_PASSWORD_PAGE ="/set_password_page";
 
     //Account Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
@@ -42,24 +45,24 @@ public class Const {
     public static final String GET_LIST_ACCOUNTS_SUCCESS = "Get List Account Successful";
 
     //Driver Account API
-    public static final String DRIVER_ACCOUNT = "/driver_account";
+    public static final String DRIVER_ACCOUNT = "/driver";
     public static final String GET_ALL_DRIVER = "/all_driver";
+    public static final String GET_DRIVER_ACCOUNT = "/{id}";
     public static final String CREATE_DRIVER_ACCOUNT = "/create_driver";
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
-    public static final String SET_PASSWORD_PAGE ="/set_password_page";
-    public static final String REGISTER =  "/register";
-    public static final String SET_FIRST_PASSWORD = "/set_first_password";
 
     //Driver Accoount Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
     public static final String VERIFY_ACCOUNT_FAIL = "Verify Account Fail";
+    public static final String GET_DRIVER_ACCOUNT_SUCCESS = "Get Driver Account Success";
+    public static final String GET_DRIVER_ACCOUNT_FAIL = "Get Driver Account Fail";
 
     //Admin Account API
-    public static final String ADMIN_ACCOUNT = "admin_account";
+    public static final String ADMIN_ACCOUNT = "/admin";
     public static final String CREATE_ADMIN_ACCOUNT = "/create_admin";
 
     //Supervisor Account API
-    public static final String SUPERVISOR_ACCOUNT = "supervisor_account";
+    public static final String SUPERVISOR_ACCOUNT = "supervisor";
     public static final String CREATE_SUPERVISOR_ACCOUNT = "/create_supervisor";
 
     //Account Gmail vs Mail Properties
@@ -84,6 +87,7 @@ public class Const {
     public static final String GET_PARKING_LOT_SUCCESS = "Get Parking Lot Successful";
     public static final String GET_PARKING_LOT_FAIL = "Get Parking Lot Fail";
     public static final String PARKING_LOT_IS_NOT_EXISTED = "Parking Lot is not existed";
+    public static final String PARKING_LOT_IS_DEACTIVE = "Parking Lot is deactive";
     public static final String GET_LIST_PARKING_LOT_SUCCESS = "Get List Parking Lot Successful";
     public static final String CREATE_PARKING_LOT_SUCCESS = "Create Parking Lot Successful";
     public static final String CREATE_PARKING_LOT_FAIL = "Create Parking Lot Fail";

@@ -2,9 +2,9 @@ package Core.Service;
 
 import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
+import Core.Entity.Account;
 
 public interface DriverAccountService {
-    //ResponseDTO createDriverAccount (AccountDTO accountDTO);
     ResponseDTO verifyAccount(String email, String token);
-    ResponseDTO getAllDrivers();
+    Account getDriver(Integer id);
 }
