@@ -80,21 +80,13 @@
             //TODO $.autocomplete
 
             $("#btnCreate").click(function(event) {
-                //TODO Validate data
-                let displayName = $("#name").val().trim();
-                let long = parseFloat($("#long").val().trim());
-                let lat = parseFloat($("#lat").val().trim());
-                let slots = parseInt($("#slots").val().trim());
-                let phoneNumber = $("#phoneNumber").val().trim();
-                let address = $("#address").val().trim();
-                let timeOfOperation = $("#timeOfOperation").val().trim();
-                //TODO Get ownerId
+                let validatedData = validateInput();
 
-                //TODO Get Owner's id
+                //TODO Get ownerId and adminId from somewhere
                 let ownerId = 1;
                 let adminId = 1;
 
-                if (true) { //Validated
+                if (validatedData) {
                     let dto = {
                         displayName: displayName,
                         longitude: long,
@@ -127,9 +119,9 @@
             let validateMessage = '';
 
             let displayName = $("#name").val().trim();
-            let long = parseFloat($("#long").val().trim());
-            let lat = parseFloat($("#lat").val().trim());
-            let slots = parseInt($("#slots").val().trim());
+            let long = $("#long").val().trim();
+            let lat = $("#lat").val().trim();
+            let slots = $("#slots").val().trim();
             let phoneNumber = $("#phoneNumber").val().trim();
             let address = $("#address").val().trim();
             let timeOfOperation = $("#timeOfOperation").val().trim();
@@ -153,15 +145,15 @@
                 return null;
             }
 
-            // let displayName = $("#name").val().trim();
-            // let long = parseFloat($("#long").val().trim());
-            // let lat = parseFloat($("#lat").val().trim());
-            // let slots = parseInt($("#slots").val().trim());
-            // let phoneNumber = $("#phoneNumber").val().trim();
-            // let address = $("#address").val().trim();
-            // let timeOfOperation = $("#timeOfOperation").val().trim();
-
-            //TODO Implement, return data Object
+            return {
+                displayName: displayName,
+                longitude: parseFloat(long),
+                latitude: parseFloat(lat),
+                totalSlot: parseInt(slots),
+                address: address,
+                phoneNumber: phoneNumber,
+                timeOfOperation: timeOfOperation
+            }
         }
 
         function resetInput() {
