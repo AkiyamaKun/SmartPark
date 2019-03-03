@@ -1,173 +1,26 @@
 <!doctype html>
 
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Smart Parking - List Managers</title>
-    <meta name="description" content="Sufee Admin - HTML5 Admin Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="apple-touch-icon" href="apple-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-
-    <link rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendors/themify-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/vendors/selectFX/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="/vendors/jqvmap/dist/jqvmap.min.css">
-    <link rel="stylesheet" href="/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
-
-
-    <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
-
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
-
-    <script src="/vendors/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/assets/js/app.js"></script>
-
-</head>
+<div th:replace="shared/head :: head"></div>
 
 <body>
-    <!-- Left Panel -->
 
-    <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
+    <link rel="stylesheet" th:href="@{vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css}">
 
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu"
-                    aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="home.html">
-                    <h2>Smart Parking</h2>
-                </a>
-                <a class="navbar-brand hidden" href="home.html">
-                    <h2>SP</h2>
-                </a>
-            </div>
+    <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/app.js"></script>
 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="home.html"> <i class="menu-icon fa fa-home"></i>Home</a>
-                    </li>
 
-                    <h3 class="menu-title">Supervisors</h3><!-- /.menu-title -->
-                    <li>
-                        <a href="create-supervisor.html">
-                            <i class="menu-icon ti-plus"></i>Create Supervisor
-                        </a>
-                    </li>
-                    <li>
-                        <a href="list-supervisors.html">
-                            <i class="menu-icon fa fa-table"></i>List Supervisors
-                        </a>
-                    </li>
-
-                    <h3 class="menu-title">Parking Lots</h3><!-- /.menu-title -->
-                    <li class="active">
-                        <a href="list-parking-lots.html">
-                            <i class="menu-icon fa fa-table"></i>List Parking Lots
-                        </a>
-                    </li>
-                    <li class="nav-button active-pro">
-                        <a href="login.html">
-                            <p>Logout</p>
-                        </a>
-                    </li>
-
-                    <!-- IMPORTANT This is showed only if "System Admin" -->
-                    <h3 class="menu-title">Managers</h3><!-- /.menu-title -->
-                    <li>
-                        <a href="create-manager.html">
-                            <i class="menu-icon ti-plus"></i>Create Manager
-                        </a>
-                    </li>
-                    <li>
-                        <a href="list-managers.html">
-                            <i class="menu-icon fa fa-table"></i>List Managers
-                        </a>
-                    </li>
-                    <!-- END IMPORTANT -->
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
-
-    <!-- Left Panel -->
+    <div th:replace="shared/left_panel :: left_panel"></div>
 
     <!-- Right Panel -->
-
     <div id="right-panel" class="right-panel">
 
-        <!-- Header-->
-        <header id="header" class="header">
+        <div th:replace="shared/header :: header"></div>
 
-            <div class="header-menu">
-
-                <div class="col-sm-7">
-                    <div class="header-left">
-                        <a href="#">
-                            <h3>List Managers</h3>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-sm-5">
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <p style="margin: 0;">Tera Mind</p>
-                        </a>
-
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="edit-profile.html"><i class="fa fa-user"></i> My Profile</a>
-                            <a class="nav-link" href="change-password.html"><i class="fa fa-key"></i> Change Password</a>
-                            <hr />
-                            <a class="nav-link" href="login.html"><i class="fa fa-power-off"></i> Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </header><!-- /header -->
-        <!-- Header-->
-
-        <div class="breadcrumbs">
-            <div class="col-sm-7">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>Welcome, have a nice day!</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-5">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li class="active">
-                                <script>
-                                    let today = new Date();
-                                    let dd = today.getDate();
-                                    let mm = today.getMonth() + 1;
-                                    let yyyy = today.getFullYear();
-                                    if (dd < 10) {
-                                        dd = '0' + dd;
-                                    }
-                                    if (mm < 10) {
-                                        mm = '0' + mm;
-                                    }
-                                    document.write(mm + '/' + dd + '/' + yyyy);
-                                </script>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div th:replace="shared/breadcrumbs :: breadcrumbs"></div>
 
         <div class="content mt-3">
             <div class="animated fadeIn">
@@ -195,20 +48,14 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- .animated -->
-        </div><!-- .content -->
-
-    </div><!-- /#right-panel -->
-
-    <!-- Right Panel -->
-
-
+            </div>
+        </div>
+    </div>
 
     <script src="/vendors/jquery/dist/jquery.min.js"></script>
     <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/assets/js/main.js"></script>
-
 
     <script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -225,7 +72,7 @@
 </body>
 <script>
     $(document).ready(function () {
-        doAjax(domain + "account/list_accounts/1", "GET", function (data) {
+        doAjax(domain + "account/list_accounts/1", null, "GET", function (data) {
             let responseData = JSON.parse(data);
             let accounts = responseData.objectResponse;
             alert(accounts);
@@ -233,10 +80,10 @@
             $.each(accounts, function (index, lot) {
                 let tr =
                     "<tr>\n" +
-                    "<td><a href=\"/manager-detail?id=" + lot.accountId + "\">" + lot.email + "</td>\n" +
-                    "<td>" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
-                    "<td>" + lot.phoneNumber + "</td>\n" +
-                    "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
+                        "<td><a href=\"/manager-detail?id=" + lot.accountId + "\">" + lot.email + "</td>\n" +
+                        "<td>" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
+                        "<td>" + lot.phoneNumber + "</td>\n" +
+                        "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
                     "</tr>";
                 $("#list-managers").append(tr);
             });
@@ -244,7 +91,6 @@
         }, function (error) {
             console.log(error);
         });
-
     });
 
 </script>
