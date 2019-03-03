@@ -65,5 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .passwordParameter("password")
 //                // Cấu hình cho Logout Page.
 //                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+
     }
 }

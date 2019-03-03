@@ -26,7 +26,7 @@ function doAjax(url, method, data, callback, onError) {
         error: function(xhr, status, error) {
             debugger;
             console.log("AJAX failed!");
-            onError();
+            onError(error);
         },
         dataType: "json",
         contentType: "application/json"
@@ -62,4 +62,19 @@ function buildBootrapTable(tableId) {
             });
         }
     });
+}
+
+function showAlert(success, message) {
+    let alertDiv = (success ? "<div id='alert' class='alert alert-success'>" : "<div id='alert' class='alert alert-danger'>") +
+                        "<i class='fa fa-info-circle'></i>" + "&nbsp;&nbsp;" + message +
+                    "</div>";
+    $("body").append(alertDiv);
+    if ($("#alert").length) {
+        $("#alert").css("opacity", "1");
+    }
+    setTimeout(function () {
+        if ($("#alert").length) {
+            $("#alert").remove();
+        }
+    }, 5000);
 }

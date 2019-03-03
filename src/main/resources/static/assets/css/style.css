@@ -2496,3 +2496,22 @@ ul.nav.navbar-nav li.active-pro {
 [disabled]:hover {
   cursor: not-allowed;
 }
+.text-green {
+  color: green;
+}
+.text-red {
+  color: red;
+}
+#alert {
+  z-index: 99999;
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  padding: 10px;
+  font-size: 15px;
+  /*font-weight: bold;*/
+  transition: opacity 1s ease-out;
+  opacity: 0;
+  border-radius: 10%;
+  box-shadow: 2px 2px #888888;
+}

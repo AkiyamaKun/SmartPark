@@ -40,6 +40,7 @@ public class ViewController {
      */
     @RequestMapping(value = {"/login", "/"})
     public String toLogin(Model model) {
+        model.addAttribute("title", "Smart Parking - Login");
         return "login";
     }
 
