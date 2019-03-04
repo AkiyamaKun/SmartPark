@@ -10,11 +10,12 @@ public class OwnerDTO {
     private String address;
     private String phoneNumber;
     private Date yearOfBirth;
+    private boolean isActive;
 
     public OwnerDTO() {
     }
 
-    public OwnerDTO(Integer ownerId, String firstName, String lastName, String sex, String address, String phoneNumber, Date yearOfBirth) {
+    public OwnerDTO(Integer ownerId, String firstName, String lastName, String sex, String address, String phoneNumber, Date yearOfBirth, boolean isActive) {
         this.ownerId = ownerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,6 +23,7 @@ public class OwnerDTO {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.yearOfBirth = yearOfBirth;
+        this.isActive = isActive;
     }
 
     public Integer getOwnerId() {
@@ -78,5 +80,13 @@ public class OwnerDTO {
 
     public void setYearOfBirth(Date yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

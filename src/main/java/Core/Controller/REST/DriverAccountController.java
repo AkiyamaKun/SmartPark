@@ -54,7 +54,7 @@ public class DriverAccountController{
         return responseDTO;
     }
 
-    @RequestMapping(value = Const.LIST_PARKING_LOT, method = RequestMethod.GET)
+    @RequestMapping(value = Const.GET_ALL_PARKING_LOT, method = RequestMethod.GET)
     public ResponseDTO getListParkingLotAcitve(){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);

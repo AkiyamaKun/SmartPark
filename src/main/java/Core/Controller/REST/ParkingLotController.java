@@ -31,7 +31,7 @@ public class ParkingLotController {
      * @return
      */
     @CrossOrigin
-    @RequestMapping(value = Const.LIST_PARKING_LOT, method = RequestMethod.GET)
+    @RequestMapping(value = Const.GET_ALL_PARKING_LOT, method = RequestMethod.GET)
     public ResponseDTO getListParkingLot() {
         return parkingLotService.getListParkingLotActiveForAndroid();
     }

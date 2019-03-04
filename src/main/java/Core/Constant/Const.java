@@ -60,6 +60,8 @@ public class Const {
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";
     public static final String CREATE_ADMIN_ACCOUNT = "/create_admin";
+    public static final String GET_ALL_SUPERVISOR = "/all_supervisor";
+    public static final String GET_ALL_ADMIN = "/all_admin";
 
     //Supervisor Account API
     public static final String SUPERVISOR_ACCOUNT = "supervisor";
@@ -77,7 +79,7 @@ public class Const {
     //Parking Lot API
     public static final String PARKING_LOT = "/parking_lot";
     public static final String GET_PARKING_LOT ="/{id}";
-    public static final String LIST_PARKING_LOT = "/list_parking_lots";
+    public static final String GET_ALL_PARKING_LOT = "/all_parking_lot";
     public static final String CREATE_PARKING_LOT = "/create_parking_lot";
     public static final String UPDATE_PARKING_LOT_FOR_SUPERVISOR = "/update_parking_lot_for_supervisor/{parkingLotId}";
     public static final String UPDATE_PARKING_LOT_FOR_ADMIN = "/update_parking_lot_for_admin/{parkingLotId}";
@@ -89,6 +91,7 @@ public class Const {
     public static final String PARKING_LOT_IS_NOT_EXISTED = "Parking Lot is not existed";
     public static final String PARKING_LOT_IS_DEACTIVE = "Parking Lot is deactive";
     public static final String GET_LIST_PARKING_LOT_SUCCESS = "Get List Parking Lot Successful";
+    public static final String GET_LIST_PARKING_LOT_FAIL = "Get List Parking Lot Fail";
     public static final String CREATE_PARKING_LOT_SUCCESS = "Create Parking Lot Successful";
     public static final String CREATE_PARKING_LOT_FAIL = "Create Parking Lot Fail";
     public static final String UPDATE_PARKING_LOT_SUCCESS = "Update Parking Lot Successful";

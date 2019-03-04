@@ -31,6 +31,7 @@ public class OwnerServiceImpl implements OwnerService {
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setSex(entity.getSex());
         dto.setYearOfBirth(entity.getYearOfBirth());
+        dto.setActive(entity.isActive());
     }
 
     /**

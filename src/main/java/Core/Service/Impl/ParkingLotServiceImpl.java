@@ -309,6 +309,16 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public ResponseDTO getAllParkingLotForAdmin() {
-        return null;
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        List<ParkingSlot> parkingSlots = parkingSlotRepository.findAll();
+        if(!parkingSlots.isEmpty()){
+            responseDTO.setStatus(true);
+            responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_SUCCESS);
+            responseDTO.setObjectResponse(parkingSlots);
+        }else{
+            responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_FAIL);
+        }
+        return responseDTO;
     }
 }
