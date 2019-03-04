@@ -7,6 +7,7 @@ import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.DriverAccountService;
 import Core.Service.PublicService;
+import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +51,35 @@ public class DriverAccountServiceImpl implements DriverAccountService {
         }catch (Exception e){
             responseDTO.setStatus(false);
             responseDTO.setMessage(Const.VERIFY_ACCOUNT_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO forgetPasswordOfDriver(String email){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByEmail(email);
+            if(account != null){
+                String token = Utilities.generateToken(email);
+                //Type 4: forget password
+                ResponseDTO tmp = publicService.sendEmail(email, token, 4);
+                if(tmp != null){
+                    if(tmp.isStatus()){
+                        account.setToken(token);
+                        accountRepository.save(account);
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.SEND_MESSAGE_SET_FIRST_PASSWORD);
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_SET_NEW_PASSWORD_FAIL);
+                    }
+                }
+
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Error : " + e.getMessage());
         }
         return responseDTO;
     }

@@ -19,8 +19,19 @@ public class PublicServiceImpl implements PublicService {
     @Autowired
     AccountRepository accountRepository;
 
+    /**
+     *
+     * @param email
+     * @param token
+     * @param type (1: Register Admin,
+     *             2: Register Supervisor,
+     *             3: Register Driver,
+     *             4: Forget Password)
+     *
+     * @return
+     */
     @Override
-    public ResponseDTO sendEmail(String email, String token, Integer roleAccount) {
+    public ResponseDTO sendEmail(String email, String token, Integer type) {
         ResponseDTO responseDTO = new ResponseDTO();
         String fromEmail = Const.MAIL_ACCOUNT; //requires valid gmail id
         String password = Const.MAIL_PASSWORD; // correct password for gmail id
@@ -42,23 +53,29 @@ public class PublicServiceImpl implements PublicService {
         };
         Session session = Session.getDefaultInstance(props, auth);
         String urlVerify = "";
-        switch (roleAccount){
+        switch (type){
             case 1:
                 //Admin Account
             case 2:
                 //Supervisor Account
                 urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email +"&token=" + token;
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_SET_PASSWORD_PAGE + ": " + urlVerify);
                 break;
             case 3:
                 //Driver Account
                 urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT + ": " + urlVerify);
                 break;
+            case 4:
+                urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email +"&token=" + token;
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_SET_NEW_PASSWORD + ": " + urlVerify);
+                //Forget Passowrd of Driver Account
             default:
                 //Exception
+                responseDTO.setStatus(false);
+                responseDTO.setMessage(Const.SEND_EMAIL_TYPE_IS_NOT_SUPPORT);
                 break;
         }
-
-        EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT + ": " + urlVerify);
         responseDTO.setStatus(true);
         responseDTO.setMessage(Const.SEND_EMAIL_SUCCESSFUL);
         return responseDTO;
