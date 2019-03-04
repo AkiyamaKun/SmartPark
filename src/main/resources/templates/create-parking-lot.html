@@ -25,35 +25,35 @@
                 </div>
                 <div class="card-body card-block">
                     <div class="form-group">
-                        <label class=" form-control-label">Display Name</label>
+                        <label class="form-control-label required">Display Name <span></span></label>
                         <input type="text" id="name" placeholder="Display Name" class="form-control"/>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label class=" form-control-label">Longitude</label>
+                        <label class="form-control-label required">Longitude</label>
                         <input type="text" id="long" placeholder="Longitude" class="form-control"/>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label class=" form-control-label">Latitude</label>
+                        <label class="form-control-label required">Latitude</label>
                         <input type="text" id="lat" placeholder="Latitude" class="form-control"/>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label class=" form-control-label">Total Slot</label>
+                        <label class="form-control-label required">Total Slot</label>
                         <input type="number" id="slots" placeholder="Total Slot" class="form-control"/>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label class=" form-control-label">Phone Number</label>
+                        <label class="form-control-label required">Phone Number</label>
                         <input type="text" id="phoneNumber" placeholder="Phone Number" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label class=" form-control-label">Address</label>
+                        <label class="form-control-label">Address</label>
                         <input type="text" id="address" placeholder="Address" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label class=" form-control-label">Time of Operation</label>
+                        <label class="form-control-label">Time of Operation</label>
                         <input type="text" id="timeOfOperation" placeholder="Time of Operation" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label class=" form-control-label">Owner</label>
+                        <label class="form-control-label required">Owner</label>
                         <input type="text" id="owner" placeholder="Owner" class="form-control"/>
                     </div>
                 </div>
@@ -77,22 +77,16 @@
     <script>
         $(document).ready(function () {
             //TODO Get all owners
+            //TODO $.autocomplete
 
             $("#btnCreate").click(function(event) {
-                //TODO Validate data
-                let displayName = $("#name").val().trim();
-                let long = parseFloat($("#long").val().trim());
-                let lat = parseFloat($("#lat").val().trim());
-                let slots = parseInt($("#slots").val().trim());
-                let phoneNumber = $("#phoneNumber").val().trim();
-                let address = $("#address").val().trim();
-                let timeOfOperation = $("#timeOfOperation").val().trim();
+                let validatedData = validateInput();
 
-                //TODO Get Owner's id
+                //TODO Get ownerId and adminId from somewhere
                 let ownerId = 1;
                 let adminId = 1;
 
-                if (true) { //Validated
+                if (validatedData) {
                     let dto = {
                         displayName: displayName,
                         longitude: long,
@@ -110,11 +104,9 @@
                     };
 
                     doAjax("/parking_lot/create_parking_lot?ownerId=" + ownerId + "&adminId=" + adminId, "POST", dto, function (data) {
-                        //TODO Show alert
-                        console.log("Success!!!");
-                        console.log(data);
+                        showAlert(true, "Add new parking lot successfully!");
                     }, function (error) {
-                        console.log(error);
+                        showAlert(false, error.message);
                     });
 
                 } else { //Not validated
@@ -124,7 +116,44 @@
         });
 
         function validateInput() {
-            //TODO Implement, return data Object
+            let validateMessage = '';
+
+            let displayName = $("#name").val().trim();
+            let long = $("#long").val().trim();
+            let lat = $("#lat").val().trim();
+            let slots = $("#slots").val().trim();
+            let phoneNumber = $("#phoneNumber").val().trim();
+            let address = $("#address").val().trim();
+            let timeOfOperation = $("#timeOfOperation").val().trim();
+
+            let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+            let intRegex = /\d+/;
+            let phoneRegex = /0\d{9}/;
+
+            if (displayName.length === 0 ) {
+                validateMessage = 'Display Name is required!';
+            } else if (!floatRegex.test(long) || !floatRegex.test(lat)) {
+                validateMessage = 'Long and lat should be float number!';
+            } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+                validateMessage = 'Total slots should be positive integer number!';
+            } else if (phoneRegex.test(phoneNumber)) {
+                validateMessage = 'Phone number should follow format 0#########';
+            }
+
+            if (validateMessage.length) {
+                showAlert(false, validateMessage);
+                return null;
+            }
+
+            return {
+                displayName: displayName,
+                longitude: parseFloat(long),
+                latitude: parseFloat(lat),
+                totalSlot: parseInt(slots),
+                address: address,
+                phoneNumber: phoneNumber,
+                timeOfOperation: timeOfOperation
+            }
         }
 
         function resetInput() {
