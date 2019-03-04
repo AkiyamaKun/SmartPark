@@ -1003,13 +1003,13 @@ textarea {
 aside.left-panel {
   background: #272c33;
   display: table-cell;
-  /*height: 100vh;*/
-  /*min-height: 100%;*/
-  padding: 0 20px;
+  height: 100vh;
+  min-height: 100%;
+  padding: 0 25px;
   vertical-align: top;
   width: 280px;
-  /*-webkit-transition:width 0.3s ease;*/
-  /*transition: width 0.3s ease;*/
+  -webkit-transition:width 0.3s ease;
+  transition: width 0.3s ease;
   position: fixed;
 }
 

@@ -18,13 +18,13 @@ import Core.Handler.RestAuthenticationEntryPoint;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //Register JwtAuthenticationTokenFilter
-    @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
-        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
-        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
-        return jwtAuthenticationTokenFilter;
-    }
+//    //Register JwtAuthenticationTokenFilter
+//    @Bean
+//    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
+//        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
+//        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
+//        return jwtAuthenticationTokenFilter;
+//    }
 
     //Register RestAuthenticationEntryPoint
     @Bean
@@ -47,28 +47,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Disable CSRF (cross site request forgery)
         http.csrf().disable();
-        //Pages do not need login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register").permitAll();
-        //Pages need login with any role
-//        http.authorizeRequests().antMatchers("/home").access("hasAnyRole('ADMIN', 'SUPVISOR','DRIVER')");
+//        //Pages do not need login
+        http.authorizeRequests().antMatchers("/**").permitAll();
+//        //Pages need login with any role
+//        http.authorizeRequests().antMatchers("/home").access("hasAnyRole('ROLE_ADMIN', 'ROLE_DRIVER','ROLE_SUPVISOR')");
 //        //Pages only access with Admin
 //        http.authorizeRequests().antMatchers("/create-supervisor", "/create-manager", "/list-supervisors").access("hasRole('ADMIN')");
-        //Access Denied Exception
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-        //Config for Login Form
-        http.authorizeRequests().and().formLogin()//
-                // Submit URL của trang login
-                .loginPage("/login")//
-                .defaultSuccessUrl("/home")//
-                .failureUrl("/login?error=true")//
-                .usernameParameter("email")//
-                .passwordParameter("password")
-                // Cấu hình cho Logout Page.
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
-
-        //Allow permission for app icon
-        http.authorizeRequests()
-                .antMatchers( "/images/icon/favicon.ico").permitAll();
+//        //Access Denied Exception
+//        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+//        //Config for Login Form
+//        http.authorizeRequests().and().formLogin()//
+//                // Submit URL của trang login
+//                .loginPage("/login")//
+//                .defaultSuccessUrl("/home")//
+//                .failureUrl("/login?error=true")//
+//                .usernameParameter("email")//
+//                .passwordParameter("password")
+//                // Cấu hình cho Logout Page.
+//                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
 
     }
 }

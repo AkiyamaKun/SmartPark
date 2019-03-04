@@ -106,7 +106,7 @@ public class AccountServiceImpl implements AccountService {
     public boolean checkLogin(UserLoginDTO dto) {
         Account account = accountRepository.findByEmail(dto.getEmail());
         if(account != null){
-            if(account.getPassword().equals(dto.getPassword())){
+            if(account.getPassword().equals(dto.getPassword()) && account.isActive()){
                 return true;
             }
         }

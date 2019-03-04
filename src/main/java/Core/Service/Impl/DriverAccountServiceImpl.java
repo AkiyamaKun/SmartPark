@@ -1,15 +1,12 @@
 package Core.Service.Impl;
 
 import Core.Constant.Const;
-import Core.DTO.AccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
-import Core.Entity.Role;
 import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.DriverAccountService;
 import Core.Service.PublicService;
-import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +55,13 @@ public class DriverAccountServiceImpl implements DriverAccountService {
     }
 
     @Override
-    public ResponseDTO getAllDrivers() {
+    public Account getDriver(Integer id) {
+        Account account = accountRepository.findByAccountId(id);
+        if(account != null){
+            if(account.getRole().getRoleId() == 3 && account.isActive() == true){
+                return account;
+            }
+        }
         return null;
     }
 }

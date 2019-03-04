@@ -72,8 +72,7 @@
 
 <script>
     $(document).ready(function () {
-        doAjax("account/list_accounts/2", "GET", null, function (data) {
-            //let responseData = JSON.parse(data);
+        doAjax("/account/list_accounts/2", "GET", null, function (data) {
             let accounts = data.objectResponse;
             $("#list-supervisors").empty();
             $.each(accounts, function (index, value) {

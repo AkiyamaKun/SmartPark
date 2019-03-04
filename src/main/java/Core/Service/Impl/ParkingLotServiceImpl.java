@@ -79,13 +79,19 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         try{
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(id);
             if(parkingLot != null){
-                ShortInfoParkingLotDTO dto = new ShortInfoParkingLotDTO();
-                parkingLot.getEditedBy().setPassword(null);
-                parkingLot.getCreatedBy().setPassword(null);
-                convertShortInfoParkingLotFromEntity(dto, parkingLot);
-                responseDTO.setStatus(true);
-                responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
-                responseDTO.setObjectResponse(dto);
+                if(parkingLot.isActive()){
+                    ShortInfoParkingLotDTO dto = new ShortInfoParkingLotDTO();
+                    parkingLot.getEditedBy().setPassword(null);
+                    parkingLot.getCreatedBy().setPassword(null);
+                    convertShortInfoParkingLotFromEntity(dto, parkingLot);
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
+                    responseDTO.setObjectResponse(dto);
+                }else{
+                    //parking lot is deactive
+                    responseDTO.setMessage(Const.PARKING_LOT_IS_DEACTIVE);
+                }
+
             }else{
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
@@ -96,7 +102,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     }
 
     /**
-     * Get List Parking Lot
+     * Get List Parking Lot for Admin
+     * Get all parking lot (active / deactive)
      * @return
      */
     @Override
@@ -218,6 +225,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setEditedBy(admin);
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
+                            parkingLot.setActive(dto.isActive());
+
                         }else{
                             responseDTO.setMessage(Const.UPDATE_PARKING_LOT_FAIL);
                             return responseDTO;
