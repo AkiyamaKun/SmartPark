@@ -7,9 +7,19 @@ import Core.Entity.ParkingLot;
 import java.util.List;
 
 public interface ParkingLotService {
+    //Common
     ResponseDTO getParkingLot(Integer id);
-    ResponseDTO getListParkingLot();
+    ResponseDTO getAllSlotOfParkingLot(Integer parkingLotId);
+
+    //For Admin Account
+    ResponseDTO getAllParkingLotForAdmin();
     ResponseDTO createParkingLot(ParkingLotDTO dto, Integer ownerId, Integer adminId);
     ResponseDTO updateParkingLot(ParkingLotDTO dto, Integer parkingLotId, Integer adminId);
-    ResponseDTO getAllSlotOfParkingLot(Integer parkingLotId);
+    ResponseDTO deactiveParkingLot(Integer parkingLotId);
+
+    //For Supervisor Account
+    ResponseDTO getListParkingLotManagedBySupervisor(Integer supervisorId);
+
+    //For Driver Account
+    ResponseDTO getListParkingLotActiveForAndroid();
 }

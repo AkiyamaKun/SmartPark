@@ -12,7 +12,7 @@ import java.util.List;
 public interface AccountService {
 
     ResponseDTO changePassword(ChangePasswordDTO changePasswordDTO);
-    boolean checkLogin(UserLoginDTO dto);
+    ResponseDTO checkLogin(UserLoginDTO dto);
     ResponseDTO authentication(AccountDTO accountDTO);
     ResponseDTO getAccount(Integer id);
     ResponseDTO updateAccount(Integer id, AccountDTO accountDTO);

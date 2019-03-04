@@ -148,21 +148,6 @@ public class AccountController {
     @RequestMapping(value = Const.LOGIN, method = RequestMethod.POST)
     public ResponseDTO login(@RequestBody @Valid UserLoginDTO dto,
                              HttpServletRequest request){
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setStatus(false);
-        String result = "";
-        try{
-            if(accountService.checkLogin(dto)){
-                result = jwtService.generateTokenLogin(dto.getEmail());
-                responseDTO.setStatus(true);
-                responseDTO.setMessage("Login Successful");
-                responseDTO.setObjectResponse(result);
-            }else{
-                responseDTO.setMessage("Wrong userId and password");
-            }
-        }catch (Exception e){
-            responseDTO.setMessage("Server Error");
-        }
-        return responseDTO;
+        return accountService.checkLogin(dto);
     }
 }

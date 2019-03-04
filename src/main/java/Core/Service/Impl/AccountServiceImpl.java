@@ -8,6 +8,7 @@ import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.AccountService;
+import Core.Service.JwtService;
 import Core.Service.PublicService;
 import Core.Utils.Utilities;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     PublicService publicService;
+
+    @Autowired
+    JwtService jwtService;
 
     /**
      *
@@ -103,14 +107,30 @@ public class AccountServiceImpl implements AccountService {
      * @return
      */
     @Override
-    public boolean checkLogin(UserLoginDTO dto) {
+    public ResponseDTO checkLogin(UserLoginDTO dto) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
         Account account = accountRepository.findByEmail(dto.getEmail());
         if(account != null){
             if(account.getPassword().equals(dto.getPassword()) && account.isActive()){
-                return true;
+                UserLoginResponseDTO user = new UserLoginResponseDTO();
+                user.setAccountId(account.getAccountId());
+                user.setEmail(account.getEmail());
+                user.setFirstName(account.getFirstName());
+                user.setLastName(account.getLastName());
+                user.setPhoneNumber(account.getPhoneNumber());
+                user.setRoleId(account.getRole().getRoleId());
+                String token = jwtService.generateTokenLogin(account.getEmail());
+                user.setToken(token);
+
+                responseDTO.setStatus(true);
+                responseDTO.setMessage("Login Successful");
+                responseDTO.setObjectResponse(user);
+            }else{
+                responseDTO.setMessage("Wrong userId and password");
             }
         }
-        return false;
+        return responseDTO;
     }
 
     /**

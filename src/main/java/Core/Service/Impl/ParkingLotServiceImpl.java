@@ -107,7 +107,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      * @return
      */
     @Override
-    public ResponseDTO getListParkingLot() {
+    public ResponseDTO getListParkingLotActiveForAndroid() {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         List<ParkingLot> parkingLots = parkingLotRepository.findAll();
@@ -259,6 +259,16 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         return responseDTO;
     }
 
+    @Override
+    public ResponseDTO deactiveParkingLot(Integer parkingLotId) {
+        return null;
+    }
+
+    @Override
+    public ResponseDTO getListParkingLotManagedBySupervisor(Integer supervisorId) {
+        return null;
+    }
+
     /**
      * Get All Slot of Parking Lot
      * @param parkingLotId
@@ -295,5 +305,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             responseDTO.setMessage("Get All Slot Exception: " + e.getMessage());
         }
         return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getAllParkingLotForAdmin() {
+        return null;
     }
 }

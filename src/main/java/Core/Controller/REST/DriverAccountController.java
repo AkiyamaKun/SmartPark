@@ -5,12 +5,16 @@ import Core.DTO.AccountDTO;
 import Core.DTO.InformationAccountDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
 import Core.Service.DriverAccountService;
+import Core.Service.ParkingLotService;
 import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Driver Account Controller
@@ -22,6 +26,9 @@ import javax.validation.Valid;
 public class DriverAccountController{
     @Autowired
     DriverAccountService driverAccountService;
+
+    @Autowired
+    ParkingLotService parkingLotService;
 
     @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
     public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
@@ -44,6 +51,17 @@ public class DriverAccountController{
         }else{
             responseDTO.setMessage(Const.GET_DRIVER_ACCOUNT_FAIL);
         }
+        return responseDTO;
+    }
+
+    @RequestMapping(value = Const.LIST_PARKING_LOT, method = RequestMethod.GET)
+    public ResponseDTO getListParkingLotAcitve(){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLotService.getListParkingLotActiveForAndroid();
+        //Implement
         return responseDTO;
     }
 
