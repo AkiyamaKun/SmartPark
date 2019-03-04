@@ -72,14 +72,14 @@
 
 <script>
     $(document).ready(function () {
-        doAjax("/account/list_accounts/2", "GET", null, function (data) {
+        doAjax("/admin/all_owners", "GET", null, function (data) {
             let accounts = data.objectResponse;
             $("#list-owners").empty();
             $.each(accounts, function (index, value) {
                 let tr =
                     "<tr>\n" +
-                    "<td><a href=\"/supervisor-detail?id=" + value.accountId + "\">" + value.email + "</td>\n" +
-                    "<td>" + value.lastName + " " + value.firstName + "</a></td>\n" +
+                    "<td><a href=\"/owner-detail?id=" + value.ownerId + "\">" + value.lastName + " " + value.firstName + "</td>\n" +
+                    "<td>" + value.address + "</a></td>\n" +
                     "<td>" + value.phoneNumber + "</td>\n" +
                     "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
                     "</tr>";

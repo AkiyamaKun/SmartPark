@@ -45,6 +45,15 @@ public class AdminAccountController {
     }
 
     /**
+     * Get All Owner
+     * @return
+     */
+    @RequestMapping(value = Const.GET_OWNER, method = RequestMethod.GET)
+    public ResponseDTO getOwner(@PathVariable Integer id){
+        return ownerService.getOwner(id);
+    }
+
+    /**
      * Get All Parking Lot
      * @return
      */
