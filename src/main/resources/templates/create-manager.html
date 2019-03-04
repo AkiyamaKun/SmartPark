@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="reset" class="btn btn-danger float-left">
+                    <button type="reset" id="reset" class="btn btn-danger float-left">
                         <i class="fa fa-ban"></i> Reset
                     </button>
                     <button type="button" id="btnCreate" class="btn btn-primary float-right">
@@ -67,6 +67,10 @@
         document.getElementById("btnCreate").addEventListener("click", function () {
             createAccount();
         });
+
+        document.getElementById("reset").addEventListener("reset", function () {
+
+        })
     });
 
     function createAccount() {

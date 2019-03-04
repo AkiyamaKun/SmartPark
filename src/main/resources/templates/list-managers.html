@@ -37,6 +37,7 @@
                                             <th>Email</th>
                                             <th>Name</th>
                                             <th>Phone</th>
+                                            <th>Status</th>
                                             <th>More</th>
                                         </tr>
                                     </thead>
@@ -81,7 +82,8 @@
                         "<td><a href=\"/manager-detail?id=" + lot.accountId + "\">" + lot.email + "</td>\n" +
                         "<td>" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
                         "<td>" + lot.phoneNumber + "</td>\n" +
-                        "<td><a href=\"#\"><i class=\"fa fa-trash-o\"></i> Delete</a></td>\n" +
+                        "<td>" + lot.status + "</td>\n" +
+                        "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
                     "</tr>";
                 $("#list-managers").append(tr);
             });

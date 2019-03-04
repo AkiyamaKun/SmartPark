@@ -144,6 +144,18 @@ public class ViewController {
     }
 
     /**
+     * List Owners Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/list-owners")
+    public String toListOwners(Model model) {
+        //Excute anything here
+        return "list-owners";
+    }
+
+    /**
      * Manager Detail Page
      *
      * @param id
