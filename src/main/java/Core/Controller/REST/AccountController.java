@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -148,7 +149,12 @@ public class AccountController {
     @RequestMapping(value = Const.LOGIN, method = RequestMethod.POST)
     public ResponseDTO login(@RequestBody @Valid UserLoginDTO dto,
                              HttpServletRequest request){
-        return accountService.checkLogin(dto);
+        ResponseDTO responseDTO = accountService.checkLogin(dto);
+        if(responseDTO.isStatus()){
+            HttpSession session = request.getSession();
+            session.setAttribute("User" , responseDTO.getObjectResponse());
+        }
+        return responseDTO;
     }
 
 }
