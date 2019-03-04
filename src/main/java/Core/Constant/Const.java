@@ -50,12 +50,15 @@ public class Const {
     public static final String GET_DRIVER_ACCOUNT = "/{id}";
     public static final String CREATE_DRIVER_ACCOUNT = "/create_driver";
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
+    public static final String FORGET_PASSWORD = "/forget_password";
+    public static final String SET_NEW_PASSWORD ="/set_new_password";
 
-    //Driver Accoount Message Response
+    //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
     public static final String VERIFY_ACCOUNT_FAIL = "Verify Account Fail";
     public static final String GET_DRIVER_ACCOUNT_SUCCESS = "Get Driver Account Success";
     public static final String GET_DRIVER_ACCOUNT_FAIL = "Get Driver Account Fail";
+    public static final String SEND_MESSAGE_SET_FIRST_PASSWORD = "We have send link set new password for you";
 
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";
@@ -72,9 +75,13 @@ public class Const {
     public static final String MAIL_PASSWORD = "Dang7183496";
     public static final String MAIL_TILLE = "Verify Register Your Mail";
     public static final String MAIL_PERSONAL = "Smart Parking Support";
-    public static final String MAIL_CONTENT = "Verify your account by click here";
+    public static final String MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT = "Verify your account by click here";
+    public static final String MAIL_CONTENT_SET_PASSWORD_PAGE = "Click to go page set first password";
+    public static final String MAIL_CONTENT_SET_NEW_PASSWORD = "Click to go page set new password";
     public static final String SEND_EMAIL_CREATE_ACCOUNT_ERROR = "Can not send email verify";
+    public static final String SEND_EMAIL_TYPE_IS_NOT_SUPPORT = "This type is not support";
     public static final String SEND_EMAIL_SUCCESSFUL = "Send Email Successful";
+    public static final String SEND_EMAIL_SET_NEW_PASSWORD_FAIL = "Send Email for set new password fail";
 
     //Parking Lot API
     public static final String PARKING_LOT = "/parking_lot";
