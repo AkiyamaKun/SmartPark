@@ -7,6 +7,7 @@ import Core.DTO.UserLoginDTO;
 import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
+import Core.Service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,9 @@ public class ViewController {
 
     @Autowired
     AccountController accountController;
+
+    @Autowired
+    OwnerService ownerService;
 
     /**
      * Login Page
@@ -170,11 +174,30 @@ public class ViewController {
         return view;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/supervisor-detail")
     public ModelAndView toSupervisorDetail(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("supervisor-detail");
         ResponseDTO supervisorAccount = accountService.getAccount(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
+        return view;
+    }
+
+    /**
+     * Manager Detail Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/owner-detail")
+    public ModelAndView toOwnerDetail(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("owner-detail");
+        ResponseDTO owner = ownerService.getOwner(id);
+        view.addObject("owner", owner.getObjectResponse());
         return view;
     }
 
