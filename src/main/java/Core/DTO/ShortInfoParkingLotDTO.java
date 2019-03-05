@@ -19,14 +19,15 @@ public class ShortInfoParkingLotDTO {
     private String phoneNumber;
     private String timeOfOperation;
     private float latitude;
-    private float longitue;
+    private float longitude;
+    private boolean isActive;
 
     public ShortInfoParkingLotDTO() {
     }
 
     public ShortInfoParkingLotDTO(Integer parkingLotId, String displayName, Owner owner,
                                   Integer totalSlot, String address, String phoneNumber,
-                                  String timeOfOperation, float latitude, float longitue) {
+                                  String timeOfOperation, float latitude, float longitude, boolean isActive) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.owner = owner;
@@ -35,7 +36,16 @@ public class ShortInfoParkingLotDTO {
         this.phoneNumber = phoneNumber;
         this.timeOfOperation = timeOfOperation;
         this.latitude = latitude;
-        this.longitue = longitue;
+        this.longitude = longitude;
+        this.isActive = isActive;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Integer getParkingLotId() {
@@ -102,11 +112,11 @@ public class ShortInfoParkingLotDTO {
         this.latitude = latitude;
     }
 
-    public float getLongitue() {
-        return longitue;
+    public float getLongitude() {
+        return longitude;
     }
 
-    public void setLongitue(float longitue) {
-        this.longitue = longitue;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }
