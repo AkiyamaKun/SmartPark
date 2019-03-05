@@ -21,21 +21,26 @@
                     <b>Manager</b>
                 </div>
                 <div class="card-body card-block">
+                    <input type="hidden" th:value="${session.User.accountId}" id="accountId">
                     <div class="form-group">
-                        <label for="name" class=" form-control-label">Full name</label>
-                        <input type="text" id="name" th:value="${profile.firstName + ' ' + profile.lastName}" class="form-control" disabled>
+                        <label for="firstName" class=" form-control-label">Full name</label>
+                        <input type="text" id="firstName" th:value="${profile.firstName}" class="form-control" >
                     </div>
                     <div class="form-group">
-                        <label for="phone" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phone" th:value="${profile.phoneNumber}" class="form-control" disabled>
+                        <label for="lastName" class=" form-control-label">Full name</label>
+                        <input type="text" id="lastName" th:value="${profile.lastName}" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                        <input type="text" id="phoneNumber" th:value="${profile.phoneNumber}" class="form-control" >
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-danger float-left" disabled>
-                        <i class="fa fa-ban"></i> Cancel
-                    </button>
-                    <button type="button" class="btn btn-primary float-right">
-                        <i class="fa fa-pencil"></i> Edit
+                    <!--<button type="button" class="btn btn-danger float-left" disabled>-->
+                        <!--<i class="fa fa-ban"></i> Cancel-->
+                    <!--</button>-->
+                    <button type="button" id="btnSave" class="btn btn-primary float-right">
+                        <i class="fa fa-pencil"></i> Save
                     </button>
                 </div>
             </div>
@@ -46,11 +51,39 @@
     <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
     <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/assets/js/main.js"></script>
+    <script src="/js/app.js"></script>
 
     <script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
     <script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
+<script>
 
+    ready(function () {
+        document.getElementById("btnSave").addEventListener("click", function () {
+            updateProfile();
+        });
+    });
+
+    function updateProfile() {
+        let accountId = document.getElementById("accountId").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+
+        CallAjaxWithFetch(`/account/update/${accountId}`,
+            "PUT",
+            {accountId, firstName, lastName, phoneNumber},
+            (data) => {
+                alert(data.message);
+                document.location.href = "/home";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
+
+</script>
 </html>
