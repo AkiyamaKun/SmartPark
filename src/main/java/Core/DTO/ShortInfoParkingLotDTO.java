@@ -18,12 +18,15 @@ public class ShortInfoParkingLotDTO {
     private String address;
     private String phoneNumber;
     private String timeOfOperation;
+    private float latitude;
+    private float longitue;
 
     public ShortInfoParkingLotDTO() {
     }
 
     public ShortInfoParkingLotDTO(Integer parkingLotId, String displayName, Owner owner,
-                                  Integer totalSlot, String address, String phoneNumber, String timeOfOperation) {
+                                  Integer totalSlot, String address, String phoneNumber,
+                                  String timeOfOperation, float latitude, float longitue) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.owner = owner;
@@ -31,6 +34,8 @@ public class ShortInfoParkingLotDTO {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.timeOfOperation = timeOfOperation;
+        this.latitude = latitude;
+        this.longitue = longitue;
     }
 
     public Integer getParkingLotId() {
@@ -87,5 +92,21 @@ public class ShortInfoParkingLotDTO {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitue() {
+        return longitue;
+    }
+
+    public void setLongitue(float longitue) {
+        this.longitue = longitue;
     }
 }

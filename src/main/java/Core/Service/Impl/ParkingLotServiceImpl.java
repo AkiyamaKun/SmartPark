@@ -53,6 +53,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setTimeOfOperation(entity.getTimeOfOperation());
         dto.setOwner(entity.getOwner());
+        dto.setLatitude(entity.getLatitude());
+        dto.setLongitue(entity.getLongitude());
     }
 
     /**
