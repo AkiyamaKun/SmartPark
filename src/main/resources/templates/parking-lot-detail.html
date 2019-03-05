@@ -1,0 +1,211 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="shared/head :: head"></div>
+
+<body>
+
+<div th:replace="shared/left_panel :: left_panel"></div>
+
+<div id="right-panel" class="right-panel">
+
+    <div th:replace="shared/header :: header"></div>
+
+    <div th:replace="shared/breadcrumbs :: breadcrumbs"></div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Supervisor</b>
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right">
+                    <i class="fa fa-trash-o"></i> Deactive
+                </button>
+            </div>
+            <div class="card-body card-block">
+                <input id="accountId" type="hidden" th:value="${supervisor.accountId}"/>
+                <div class="form-group">
+                    <label for="firstName" class=" form-control-label">First name</label>
+                    <input type="text" id="firstName" th:value="${supervisor.firstName}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName" class=" form-control-label">Last name</label>
+                    <input type="text" id="lastName" th:value="${supervisor.lastName}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                    <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" required>
+                </div>
+                <div id="add-parking-lot" style="display: none;">
+                    <div class="form-group">
+                        <label for="lot-name" class=" form-control-label">Parking Lot Name</label>
+                        <input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude" class=" form-control-label">Longitude</label>
+                        <input type="text" id="longitude" placeholder="Longitude" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="latidue" class=" form-control-label">Latitude</label>
+                        <input type="number" id="latidue" placeholder="Latitude" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="totalSlot" class=" form-control-label">Total Slots</label>
+                        <input type="number" id="totalSlot" placeholder="Total Slots" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-danger float-left" disabled>
+                    <i class="fa fa-ban"></i> Cancel
+                </button>
+                <button id="btn-edit-supervisor" type="button" class="btn btn-primary float-right">
+                    <i class="fa fa-pencil"></i> Edit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Parking Lots</b>
+            </div>
+            <div class="card-body card-block">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                           aria-controls="home" aria-selected="true">Parking Lot #8</a>
+                    </li>
+                </ul>
+                <div class="tab-content pl-3 p-1" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="form-group">
+                            <div class="col col-sm-3">
+                                <label for="long" class=" form-control-label">Longitude</label>
+                            </div>
+                            <div class="col-12 col-sm-9">
+                                <input type="text" id="long" value="12.232121" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col col-sm-3">
+                                <label for="lat" class=" form-control-label">Latitude</label>
+                            </div>
+                            <div class="col-12 col-sm-9">
+                                <input type="text" id="lat" value="38.21312" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col col-sm-3">
+                                <label for="slots" class=" form-control-label">Total Slots</label>
+                            </div>
+                            <div class="col-12 col-sm-9">
+                                <input type="number" id="slots" value="312" class="form-control" disabled>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger float-left" disabled>
+                            <i class="fa fa-ban"></i> Cancel
+                        </button>
+                        <button type="button" class="btn btn-primary float-right">
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                        <button type="button" class="btn btn-danger float-right">
+                            <i class="fa fa-trash-o"></i> Deactive
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="vendors/jquery/dist/jquery.min.js"></script>
+<script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="/js/app.js"></script>
+
+<script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
+<script>
+    $(function() {
+        $("#add-lot-cb").change(function(ev) {
+            if (this.checked) {
+                $("#add-parking-lot").show();
+            } else {
+                $("#add-parking-lot").hide();
+            }
+        });
+        $(".form-check-label").click(function(ev) {
+            ev.preventDefault();
+            let checkbox = $(this).children("input[type=checkbox]");
+            checkbox.prop("checked", !checkbox.prop("checked"));
+            checkbox.change();
+        });
+        $("#btn-edit-supervisor").click(function(ev) {
+            // $(".form-check-label").removeClass("disabled");
+            // $("#add-lot-cb").prop("disabled", false);
+            if (!$("#add-lot-cb").prop("disabled")) {
+                $(".form-check-label").addClass("disabled");
+                $("#add-lot-cb").prop("disabled", true);
+            } else {
+                $(".form-check-label").removeClass("disabled");
+                $("#add-lot-cb").prop("disabled", false);
+            }
+        })
+    });
+</script>
+
+</body>
+<script>
+
+    ready(function () {
+        document.getElementById("btn-edit-supervisor").addEventListener("click", function () {
+            updateAccount();
+        });
+
+        document.getElementById("btnDeactive").addEventListener("click", function () {
+            deactiveAccount();
+        })
+    });
+
+    function updateAccount() {
+        let accountId = document.getElementById("accountId").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+
+        CallAjaxWithFetch(`/account/update/${accountId}`,
+            "PUT",
+            {accountId, firstName, lastName, phoneNumber},
+            (data) => {
+                alert(data.message);
+                document.location.href = "/list-supervisors";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
+
+    function deactiveAccount() {
+
+        let accountId = document.getElementById("accountId").value;
+
+        CallAjaxWithFetch(`/account/delete/${accountId}`,
+            "DELETE",
+            (data) => {
+                alert(data.message);
+                document.location.href = "/list-supervisors";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
+
+</script>
+</html>
