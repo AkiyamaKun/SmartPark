@@ -123,6 +123,7 @@ public class AccountServiceImpl implements AccountService {
                 user.setRoleId(account.getRole().getRoleId());
                 String token = jwtService.generateTokenLogin(account.getEmail());
                 user.setToken(token);
+                user.setAvatar(account.getAvatar());
 
                 responseDTO.setStatus(true);
                 responseDTO.setMessage("Login Successful");
