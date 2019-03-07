@@ -75,14 +75,20 @@
     $(document).ready(function () {
         doAjax("/account/list_accounts/1 ", "GET", null, function (data) {
             let accounts = data.objectResponse;
+            let status = "";
             $("#list-managers").empty();
             $.each(accounts, function (index, lot) {
+                if (lot.active == true) {
+                    status = "active";
+                } else {
+                    status = "not active"
+                }
                 let tr =
                     "<tr>\n" +
                         "<td><a href=\"/manager-detail?id=" + lot.accountId + "\">" + lot.email + "</td>\n" +
                         "<td>" + lot.firstName + " " + lot.lastName + " " + "</a></td>\n" +
                         "<td>" + lot.phoneNumber + "</td>\n" +
-                        "<td>" + lot.status + "</td>\n" +
+                        "<td>" + status + "</td>\n" +
                         "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
                     "</tr>";
                 $("#list-managers").append(tr);

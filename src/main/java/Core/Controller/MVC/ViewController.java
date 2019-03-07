@@ -8,6 +8,7 @@ import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
 import Core.Service.OwnerService;
+import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,9 @@ public class ViewController {
 
     @Autowired
     OwnerService ownerService;
+
+    @Autowired
+    ParkingLotService parkingLotService;
 
     /**
      * Login Page
@@ -198,6 +202,20 @@ public class ViewController {
         ModelAndView view = new ModelAndView("owner-detail");
         ResponseDTO owner = ownerService.getOwner(id);
         view.addObject("owner", owner.getObjectResponse());
+        return view;
+    }
+
+    /**
+     * Manager Detail Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/parking-lot-detail")
+    public ModelAndView toParkinglotDetail(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("parking-lot-detail");
+        ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
+        view.addObject("plot", parkinglot.getObjectResponse());
         return view;
     }
 
