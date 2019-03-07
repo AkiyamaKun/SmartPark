@@ -17,102 +17,110 @@
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                <b>Supervisor</b>
+                <b>Parking Lot</b>
                 <button type="button" id="btnDeactive" class="btn btn-danger float-right">
-                    <i class="fa fa-trash-o"></i> Deactive
+                    <i class="fa fa-ban"></i> Deactive
                 </button>
             </div>
             <div class="card-body card-block">
-                <input id="accountId" type="hidden" th:value="${supervisor.accountId}"/>
+                <input id="parkingLotId" type="hidden" th:value="${plot.parkingLotId}"/>
                 <div class="form-group">
-                    <label for="firstName" class=" form-control-label">First name</label>
-                    <input type="text" id="firstName" th:value="${supervisor.firstName}" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="lastName" class=" form-control-label">Last name</label>
-                    <input type="text" id="lastName" th:value="${supervisor.lastName}" class="form-control" required>
+                    <label for="displayName" class=" form-control-label">Name</label>
+                    <input type="text" id="displayName" th:value="${plot.displayName}" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class=" form-control-label">Phone number</label>
-                    <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" required>
+                    <label for="totalSlot" class=" form-control-label">Total Slot</label>
+                    <input type="text" id="totalSlot" th:value="${plot.totalSlot}" class="form-control" required>
                 </div>
-                <div id="add-parking-lot" style="display: none;">
-                    <div class="form-group">
-                        <label for="lot-name" class=" form-control-label">Parking Lot Name</label>
-                        <input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="longitude" class=" form-control-label">Longitude</label>
-                        <input type="text" id="longitude" placeholder="Longitude" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="latidue" class=" form-control-label">Latitude</label>
-                        <input type="number" id="latidue" placeholder="Latitude" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="totalSlot" class=" form-control-label">Total Slots</label>
-                        <input type="number" id="totalSlot" placeholder="Total Slots" class="form-control" required>
-                    </div>
+                <div class="form-group">
+                    <label for="address" class=" form-control-label">Address</label>
+                    <input type="tel" id="address" th:value="${plot.address}" class="form-control" required>
                 </div>
+                <!--<div id="add-parking-lot" style="display: none;">-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="lot-name" class=" form-control-label">Owner</label>-->
+                        <!--<input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control" required>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="longitude" class=" form-control-label">First Name</label>-->
+                        <!--<input type="text" id="longitude" th:value="${plot.owner.firstName}" placeholder="Longitude" class="form-control" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="latidue" class=" form-control-label">Last Name</label>-->
+                        <!--<input type="number" id="latidue" th:value="${plot.owner.lastName}" placeholder="Latitude" class="form-control" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label for="phone" class=" form-control-label">Phone Number</label>-->
+                        <!--<input type="number" id="phone" th:value="${plot.owner.phoneNumber}" placeholder="Total Slots" class="form-control" disabled>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
             <div class="card-footer">
                 <button type="button" class="btn btn-danger float-left" disabled>
                     <i class="fa fa-ban"></i> Cancel
                 </button>
                 <button id="btn-edit-supervisor" type="button" class="btn btn-primary float-right">
-                    <i class="fa fa-pencil"></i> Edit
+                    <i class="fa fa-pencil"></i> Save
                 </button>
             </div>
         </div>
     </div>
 
     <div class="col-lg-6">
+        <div class="row form-group">
+            <div class="col col-md-12">
+                <div class="input-group">
+                    <input type="text" id="input2-group2" name="input2-group2" placeholder="Search" class="form-control">
+                    <div class="input-group-btn"><button class="btn btn-primary"><i class="fa fa-search"></i> Search</button></div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header">
-                <b>Parking Lots</b>
+                <b>Owner</b>
             </div>
             <div class="card-body card-block">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                           aria-controls="home" aria-selected="true">Parking Lot #8</a>
-                    </li>
-                </ul>
+                <!--<ul class="nav nav-tabs" id="myTab" role="tablist">-->
+                    <!--<li class="nav-item">-->
+                        <!--<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"-->
+                           <!--aria-controls="home" aria-selected="true">Parking Lot #8</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
                 <div class="tab-content pl-3 p-1" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="form-group">
                             <div class="col col-sm-3">
-                                <label for="long" class=" form-control-label">Longitude</label>
+                                <label for="long" class=" form-control-label">First Name</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="long" value="12.232121" class="form-control" >
+                                <input type="text" id="long" th:value="${plot.owner.firstName}" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col col-sm-3">
-                                <label for="lat" class=" form-control-label">Latitude</label>
+                                <label for="lat" class=" form-control-label">Last Name</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="lat" value="38.21312" class="form-control" >
+                                <input type="text" id="lat" th:value="${plot.owner.lastName}" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col col-sm-3">
-                                <label for="slots" class=" form-control-label">Total Slots</label>
+                                <label for="slots" class=" form-control-label">Phone Number</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="number" id="slots" value="312" class="form-control" disabled>
+                                <input type="number" id="slots" th:value="${plot.owner.phoneNumber}" class="form-control" disabled>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-danger float-left" disabled>
-                            <i class="fa fa-ban"></i> Cancel
-                        </button>
-                        <button type="button" class="btn btn-primary float-right">
-                            <i class="fa fa-pencil"></i> Edit
-                        </button>
-                        <button type="button" class="btn btn-danger float-right">
-                            <i class="fa fa-trash-o"></i> Deactive
-                        </button>
+                        <!--<button type="button" class="btn btn-danger float-left" disabled>-->
+                            <!--<i class="fa fa-ban"></i> Cancel-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-primary float-right">-->
+                            <!--<i class="fa fa-pencil"></i> Edit-->
+                        <!--</button>-->
+                        <!--<button type="button" class="btn btn-danger float-right">-->
+                            <!--<i class="fa fa-trash-o"></i> Deactive-->
+                        <!--</button>-->
                     </div>
                 </div>
             </div>
