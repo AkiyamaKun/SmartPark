@@ -4,24 +4,24 @@ package Core.DTO;
 public class InformationAccountDTO {
     private Integer accountId;
     private String email;
-    private String password;
     private String phoneNumber;
     private String firstName;
     private String lastName;
     private String avatar;
+    private boolean isActive;
 
     public InformationAccountDTO() {
     }
 
-    public InformationAccountDTO(Integer accountId, String email, String password,
-                                 String phoneNumber, String firstName, String lastName, String avatar) {
+    public InformationAccountDTO(Integer accountId, String email, String phoneNumber,
+                                 String firstName, String lastName, String avatar, boolean isActive) {
         this.accountId = accountId;
         this.email = email;
-        this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.avatar = avatar;
+        this.isActive = isActive;
     }
 
     public Integer getAccountId() {
@@ -38,14 +38,6 @@ public class InformationAccountDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhoneNumber() {
@@ -78,5 +70,13 @@ public class InformationAccountDTO {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

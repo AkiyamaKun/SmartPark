@@ -39,11 +39,11 @@ public class AccountController {
     public void convertInformationAccountDTOFromAccountDTO(InformationAccountDTO informationAccountDTO, AccountDTO accountDTO){
         informationAccountDTO.setAccountId(accountDTO.getAccountId());
         informationAccountDTO.setEmail(accountDTO.getEmail());
-        informationAccountDTO.setPassword(accountDTO.getPassword());
         informationAccountDTO.setPhoneNumber(accountDTO.getPhoneNumber());
         informationAccountDTO.setFirstName(accountDTO.getFirstName());
         informationAccountDTO.setLastName(accountDTO.getLastName());
         informationAccountDTO.setAvatar(accountDTO.getAvatar());
+        informationAccountDTO.setActive(accountDTO.isActive());
     }
 
     /**

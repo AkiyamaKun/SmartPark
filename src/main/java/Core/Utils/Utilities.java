@@ -29,7 +29,6 @@ public class Utilities {
         if(account != null){
             dto.setAccountId(account.getAccountId());
             dto.setEmail(account.getEmail());
-            dto.setPassword(account.getPassword());
             dto.setFirstName(account.getFirstName());
             dto.setLastName(account.getLastName());
             dto.setPhoneNumber(account.getPhoneNumber());
