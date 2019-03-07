@@ -8,17 +8,20 @@ public class InformationAccountDTO {
     private String phoneNumber;
     private String firstName;
     private String lastName;
+    private String avatar;
 
     public InformationAccountDTO() {
     }
 
-    public InformationAccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName, String lastName) {
+    public InformationAccountDTO(Integer accountId, String email, String password,
+                                 String phoneNumber, String firstName, String lastName, String avatar) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.avatar = avatar;
     }
 
     public Integer getAccountId() {
@@ -67,5 +70,13 @@ public class InformationAccountDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

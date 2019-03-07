@@ -58,6 +58,7 @@ public class AccountServiceImpl implements AccountService {
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setRoleId(entity.getRole().getRoleId());
         dto.setActive(entity.isActive());
+        dto.setAvatar(entity.getAvatar());
     }
 
     /**
@@ -184,6 +185,14 @@ public class AccountServiceImpl implements AccountService {
                 account.setFirstName(accountDTO.getFirstName());
                 account.setLastName(accountDTO.getLastName());
                 account.setPhoneNumber(accountDTO.getPhoneNumber());
+                //Update Avatar only for Driver Account
+                if(account.getRole().getRoleId() == 3){
+                    account.setAvatar(accountDTO.getAvatar());
+                    if(accountDTO.getAvatar() != null)
+                        account.setAvatar(accountDTO.getAvatar());
+                    else
+                        account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                }
                 accountRepository.save(account);
                 account.setPassword(null);
                 AccountDTO dto = new AccountDTO();
@@ -302,6 +311,14 @@ public class AccountServiceImpl implements AccountService {
                         account.setRole(role);
                         account.setActive(false);
                         account.setToken(token);
+                        //Avatar for Driver Account
+                        if(role.getRoleId() == 3)
+                        {
+                            if(accountDTO.getAvatar() != null)
+                                account.setAvatar(accountDTO.getAvatar());
+                            else
+                                account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                        }
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
                         responseDTO.setObjectResponse(account);
@@ -330,6 +347,14 @@ public class AccountServiceImpl implements AccountService {
                             account.setLastName(accountDTO.getLastName());
                             account.setCreatedDate(createDate);
                             account.setRole(role);
+                            //Avatar for Driver Account
+                            if(role.getRoleId() == 3)
+                            {
+                                if(accountDTO.getAvatar() != null)
+                                    account.setAvatar(accountDTO.getAvatar());
+                                else
+                                    account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                            }
                             accountRepository.save(account);
 
                             AccountDTO dto = new AccountDTO();

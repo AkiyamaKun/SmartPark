@@ -8,12 +8,13 @@ public class UserLoginResponseDTO {
     private String phoneNumber;
     private String token;
     private Integer roleId;
+    private String avatar;
 
     public UserLoginResponseDTO() {
     }
 
     public UserLoginResponseDTO(Integer accountId, String email, String firstName,
-                                String lastName, String phoneNumber, String token, Integer roleId) {
+                                String lastName, String phoneNumber, String token, Integer roleId, String avatar) {
         this.accountId = accountId;
         this.email = email;
         this.firstName = firstName;
@@ -21,6 +22,7 @@ public class UserLoginResponseDTO {
         this.phoneNumber = phoneNumber;
         this.token = token;
         this.roleId = roleId;
+        this.avatar = avatar;
     }
 
     public Integer getAccountId() {
@@ -77,5 +79,13 @@ public class UserLoginResponseDTO {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

@@ -17,6 +17,7 @@ public class AccountDTO{
     private Date createdDate;
     private Integer roleId;
     private boolean isActive;
+    private String avatar;
 
     public AccountDTO() {
     }
@@ -34,7 +35,7 @@ public class AccountDTO{
      * @param isActive
      */
     public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
-                      String lastName, Date createdDate, Integer roleId, boolean isActive) {
+                      String lastName, Date createdDate, Integer roleId, boolean isActive, String avatar) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
@@ -44,6 +45,7 @@ public class AccountDTO{
         this.createdDate = createdDate;
         this.roleId = roleId;
         this.isActive = isActive;
+        this.avatar = avatar;
     }
 
     public Integer getAccountId() {
@@ -116,5 +118,13 @@ public class AccountDTO{
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

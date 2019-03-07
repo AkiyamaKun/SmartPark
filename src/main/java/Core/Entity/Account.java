@@ -52,6 +52,9 @@ public class Account {
     @Column(name = "token", columnDefinition = "VARCHAR(100)")
     private String token;
 
+    @Column(name = "avatar", columnDefinition = "NVARCHAR(50)")
+    private String avatar;
+
     public Account() {
     }
 
@@ -60,7 +63,7 @@ public class Account {
      */
     public Account(String email, String phoneNumber, String password,
                    String firstName, String lastName, Date createdDate,
-                   Role role, boolean isActive, String token) {
+                   Role role, boolean isActive, String token, String avatar) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -70,6 +73,7 @@ public class Account {
         this.role = role;
         this.isActive = isActive;
         this.token = token;
+        this.avatar = avatar;
     }
 
     public List<GrantedAuthority> getAuthorities(){
@@ -156,5 +160,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

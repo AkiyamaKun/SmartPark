@@ -43,6 +43,7 @@ public class AccountController {
         informationAccountDTO.setPhoneNumber(accountDTO.getPhoneNumber());
         informationAccountDTO.setFirstName(accountDTO.getFirstName());
         informationAccountDTO.setLastName(accountDTO.getLastName());
+        informationAccountDTO.setAvatar(accountDTO.getAvatar());
     }
 
     /**
