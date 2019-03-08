@@ -43,7 +43,7 @@ public class Const {
     public static final String ROLE_IS_NOT_EXISTED = "Role is not existed";
     public static final String NOTHING_DATA_ON_SERVER = "Nothing data on server";
     public static final String GET_LIST_ACCOUNTS_SUCCESS = "Get List Account Successful";
-    public static final String AVATAR_NAME_DEFAULT = "default";
+    public static final String AVATAR_NAME_DEFAULT = "default_avatar";
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
     public static final String GET_ALL_DRIVER = "/all_driver";
