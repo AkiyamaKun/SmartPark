@@ -22,60 +22,55 @@
                         <i class="fa fa-trash-o"></i> Deactive
                     </button>
                 </div>
-                <div class="card-body card-block">
+                <div class="card-body card-block" id="supervisor-form">
                     <input id="accountId" type="hidden" th:value="${supervisor.accountId}"/>
                     <div class="form-group">
-                        <label for="firstName" class=" form-control-label">First name</label>
+                        <label for="firstName" class="form-control-label">First name</label>
                         <input type="text" id="firstName" th:value="${supervisor.firstName}" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="lastName" class=" form-control-label">Last name</label>
+                        <label for="lastName" class="form-control-label">Last name</label>
                         <input type="text" id="lastName" th:value="${supervisor.lastName}" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                        <label for="phoneNumber" class="form-control-label">Phone number</label>
                         <input type="tel" id="phoneNumber" th:value="${supervisor.phoneNumber}" class="form-control" required>
-                    </div>
-                    <div id="add-parking-lot" style="display: none;">
-                        <div class="form-group">
-                            <label for="lot-name" class=" form-control-label">Parking Lot Name</label>
-                            <input type="text" id="lot-name" placeholder="Parking Lot Name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="longitude" class=" form-control-label">Longitude</label>
-                            <input type="text" id="longitude" placeholder="Longitude" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="latidue" class=" form-control-label">Latitude</label>
-                            <input type="number" id="latidue" placeholder="Latitude" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="totalSlot" class=" form-control-label">Total Slots</label>
-                            <input type="number" id="totalSlot" placeholder="Total Slots" class="form-control" required>
-                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" class="btn btn-danger float-left" disabled>
-                        <i class="fa fa-ban"></i> Cancel
-                    </button>
-                    <button id="btn-edit-supervisor" type="button" class="btn btn-primary float-right">
-                        <i class="fa fa-pencil"></i> Edit
+                    <button id="btn-save-supervisor" type="button" class="btn btn-primary float-right" disabled>
+                        <i class="fa fa-pencil"></i> Save
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6">
+            <div class="row form-group">
+                <div class="col col-md-12">
+                    <div class="input-group">
+                        <input type="text" id="input2-group2" name="input2-group2" placeholder="Search Owner" class="form-control" style="margin-right: 10px;">
+                        <div class="input-group-btn"><button class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Assign</button></div>
+                    </div>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <b>Parking Lots</b>
                 </div>
                 <div class="card-body card-block">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                aria-controls="home" aria-selected="true">Parking Lot #8</a>
+                        <!--<li class="nav-item">-->
+                            <!--<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"-->
+                                <!--aria-controls="home" aria-selected="true">Parking Lot #8</a>-->
+                        <!--</li>-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="home-tab" data-toggle="dropdown" href="#home" role="button" aria-haspopup="true" aria-expanded="false">Parking Lot #8<span class="caret"></span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Submenu 1-1</a>
+                                <a class="dropdown-item" href="#">Submenu 1-2</a>
+                                <a class="dropdown-item" href="#">Submenu 1-3</a>
+                            </div>
                         </li>
                     </ul>
                     <div class="tab-content pl-3 p-1" id="myTabContent">
@@ -104,11 +99,11 @@
                                     <input type="number" id="slots" value="312" class="form-control" disabled>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-danger float-left" disabled>
-                                <i class="fa fa-ban"></i> Cancel
-                            </button>
-                            <button type="button" class="btn btn-primary float-right">
-                                <i class="fa fa-pencil"></i> Edit
+                            <!--<button type="button" class="btn btn-danger float-left" disabled>-->
+                                <!--<i class="fa fa-ban"></i> Cancel-->
+                            <!--</button>-->
+                            <button type="button" class="btn btn-primary float-right" disabled>
+                                <i class="fa fa-pencil"></i> Save
                             </button>
                             <button type="button" class="btn btn-danger float-right">
                                 <i class="fa fa-trash-o"></i> Deactive
@@ -130,46 +125,21 @@
     <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
-    <script>
-        $(function() {
-            $("#add-lot-cb").change(function(ev) {
-                if (this.checked) {
-                    $("#add-parking-lot").show();
-                } else {
-                    $("#add-parking-lot").hide();
-                }
-            });
-            $(".form-check-label").click(function(ev) {
-                ev.preventDefault();
-                let checkbox = $(this).children("input[type=checkbox]");
-                checkbox.prop("checked", !checkbox.prop("checked"));
-                checkbox.change();
-            });
-            $("#btn-edit-supervisor").click(function(ev) {
-                // $(".form-check-label").removeClass("disabled");
-                // $("#add-lot-cb").prop("disabled", false);
-                if (!$("#add-lot-cb").prop("disabled")) {
-                    $(".form-check-label").addClass("disabled");
-                    $("#add-lot-cb").prop("disabled", true);
-                } else {
-                    $(".form-check-label").removeClass("disabled");
-                    $("#add-lot-cb").prop("disabled", false);
-                }
-            })
-        });
-    </script>
-
 </body>
 <script>
 
     ready(function () {
-        document.getElementById("btn-edit-supervisor").addEventListener("click", function () {
+        document.getElementById("btn-save-supervisor").addEventListener("click", function () {
             updateAccount();
         });
 
         document.getElementById("btnDeactive").addEventListener("click", function () {
             deactiveAccount();
-        })
+        });
+        $("#supervisor-form input").keydown(function (event) {
+            $("#btn-save-supervisor").prop("disabled", false);
+            //Validate
+        });
     });
 
     function updateAccount() {
@@ -182,14 +152,14 @@
             "PUT",
             {accountId, firstName, lastName, phoneNumber},
             (data) => {
-                alert(data.message);
+                showAlert(true, data.message);
                 document.location.href = "/list-supervisors";
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )
-    };
+    }
 
     function deactiveAccount() {
 
@@ -205,7 +175,7 @@
                 alert(err.message);
             }
         )
-    };
+    }
 
 </script>
 </html>

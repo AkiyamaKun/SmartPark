@@ -22,7 +22,7 @@
                         <i class="fa fa-trash-o"></i> Deactive
                     </button>
                 </div>
-                <div class="card-body card-block">
+                <div class="card-body card-block" id="manager-form">
                     <input id="accountId" type="hidden" th:value="${manager.accountId}"/>
                     <div class="form-group">
                         <label for="email" class=" form-control-label">Email</label>
@@ -42,10 +42,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <!--<button type="button" class="btn btn-danger float-left" disabled>-->
-                        <!--<i class="fa fa-ban"></i> Cancel-->
-                    <!--</button>-->
-                    <button type="button" id="btnUpdate" class="btn btn-primary float-right">
+                    <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
                         <i class="fa fa-pencil"></i> Save
                     </button>
                 </div>
@@ -68,13 +65,18 @@
 <script>
 
 ready(function () {
-    document.getElementById("btnUpdate").addEventListener("click", function () {
+    document.getElementById("btn-save").addEventListener("click", function () {
         updateAccount();
     });
     
     document.getElementById("btnDeactive").addEventListener("click", function () {
         deactiveAccount();
     })
+
+    $("#manager-form input").keydown(function (event) {
+        $("#btn-save").prop("disabled", false);
+        //Validate
+    });
 });
 
 function updateAccount() {

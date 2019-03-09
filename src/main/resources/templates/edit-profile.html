@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <b>Manager</b>
                 </div>
-                <div class="card-body card-block">
+                <div class="card-body card-block" id="profile-form">
                     <input type="hidden" th:value="${session.User.accountId}" id="accountId">
                     <div class="form-group">
                         <label for="firstName" class=" form-control-label">Full name</label>
@@ -36,10 +36,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <!--<button type="button" class="btn btn-danger float-left" disabled>-->
-                        <!--<i class="fa fa-ban"></i> Cancel-->
-                    <!--</button>-->
-                    <button type="button" id="btnSave" class="btn btn-primary float-right">
+                    <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
                         <i class="fa fa-pencil"></i> Save
                     </button>
                 </div>
@@ -61,8 +58,13 @@
 <script>
 
     ready(function () {
-        document.getElementById("btnSave").addEventListener("click", function () {
+        document.getElementById("btn-save").addEventListener("click", function () {
             updateProfile();
+        });
+
+        $("#profile-form input").keydown(function (event) {
+            $("#btn-save").prop("disabled", false);
+            //Validate
         });
     });
 
