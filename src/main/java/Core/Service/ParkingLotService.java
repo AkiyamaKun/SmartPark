@@ -1,6 +1,5 @@
 package Core.Service;
 
-import Core.DTO.ParkingLotDTO;
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
 
@@ -12,9 +11,9 @@ public interface ParkingLotService {
 
     //For Admin Account
     ResponseDTO getAllParkingLotForAdmin();
-    ResponseDTO createParkingLot(ParkingLotDTO dto, Integer ownerId, Integer adminId);
-
+    ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId);
     ResponseDTO deactiveParkingLot(Integer parkingLotId);
+
     //For Supervisor Account
     ResponseDTO getListParkingLotManagedBySupervisor(Integer supervisorId);
 

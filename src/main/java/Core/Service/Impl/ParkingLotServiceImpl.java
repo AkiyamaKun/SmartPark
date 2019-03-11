@@ -133,16 +133,15 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     /**
      * Create Parking Lot
      * @param dto
-     * @param ownerId
      * @param adminId
      * @return
      */
     @Override
-    public ResponseDTO createParkingLot(ParkingLotDTO dto, Integer ownerId, Integer adminId){
+    public ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
-            Owner owner = ownerRepository.findByOwnerId(ownerId);
+            Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
             Account adminAccount = accountRepository.findByAccountId(adminId);
             adminAccount.setPassword(null);
             if(owner != null && adminAccount != null){

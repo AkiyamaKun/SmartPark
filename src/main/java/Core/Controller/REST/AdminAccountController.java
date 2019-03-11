@@ -1,9 +1,8 @@
 package Core.Controller.REST;
 
 import Core.Constant.Const;
-import Core.DTO.ParkingLotDTO;
-import Core.DTO.ParkingLotUpdateDTO;
-import Core.DTO.ResponseDTO;
+import Core.DTO.*;
+import Core.Entity.Account;
 import Core.Service.AccountService;
 import Core.Service.DriverAccountService;
 import Core.Service.OwnerService;
@@ -11,8 +10,9 @@ import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Manager Account Controller
@@ -36,6 +36,15 @@ public class AdminAccountController {
     ParkingLotService parkingLotService;
 
     /**
+     * Get Owner by Id
+     * @return
+     */
+    @RequestMapping(value = Const.GET_OWNER, method = RequestMethod.GET)
+    public ResponseDTO getOwner(@PathVariable Integer id){
+        return ownerService.getOwner(id);
+    }
+
+    /**
      * Get All Owner
      * @return
      */
@@ -44,14 +53,36 @@ public class AdminAccountController {
         return ownerService.getAllOwner();
 
     }
-
     /**
-     * Get Owner by Id
+     * Create Owner
+     * @param dto
      * @return
      */
-    @RequestMapping(value = Const.GET_OWNER, method = RequestMethod.GET)
-    public ResponseDTO getOwner(@PathVariable Integer id){
-        return ownerService.getOwner(id);
+    @RequestMapping(value = Const.CREATE_OWNER, method = RequestMethod.POST)
+    public ResponseDTO createOwner(@RequestBody @Valid OwnerDTO dto){
+        return ownerService.createOwner(dto);
+    }
+
+    /**
+     *
+     * @param dto
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.UPDATE_OWNER, method = RequestMethod.PUT)
+    public ResponseDTO updateOwner(@RequestBody @Valid OwnerDTO dto,
+                                   @PathVariable Integer id){
+        return ownerService.updateOwner(id, dto);
+    }
+
+    /**
+     * Deactive Owner
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.DEACTIVE_OWNER, method = RequestMethod.PUT)
+    public ResponseDTO deactiveOwner(@PathVariable Integer id){
+        return ownerService.deactiveOwner(id);
     }
 
     /**
@@ -65,6 +96,16 @@ public class AdminAccountController {
     }
 
     /**
+     * Get Parking Lot by Id
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.GET_PARKING_LOT, method = RequestMethod.GET)
+    public ResponseDTO getParkingLot(@PathVariable Integer id){
+        return parkingLotService.getParkingLot(id);
+    }
+
+    /**
      * Get All Parking Lot
      * @return
      */
@@ -74,21 +115,46 @@ public class AdminAccountController {
     }
 
     /**
-     * Get All Driver
+     * Create Parking Lot
+     * @param dto
+     * @param adminId
      * @return
      */
-    @RequestMapping(value = Const.GET_ALL_DRIVER, method = RequestMethod.GET)
-    public ResponseDTO getAllSupervisor(){
-        return accountService.getListAccount(3);
+    @RequestMapping(value = Const.CREATE_PARKING_LOT, method = RequestMethod.POST)
+    public ResponseDTO createParkingLot(@RequestBody @Valid ParkingLotUpdateDTO dto,
+                                        @PathVariable Integer adminId){
+        return parkingLotService.createParkingLot(dto, adminId);
     }
 
     /**
-     * Get All Supervisor
+     * Update Parking Lot
+     * @param dto
+     * @param accountId
      * @return
      */
-    @RequestMapping(value = Const.GET_ALL_SUPERVISOR, method = RequestMethod.GET)
-    public ResponseDTO getAllDriver(){
-        return accountService.getListAccount(2);
+    @RequestMapping(value = Const.UPDATE_PARKING_LOT, method = RequestMethod.PUT)
+    public ResponseDTO updateParkingLot(@RequestBody @Valid ParkingLotUpdateDTO dto,
+                                        @PathVariable Integer accountId){
+        return parkingLotService.updateParkingLot(dto, accountId);
+    }
+
+    /**
+     * Deactive Parking Lot
+     * @param parkingLotId
+     * @return
+     */
+    @RequestMapping(value = Const.DEACTIVE_PARKING_LOT, method = RequestMethod.PUT)
+    public ResponseDTO deactiveParkingLot(@PathVariable Integer parkingLotId){
+        return parkingLotService.deactiveParkingLot(parkingLotId);
+    }
+
+    /**
+     * Get Admin by Id
+     * @return
+     */
+    @RequestMapping(value = Const.GET_ADMIN, method = RequestMethod.GET)
+    public ResponseDTO getAdmin(@PathVariable Integer id){
+        return accountService.getAccount(id);
     }
 
     /**
@@ -101,22 +167,114 @@ public class AdminAccountController {
     }
 
     /**
-     * Create New Parking Lot
-     * @param dto
-     * @param ownerId - Account of Supervisor who own this parking lot
-     * @param adminId - Account of Admin - who create this parking lot
+     * Create Admin
      * @return
      */
-    @RequestMapping(value = Const.CREATE_PARKING_LOT, method = RequestMethod.POST)
-    public ResponseDTO createParkingLot(@RequestBody @Valid ParkingLotDTO dto,
-                                        @RequestParam (value = "ownerId", required = true) Integer ownerId,
-                                        @RequestParam (value = "adminId", required = true) Integer adminId){
-        return parkingLotService.createParkingLot(dto, ownerId, adminId );
+    @RequestMapping(value = Const.CREATE_ADMIN_ACCOUNT, method = RequestMethod.POST)
+    public ResponseDTO createAdmin(@RequestBody @Valid AccountDTO dto) {
+        return accountService.registerAccount(dto);
     }
 
-    @RequestMapping(value = Const.UPDATE_PARKING_LOT_FOR_ADMIN, method = RequestMethod.PUT)
-    public ResponseDTO updateParkingLotForAdmin(@RequestBody @Valid ParkingLotUpdateDTO dto,
-                                                @RequestParam(value = "adminId") Integer adminId){
-        return parkingLotService.updateParkingLot(dto, adminId);
+    /**
+     * Update Admin
+     * @return
+     */
+    @RequestMapping(value = Const.UPDATE_ADMIN_ACCOUNT, method = RequestMethod.PUT)
+    public ResponseDTO updateAdmin(@PathVariable Integer id,
+                                   @RequestBody @Valid AccountDTO dto,
+                                   HttpServletRequest request) {
+        ResponseDTO responseDTO = accountService.updateAccount(id, dto);
+        if(responseDTO.isStatus()){
+            HttpSession session = request.getSession();
+            UserLoginResponseDTO userLoginResponseDTO = (UserLoginResponseDTO) session.getAttribute("User");
+            if(userLoginResponseDTO != null){
+                if(userLoginResponseDTO.getAccountId() == id){
+                    AccountDTO accountDTO = (AccountDTO) responseDTO.getObjectResponse();
+                    userLoginResponseDTO.setFirstName(accountDTO.getFirstName());
+                    userLoginResponseDTO.setLastName(accountDTO.getLastName());
+                    userLoginResponseDTO.setPhoneNumber(accountDTO.getPhoneNumber());
+                    session.setAttribute("User" , userLoginResponseDTO);
+                    responseDTO.setMessage(Const.EDIT_PROFILE_SUCCESS);
+                }
+            }
+        }
+        return responseDTO;
     }
+
+    /**
+     * Deactive Admin
+     * @return
+     */
+    @RequestMapping(value = Const.DEACTIVE_ADMIN_ACCOUNT, method = RequestMethod.PUT)
+    public ResponseDTO deactiveAdmin(@PathVariable Integer id) {
+        return accountService.deactiveAccount(id);
+    }
+
+    /**
+     * Get Supervisor by Id
+     * @return
+     */
+    @RequestMapping(value = Const.GET_SUPERVISOR, method = RequestMethod.GET)
+    public ResponseDTO getSupervisor(@PathVariable Integer id){
+        return accountService.getAccount(id);
+    }
+
+    /**
+     * Get All Supervisor
+     * @return
+     */
+    @RequestMapping(value = Const.GET_ALL_SUPERVISOR, method = RequestMethod.GET)
+    public ResponseDTO getAllDriver(){
+        return accountService.getListAccount(2);
+    }
+
+    /**
+     * Create Supervisor
+     * @return
+     */
+    @RequestMapping(value = Const.CREATE_SUPERVISOR_ACCOUNT, method = RequestMethod.POST)
+    public ResponseDTO createSupervisor(@RequestBody @Valid AccountDTO dto) {
+        return accountService.registerAccount(dto);
+    }
+
+    /**
+     * Update Supervisor
+     * @return
+     */
+    @RequestMapping(value = Const.UPDATE_SUPERVISOR_ACCOUNT, method = RequestMethod.PUT)
+    public ResponseDTO updateSupervisor(@PathVariable Integer id,
+                                   @RequestBody @Valid AccountDTO dto) {
+        return accountService.updateAccount(id, dto);
+    }
+
+    /**
+     * Deactive Supervisor
+     * @return
+     */
+    @RequestMapping(value = Const.DEACTIVE_SUPERVISOR_ACCOUNT, method = RequestMethod.PUT)
+    public ResponseDTO deactiveSupervisor(@PathVariable Integer id) {
+        return accountService.deactiveAccount(id);
+    }
+
+    /**
+     * Get All Driver
+     * @return
+     */
+    @RequestMapping(value = Const.GET_ALL_DRIVER, method = RequestMethod.GET)
+    public ResponseDTO getAllSupervisor(){
+        return accountService.getListAccount(3);
+    }
+
+    /**
+     * Assign Parking Lot For Supervisor
+     * @param parkingLotId
+     * @param supervisorId
+     * @return
+     */
+    @RequestMapping(value = Const.ASSIGN_PARKING_LOT_FOR_SUPERVISOR, method = RequestMethod.POST)
+    public ResponseDTO assignParkingLotForSupervisor(@RequestParam(value = "parkingLotId") Integer parkingLotId,
+                                                     @RequestParam(value = "supervisorId") Integer supervisorId){
+        return null;
+    }
+
 }

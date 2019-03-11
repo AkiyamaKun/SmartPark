@@ -148,7 +148,7 @@
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
 
-        CallAjaxWithFetch(`/account/update/${accountId}`,
+        CallAjaxWithFetch(`/admin/update_supervisor/${accountId}`,
             "PUT",
             {accountId, firstName, lastName, phoneNumber},
             (data) => {
@@ -165,8 +165,8 @@
 
         let accountId = document.getElementById("accountId").value;
 
-        CallAjaxWithFetch(`/account/delete/${accountId}`,
-            "DELETE",
+        CallAjaxWithFetch(`/admin/deactive_supervisor/${accountId}`,
+            "PUT",
             (data) => {
                 alert(data.message);
                 document.location.href = "/list-supervisors";
