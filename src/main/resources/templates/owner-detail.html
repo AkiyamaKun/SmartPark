@@ -22,7 +22,7 @@
                     <i class="fa fa-trash-o"></i> Deactive
                 </button>
             </div>
-            <div class="card-body card-block">
+            <div class="card-body card-block" id="owner-form">
                 <input id="ownerId" type="hidden" th:value="${owner.ownerId}"/>
                 <div class="form-group col-lg-6">
                     <label for="firstName" class=" form-control-label">First name</label>
@@ -42,10 +42,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <!--<button type="button" class="btn btn-danger float-left" disabled>-->
-                    <!--<i class="fa fa-ban"></i> Cancel-->
-                <!--</button>-->
-                <button type="button" id="btnUpdate" class="btn btn-primary float-right">
+                <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
                     <i class="fa fa-pencil"></i> Save
                 </button>
             </div>
@@ -68,13 +65,18 @@
 <script>
 
     ready(function () {
-        document.getElementById("btnUpdate").addEventListener("click", function () {
+        document.getElementById("btn-save").addEventListener("click", function () {
             updateAccount();
         });
 
         document.getElementById("btnDeactive").addEventListener("click", function () {
             deactiveAccount();
         })
+
+        $("#owner-form input").keydown(function (event) {
+            $("#btn-save").prop("disabled", false);
+            //Validate
+        });
     });
 
     function updateAccount() {

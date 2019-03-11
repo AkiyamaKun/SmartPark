@@ -24,6 +24,7 @@
                     <b>Parking Lot</b>
                 </div>
                 <div class="card-body card-block">
+                    <input type="hidden" th:value="${session.User.accountId}" id="accountId">
                     <div class="form-group">
                         <label class="form-control-label required">Display Name <span></span></label>
                         <input type="text" id="name" placeholder="Display Name" class="form-control"/>
@@ -84,7 +85,7 @@
 
                 //TODO Get ownerId and adminId from somewhere
                 let ownerId = 1;
-                let adminId = 1;
+                let adminId = document.getElementById("accountId");
 
                 if (validatedData) {
                     let dto = {
@@ -105,12 +106,10 @@
 
                     doAjax("/parking_lot/create_parking_lot?ownerId=" + ownerId + "&adminId=" + adminId, "POST", dto, function (data) {
                         showAlert(true, "Add new parking lot successfully!");
+                        document.location.href = "/list-parking-lots";
                     }, function (error) {
                         showAlert(false, error.message);
                     });
-
-                } else { //Not validated
-                    //TODO Show alert
                 }
             });
         });
@@ -136,7 +135,7 @@
                 validateMessage = 'Long and lat should be float number!';
             } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
                 validateMessage = 'Total slots should be positive integer number!';
-            } else if (phoneRegex.test(phoneNumber)) {
+            } else if (!phoneRegex.test(phoneNumber)) {
                 validateMessage = 'Phone number should follow format 0#########';
             }
 
