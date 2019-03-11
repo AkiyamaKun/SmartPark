@@ -40,6 +40,7 @@ public class Const {
     public static final String LACK_OF_DATA = "Lack of data";
     public static final String PASSWORD_IDENTICAL = "New password is the same old password";
     public static final String PASSWORD_CONFIRM_FAIL = "New password and confirm password are not the same";
+    public static final String PASSWORD_OLD_IS_NOT_EXACTLY = "Old password is not exactly";
     public static final String ROLE_IS_NOT_EXISTED = "Role is not existed";
     public static final String NOTHING_DATA_ON_SERVER = "Nothing data on server";
     public static final String GET_LIST_ACCOUNTS_SUCCESS = "Get List Account Successful";
@@ -120,6 +121,7 @@ public class Const {
     public static final String GET_OWNER = "/{id}";
     public static final String GET_ALL_OWNER = "/all_owners";
     public static final String DEACTIVE_OWNER = "/deactive/{id}";
+    public static final String SEARCH_OWNER = "/search_owner";
 
     //Owner Message
     public static final String GET_OWNER_SUCCESS = "Get Owner Successful";
@@ -133,4 +135,7 @@ public class Const {
     public static final String UPDATE_OWNER_FAIL = "Update Owner Fail";
     public static final String DEACTIVE_OWNER_SUCCESS = "Deacitve Owner Successful";
     public static final String DEACTIVE_OWNER_FAIL = "Deacitve Owner Fail";
+    public static final String SEARCH_OWNER_SUCCESS = "Search Owner Successful";
+    public static final String SEARCH_OWNER_FAIL = "Search Owner Error";
+    public static final String SEARCH_OWNER_FIND_NOT_FOUND = "Owner is not found";
 }

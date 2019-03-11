@@ -81,6 +81,8 @@ public class AccountServiceImpl implements AccountService {
                         responseDTO.setMessage(Const.PASSWORD_IDENTICAL);
                     }else if(!newPassword.equals(confirmPassword)){
                         responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
+                    }else if (!oldPassword.equalsIgnoreCase(account.getPassword())){
+                        responseDTO.setMessage(Const.PASSWORD_OLD_IS_NOT_EXACTLY);
                     }else{
                         account.setPassword(newPassword);
                         accountRepository.save(account);

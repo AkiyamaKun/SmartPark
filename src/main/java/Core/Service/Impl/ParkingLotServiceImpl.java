@@ -1,10 +1,7 @@
 package Core.Service.Impl;
 
 import Core.Constant.Const;
-import Core.DTO.ParkingLotDTO;
-import Core.DTO.ParkingSlotDTO;
-import Core.DTO.ResponseDTO;
-import Core.DTO.ShortInfoParkingLotDTO;
+import Core.DTO.*;
 import Core.Entity.*;
 import Core.Repository.*;
 import Core.Entity.Account;
@@ -204,52 +201,45 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      * @return
      */
     @Override
-    public ResponseDTO updateParkingLot(ParkingLotDTO dto, Integer parkingLotId, Integer adminId){
+    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer parkingLotId, Integer accountId){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             if(dto != null){
                 ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+                Account account = accountRepository.findByAccountId(accountId);
+                Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
                 if(parkingLot != null){
-                    //Update Data For Supervisor
-                    Date date = new Date();
-                    parkingLot.setLastEdited(date);
-                    parkingLot.setPhoneNumber(dto.getPhoneNumber());
-                    parkingLot.setAddress(dto.getAddress());
-                    parkingLot.setDisplayName(dto.getDisplayName());
-                    parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
+                    if(account != null){
+                        //Update Data For Supervisor
+                        Date date = new Date();
+                        parkingLot.setLastEdited(date);
+                        parkingLot.setPhoneNumber(dto.getPhoneNumber());
+                        parkingLot.setAddress(dto.getAddress());
+                        parkingLot.setDisplayName(dto.getDisplayName());
+                        parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
 
-                    if(adminId != null){
-                        //Update Parking Lot for Admin
-                        Account admin = accountRepository.findByAccountId(adminId);
-                        admin.setPassword(null);
-                        if(admin != null){
-                            //Only admin account can be edit
-                            parkingLot.setEditedBy(admin);
+                        if(account.getRole().getRoleId() == 1){
+                            //Update Parking Lot for Admin
+                            parkingLot.setEditedBy(account);
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
+                        }else{
+                            parkingLot.setEditedBy(account);
+                        }
+                        //Excute Query Update Database
+                        parkingLotRepository.save(parkingLot);
+                        //Excute data before return Front-End
+                        parkingLot.getCreatedBy().setPassword(null);
+                        parkingLot.getEditedBy().setPassword(null);
 
-                        }else{
-                            responseDTO.setMessage(Const.UPDATE_PARKING_LOT_FAIL);
-                            return responseDTO;
-                        }
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.UPDATE_PARKING_LOT_SUCCESS);
+                        responseDTO.setObjectResponse(parkingLot);
                     }else{
-                        //Update Parking Lot for Supervisor
-                        Account supervisor = supervisionRepository.findByParkingLot(parkingLot).getSupervisor();
-                        supervisor.setPassword(null);
-                        if(supervisor != null){
-                            parkingLot.setEditedBy(supervisor);
-                        }else{
-                            responseDTO.setMessage(Const.UPDATE_PARKING_LOT_FAIL);
-                            return responseDTO;
-                        }
+                        responseDTO.setMessage(Const.UPDATE_PARKING_LOT_FAIL);
                     }
-                    //Excute and Return
-                    parkingLotRepository.save(parkingLot);
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.UPDATE_PARKING_LOT_SUCCESS);
-                    responseDTO.setObjectResponse(parkingLot);
                 }else{
                     responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
                 }

@@ -181,4 +181,25 @@ public class OwnerServiceImpl implements OwnerService {
         }
         return responseDTO;
     }
+
+
+    @Override
+    public ResponseDTO searchOwnerByName(String searchValue){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            List<Owner> owners = ownerRepository.searchOwnerByName(searchValue);
+           if(!owners.isEmpty()) {
+               responseDTO.setStatus(true);
+               responseDTO.setObjectResponse(owners);
+               responseDTO.setMessage(Const.SEARCH_OWNER_SUCCESS);
+           }else{
+               responseDTO.setStatus(true);
+               responseDTO.setMessage(Const.SEARCH_OWNER_FIND_NOT_FOUND);
+           }
+        }catch (Exception e){
+            responseDTO.setMessage("Search Owner Exception: " + e.getLocalizedMessage());
+        }
+        return responseDTO;
+    }
 }

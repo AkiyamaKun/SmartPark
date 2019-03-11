@@ -2,6 +2,8 @@ package Core.Controller.REST;
 
 import Core.Constant.Const;
 import Core.DTO.AccountDTO;
+import Core.DTO.ParkingLotDTO;
+import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.AccountService;
 import Core.Service.DriverAccountService;
@@ -90,4 +92,15 @@ public class AdminAccountController {
     }
 
 
+    @RequestMapping(value = Const.SEARCH_OWNER, method = RequestMethod.GET)
+    public ResponseDTO searchOwnerByName(@RequestParam(value = "searchValue", required = true) String searchValue){
+        return ownerService.searchOwnerByName(searchValue);
+    }
+
+    @RequestMapping(value = Const.UPDATE_PARKING_LOT_FOR_ADMIN, method = RequestMethod.PUT)
+    public ResponseDTO updateParkingLotForAdmin(@RequestBody @Valid ParkingLotUpdateDTO dto,
+                                                @RequestParam(value = "parkingLotId") Integer parkingLotId,
+                                                @RequestParam(value = "adminId") Integer adminId){
+        return parkingLotService.updateParkingLot(dto, parkingLotId, adminId);
+    }
 }

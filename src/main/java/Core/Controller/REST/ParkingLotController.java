@@ -51,32 +51,6 @@ public class ParkingLotController {
     }
 
     /**
-     * Update Parking Lot for Supervisor
-     * @param dto
-     * @param parkingLotId
-     * @return
-     */
-    @RequestMapping(value = Const.UPDATE_PARKING_LOT_FOR_SUPERVISOR, method = RequestMethod.PUT)
-    public ResponseDTO updateParkingLotForSupervisor(@RequestBody @Valid ParkingLotDTO dto,
-                                        @PathVariable Integer parkingLotId){
-        return parkingLotService.updateParkingLot(dto, parkingLotId, null);
-    }
-
-    /**
-     * Update Parking Lot for Admin
-     * @param dto
-     * @param parkingLotId
-     * @param adminId
-     * @return
-     */
-    @RequestMapping(value = Const.UPDATE_PARKING_LOT_FOR_ADMIN, method = RequestMethod.PUT)
-    public ResponseDTO updateParkingLotForAdmin(@RequestBody @Valid ParkingLotDTO dto,
-                                        @PathVariable Integer parkingLotId,
-                                        @RequestParam (value = "adminId", required = true) Integer adminId){
-        return parkingLotService.updateParkingLot(dto, parkingLotId, adminId);
-    }
-
-    /**
      * Get All Slot Of Parking Lot
      * @param parkingLotId
      * @return
