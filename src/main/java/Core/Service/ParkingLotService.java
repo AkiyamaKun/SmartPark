@@ -3,15 +3,12 @@ package Core.Service;
 import Core.DTO.ParkingLotDTO;
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
-import Core.Entity.ParkingLot;
-
-import java.util.List;
 
 public interface ParkingLotService {
     //Common
     ResponseDTO getParkingLot(Integer id);
     ResponseDTO getAllSlotOfParkingLot(Integer parkingLotId);
-    ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer parkingLotId, Integer accountId);
+    ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer accountId);
 
     //For Admin Account
     ResponseDTO getAllParkingLotForAdmin();

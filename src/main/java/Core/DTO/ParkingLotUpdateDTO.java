@@ -1,6 +1,7 @@
 package Core.DTO;
 
 public class ParkingLotUpdateDTO {
+    private Integer parkingLotId;
     private String displayName;
     private float longitude;
     private float latitude;
@@ -13,9 +14,10 @@ public class ParkingLotUpdateDTO {
     public ParkingLotUpdateDTO() {
     }
 
-    public ParkingLotUpdateDTO(String displayName, float longitude, float latitude,
+    public ParkingLotUpdateDTO(Integer parkingLotId, String displayName, float longitude, float latitude,
                                String address, String phoneNumber, String timeOfOperation,
                                Integer ownerId, boolean isActive) {
+        this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -24,6 +26,14 @@ public class ParkingLotUpdateDTO {
         this.timeOfOperation = timeOfOperation;
         this.ownerId = ownerId;
         this.isActive = isActive;
+    }
+
+    public Integer getParkingLotId() {
+        return parkingLotId;
+    }
+
+    public void setParkingLotId(Integer parkingLotId) {
+        this.parkingLotId = parkingLotId;
     }
 
     public String getDisplayName() {

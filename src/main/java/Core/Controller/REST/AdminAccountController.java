@@ -1,7 +1,6 @@
 package Core.Controller.REST;
 
 import Core.Constant.Const;
-import Core.DTO.AccountDTO;
 import Core.DTO.ParkingLotDTO;
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
@@ -47,12 +46,22 @@ public class AdminAccountController {
     }
 
     /**
-     * Get All Owner
+     * Get Owner by Id
      * @return
      */
     @RequestMapping(value = Const.GET_OWNER, method = RequestMethod.GET)
     public ResponseDTO getOwner(@PathVariable Integer id){
         return ownerService.getOwner(id);
+    }
+
+    /**
+     * Search Owner by Name
+     * @param searchValue
+     * @return
+     */
+    @RequestMapping(value = Const.SEARCH_OWNER, method = RequestMethod.GET)
+    public ResponseDTO searchOwnerByName(@RequestParam(value = "searchValue", required = true) String searchValue){
+        return ownerService.searchOwnerByName(searchValue);
     }
 
     /**
@@ -83,7 +92,7 @@ public class AdminAccountController {
     }
 
     /**
-     * Get All Supervisor
+     * Get All Admin
      * @return
      */
     @RequestMapping(value = Const.GET_ALL_ADMIN, method = RequestMethod.GET)
@@ -91,16 +100,23 @@ public class AdminAccountController {
         return accountService.getListAccount(1);
     }
 
-
-    @RequestMapping(value = Const.SEARCH_OWNER, method = RequestMethod.GET)
-    public ResponseDTO searchOwnerByName(@RequestParam(value = "searchValue", required = true) String searchValue){
-        return ownerService.searchOwnerByName(searchValue);
+    /**
+     * Create New Parking Lot
+     * @param dto
+     * @param ownerId - Account of Supervisor who own this parking lot
+     * @param adminId - Account of Admin - who create this parking lot
+     * @return
+     */
+    @RequestMapping(value = Const.CREATE_PARKING_LOT, method = RequestMethod.POST)
+    public ResponseDTO createParkingLot(@RequestBody @Valid ParkingLotDTO dto,
+                                        @RequestParam (value = "ownerId", required = true) Integer ownerId,
+                                        @RequestParam (value = "adminId", required = true) Integer adminId){
+        return parkingLotService.createParkingLot(dto, ownerId, adminId );
     }
 
     @RequestMapping(value = Const.UPDATE_PARKING_LOT_FOR_ADMIN, method = RequestMethod.PUT)
     public ResponseDTO updateParkingLotForAdmin(@RequestBody @Valid ParkingLotUpdateDTO dto,
-                                                @RequestParam(value = "parkingLotId") Integer parkingLotId,
                                                 @RequestParam(value = "adminId") Integer adminId){
-        return parkingLotService.updateParkingLot(dto, parkingLotId, adminId);
+        return parkingLotService.updateParkingLot(dto, adminId);
     }
 }

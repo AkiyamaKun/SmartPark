@@ -201,12 +201,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      * @return
      */
     @Override
-    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer parkingLotId, Integer accountId){
+    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer accountId){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             if(dto != null){
-                ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+                ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(dto.getParkingLotId());
                 Account account = accountRepository.findByAccountId(accountId);
                 Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
                 if(parkingLot != null){
@@ -225,6 +225,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
+                            parkingLot.setOwner(owner);
                         }else{
                             parkingLot.setEditedBy(account);
                         }

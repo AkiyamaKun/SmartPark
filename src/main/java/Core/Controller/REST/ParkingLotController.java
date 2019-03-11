@@ -36,19 +36,7 @@ public class ParkingLotController {
         return parkingLotService.getListParkingLotActiveForAndroid();
     }
 
-    /**
-     * Create New Parking Lot
-     * @param dto
-     * @param ownerId - Account of Supervisor who own this parking lot
-     * @param adminId - Account of Admin - who create this parking lot
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_PARKING_LOT, method = RequestMethod.POST)
-    public ResponseDTO createParkingLot(@RequestBody @Valid ParkingLotDTO dto,
-                                        @RequestParam (value = "ownerId", required = true) Integer ownerId,
-                                        @RequestParam (value = "adminId", required = true) Integer adminId){
-       return parkingLotService.createParkingLot(dto, ownerId, adminId );
-    }
+
 
     /**
      * Get All Slot Of Parking Lot
