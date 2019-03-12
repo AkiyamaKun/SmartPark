@@ -213,27 +213,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Delete Account
+     * Deactive Account
      * @param id
      * @return
      */
     @Override
-    public ResponseDTO deleteAccount(Integer id) {
+    public ResponseDTO deactiveAccount(Integer id) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             Account account = accountRepository.findByAccountId(id);
             if(account != null){
-                if(account.getRole().getRoleId() == 3){
-                    accountRepository.delete(account);
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
-                }else{
-                    account.setActive(false);
-                    accountRepository.save(account);
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
-                }
+                account.setActive(false);
+                accountRepository.save(account);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.DELETE_ACCOUNT_SUCCESS);
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
             }

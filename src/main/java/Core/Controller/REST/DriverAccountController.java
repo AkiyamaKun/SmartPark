@@ -34,12 +34,11 @@ public class DriverAccountController{
     @Autowired
     AccountService accountService;
 
-    @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
-    public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
-                                           @RequestParam(value = "token", required = true) String token){
-        return driverAccountService.verifyAccount(email, token);
-    }
-
+    /**
+     * Get Driver Account
+     * @param id
+     * @return
+     */
     @RequestMapping(value = Const.GET_DRIVER_ACCOUNT, method = RequestMethod.GET)
     public ResponseDTO getDriverAccount(@PathVariable Integer id){
         ResponseDTO responseDTO = new ResponseDTO();
@@ -58,6 +57,23 @@ public class DriverAccountController{
         return responseDTO;
     }
 
+    /**
+     * Create Driver Account
+     * @param accountDTO
+     * @return
+     */
+    @RequestMapping(value = Const.CREATE_DRIVER_ACCOUNT, method = RequestMethod.POST)
+    public ResponseDTO createDriver(@RequestBody @Valid AccountDTO accountDTO){
+        //Register Driver Account
+        accountDTO.setRoleId(3);
+        return accountService.registerAccount(accountDTO);
+
+    }
+
+    /**
+     * Get All Parking Lot
+     * @return
+     */
     @RequestMapping(value = Const.GET_ALL_PARKING_LOT, method = RequestMethod.GET)
     public ResponseDTO getListParkingLotAcitve(){
         ResponseDTO responseDTO = new ResponseDTO();
@@ -80,19 +96,6 @@ public class DriverAccountController{
     }
 
     /**
-     * Create Driver Account
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_DRIVER_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createDriver(@RequestBody @Valid AccountDTO accountDTO){
-        //Register Driver Account
-        accountDTO.setRoleId(3);
-        return accountService.registerAccount(accountDTO);
-
-    }
-
-    /**
      * Set new password then forget password
      * @param email
      * @param password
@@ -112,5 +115,17 @@ public class DriverAccountController{
             responseDTO.setMessage(Const.CHANGE_PASSWORD_SUCCESS);
         }
         return responseDTO;
+    }
+
+    /**
+     * Verify Driver Account
+     * @param email
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
+    public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
+                                           @RequestParam(value = "token", required = true) String token){
+        return driverAccountService.verifyAccount(email, token);
     }
 }

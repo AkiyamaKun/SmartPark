@@ -100,7 +100,7 @@ function updateAccount() {
     //     });
     // });
 
-    CallAjaxWithFetch(`/account/update/${accountId}`,
+    CallAjaxWithFetch(`/admin/update_admin/${accountId}`,
         "PUT",
         {accountId, firstName, lastName, phoneNumber},
         (data) => {
@@ -117,8 +117,8 @@ function deactiveAccount() {
 
     let accountId = document.getElementById("accountId").value;
 
-    CallAjaxWithFetch(`/account/delete/${accountId}`,
-        "DELETE",
+    CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
+        "PUT",
         (data) => {
             alert(data.message);
             document.location.href = "/list-managers";

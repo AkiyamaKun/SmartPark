@@ -133,16 +133,15 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     /**
      * Create Parking Lot
      * @param dto
-     * @param ownerId
      * @param adminId
      * @return
      */
     @Override
-    public ResponseDTO createParkingLot(ParkingLotDTO dto, Integer ownerId, Integer adminId){
+    public ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
-            Owner owner = ownerRepository.findByOwnerId(ownerId);
+            Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
             Account adminAccount = accountRepository.findByAccountId(adminId);
             adminAccount.setPassword(null);
             if(owner != null && adminAccount != null){
@@ -201,12 +200,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      * @return
      */
     @Override
-    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer parkingLotId, Integer accountId){
+    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer accountId){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             if(dto != null){
-                ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+                ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(dto.getParkingLotId());
                 Account account = accountRepository.findByAccountId(accountId);
                 Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
                 if(parkingLot != null){
@@ -225,6 +224,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
+                            parkingLot.setOwner(owner);
                         }else{
                             parkingLot.setEditedBy(account);
                         }

@@ -81,16 +81,6 @@ public class AccountController {
     }
 
     /**
-     * Delete Account
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = Const.DELETE_ACCOUNT, method = RequestMethod.DELETE)
-    public ResponseDTO deleteAccount(@PathVariable Integer id){
-        return accountService.deleteAccount(id);
-    }
-
-    /**
      * Get List Account
      * @param roleId
      * @return

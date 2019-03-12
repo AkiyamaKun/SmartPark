@@ -23,7 +23,6 @@
                     </button>
                 </div>
                 <div class="card-body card-block" id="supervisor-form">
-                    <input id="isActive" type="hidden" th:value="${supervisor.active}"/>
                     <input id="accountId" type="hidden" th:value="${supervisor.accountId}"/>
                     <div class="form-group">
                         <label for="firstName" class="form-control-label">First name</label>
@@ -149,7 +148,7 @@
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
 
-        CallAjaxWithFetch(`/account/update/${accountId}`,
+        CallAjaxWithFetch(`/admin/update_supervisor/${accountId}`,
             "PUT",
             {accountId, firstName, lastName, phoneNumber},
             (data) => {
