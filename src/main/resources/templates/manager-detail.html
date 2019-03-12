@@ -24,6 +24,7 @@
                 </div>
                 <div class="card-body card-block" id="manager-form">
                     <input id="accountId" type="hidden" th:value="${manager.accountId}"/>
+                    <input id="isActive" type="hidden" th:value="${manager.active}"/>
                     <div class="form-group">
                         <label for="email" class=" form-control-label">Email</label>
                         <input type="text" id="email" th:value="${manager.email}" class="form-control" disabled>
@@ -103,11 +104,11 @@ function updateAccount() {
         "PUT",
         {accountId, firstName, lastName, phoneNumber},
         (data) => {
-            alert(data.message);
+            showAlert(true, data.message);
             document.location.href = "/list-managers";
         },
         (err) => {
-            alert(err.message);
+            showAlert(true, err.message);
         }
     )
 };

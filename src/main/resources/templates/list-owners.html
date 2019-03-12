@@ -35,6 +35,7 @@
                                     <th>Name</th>
                                     <th>Address</th>
                                     <th>Phone</th>
+                                    <th>Status</th>
                                     <th>More</th>
                                 </tr>
                                 </thead>
@@ -74,14 +75,21 @@
     $(document).ready(function () {
         doAjax("/admin/all_owners", "GET", null, function (data) {
             let accounts = data.objectResponse;
+            let status = "";
             $("#list-owners").empty();
             $.each(accounts, function (index, value) {
+                if (value.active == true) {
+                    status = "active";
+                } else {
+                    status = "not active"
+                }
                 let tr =
                     "<tr>\n" +
-                    "<td><a href='/owner-detail?id=" + value.ownerId + "'>" + value.lastName + " " + value.firstName + "</a></td>\n" +
-                    "<td>" + value.address + "</a></td>\n" +
-                    "<td>" + value.phoneNumber + "</td>\n" +
-                    "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
+                        "<td><a href='/owner-detail?id=" + value.ownerId + "'>" + value.lastName + " " + value.firstName + "</a></td>\n" +
+                        "<td>" + value.address + "</a></td>\n" +
+                        "<td>" + value.phoneNumber + "</td>\n" +
+                        "<td>" + status + "</td>\n" +
+                        "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
                     "</tr>";
                 $("#list-owners").append(tr);
             });

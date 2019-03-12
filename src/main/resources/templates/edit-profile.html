@@ -58,13 +58,13 @@
 <script>
 
     ready(function () {
-        document.getElementById("btn-save").addEventListener("click", function () {
-            updateProfile();
-        });
-
         $("#profile-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
+        });
+
+        document.getElementById("btn-save").addEventListener("click", function () {
+            updateProfile();
         });
     });
 
@@ -78,11 +78,12 @@
             "PUT",
             {accountId, firstName, lastName, phoneNumber},
             (data) => {
-                alert(data.message);
-                document.location.href = "/home";
+                showAlert(true, data.message);
+                $('#btn-save').prop('disabled', true);
+                // document.location.href = "/edit-profile?id=" + accountId;
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )
     };

@@ -9,8 +9,6 @@
     <link rel="stylesheet" th:href="@{vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css}">
     <link rel="stylesheet" th:href="@{vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css}">
 
-    <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/assets/js/app.js"></script>
         <div th:replace="shared/left_panel :: left_panel"></div>
 
         <!-- Right Panel -->
@@ -35,6 +33,7 @@
                                                 <th>Name</th>
                                                 <th>Owned By</th>
                                                 <th>Num Of Slots</th>
+                                                <th>Status</th>
                                                 <th>More</th>
                                             </tr>
                                         </thead>
@@ -72,13 +71,20 @@
             doAjax("/parking_lot/all_parking_lot", "GET", null, function (data) {
                 //TODO Check empty
                 let parkingLots = data.objectResponse;
+                let status = "";
                 $("#list-parking-lot").empty();
                 $.each(parkingLots, function (index, lot) {
+                    if (lot.active == true) {
+                        status = "active";
+                    } else {
+                        status = "not active"
+                    }
                     let tr =
                         "<tr>" +
                             "<td><a href='/parking-lot-detail?id=" + lot.parkingLotId + "'>" + lot.displayName + "</a></td>" +
                             "<td>" + lot.owner.lastName + " " + lot.owner.firstName + "</td>" +
                             "<td>" + lot.totalSlot + "</td>" +
+                            "<td>" + status + "</td>" +
                             //TODO Implement delete link
                             "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>" +
                         "</tr>";

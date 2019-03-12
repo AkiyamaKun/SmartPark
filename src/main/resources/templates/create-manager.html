@@ -68,29 +68,73 @@
             createAccount();
         });
 
-        document.getElementById("reset").addEventListener("reset", function () {
-
+        document.getElementById("reset").addEventListener("click", function () {
+            resetInput();
         })
     });
 
     function createAccount() {
+        let validateData = validateInput();
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let email = document.getElementById("email").value;
         let phoneNumber = document.getElementById("phone").value;
         let roleId = 1;
 
-        CallAjaxWithFetch(`/account/register`,
-            "POST",
-            { firstName, lastName, email, phoneNumber, roleId },
-            (data) => {
-                alert(data.message);
-                document.location.href = "/list-managers";
-            },
-            (err) => {
-                alert(err.message);
-            }
-        );
+        if (validateData) {
+            CallAjaxWithFetch(`/account/register`,
+                "POST",
+                { firstName, lastName, email, phoneNumber, roleId },
+                (data) => {
+                    showAlert(true, data.message);
+                    document.location.href = "/list-managers";
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            );
+        }
+    }
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let phoneNumber = $("#phone").val().trim();
+        let email = $("#email").val().trim();
+
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0 ) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (email.length === 0) {
+            validateMessage = 'Email is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+        }
+    }
+
+    function resetInput() {
+        document.getElementById("firstName").value = '';
+        document.getElementById("lastName").value = '';
+        document.getElementById("email").value = '';
+        document.getElementById("phone").value = '';
     }
 
 </script>
