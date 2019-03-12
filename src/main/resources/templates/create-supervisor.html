@@ -78,11 +78,11 @@
             "POST",
             { firstName, lastName, email, phoneNumber, roleId },
             (data) => {
-                alert(data.message);
+                showAlert(true, data.message);
                 document.location.href = "/list-supervisors";
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )
     }

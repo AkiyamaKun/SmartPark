@@ -36,9 +36,9 @@
                         <label class=" form-control-label">Sex</label>
                         <select id="sex" class="form-control">
                             <option>Please select</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
-                            <option value="3">Unspecified</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="unspecified">Unspecified</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -96,11 +96,11 @@
             "POST",
             { firstName, lastName, strSex, address, phoneNumber, yearOfBirth },
             (data) => {
-                alert(data.message);
-                //document.location.href = "/list-managers";
+                showAlert(true, data.message);
+                document.location.href = "/list-owners";
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )};
 

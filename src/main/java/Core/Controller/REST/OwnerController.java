@@ -14,4 +14,29 @@ import javax.validation.Valid;
 @RequestMapping(value = Const.OWNER)
 public class OwnerController {
 
+    @Autowired
+    private OwnerService ownerService;
+
+    /**
+     * Update Owner
+     * @param ownerDTO
+     * @return
+     */
+    @RequestMapping(value = Const.UPDATE_OWNER, method = RequestMethod.PUT)
+    public ResponseDTO updateAccount(@RequestBody @Valid OwnerDTO ownerDTO,
+                                     @PathVariable Integer id){
+        ResponseDTO responseDTO = ownerService.updateOwner(id, ownerDTO);
+        return responseDTO;
+    }
+
+    /**
+     * Deactive Owner
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.DEACTIVE_OWNER, method = RequestMethod.PUT)
+    public ResponseDTO deactiveAccount(@PathVariable Integer id){
+        ResponseDTO responseDTO = ownerService.deactiveOwner(id);
+        return responseDTO;
+    }
 }
