@@ -87,7 +87,7 @@ public class Const {
     public static final String GET_ALL_SLOT_OF_PARKING_LOT = "/list_parking_slot";
     public static final String GET_ALL_PARKING_LOT = "/all_parking_lot";
     public static final String CREATE_PARKING_LOT = "/create_parking_lot";
-    public static final String UPDATE_PARKING_LOT = "/update_parking_lot/{parkingLotId}";
+    public static final String UPDATE_PARKING_LOT = "/update_parking_lot/{accountId}";
     public static final String DEACTIVE_PARKING_LOT = "/deactive_parking_lot/{parkingLotId}";
 
     //Owner Message

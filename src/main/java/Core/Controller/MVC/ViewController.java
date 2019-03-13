@@ -220,9 +220,11 @@ public class ViewController {
     }
 
     @RequestMapping(value = "/create-parking-lot")
-    public String toCreateParkingLot(Model model) {
-        //Excute anything here
-        return "create-parking-lot";
+    public ModelAndView toCreateParkingLot(Model model) {
+        ModelAndView view = new ModelAndView("create-parking-lot");
+        ResponseDTO owner = ownerService.getAllOwner();
+        view.addObject("ownerName", owner.getObjectResponse());
+        return view;
     }
 
     @RequestMapping(value = "/create-owner")

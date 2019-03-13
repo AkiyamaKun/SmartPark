@@ -6,128 +6,152 @@
 
 <body>
 
-    <div th:replace="shared/left_panel :: left_panel"></div>
+<div th:replace="shared/left_panel :: left_panel"></div>
 
-    <div id="right-panel" class="right-panel">
+<div id="right-panel" class="right-panel">
 
-        <div th:replace="shared/header :: header"></div>
+    <div th:replace="shared/header :: header"></div>
 
-        <div th:replace="shared/breadcrumbs :: breadcrumbs"></div>
+    <div th:replace="shared/breadcrumbs :: breadcrumbs"></div>
 
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <b>Manager</b>
-                    <button type="button" id="btnDeactive" class="btn btn-danger float-right">
-                        <i class="fa fa-trash-o"></i> Deactive
-                    </button>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Manager</b>
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right">
+                    <i class="fa fa-trash-o"></i> Deactive
+                </button>
+            </div>
+            <div class="card-body card-block" id="manager-form">
+                <input id="accountId" type="hidden" th:value="${manager.accountId}"/>
+                <input id="isActive" type="hidden" th:value="${manager.active}"/>
+                <div class="form-group">
+                    <label for="email" class=" form-control-label">Email</label>
+                    <input type="text" id="email" th:value="${manager.email}" class="form-control" disabled>
                 </div>
-                <div class="card-body card-block" id="manager-form">
-                    <input id="accountId" type="hidden" th:value="${manager.accountId}"/>
-                    <input id="isActive" type="hidden" th:value="${manager.active}"/>
-                    <div class="form-group">
-                        <label for="email" class=" form-control-label">Email</label>
-                        <input type="text" id="email" th:value="${manager.email}" class="form-control" disabled>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <label for="firstName" class=" form-control-label">First name</label>
-                        <input type="text" id="firstName" th:value="${manager.firstName}" class="form-control" required>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <label for="lastName" class=" form-control-label">Last name</label>
-                        <input type="text" id="lastName" th:value="${manager.lastName}" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phone" th:value="${manager.phoneNumber}" class="form-control" required>
-                    </div>
+                <div class="form-group col-lg-6">
+                    <label for="firstName" class=" form-control-label">First name</label>
+                    <input type="text" id="firstName" th:value="${manager.firstName}" class="form-control" required>
                 </div>
-                <div class="card-footer">
-                    <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
-                        <i class="fa fa-pencil"></i> Save
-                    </button>
+                <div class="form-group col-lg-6">
+                    <label for="lastName" class=" form-control-label">Last name</label>
+                    <input type="text" id="lastName" th:value="${manager.lastName}" class="form-control" required>
                 </div>
+                <div class="form-group">
+                    <label for="phone" class=" form-control-label">Phone number</label>
+                    <input type="text" id="phone" th:value="${manager.phoneNumber}" class="form-control" required>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
+                    <i class="fa fa-pencil"></i> Save
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/assets/js/main.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/service.js"></script>
+<script src="/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
+<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/assets/js/main.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/service.js"></script>
 
-    <script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
 <script>
 
-ready(function () {
-    document.getElementById("btn-save").addEventListener("click", function () {
-        updateAccount();
+    ready(function () {
+        document.getElementById("btn-save").addEventListener("click", function () {
+            updateAccount();
+        });
+
+        document.getElementById("btnDeactive").addEventListener("click", function () {
+            deactiveAccount();
+        })
+
+        $("#manager-form input").keydown(function (event) {
+            $("#btn-save").prop("disabled", false);
+            //Validate
+            validateInput();
+        });
     });
-    
-    document.getElementById("btnDeactive").addEventListener("click", function () {
-        deactiveAccount();
-    })
 
-    $("#manager-form input").keydown(function (event) {
-        $("#btn-save").prop("disabled", false);
-        //Validate
-    });
-});
+    function updateAccount() {
+        let validateData = validateInput();
+        let accountId = document.getElementById("accountId").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let phoneNumber = document.getElementById("phone").value;
 
-function updateAccount() {
-    let accountId = document.getElementById("accountId").value;
-    let firstName = document.getElementById("firstName").value;
-    let lastName = document.getElementById("lastName").value;
-    let phoneNumber = document.getElementById("phone").value;
-
-    // $(document).ready(function () {
-    //     doAjax(domain + "account/2", "GET", function (data) {
-    //         let responseData = JSON.parse(data);
-    //         let account = responseData.objectResponse;
-    //         document.getElementById("email").value = account.email;
-    //         document.getElementById("firstName").value = account.firstName;
-    //         document.getElementById("lastName").value = account.lastName;
-    //         document.getElementById("phoneNumber").value = account.phoneNumber;
-    //         alert(account);
-    //     }, function (error) {
-    //         console.log(error);
-    //     });
-    // });
-
-    CallAjaxWithFetch(`/admin/update_admin/${accountId}`,
-        "PUT",
-        {accountId, firstName, lastName, phoneNumber},
-        (data) => {
-            showAlert(true, data.message);
-            document.location.href = "/list-managers";
-        },
-        (err) => {
-            showAlert(true, err.message);
+        if (validateData) {
+            CallAjaxWithFetch(`/admin/update_admin/${accountId}`,
+                "PUT",
+                {accountId, firstName, lastName, phoneNumber},
+                (data) => {
+                    showAlert(true, data.message);
+                    document.location.href = "/list-managers";
+                },
+                (err) => {
+                    showAlert(true, err.message);
+                }
+            )
         }
-    )
-};
+    };
 
-function deactiveAccount() {
+    function validateInput() {
+        let validateMessage = '';
 
-    let accountId = document.getElementById("accountId").value;
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let phoneNumber = $("#phone").val().trim();
+        let email = $("#email").val().trim();
 
-    CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
-        "PUT",
-        (data) => {
-            alert(data.message);
-            document.location.href = "/list-managers";
-        },
-        (err) => {
-            alert(err.message);
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (email.length === 0) {
+            validateMessage = 'Email is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
         }
-    )
-};
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+        }
+    }
+
+    function deactiveAccount() {
+
+        let accountId = document.getElementById("accountId").value;
+
+        CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
+            "PUT",
+            (data) => {
+                alert(data.message);
+                document.location.href = "/list-managers";
+            },
+            (err) => {
+                alert(err.message);
+            }
+        )
+    };
 
 </script>
 </html>

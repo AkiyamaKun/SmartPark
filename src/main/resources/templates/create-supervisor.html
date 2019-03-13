@@ -87,5 +87,46 @@
         )
     }
 
+    function validateInput() {
+        let validateMessage = '';
+
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let phoneNumber = $("#phone").val().trim();
+        let email = $("#email").val().trim();
+
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0 ) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (email.length === 0) {
+            validateMessage = 'Email is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+        }
+    }
+
+    function resetInput() {
+        document.getElementById("firstName").value = '';
+        document.getElementById("lastName").value = '';
+        document.getElementById("email").value = '';
+        document.getElementById("phone").value = '';
+    }
+
 </script>
 </html>

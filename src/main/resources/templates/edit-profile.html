@@ -61,6 +61,7 @@
         $("#profile-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
+            validateInput();
         });
 
         document.getElementById("btn-save").addEventListener("click", function () {
@@ -69,24 +70,57 @@
     });
 
     function updateProfile() {
+        let validateData = validateInput();
         let accountId = document.getElementById("accountId").value;
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
 
-        CallAjaxWithFetch(`/admin/update_admin/${accountId}`,
-            "PUT",
-            {accountId, firstName, lastName, phoneNumber},
-            (data) => {
-                showAlert(true, data.message);
-                $('#btn-save').prop('disabled', true);
-                // document.location.href = "/edit-profile?id=" + accountId;
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
+        if (validateData) {
+            CallAjaxWithFetch(`/admin/update_admin/${accountId}`,
+                "PUT",
+                {accountId, firstName, lastName, phoneNumber},
+                (data) => {
+                    showAlert(true, data.message);
+                    $('#btn-save').prop('disabled', true);
+                    // document.location.href = "/edit-profile?id=" + accountId;
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
     };
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
+
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0 ) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+        }
+    }
 
 </script>
 </html>

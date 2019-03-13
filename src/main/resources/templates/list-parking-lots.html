@@ -68,7 +68,7 @@
 
     <script>
         $(document).ready(function () {
-            doAjax("/parking_lot/all_parking_lot", "GET", null, function (data) {
+            doAjax("/admin/all_parking_lot", "GET", null, function (data) {
                 //TODO Check empty
                 let parkingLots = data.objectResponse;
                 let status = "";

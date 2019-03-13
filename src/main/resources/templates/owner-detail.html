@@ -89,10 +89,12 @@
         $("#owner-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
+            validateInput();
         });
     });
 
     function updateAccount() {
+        let validateData = validateInput();
         let ownerId = document.getElementById("ownerId").value;
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
@@ -101,18 +103,58 @@
         let strSex = document.getElementById("sex");
         let sex = strSex.options[strSex.selectedIndex].value;
 
-        CallAjaxWithFetch(`/owner/update/${ownerId}`,
-            "PUT",
-            {ownerId, firstName, lastName, sex, address, phoneNumber},
-            (data) => {
-                showAlert(true, data.message);
-                document.location.href = "/list-owners";
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
+        if (validateData) {
+            CallAjaxWithFetch(`/owner/update/${ownerId}`,
+                "PUT",
+                {ownerId, firstName, lastName, sex, address, phoneNumber},
+                (data) => {
+                    showAlert(true, data.message);
+                    document.location.href = "/list-owners";
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
     };
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let sex = $("#sex").val().trim();
+        let address = $("#address").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
+
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (sex === 'Please select') {
+            validateMessage = 'Sex is required';
+        } else if (address.length === 0) {
+            validateMessage = 'Address is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            sex: sex,
+            address: address,
+            phoneNumber: phoneNumber,
+        }
+    }
 
     function deactiveAccount() {
 

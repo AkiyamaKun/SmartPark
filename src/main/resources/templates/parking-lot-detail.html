@@ -23,7 +23,7 @@
                 </button>
             </div>
             <div class="card-body card-block" id="parkinglot-form">
-                <input id="isActive" th:value="${plot.active}" type="hidden">
+                <input id="ownerId" th:value="${plot.owner.ownerId}" type="hidden">
                 <input id="parkingLotId" type="hidden" th:value="${plot.parkingLotId}"/>
                 <input id="accountId" type="hidden" th:value="${session.User.accountId}"/>
                 <div class="form-group">
@@ -147,7 +147,7 @@
 <script>
 
     ready(function () {
-        document.getElementById("btnSave").addEventListener("click", function () {
+        document.getElementById("btn-save").addEventListener("click", function () {
             updateParkingLot();
         });
 
@@ -158,45 +158,100 @@
         $("#parkinglot-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
+            validateInput();
         });
     });
 
     function updateParkingLot() {
+        let validateData = validateInput();
         let parkingLotId = document.getElementById("parkingLotId").value;
         let displayName = document.getElementById("displayName").value;
+        let longitude = document.getElementById("long").value;
+        let latitude = document.getElementById("lat").value;
+        let timeOfOperation = document.getElementById("timeOfOperation").value;
         let totalSlot = document.getElementById("totalSlot").value;
         let address = document.getElementById("address").value;
+        let phoneNumber = document.getElementById("phoneNumberPlot").value;
         let accountId = document.getElementById("accountId").value;
+        let ownerId = document.getElementById("ownerId").value;
         let active = true;
 
-        CallAjaxWithFetch(`/parking_lot/update_parking_lot_for_admin/${parkingLotId}?adminId=${accountId}`,
-            "PUT",
-            {parkingLotId, displayName, totalSlot, address, active},
-            (data) => {
-                alert(data.message);
-                document.location.href = "/list-parking-lots";
-            },
-            (err) => {
-                alert(err.message);
-            }
-        )
+        if (validateData) {
+            CallAjaxWithFetch(`/admin/update_parking_lot/${accountId}`,
+                "PUT",
+                {parkingLotId, displayName, longitude, latitude, address, phoneNumber, timeOfOperation, ownerId, active, totalSlot},
+                (data) => {
+                    showAlert(true, data.message);
+                    document.location.href = "/list-parking-lots";
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
     };
 
     function deactiveParkingLot() {
 
-        let accountId = document.getElementById("accountId").value;
+        let parkingLotId = document.getElementById("parkingLotId").value;
 
-        CallAjaxWithFetch(`/account/delete/${accountId}`,
-            "DELETE",
+        CallAjaxWithFetch(`/admin/deactive_parking_lot/${parkingLotId}`,
+            "PUT",
             (data) => {
-                alert(data.message);
-                document.location.href = "/list-supervisors";
+                showAlert(true, data.message);
+                document.location.href = "/list-parking-lots";
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )
     };
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let displayName = $("#name").val().trim();
+        let long = $("#long").val().trim();
+        let lat = $("#lat").val().trim();
+        let slots = $("#slots").val().trim();
+        let phoneNumber = $("#phoneNumberPlot").val().trim();
+        let address = $("#address").val().trim();
+        let timeOfOperation = $("#timeOfOperation").val().trim();
+
+        let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (displayName.length === 0) {
+            validateMessage = 'Display Name is required!';
+        } else if (!floatRegex.test(long) || !floatRegex.test(lat)) {
+            validateMessage = 'Long and lat should be float number!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        } else if (timeOfOperation.length === 0) {
+            validateMessage = 'Time of operation is required!';
+        } else if (address.length === 0) {
+            validateMessage = 'Address is required!';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            displayName: displayName,
+            longitude: parseFloat(long),
+            latitude: parseFloat(lat),
+            totalSlot: parseInt(slots),
+            address: address,
+            phoneNumber: phoneNumber,
+            timeOfOperation: timeOfOperation
+        }
+    }
+
 
 </script>
 </html>
