@@ -17,7 +17,7 @@ public class AccountDTO{
     private Date createdDate;
     private Integer roleId;
     private boolean isActive;
-    private String avatar;
+    private byte[] avatar;
 
     public AccountDTO() {
     }
@@ -35,7 +35,7 @@ public class AccountDTO{
      * @param isActive
      */
     public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
-                      String lastName, Date createdDate, Integer roleId, boolean isActive, String avatar) {
+                      String lastName, Date createdDate, Integer roleId, boolean isActive, byte[] avatar) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
@@ -120,11 +120,11 @@ public class AccountDTO{
         isActive = active;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 }

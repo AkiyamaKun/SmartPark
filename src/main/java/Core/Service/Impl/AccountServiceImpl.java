@@ -193,8 +193,8 @@ public class AccountServiceImpl implements AccountService {
                     account.setAvatar(accountDTO.getAvatar());
                     if(accountDTO.getAvatar() != null)
                         account.setAvatar(accountDTO.getAvatar());
-                    else
-                        account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                    //else
+                        //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
                 }
                 accountRepository.save(account);
                 account.setPassword(null);
@@ -313,8 +313,8 @@ public class AccountServiceImpl implements AccountService {
                         {
                             if(accountDTO.getAvatar() != null)
                                 account.setAvatar(accountDTO.getAvatar());
-                            else
-                                account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                            //else
+                                //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
                         }
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
@@ -349,8 +349,8 @@ public class AccountServiceImpl implements AccountService {
                             {
                                 if(accountDTO.getAvatar() != null)
                                     account.setAvatar(accountDTO.getAvatar());
-                                else
-                                    account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                                //else
+                                    //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
                             }
                             accountRepository.save(account);
 

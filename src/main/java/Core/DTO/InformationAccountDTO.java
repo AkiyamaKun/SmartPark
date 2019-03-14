@@ -7,14 +7,14 @@ public class InformationAccountDTO {
     private String phoneNumber;
     private String firstName;
     private String lastName;
-    private String avatar;
+    private byte[] avatar;
     private boolean isActive;
 
     public InformationAccountDTO() {
     }
 
     public InformationAccountDTO(Integer accountId, String email, String phoneNumber,
-                                 String firstName, String lastName, String avatar, boolean isActive) {
+                                 String firstName, String lastName, byte[] avatar, boolean isActive) {
         this.accountId = accountId;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -64,11 +64,11 @@ public class InformationAccountDTO {
         this.lastName = lastName;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 

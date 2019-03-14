@@ -8,13 +8,13 @@ public class UserLoginResponseDTO {
     private String phoneNumber;
     private String token;
     private Integer roleId;
-    private String avatar;
+    private byte[] avatar;
 
     public UserLoginResponseDTO() {
     }
 
     public UserLoginResponseDTO(Integer accountId, String email, String firstName,
-                                String lastName, String phoneNumber, String token, Integer roleId, String avatar) {
+                                String lastName, String phoneNumber, String token, Integer roleId, byte[] avatar) {
         this.accountId = accountId;
         this.email = email;
         this.firstName = firstName;
@@ -81,11 +81,11 @@ public class UserLoginResponseDTO {
         this.roleId = roleId;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 }

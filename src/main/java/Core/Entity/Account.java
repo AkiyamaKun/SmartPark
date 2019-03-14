@@ -53,7 +53,7 @@ public class Account {
     private String token;
 
     @Column(name = "avatar", columnDefinition = "NVARCHAR(50)")
-    private String avatar;
+    private byte[] avatar;
 
     public Account() {
     }
@@ -63,7 +63,7 @@ public class Account {
      */
     public Account(String email, String phoneNumber, String password,
                    String firstName, String lastName, Date createdDate,
-                   Role role, boolean isActive, String token, String avatar) {
+                   Role role, boolean isActive, String token, byte[] avatar) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -162,11 +162,11 @@ public class Account {
         this.password = password;
     }
 
-    public String getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 }
