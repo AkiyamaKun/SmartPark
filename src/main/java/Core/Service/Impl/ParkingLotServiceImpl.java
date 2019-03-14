@@ -53,6 +53,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setLatitude(entity.getLatitude());
         dto.setLongitude(entity.getLongitude());
         dto.setActive(entity.isActive());
+        dto.setParklotImage(entity.getParklotImage());
     }
 
     /**
@@ -162,6 +163,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLot.setLastEdited(date);
                     parkingLot.setCreatedDate(date);
                     parkingLot.setOwner(owner);
+                    parkingLot.setParklotImage(dto.getParklotImage());
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot
@@ -228,6 +230,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         }else{
                             parkingLot.setEditedBy(account);
                         }
+                        parkingLot.setParklotImage(dto.getParklotImage());
                         //Excute Query Update Database
                         parkingLotRepository.save(parkingLot);
                         //Excute data before return Front-End

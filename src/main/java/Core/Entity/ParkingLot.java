@@ -79,12 +79,13 @@ public class ParkingLot {
     @JoinColumn(name="ownerId", referencedColumnName="ownerId")
     private Owner owner;
 
+    @Column(name = "parklotImage")
+    private byte[] parklotImage;
+
     public ParkingLot() {
     }
 
-    public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude,
-                      Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive,
-                      Date lastEdited, Date createdDate, Owner owner) {
+    public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate, Owner owner, byte[] parklotImage) {
         this.displayName = displayName;
         this.createdBy = createdBy;
         this.editedBy = editedBy;
@@ -98,6 +99,7 @@ public class ParkingLot {
         this.lastEdited = lastEdited;
         this.createdDate = createdDate;
         this.owner = owner;
+        this.parklotImage = parklotImage;
     }
 
     public Integer getParkingLotId() {
@@ -210,5 +212,13 @@ public class ParkingLot {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public byte[] getParklotImage() {
+        return parklotImage;
+    }
+
+    public void setParklotImage(byte[] parklotImage) {
+        this.parklotImage = parklotImage;
     }
 }
