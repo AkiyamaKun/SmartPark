@@ -72,6 +72,7 @@
                 <div class="form-group">
                     <label class="form-control-label">Owner</label>
                     <input type="text" id="owner" placeholder="Owner" class="form-control"/>
+                    <input type="hidden" id="ownerId" />
                 </div>
             </div>
             <div class="card-footer">
@@ -93,21 +94,31 @@
 
 </body>
 <script>
+    let ownersList = [];
     $(document).ready(function () {
-        //TODO Get all owners
-        //TODO $.autocomplete
+        $('#owner').prop("disabled", true);
+        doAjax("/admin/all_owners", "GET", null, function (data) {
+            ownersList = data.objectResponse;
+            $('#owner').prop("disabled", false);
+        });
 
         $('#owner').autocomplete({
             source: function (request, response) {
-                doAjax("/admin/all_owners", "GET", null, function (data) {
-                    let owners = data.objectResponse;
-                    response($.map(owners, function (value, key) {
+                $('#ownerId').val("");
+                let searchValue = request.term;
+                response($.map(ownersList, function (owner, index) {
+                    let fullName = owner.lastName + " " + owner.firstName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
                         return {
-                            label: value.lastName + value.firstName,
-                            value: key.lastName + key.lastName
+                            label: owner.lastName + " " + owner.firstName,
+                            value: owner.lastName + " " + owner.firstName,
+                            ownerId: owner.ownerId
                         };
-                    }));
-                });
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#ownerId').val(ui.item.ownerId);
             },
             minLength: 2,
             delay: 100
@@ -116,7 +127,7 @@
         $("#btnCreate").click(function (event) {
             let validatedData = validateInput();
 
-            //TODO Get ownerId and adminId from somewhere
+            //TODO Get ownerId
             let ownerId = 1;
             let adminId = document.getElementById("accountId");
 
@@ -152,6 +163,7 @@
     });
 
     function validateInput() {
+        //TODO Check if ownerId is null or undefined
         let validateMessage = '';
 
         let displayName = $("#name").val().trim();
