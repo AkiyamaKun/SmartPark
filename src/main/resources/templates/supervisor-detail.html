@@ -6,11 +6,6 @@
 
 <body>
 
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
-
 <div th:replace="shared/left_panel :: left_panel"></div>
 
 <div id="right-panel" class="right-panel">
@@ -57,6 +52,7 @@
                 <div class="input-group">
                     <input type="text" id="input2-group2" name="input2-group2" placeholder="Search Parking Lot"
                            class="form-control" style="margin-right: 10px;">
+                    <input type="hidden" id="parkingLotId">
                     <div class="input-group-btn">
                         <button class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Assign</button>
                     </div>
@@ -140,24 +136,6 @@
 <script>
 
     $(document).ready(function () {
-        $('#input2-group2').autocomplete({
-            source: function (request, response) {
-                doAjax("/admin/all_parking_lot", "GET", null, function (data) {
-                    let lots = data.objectResponse;
-                    response($.map(lots, function (value, key) {
-                        return {
-                            label: value.displayName,
-                            value: key.displayName
-                        };
-                    }));
-                });
-            },
-            minLength: 2,
-            delay: 100
-        });
-    });
-
-    ready(function () {
         document.getElementById("btn-save-supervisor").addEventListener("click", function () {
             updateAccount();
         });
@@ -170,6 +148,35 @@
             //Validate
         });
 
+        let plotLists = [];
+
+        $('#input2-group2').prop("disabled", true);
+        doAjax("/admin/all_parking_lot", "GET", null, function (data) {
+            plotLists = data.objectResponse;
+            $('#input2-group2').prop("disabled", false);
+        });
+
+        $('#input2-group2').autocomplete({
+            source: function (request, response) {
+                $('#parkingLotId').val("");
+                let searchValue = request.term;
+                response($.map(plotLists, function (plot, index) {
+                    let displayName = plot.displayName;
+                    if (displayName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: plot.displayName,
+                            value: plot.displayName,
+                            parkingLotId: plot.parkingLotId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#ownerId').val(ui.item.ownerId);
+            },
+            minLength: 2,
+            delay: 100
+        });
     });
 
     function updateAccount() {
