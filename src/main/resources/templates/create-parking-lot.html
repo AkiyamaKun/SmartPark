@@ -8,6 +8,10 @@
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/js/app.js"></script>
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
 <div th:replace="shared/left_panel :: left_panel"></div>
 
@@ -67,7 +71,7 @@
                 <!--</div>-->
                 <div class="form-group">
                     <label class="form-control-label">Owner</label>
-                    <input type="text" id="owner" placeholder="Owner" class="form-control" autocomplete="off"/>
+                    <input type="text" id="owner" placeholder="Owner" class="form-control"/>
                 </div>
             </div>
             <div class="card-footer">
@@ -87,30 +91,27 @@
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 
+</body>
 <script>
     $(document).ready(function () {
         //TODO Get all owners
         //TODO $.autocomplete
-        // let searchValue = document.getElementById("owner").value;
-        //
-        // $("#owner").autocomplete({
-        //     source : function(request, response) {
-        //         $.ajax({
-        //             url : "/admin/search_owner?searchValue=" + searchValue,
-        //             type: "GET",
-        //             dataType : "json",
-        //             data : {
-        //                 q : request.term
-        //             },
-        //             success : function(data) {
-        //                 //alert(data);
-        //                 console.log(data);
-        //                 response(data);
-        //             }
-        //         });
-        //     },
-        //     minLength : 2
-        // });
+
+        $('#owner').autocomplete({
+            source: function (request, response) {
+                doAjax("/admin/all_owners", "GET", null, function (data) {
+                    let owners = data.objectResponse;
+                    response($.map(owners, function (value, key) {
+                        return {
+                            label: value.lastName + value.firstName,
+                            value: key.lastName + key.lastName
+                        };
+                    }));
+                });
+            },
+            minLength: 2,
+            delay: 100
+        });
 
         $("#btnCreate").click(function (event) {
             let validatedData = validateInput();
@@ -202,7 +203,4 @@
     }
 
 </script>
-
-</body>
-
 </html>

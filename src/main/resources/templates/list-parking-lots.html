@@ -86,7 +86,7 @@
                             "<td>" + lot.totalSlot + "</td>" +
                             "<td>" + status + "</td>" +
                             //TODO Implement delete link
-                            "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>" +
+                            "<td><a th:href='@{/admin/deactive_parking_lot/${" + lot.parkingLotId + "}}'>" + "<i class=\"fa fa-ban\"></i> Deactive</a></td>" +
                         "</tr>";
                     $("#list-parking-lot").append(tr);
                 });
