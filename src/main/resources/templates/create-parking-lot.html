@@ -8,8 +8,8 @@
 
 <script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/js/app.js"></script>
-<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/jquery-1.12.4.js"></script>
+<script src="/js/jquery-ui.js"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 
@@ -127,32 +127,14 @@
         $("#btnCreate").click(function (event) {
             let validatedData = validateInput();
 
-            //TODO Get ownerId
-            let ownerId = document.getElementById("ownerId");
-            let adminId = document.getElementById("accountId");
+            let adminId = document.getElementById("accountId").value;
 
             if (validatedData) {
-                let dto = {
-                    displayName: displayName,
-                    longitude: long,
-                    latitude: lat,
-                    totalSlot: slots,
-                    address: address,
-                    phoneNumber: phoneNumber,
-                    timeOfOperation: timeOfOperation,
-                    ownerId: ownerId
-                };
-
-                let data = {
-                    dto: dto,
-                    //ownerId: ownerId,
-                    adminId: adminId
-                };
-
-                doAjax("/admin/create_parking_lot/" + adminId, "POST", dto, function (data) {
-                    showAlert(true, "Add new parking lot successfully!");
+                doAjax("/admin/create_parking_lot?adminId=" + adminId, "POST", validatedData, function (response) {
+                    showAlert(true, response.message);
                     document.location.href = "/list-parking-lots";
                 }, function (error) {
+                    debugger;
                     showAlert(false, error.message);
                 });
             }
@@ -174,7 +156,7 @@
         let phoneNumber = $("#phoneNumber").val().trim();
         let address = $("#address").val().trim();
         let timeOfOperation = $("#timeOfOperation").val().trim();
-        let ownerId = $("#ownerId").val().trim();
+        let ownerId = $("#ownerId").val();
 
         let floatRegex = /^[+-]?\d+(\.\d+)?$/;
         let intRegex = /\d+/;
@@ -188,8 +170,8 @@
             validateMessage = 'Total slots should be positive integer number!';
         } else if (!phoneRegex.test(phoneNumber)) {
             validateMessage = 'Phone number should follow format 0#########';
-        } else if (ownerId === null || ownerId === 'undefined') {
-            validateMessage = 'Owner is required!';
+        } else if (!ownerId.length) {
+            validateMessage = 'Please choose an owner!';
         }
 
         if (validateMessage.length) {
@@ -217,7 +199,7 @@
         document.getElementById("phoneNumber").value = '';
         document.getElementById("address").value = '';
         document.getElementById("timeOfOperation").value = '';
-        document.getElementById("owner").value = '';
+        document.getElementById("ownerId").value = '';
     }
 
 </script>
