@@ -68,23 +68,26 @@
     });
 
     function createAccount() {
+        let valdateData = validateInput();
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let email = document.getElementById("email").value;
         let phoneNumber = document.getElementById("phone").value;
         let roleId = 2;
 
-        CallAjaxWithFetch(`/account/register`,
-            "POST",
-            { firstName, lastName, email, phoneNumber, roleId },
-            (data) => {
-                showAlert(true, data.message);
-                document.location.href = "/list-supervisors";
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
+        if (valdateData) {
+            CallAjaxWithFetch(`/account/register`,
+                "POST",
+                { firstName, lastName, email, phoneNumber, roleId },
+                (data) => {
+                    showAlert(true, data.message);
+                    document.location.href = "/list-supervisors";
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
     }
 
     function validateInput() {

@@ -24,7 +24,7 @@ function doAjax(url, method, data, callback, onError) {
             callback(response);
         },
         error: function(xhr, status, error) {
-            debugger;
+            //debugger;
             console.log("AJAX failed!");
             onError(error);
         },
