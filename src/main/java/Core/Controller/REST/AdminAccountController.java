@@ -122,7 +122,7 @@ public class AdminAccountController {
      */
     @RequestMapping(value = Const.CREATE_PARKING_LOT, method = RequestMethod.POST)
     public ResponseDTO createParkingLot(@RequestBody @Valid ParkingLotUpdateDTO dto,
-                                        @PathVariable Integer adminId){
+                                        @RequestParam Integer adminId){
         return parkingLotService.createParkingLot(dto, adminId);
     }
 

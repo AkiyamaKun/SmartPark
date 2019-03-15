@@ -17,16 +17,16 @@ function doAjax(url, method, data, callback, onError) {
         url: url,
         type: method,
         data: JSON.stringify(data),
-        error: function(error) {
-            console.log(error);
-        },
         success: function(response) {
-            callback(response);
+            if (response.status) {
+                callback(response);
+            } else {
+                showAlert(false, response.message);
+            }
         },
         error: function(xhr, status, error) {
             debugger;
-            console.log("AJAX failed!");
-            onError(error);
+            showAlert(false, xhr.responseJSON.message);
         },
         dataType: "json",
         contentType: "application/json"
