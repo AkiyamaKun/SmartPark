@@ -125,8 +125,6 @@
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="/js/app.js"></script>
-<!--<script src="//code.jquery.com/jquery-1.12.4.js"></script>-->
-<!--<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 
 <script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
 <script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
@@ -134,21 +132,8 @@
 
 </body>
 <script>
-
-    $(document).ready(function () {
-        document.getElementById("btn-save-supervisor").addEventListener("click", function () {
-            updateAccount();
-        });
-
-        document.getElementById("btnDeactive").addEventListener("click", function () {
-            deactiveAccount();
-        });
-        $("#supervisor-form input").keydown(function (event) {
-            $("#btn-save-supervisor").prop("disabled", false);
-            //Validate
-        });
-
-        let plotLists = [];
+    let plotLists = [];
+    ready(function () {
 
         $('#input2-group2').prop("disabled", true);
         doAjax("/admin/all_parking_lot", "GET", null, function (data) {
@@ -176,6 +161,18 @@
             },
             minLength: 2,
             delay: 100
+        });
+
+        document.getElementById("btn-save-supervisor").addEventListener("click", function () {
+            updateAccount();
+        });
+
+        document.getElementById("btnDeactive").addEventListener("click", function () {
+            deactiveAccount();
+        });
+        $("#supervisor-form input").keydown(function (event) {
+            $("#btn-save-supervisor").prop("disabled", false);
+            //Validate
         });
     });
 

@@ -16,10 +16,13 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" th:switch="${manager.active}">
                 <b>Manager</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right">
-                    <i class="fa fa-trash-o"></i> Deactive
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:case="true">
+                    <i class="fa fa-ban"></i> Deactive
+                </button>
+                <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
+                    <i class="fa fa-check"></i>&nbsp; Active
                 </button>
             </div>
             <div class="card-body card-block" id="manager-form">
@@ -70,14 +73,36 @@
             updateAccount();
         });
 
-        document.getElementById("btnDeactive").addEventListener("click", function () {
-            deactiveAccount();
-        })
+        // document.getElementById("btnDeactive").addEventListener("click", function () {
+        //     deactiveAccount();
+        // })
 
         $("#manager-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
             validateInput();
+        });
+
+        $("#btnDeactive").click(function (event) {
+            let accountId = document.getElementById("accountId").value;
+
+            doAjax("/admin/deactive_admin/" + accountId, "PUT", function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-managers";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+            // CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
+            //     "PUT",
+            //     (data) => {
+            //         showAlert(true, data.message);
+            //         window.location.href = "/list-managers";
+            //         //document.location.href = "/list-managers";
+            //     },
+            //     (err) => {
+            //         showAlert(false, err.message);
+            //     }
+            // )
         });
     });
 
@@ -136,22 +161,6 @@
             phoneNumber: phoneNumber,
         }
     }
-
-    function deactiveAccount() {
-
-        let accountId = document.getElementById("accountId").value;
-
-        CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
-            "PUT",
-            (data) => {
-                showAlert(true, data.message);
-                document.location.href = "/list-managers";
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
-    };
 
 </script>
 </html>
