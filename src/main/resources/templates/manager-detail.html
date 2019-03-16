@@ -144,11 +144,11 @@
         CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
             "PUT",
             (data) => {
-                alert(data.message);
+                showAlert(true, data.message);
                 document.location.href = "/list-managers";
             },
             (err) => {
-                alert(err.message);
+                showAlert(false, err.message);
             }
         )
     };

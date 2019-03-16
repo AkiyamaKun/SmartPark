@@ -6,9 +6,6 @@
 
 <body>
 
-<script type="text/javascript" src="/vendors/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="/assets/js/app.js"></script>
-
 <div th:replace="shared/left_panel :: left_panel"></div>
 
 <!-- Right Panel -->
@@ -67,7 +64,8 @@
                 <!--</div>-->
                 <div class="form-group">
                     <label class="form-control-label">Owner</label>
-                    <input type="text" id="owner" placeholder="Owner" class="form-control" autocomplete="off"/>
+                    <input type="text" id="owner" placeholder="Owner" class="form-control"/>
+                    <input type="hidden" id="ownerId" />
                 </div>
             </div>
             <div class="card-footer">
@@ -87,59 +85,49 @@
 <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="assets/js/main.js"></script>
 
+</body>
 <script>
+    let ownersList = [];
     $(document).ready(function () {
-        //TODO Get all owners
-        //TODO $.autocomplete
-        // let searchValue = document.getElementById("owner").value;
-        //
-        // $("#owner").autocomplete({
-        //     source : function(request, response) {
-        //         $.ajax({
-        //             url : "/admin/search_owner?searchValue=" + searchValue,
-        //             type: "GET",
-        //             dataType : "json",
-        //             data : {
-        //                 q : request.term
-        //             },
-        //             success : function(data) {
-        //                 //alert(data);
-        //                 console.log(data);
-        //                 response(data);
-        //             }
-        //         });
-        //     },
-        //     minLength : 2
-        // });
+        $('#owner').prop("disabled", true);
+        doAjax("/admin/all_owners", "GET", null, function (data) {
+            ownersList = data.objectResponse;
+            $('#owner').prop("disabled", false);
+        });
+
+        $('#owner').autocomplete({
+            source: function (request, response) {
+                $('#ownerId').val("");
+                let searchValue = request.term;
+                response($.map(ownersList, function (owner, index) {
+                    let fullName = owner.lastName + " " + owner.firstName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: owner.lastName + " " + owner.firstName,
+                            value: owner.lastName + " " + owner.firstName,
+                            ownerId: owner.ownerId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#ownerId').val(ui.item.ownerId);
+            },
+            minLength: 2,
+            delay: 100
+        });
 
         $("#btnCreate").click(function (event) {
             let validatedData = validateInput();
 
-            //TODO Get ownerId and adminId from somewhere
-            let ownerId = 1;
-            let adminId = document.getElementById("accountId");
+            let adminId = document.getElementById("accountId").value;
 
             if (validatedData) {
-                let dto = {
-                    displayName: displayName,
-                    longitude: long,
-                    latitude: lat,
-                    totalSlot: slots,
-                    address: address,
-                    phoneNumber: phoneNumber,
-                    timeOfOperation: timeOfOperation
-                };
-
-                let data = {
-                    dto: dto,
-                    ownerId: ownerId,
-                    adminId: adminId
-                };
-
-                doAjax("/parking_lot/create_parking_lot?ownerId=" + ownerId + "&adminId=" + adminId, "POST", dto, function (data) {
-                    showAlert(true, "Add new parking lot successfully!");
+                doAjax("/admin/create_parking_lot?adminId=" + adminId, "POST", validatedData, function (response) {
+                    showAlert(true, response.message);
                     document.location.href = "/list-parking-lots";
                 }, function (error) {
+                    debugger;
                     showAlert(false, error.message);
                 });
             }
@@ -151,6 +139,7 @@
     });
 
     function validateInput() {
+        //TODO Check if ownerId is null or undefined
         let validateMessage = '';
 
         let displayName = $("#name").val().trim();
@@ -160,6 +149,7 @@
         let phoneNumber = $("#phoneNumber").val().trim();
         let address = $("#address").val().trim();
         let timeOfOperation = $("#timeOfOperation").val().trim();
+        let ownerId = $("#ownerId").val();
 
         let floatRegex = /^[+-]?\d+(\.\d+)?$/;
         let intRegex = /\d+/;
@@ -173,6 +163,8 @@
             validateMessage = 'Total slots should be positive integer number!';
         } else if (!phoneRegex.test(phoneNumber)) {
             validateMessage = 'Phone number should follow format 0#########';
+        } else if (!ownerId.length) {
+            validateMessage = 'Please choose an owner!';
         }
 
         if (validateMessage.length) {
@@ -187,7 +179,8 @@
             totalSlot: parseInt(slots),
             address: address,
             phoneNumber: phoneNumber,
-            timeOfOperation: timeOfOperation
+            timeOfOperation: timeOfOperation,
+            ownerId: ownerId
         }
     }
 
@@ -199,10 +192,8 @@
         document.getElementById("phoneNumber").value = '';
         document.getElementById("address").value = '';
         document.getElementById("timeOfOperation").value = '';
+        document.getElementById("ownerId").value = '';
     }
 
 </script>
-
-</body>
-
 </html>

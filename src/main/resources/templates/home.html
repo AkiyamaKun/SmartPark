@@ -21,7 +21,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Total Drivers</p>
+                        <p class="text-light">Total Accounts</p>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                             <div class="stat-icon dib"><i class="ti-car text-success border-success"></i></div>
                             <div class="stat-content dib">
                                 <div class="stat-text">Active Drivers</div>
-                                <div class="stat-digit count">10012</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listDriver)}"></div>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
                             <div class="stat-content dib">
                                 <div class="stat-text">Active Supervisors</div>
-                                <div class="stat-digit count">961</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listSupervisors)}"></div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                             <div class="stat-icon dib"><i class="ti-map-alt text-danger border-danger"></i></div>
                             <div class="stat-content dib">
                                 <div class="stat-text">Active Parking Lots</div>
-                                <div class="stat-digit count">770</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listParkingLots)}"></div>
                             </div>
                         </div>
                     </div>

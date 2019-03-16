@@ -60,9 +60,16 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/home")
-    public String toHome(Model model) {
+    public ModelAndView toHome(Model model) {
         model.addAttribute("Title", "Home");
-        return "home";
+        ModelAndView view = new ModelAndView("home");
+        ResponseDTO listDrivers = accountService.getListAccount(3);
+        ResponseDTO listSupervisors = accountService.getListAccount(2);
+        ResponseDTO listParkingLots = parkingLotService.getAllParkingLotForAdmin();
+        view.addObject("listDriver", listDrivers.getObjectResponse());
+        view.addObject("listSupervisors", listSupervisors.getObjectResponse());
+        view.addObject("listParkingLots", listParkingLots.getObjectResponse());
+        return view;
     }
 
 
