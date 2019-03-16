@@ -18,6 +18,7 @@ public class AccountDTO{
     private Integer roleId;
     private boolean isActive;
     private byte[] avatar;
+    private String token;
 
     public AccountDTO() {
     }
@@ -35,7 +36,7 @@ public class AccountDTO{
      * @param isActive
      */
     public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
-                      String lastName, Date createdDate, Integer roleId, boolean isActive, byte[] avatar) {
+                      String lastName, Date createdDate, Integer roleId, boolean isActive, byte[] avatar, String token) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
@@ -46,6 +47,7 @@ public class AccountDTO{
         this.roleId = roleId;
         this.isActive = isActive;
         this.avatar = avatar;
+        this.token = token;
     }
 
     public Integer getAccountId() {
@@ -126,5 +128,13 @@ public class AccountDTO{
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

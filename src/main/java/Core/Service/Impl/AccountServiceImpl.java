@@ -59,6 +59,7 @@ public class AccountServiceImpl implements AccountService {
         dto.setRoleId(entity.getRole().getRoleId());
         dto.setActive(entity.isActive());
         dto.setAvatar(entity.getAvatar());
+        dto.setToken(entity.getToken());
     }
 
     /**
