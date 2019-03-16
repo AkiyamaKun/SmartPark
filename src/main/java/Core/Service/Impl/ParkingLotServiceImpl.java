@@ -144,7 +144,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         try{
             Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
             Account adminAccount = accountRepository.findByAccountId(adminId);
-            adminAccount.setPassword(null);
             if(owner != null && adminAccount != null){
                 if(dto != null){
                     //Create new record 'Parking Lot' on table Parking Lot

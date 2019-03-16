@@ -18,7 +18,7 @@ public class ParkingLot {
     /**
      * Name of ParkingLot
      */
-    @Column(name = "displayName")
+    @Column(name = "displayName", columnDefinition = "NVARCHAR(100)")
     private String displayName;
 
     /**
@@ -33,44 +33,50 @@ public class ParkingLot {
     @JoinColumn(name = "editedBy", referencedColumnName="accountId")
     private Account editedBy;
 
-    @Column(name = "longitude")
+    @Column(name = "longitude", columnDefinition = "FLOAT")
     private float longitude;
 
-    @Column(name = "latitude")
+    @Column(name = "latitude", columnDefinition = "FLOAT")
     private float latitude;
 
-    @Column(name = "totalSlot")
+    @Column(name = "totalSlot", columnDefinition = "INT")
     private Integer totalSlot;
 
-    @Column(name = "address")
+    @Column(name = "address", columnDefinition = "VARCHAR(250)")
     private String address;
     /**
      * Phone number of owner ParkingLot
      */
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber", columnDefinition = "VARCHAR(15)")
     private String phoneNumber;
     /**
      * Time ParkingLot open-close
      */
-    @Column(name = "timeOfOperation")
+    @Column(name = "timeOfOperation", columnDefinition = "NVARCHAR(50)")
     private String timeOfOperation;
     /**
      * Active: 1, Deactive: 0
      */
-    @Column(name = "isActive")
+    @Column(name = "isActive", columnDefinition = "BIT")
     private boolean isActive;
 
     /**
      * Late Edit Date
      */
-    @Column(name = "lastEdited")
+    @Column(name = "lastEdited", columnDefinition = "DATETIME")
     private Date lastEdited;
 
     /**
      * Create Date
      */
-    @Column(name = "createdDate")
+    @Column(name = "createdDate", columnDefinition = "DATETIME")
     private Date createdDate;
+
+    /**
+     * Parking Lot Image
+     */
+    @Column(name = "parklotImage", columnDefinition = "IMAGE")
+    private byte[] parklotImage;
 
     /**
      * Owner of Parking Lot (Unique)
@@ -79,13 +85,12 @@ public class ParkingLot {
     @JoinColumn(name="ownerId", referencedColumnName="ownerId")
     private Owner owner;
 
-    @Column(name = "parklotImage")
-    private byte[] parklotImage;
-
     public ParkingLot() {
     }
 
-    public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate, Owner owner, byte[] parklotImage) {
+    public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude,
+                      float latitude, Integer totalSlot, String address, String phoneNumber,
+                      String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate, Owner owner, byte[] parklotImage) {
         this.displayName = displayName;
         this.createdBy = createdBy;
         this.editedBy = editedBy;

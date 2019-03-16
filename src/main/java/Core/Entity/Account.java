@@ -52,7 +52,8 @@ public class Account {
     @Column(name = "token", columnDefinition = "VARCHAR(100)")
     private String token;
 
-    @Column(name = "avatar", columnDefinition = "NVARCHAR(50)")
+    //Image of driver user avatar
+    @Column(name = "avatar", columnDefinition = "IMAGE")
     private byte[] avatar;
 
     public Account() {
