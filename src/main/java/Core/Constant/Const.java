@@ -26,6 +26,8 @@ public class Const {
     //Account Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
     public static final String DELETE_ACCOUNT_FAIL = "Delete Account Fail";
+    public static final String ACTIVATE_ACCOUNT_SUCCESS = "Activate Account Successful";
+    public static final String ACTIVATE_ACCOUNT_FAIL = "Activate Account Fail";
     public static final String CREATE_ACCOUNT_SUCCESS = "Create Account Successful";
     public static final String CREATE_ACCOUNT_FAIL = "Create Account Fail";
     public static final String ACCOUNT_IS_EXISTED = "Account is Existed";
@@ -67,10 +69,11 @@ public class Const {
     public static final String CREATE_ADMIN_ACCOUNT = "/create_admin";
     public static final String UPDATE_ADMIN_ACCOUNT = "/update_admin/{id}";
     public static final String DEACTIVE_ADMIN_ACCOUNT = "/deactive_admin/{id}";
+    public static final String ACTIVE_ADMIN_ACCOUNT = "/active_admin/{id}";
     public static final String GET_SUPERVISOR = "/get_supervisor/{id}";
     public static final String GET_ALL_SUPERVISOR = "/all_supervisor";
     public static final String CREATE_SUPERVISOR_ACCOUNT = "/create_supervisor";
-    public static final String UPDATE_SUPERVISOR_ACCOUNT = "/update_supervisor";
+    public static final String UPDATE_SUPERVISOR_ACCOUNT = "/update_supervisor/{id}";
     public static final String DEACTIVE_SUPERVISOR_ACCOUNT = "/deactive_supervisor/{id}";
     public static final String GET_ALL_ADMIN = "/all_admin";
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR = "/assign_parking_lot_for_supervisor";
@@ -89,6 +92,7 @@ public class Const {
     public static final String CREATE_PARKING_LOT = "/create_parking_lot/{adminId}";
     public static final String UPDATE_PARKING_LOT = "/update_parking_lot/{accountId}";
     public static final String DEACTIVE_PARKING_LOT = "/deactive_parking_lot/{parkingLotId}";
+    public static final String ACTIVE_PARKING_LOT = "/active_parking_lot/{parkingLotId}";
 
     //Owner Message
     public static final String GET_OWNER_SUCCESS = "Get Owner Successful";
@@ -111,6 +115,9 @@ public class Const {
     public static final String GET_PARKING_LOT_FAIL = "Get Parking Lot Fail";
     public static final String PARKING_LOT_IS_NOT_EXISTED = "Parking Lot is not existed";
     public static final String PARKING_LOT_IS_DEACTIVE = "Parking Lot is deactive";
+    public static final String PARKING_LOT_DEACTIVE_FAIL = "Parking Lot deactivate fail";
+    public static final String PARKING_LOT_IS_ACTIVE = "Parking Lot is active";
+    public static final String PARKING_LOT_ACTIVE_FAIL = "Parking Lot activate fail";
     public static final String GET_LIST_PARKING_LOT_SUCCESS = "Get List Parking Lot Successful";
     public static final String GET_LIST_PARKING_LOT_FAIL = "Get List Parking Lot Fail";
     public static final String CREATE_PARKING_LOT_SUCCESS = "Create Parking Lot Successful";

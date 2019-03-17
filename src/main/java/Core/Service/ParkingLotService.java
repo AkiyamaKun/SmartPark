@@ -13,6 +13,7 @@ public interface ParkingLotService {
     ResponseDTO getAllParkingLotForAdmin();
     ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId);
     ResponseDTO deactiveParkingLot(Integer parkingLotId);
+    ResponseDTO activeParkingLot(Integer parkingLotId);
 
     //For Supervisor Account
     ResponseDTO getListParkingLotManagedBySupervisor(Integer supervisorId);

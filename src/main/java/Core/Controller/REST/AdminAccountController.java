@@ -3,10 +3,7 @@ package Core.Controller.REST;
 import Core.Constant.Const;
 import Core.DTO.*;
 import Core.Entity.Account;
-import Core.Service.AccountService;
-import Core.Service.DriverAccountService;
-import Core.Service.OwnerService;
-import Core.Service.ParkingLotService;
+import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +31,9 @@ public class AdminAccountController {
 
     @Autowired
     ParkingLotService parkingLotService;
+
+    @Autowired
+    SupervisionService supervisionService;
 
     /**
      * Get Owner by Id
@@ -149,6 +149,16 @@ public class AdminAccountController {
     }
 
     /**
+     * Active Parking Lot
+     * @param parkingLotId
+     * @return
+     */
+    @RequestMapping(value = Const.ACTIVE_PARKING_LOT, method = RequestMethod.PUT)
+    public ResponseDTO activeParkingLot(@PathVariable Integer parkingLotId){
+        return parkingLotService.activeParkingLot(parkingLotId);
+    }
+
+    /**
      * Get Admin by Id
      * @return
      */
@@ -208,6 +218,15 @@ public class AdminAccountController {
     @RequestMapping(value = Const.DEACTIVE_ADMIN_ACCOUNT, method = RequestMethod.PUT)
     public ResponseDTO deactiveAdmin(@PathVariable Integer id) {
         return accountService.deactiveAccount(id);
+    }
+
+    /**
+     * Active Admin
+     * @return
+     */
+    @RequestMapping(value = Const.ACTIVE_ADMIN_ACCOUNT, method = RequestMethod.PUT)
+    public ResponseDTO activeAdmin(@PathVariable Integer id) {
+        return accountService.activeAccount(id);
     }
 
     /**
@@ -274,7 +293,7 @@ public class AdminAccountController {
     @RequestMapping(value = Const.ASSIGN_PARKING_LOT_FOR_SUPERVISOR, method = RequestMethod.POST)
     public ResponseDTO assignParkingLotForSupervisor(@RequestParam(value = "parkingLotId") Integer parkingLotId,
                                                      @RequestParam(value = "supervisorId") Integer supervisorId){
-        return null;
+        return supervisionService.assignParkingLotForSupervisor(parkingLotId, supervisorId);
     }
 
 }

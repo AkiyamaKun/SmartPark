@@ -16,10 +16,13 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" th:switch="${supervisor.active}">
                 <b>Supervisor</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right">
-                    <i class="fa fa-trash-o"></i> Deactive
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:case="true">
+                    <i class="fa fa-ban"></i> Deactive
+                </button>
+                <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
+                    <i class="fa fa-check"></i> Active
                 </button>
             </div>
             <div class="card-body card-block" id="supervisor-form">
@@ -54,7 +57,7 @@
                            class="form-control" style="margin-right: 10px;">
                     <input type="hidden" id="parkingLotId">
                     <div class="input-group-btn">
-                        <button class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Assign</button>
+                        <button class="btn btn-primary" id="btnAssign"><i class="fa fa-search"></i>&nbsp;Assign</button>
                     </div>
                 </div>
             </div>
@@ -157,7 +160,7 @@
                 }));
             },
             select: function (event, ui) {
-                $('#ownerId').val(ui.item.parkingLotId);
+                $('#parkingLotId').val(ui.item.parkingLotId);
             },
             minLength: 2,
             delay: 100
@@ -166,13 +169,36 @@
         document.getElementById("btn-save-supervisor").addEventListener("click", function () {
             updateAccount();
         });
-
-        document.getElementById("btnDeactive").addEventListener("click", function () {
-            deactiveAccount();
+        
+        document.getElementById("btnAssign").addEventListener("click", function () {
+            assignParkingLot();
         });
+
+        $("#btnDeactive").click(function (event) {
+            let accountId = document.getElementById("accountId").value;
+
+            doAjax("/admin/deactive_admin/" + accountId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-supervisors";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+        });
+
+        $("#btnActive").click(function (event) {
+            let accountId = document.getElementById("accountId").value;
+
+            doAjax("/admin/active_admin/" + accountId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-supervisors";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+        });
+        
         $("#supervisor-form input").keydown(function (event) {
             $("#btn-save-supervisor").prop("disabled", false);
-            //Validate
+            validateInput();
         });
     });
 
@@ -194,26 +220,22 @@
             }
         )
     }
+    
+    function assignParkingLot() {
+        let accountId = document.getElementById("accountId").value;
+        let parkingLotId = document.getElementById("parkingLotId").value;
 
-    // function deactiveAccount() {
-    //     let accountId = document.getElementById("accountId").value;
-    //     let isActive = document.getElementById("isActive").value;
-    //     if (isActive == true) {
-    //         isActive = false;
-    //     }
-    //
-    //     CallAjaxWithFetch(`/account/update/${accountId}`,
-    //         "PUT",
-    //         {accountId, isActive},
-    //         (data) => {
-    //             showAlert(true, data.message);
-    //             document.location.href = "/list-supervisors";
-    //         },
-    //         (err) => {
-    //             showAlert(false, err.message);
-    //         }
-    //     )
-    // }
+        CallAjaxWithFetch(`/admin/assign_parking_lot_for_supervisor?parkingLotId=${parkingLotId}&supervisorId=${accountId}`,
+            "POST", {},
+            (data) => {
+                showAlert(true, data.message);
+                document.location.href = "/list-supervisors";
+            },
+            (err) => {
+                showAlert(false, err.message);
+            }
+        )
+    }
 
 </script>
 </html>

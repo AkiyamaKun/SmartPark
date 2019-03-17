@@ -239,6 +239,31 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
+     * Active Account
+     * @param id
+     * @return
+     */
+    @Override
+    public ResponseDTO activeAccount(Integer id) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByAccountId(id);
+            if(account != null){
+                account.setActive(true);
+                accountRepository.save(account);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.ACTIVATE_ACCOUNT_SUCCESS);
+            }else{
+                responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.ACTIVATE_ACCOUNT_FAIL);
+        }
+        return responseDTO;
+    }
+
+    /**
      * Get List Account by Role Id
      * @param roleId
      * @return

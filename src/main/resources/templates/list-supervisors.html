@@ -72,16 +72,40 @@
 </body>
 
 <script>
+    const deactivateAccount = (accountId) => {
+        doAjax(`/admin/deactive_admin/${accountId}`, "PUT", {}, function (data) {
+            showAlert(true, data.message);
+            document.location.href = "list-supervisors";
+        }, function (err) {
+            showAlert(false, err.message);
+        });
+    };
+
+    const activateAccount = (accountId) => {
+        doAjax(`/admin/active_admin/${accountId}`, "PUT", {}, function (data) {
+            showAlert(true, data.message);
+            document.location.href = "list-supervisors";
+        }, function (err) {
+            showAlert(false, err.message);
+        });
+    };
+
     $(document).ready(function () {
         doAjax("/account/list_accounts/2", "GET", null, function (data) {
             let accounts = data.objectResponse;
             let status = "";
+            let activeStr = "";
             $("#list-supervisors").empty();
             $.each(accounts, function (index, value) {
-                if (value.active == true) {
+                if (value.active == true && value.token == null) {
                     status = "active";
-                } else {
-                    status = "not active"
+                    activeStr = "<td><a href='#' onclick='deactivateAccount(" + value.accountId + ")'>" + "<i class=\"fa fa-ban\"></i> Deactive</a></td>";
+                } else if (value.active == false && value.token != null) {
+                    status = "not verify";
+                    activeStr = "<td></td>";
+                } else if (value.active == false && value.token == null) {
+                    status = "not active";
+                    activeStr = "<td><a href='#' onclick='activateAccount(" + value.accountId + ")'>" + "<i class=\"fa fa-check\"></i> Active</a></td>";
                 }
                 let tr =
                     "<tr>\n" +
@@ -89,7 +113,7 @@
                         "<td>" + value.lastName + " " + value.firstName + "</td>\n" +
                         "<td>" + value.phoneNumber + "</td>\n" +
                         "<td>" + status + "</td>\n" +
-                        "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
+                        activeStr +
                     "</tr>";
                 $("#list-supervisors").append(tr);
             });

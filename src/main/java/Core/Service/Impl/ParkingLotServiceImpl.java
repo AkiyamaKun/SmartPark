@@ -256,7 +256,42 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public ResponseDTO deactiveParkingLot(Integer parkingLotId) {
-        return null;
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if(parkingLot != null){
+                parkingLot.setActive(false);
+                parkingLotRepository.save(parkingLot);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.PARKING_LOT_IS_DEACTIVE);
+            }else{
+                responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.PARKING_LOT_DEACTIVE_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO activeParkingLot(Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if(parkingLot != null){
+                parkingLot.setActive(true);
+                parkingLotRepository.save(parkingLot);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.PARKING_LOT_IS_ACTIVE);
+            }else{
+                responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.PARKING_LOT_ACTIVE_FAIL);
+        }
+        return responseDTO;
     }
 
     @Override

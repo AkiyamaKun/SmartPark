@@ -17,6 +17,7 @@ public interface AccountService {
     ResponseDTO getAccount(Integer id);
     ResponseDTO updateAccount(Integer id, AccountDTO accountDTO);
     ResponseDTO deactiveAccount(Integer id);
+    ResponseDTO activeAccount(Integer id);
     ResponseDTO getListAccount(Integer roleId);
     ResponseDTO registerAccount(AccountDTO accountDTO);
     ResponseDTO setFirstPassword(String email, String password);

@@ -67,26 +67,49 @@
     </body>
 
     <script>
+        const deactivateParkingLot = (parkingLotId) => {
+            doAjax(`/admin/deactive_parking_lot/${parkingLotId}`, "PUT", {}, function (data) {
+                showAlert(true, data.message);
+                document.location.href = "list-parking-lots";
+            }, function (err) {
+                showAlert(false, err.message);
+            });
+        };
+
+        const activateParkingLot = (parkingLotId) => {
+            doAjax(`/admin/active_parking_lot/${parkingLotId}`, "PUT", {}, function (data) {
+                showAlert(true, data.message);
+                document.location.href = "list-parking-lots";
+            }, function (err) {
+                showAlert(false, err.message);
+            });
+        };
+
         $(document).ready(function () {
             doAjax("/admin/all_parking_lot", "GET", null, function (data) {
                 //TODO Check empty
                 let parkingLots = data.objectResponse;
                 let status = "";
+                let activeStr = "";
+                let linkdetail = "";
                 $("#list-parking-lot").empty();
                 $.each(parkingLots, function (index, lot) {
                     if (lot.active == true) {
                         status = "active";
+                        activeStr = "<td><a href='#' onclick='deactivateParkingLot(" + lot.parkingLotId + ")'>" + "<i class=\"fa fa-ban\"></i> Deactive</a></td>";
+                        linkdetail = "<td><a href='/parking-lot-detail?id=" + lot.parkingLotId + "'>" + lot.displayName + "</a></td>"
                     } else {
-                        status = "not active"
+                        status = "not active";
+                        activeStr = "<td><a href='#' onclick='activateParkingLot(" + lot.parkingLotId + ")'>" + "<i class=\"fa fa-check\"></i> Active</a></td>";
+                        linkdetail = "<td>" + lot.displayName + "</td>"
                     }
                     let tr =
                         "<tr>" +
-                            "<td><a href='/parking-lot-detail?id=" + lot.parkingLotId + "'>" + lot.displayName + "</a></td>" +
+                            linkdetail +
                             "<td>" + lot.owner.lastName + " " + lot.owner.firstName + "</td>" +
                             "<td>" + lot.totalSlot + "</td>" +
                             "<td>" + status + "</td>" +
-                            //TODO Implement delete link
-                            "<td><a th:href='@{/admin/deactive_parking_lot/${" + lot.parkingLotId + "}}'>" + "<i class=\"fa fa-ban\"></i> Deactive</a></td>" +
+                            activeStr +
                         "</tr>";
                     $("#list-parking-lot").append(tr);
                 });

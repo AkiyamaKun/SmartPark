@@ -16,10 +16,13 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" th:switch="${plot.active}">
                 <b>Parking Lot</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right">
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:case="true">
                     <i class="fa fa-ban"></i> Deactive
+                </button>
+                <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
+                    <i class="fa fa-check"></i> Active
                 </button>
             </div>
             <div class="card-body card-block" id="parkinglot-form">
@@ -69,6 +72,7 @@
                 <div class="input-group">
                     <input type="text" id="input2-group2" name="input2-group2" placeholder="Search Owner" class="form-control" style="margin-right: 10px;">
                     <div class="input-group-btn"><button class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button></div>
+                    <input type="hidden" id="ownerIdSearch" />
                 </div>
             </div>
         </div>
@@ -133,27 +137,73 @@
     </div>
 </div>
 
-<script src="vendors/jquery/dist/jquery.min.js"></script>
-<script src="vendors/popper.js/dist/umd/popper.min.js"></script>
-<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="/js/app.js"></script>
+<!--<script src="vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<!--<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
+<!--<script src="assets/js/main.js"></script>-->
+<!--<script src="/js/app.js"></script>-->
 
-<script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-<script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-<script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<!--<script src="vendors/jqvmap/dist/jquery.vmap.min.js"></script>-->
+<!--<script src="vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
+<!--<script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
 
 </body>
 <script>
-
+    let ownersList = [];
     ready(function () {
+        $('#input2-group2').prop("disabled", true);
+        doAjax("/admin/all_owners", "GET", null, function (data) {
+            ownersList = data.objectResponse;
+            $('#input2-group2').prop("disabled", false);
+        });
+
+        $('#input2-group2').autocomplete({
+            source: function (request, response) {
+                $('#ownerIdSearch').val("");
+                let searchValue = request.term;
+                response($.map(ownersList, function (owner, index) {
+                    let fullName = owner.lastName + " " + owner.firstName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: owner.lastName + " " + owner.firstName,
+                            value: owner.lastName + " " + owner.firstName,
+                            ownerId: owner.ownerId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#ownerIdSearch').val(ui.item.ownerId);
+            },
+            minLength: 2,
+            delay: 100
+        });
+
         document.getElementById("btn-save").addEventListener("click", function () {
             updateParkingLot();
         });
 
-        document.getElementById("btnDeactive").addEventListener("click", function () {
-            deactiveParkingLot();
-        })
+        $("#btnDeactive").click(function (event) {
+            let parkingLotId = document.getElementById("parkingLotId").value;
+
+            doAjax("/admin/deactive_parking_lot/" + parkingLotId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-parking-lots";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+        });
+
+        $("#btnActive").click(function (event) {
+            let parkingLotId = document.getElementById("parkingLotId").value;
+
+            doAjax("/admin/active_parking_lot/" + parkingLotId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-parking-lots";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+        });
 
         $("#parkinglot-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
@@ -189,22 +239,6 @@
                 }
             )
         }
-    };
-
-    function deactiveParkingLot() {
-
-        let parkingLotId = document.getElementById("parkingLotId").value;
-
-        CallAjaxWithFetch(`/admin/deactive_parking_lot/${parkingLotId}`,
-            "PUT",
-            (data) => {
-                showAlert(true, data.message);
-                document.location.href = "/list-parking-lots";
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
     };
 
     function validateInput() {

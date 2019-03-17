@@ -22,12 +22,11 @@
                     <i class="fa fa-ban"></i> Deactive
                 </button>
                 <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
-                    <i class="fa fa-check"></i>&nbsp; Active
+                    <i class="fa fa-check"></i> Active
                 </button>
             </div>
             <div class="card-body card-block" id="manager-form">
                 <input id="accountId" type="hidden" th:value="${manager.accountId}"/>
-                <input id="isActive" type="hidden" th:value="${manager.active}"/>
                 <div class="form-group">
                     <label for="email" class=" form-control-label">Email</label>
                     <input type="text" id="email" th:value="${manager.email}" class="form-control" disabled>
@@ -73,36 +72,31 @@
             updateAccount();
         });
 
-        // document.getElementById("btnDeactive").addEventListener("click", function () {
-        //     deactiveAccount();
-        // })
-
         $("#manager-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
-            //Validate
             validateInput();
         });
 
         $("#btnDeactive").click(function (event) {
             let accountId = document.getElementById("accountId").value;
 
-            doAjax("/admin/deactive_admin/" + accountId, "PUT", function (response) {
+            doAjax("/admin/deactive_admin/" + accountId, "PUT", {}, function (response) {
                 showAlert(true, response.message);
                 document.location.href = "/list-managers";
             }, function (error) {
                 showAlert(false, error.message);
             });
-            // CallAjaxWithFetch(`/admin/deactive_admin/${accountId}`,
-            //     "PUT",
-            //     (data) => {
-            //         showAlert(true, data.message);
-            //         window.location.href = "/list-managers";
-            //         //document.location.href = "/list-managers";
-            //     },
-            //     (err) => {
-            //         showAlert(false, err.message);
-            //     }
-            // )
+        });
+
+        $("#btnActive").click(function (event) {
+            let accountId = document.getElementById("accountId").value;
+
+            doAjax("/admin/active_admin/" + accountId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-managers";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
         });
     });
 
