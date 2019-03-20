@@ -88,15 +88,15 @@
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let yearOfBirth = document.getElementById("birthday").value;
-        let sex = document.getElementById("sex");
-        let strSex = sex.options[sex.selectedIndex].value;
+        let strSex = document.getElementById("sex");
+        let sex = strSex.options[strSex.selectedIndex].value;
         let address = document.getElementById("address").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
 
         if (validateData) {
-            CallAjaxWithFetch(`/owner/create`,
+            CallAjaxWithFetch(`/admin/create_owner`,
                 "POST",
-                {firstName, lastName, strSex, address, phoneNumber, yearOfBirth},
+                {firstName, lastName, sex, address, phoneNumber, yearOfBirth},
                 (data) => {
                     showAlert(true, data.message);
                     document.location.href = "/list-owners";
@@ -118,6 +118,8 @@
         let sex = $("#sex").val().trim();
         let address = $("#address").val().trim();
         let phoneNumber = $("#phoneNumber").val().trim();
+        let today = new Date();
+        let strToday = today.getFullYear() + "-" +("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + (today.getDate())).slice(-2);
 
         let intRegex = /\d+/;
         let phoneRegex = /0\d{9}/;
@@ -128,6 +130,8 @@
             validateMessage = 'Last Name is required';
         } else if (birthday.length === 0) {
             validateMessage = 'Birthday is required';
+        } else if (birthday === strToday || birthday > strToday) {
+            validateMessage = 'Birthday cannot equal or greater than current date';
         } else if (sex === 'Please select') {
             validateMessage = 'Sex is required';
         } else if (address.length === 0) {

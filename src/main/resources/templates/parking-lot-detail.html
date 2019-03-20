@@ -71,7 +71,7 @@
             <div class="col col-md-12">
                 <div class="input-group">
                     <input type="text" id="input2-group2" name="input2-group2" placeholder="Search Owner" class="form-control" style="margin-right: 10px;">
-                    <div class="input-group-btn"><button class="btn btn-primary"><i class="fa fa-search"></i>&nbsp;Search</button></div>
+                    <div class="input-group-btn"><button class="btn btn-primary" id="btnAssign"><i class="fa fa-search"></i>&nbsp;Assign</button></div>
                     <input type="hidden" id="ownerIdSearch" />
                 </div>
             </div>
@@ -121,17 +121,41 @@
                                 <input type="number" id="phoneNumber" th:value="${plot.owner.phoneNumber}" class="form-control" disabled>
                             </div>
                         </div>
-                        <!--<button type="button" class="btn btn-danger float-left" disabled>-->
-                            <!--<i class="fa fa-ban"></i> Cancel-->
-                        <!--</button>-->
-                        <!--<button type="button" class="btn btn-primary float-right">-->
-                            <!--<i class="fa fa-pencil"></i> Edit-->
-                        <!--</button>-->
-                        <!--<button type="button" class="btn btn-danger float-right">-->
-                            <!--<i class="fa fa-trash-o"></i> Deactive-->
-                        <!--</button>-->
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">List Supervisors</strong>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -181,6 +205,10 @@
 
         document.getElementById("btn-save").addEventListener("click", function () {
             updateParkingLot();
+        });
+
+        document.getElementById("btnAssign").addEventListener("click", function () {
+            assignOwnerForParkingLot();
         });
 
         $("#btnDeactive").click(function (event) {
@@ -286,6 +314,31 @@
         }
     }
 
+    function assignOwnerForParkingLot() {
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        let displayName = document.getElementById("displayName").value;
+        let longitude = document.getElementById("long").value;
+        let latitude = document.getElementById("lat").value;
+        let timeOfOperation = document.getElementById("timeOfOperation").value;
+        let totalSlot = document.getElementById("totalSlot").value;
+        let address = document.getElementById("address").value;
+        let phoneNumber = document.getElementById("phoneNumberPlot").value;
+        let accountId = document.getElementById("accountId").value;
+        let ownerId = document.getElementById("ownerIdSearch").value;
+        let active = true;
+
+        CallAjaxWithFetch(`/admin/update_parking_lot/${accountId}`,
+            "PUT",
+            {parkingLotId, displayName, longitude, latitude, address, phoneNumber, timeOfOperation, ownerId, active, totalSlot},
+            (data) => {
+                showAlert(true, data.message);
+                document.location.href = "/list-parking-lots";
+            },
+            (err) => {
+                showAlert(false, err.message);
+            }
+        )
+    }
 
 </script>
 </html>
