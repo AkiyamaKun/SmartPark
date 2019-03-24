@@ -106,6 +106,7 @@
 
         let intRegex = /\d+/;
         let phoneRegex = /0\d{9}/;
+        let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
         if (firstName.length === 0 ) {
             validateMessage = 'First Name is required!';
@@ -113,6 +114,8 @@
             validateMessage = 'Last Name is required';
         } else if (email.length === 0) {
             validateMessage = 'Email is required';
+        } else if (!emailRegex.test(email)) {
+            validateMessage = 'Email is invalid';
         } else if (!phoneRegex.test(phoneNumber)) {
             validateMessage = 'Phone number should follow format 0#########';
         }

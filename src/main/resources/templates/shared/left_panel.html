@@ -17,43 +17,43 @@
 
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li class="act">
                     <a href="/home">
                         <i class="menu-icon fa fa-home"></i>Home
                     </a>
                 </li>
 
                 <h3 class="menu-title">Supervisors</h3><!-- /.menu-title -->
-                <li>
+                <li class="act">
                     <a href="/create-supervisor">
                         <i class="menu-icon ti-plus"></i>Create Supervisor
                     </a>
                 </li>
-                <li>
+                <li class="act">
                     <a href="/list-supervisors">
                         <i class="menu-icon fa fa-table"></i>List Supervisors
                     </a>
                 </li>
 
                 <h3 class="menu-title">Parking Lots</h3><!-- /.menu-title -->
-                <li>
+                <li class="act">
                     <a href="/create-parking-lot">
                         <i class="menu-icon ti-plus"></i>Create Parking Lot
                     </a>
                 </li>
-                <li>
+                <li class="act">
                     <a href="/list-parking-lots">
                         <i class="menu-icon fa fa-table"></i>List Parking Lots
                     </a>
                 </li>
 
                 <h3 class="menu-title">Owners</h3><!-- /.menu-title -->
-                <li>
+                <li class="act">
                     <a href="/create-owner">
                         <i class="menu-icon ti-plus"></i>Create Owner
                     </a>
                 </li>
-                <li>
+                <li class="act">
                     <a href="/list-owners">
                         <i class="menu-icon fa fa-table"></i>List Owners
                     </a>
@@ -62,12 +62,12 @@
                 <!--TODO Check role-->
                 <!-- IMPORTANT This is showed only if "System Admin" -->
                 <h3 class="menu-title">Managers</h3><!-- /.menu-title -->
-                <li>
+                <li class="act">
                     <a href="/create-manager">
                         <i class="menu-icon ti-plus"></i>Create Admin
                     </a>
                 </li>
-                <li>
+                <li class="act">
                     <a href="/list-managers">
                         <i class="menu-icon fa fa-table"></i>List Admins
                     </a>
@@ -84,8 +84,19 @@
     </nav>
 
     <script>
-        //TODO Activate li
+        // Add active class to the current button (highlight it)
+        let head = document.getElementById("main-menu");
+        let lis = head.getElementsByClassName("act");
+        for (let i = 0; i < lis.length; i++) {
+            lis[i].addEventListener("click", function () {
+                // let current = document.getElementsByClassName("active");
+                // if (current.length > 0) {
+                //     current[0].className = current[0].className.replace(" active", "");
+                // }
+                this.className.replace("act", "");
+                this.className += " active";
+            });
+        }
     </script>
-
 </aside><!-- /#left-panel -->
 <!-- Left Panel -->

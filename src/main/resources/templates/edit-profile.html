@@ -83,7 +83,7 @@
                 (data) => {
                     showAlert(true, data.message);
                     $('#btn-save').prop('disabled', true);
-                    // document.location.href = "/edit-profile?id=" + accountId;
+                    document.location.href = "/home";
                 },
                 (err) => {
                     showAlert(false, err.message);

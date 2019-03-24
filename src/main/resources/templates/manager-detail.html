@@ -16,12 +16,12 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header" th:switch="${manager.active}">
+            <div class="card-header">
                 <b>Manager</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:case="true">
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:if="${manager.active} eq true and ${manager.token} eq null">
                     <i class="fa fa-ban"></i> Deactive
                 </button>
-                <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
+                <button type="button" id="btnActive" class="btn btn-success float-right" th:if="${manager.active} eq false and ${manager.token} eq null">
                     <i class="fa fa-check"></i> Active
                 </button>
             </div>
@@ -116,7 +116,7 @@
                     document.location.href = "/list-managers";
                 },
                 (err) => {
-                    showAlert(true, err.message);
+                    showAlert(false, err.message);
                 }
             )
         }

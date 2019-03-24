@@ -19,7 +19,7 @@
                 <div class="card text-white bg-flat-color-1">
                     <div class="card-body pb-0">
                         <h4 class="mb-0">
-                            <span class="count">10468</span>
+                            <span class="count" th:text="${#lists.size(listDriver)} + ${#lists.size(listSupervisors)} + ${#lists.size(listAdmins)}"></span>
                         </h4>
                         <p class="text-light">Total Accounts</p>
                     </div>
@@ -32,7 +32,7 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-car text-success border-success"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Active Drivers</div>
+                                <div class="stat-text">Total Drivers</div>
                                 <div class="stat-digit count" th:text="${#lists.size(listDriver)}"></div>
                             </div>
                         </div>
@@ -43,8 +43,19 @@
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
                             <div class="stat-content dib">
-                                <div class="stat-text">Active Supervisors</div>
+                                <div class="stat-text">Total Supervisors</div>
                                 <div class="stat-digit count" th:text="${#lists.size(listSupervisors)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Total Admins</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listAdmins)}"></div>
                             </div>
                         </div>
                     </div>

@@ -65,9 +65,11 @@ public class ViewController {
         ModelAndView view = new ModelAndView("home");
         ResponseDTO listDrivers = accountService.getListAccount(3);
         ResponseDTO listSupervisors = accountService.getListAccount(2);
+        ResponseDTO listAdmins = accountService.getListAccount(1);
         ResponseDTO listParkingLots = parkingLotService.getAllParkingLotForAdmin();
         view.addObject("listDriver", listDrivers.getObjectResponse());
         view.addObject("listSupervisors", listSupervisors.getObjectResponse());
+        view.addObject("listAdmins", listSupervisors.getObjectResponse());
         view.addObject("listParkingLots", listParkingLots.getObjectResponse());
         return view;
     }
@@ -274,6 +276,19 @@ public class ViewController {
             }
         }
         return url;
+    }
+
+    //SUPERVISOR PAGE
+    /**
+     * Login Supervisor Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/login-supervisor", method = RequestMethod.GET)
+    public String toLoginSupervisor(Model model) {
+        //Excute anything here
+        return "login-supervisor";
     }
 }
 
