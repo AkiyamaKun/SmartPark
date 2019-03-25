@@ -219,7 +219,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         parkingLot.setDisplayName(dto.getDisplayName());
                         parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
 
-                        if(account.getRole().getRoleId() == 1){
+                        if(account.getRole().getRoleName() == Const.ROLE_ADMIN){
                             //Update Parking Lot for Admin
                             parkingLot.setEditedBy(account);
                             parkingLot.setLatitude(dto.getLatitude());

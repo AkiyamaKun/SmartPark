@@ -19,6 +19,7 @@ public class Const {
     public static final String UPDATE_ACCOUNT = "/update/{id}";
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
     public static final String LOGIN = "/login";
+    public static final String LOGOUT = "/logout";
     public static final String REGISTER =  "/register";
     public static final String SET_FIRST_PASSWORD = "/set_first_password";
     public static final String SET_PASSWORD_PAGE ="/set_password_page";
@@ -138,7 +139,7 @@ public class Const {
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR_FAIL = "Assign Parking Lot for Supervisor Fail";
 
     //Supervisor Account API
-    public static final String SUPERVISOR_ACCOUNT = "supervisor";
+    public static final String SUPERVISOR_ACCOUNT = "/supervisor";
 
     //Account Gmail vs Mail Properties
     public static final String MAIL_ACCOUNT = "smartparking50@gmail.com";
