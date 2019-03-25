@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * Account Controller
- *
+ * <p>
  * Author: DangNHH - 17/02/2019
  */
 
@@ -33,10 +33,11 @@ public class AccountController {
 
     /**
      * Convert InformationAccountDTO form AccountDTO
+     *
      * @param informationAccountDTO
      * @param accountDTO
      */
-    public void convertInformationAccountDTOFromAccountDTO(InformationAccountDTO informationAccountDTO, AccountDTO accountDTO){
+    public void convertInformationAccountDTOFromAccountDTO(InformationAccountDTO informationAccountDTO, AccountDTO accountDTO) {
         informationAccountDTO.setAccountId(accountDTO.getAccountId());
         informationAccountDTO.setEmail(accountDTO.getEmail());
         informationAccountDTO.setPhoneNumber(accountDTO.getPhoneNumber());
@@ -48,16 +49,17 @@ public class AccountController {
 
     /**
      * Get Account
+     *
      * @param id
      * @return
      */
     @RequestMapping(value = Const.GET_ACCOUNT, method = RequestMethod.GET)
     public ResponseDTO getAccount(@PathVariable Integer id,
-                                  HttpServletRequest request){
+                                  HttpServletRequest request) {
         ResponseDTO responseDTO = accountService.getAccount(id);
-        if(responseDTO.isStatus()){
+        if (responseDTO.isStatus()) {
             InformationAccountDTO dto = new InformationAccountDTO();
-            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO)responseDTO.getObjectResponse());
+            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO) responseDTO.getObjectResponse());
             responseDTO.setObjectResponse(dto);
         }
         return responseDTO;
@@ -65,16 +67,17 @@ public class AccountController {
 
     /**
      * Update Account
+     *
      * @param accountDTO
      * @return
      */
     @RequestMapping(value = Const.UPDATE_ACCOUNT, method = RequestMethod.PUT)
     public ResponseDTO updateAccount(@RequestBody @Valid AccountDTO accountDTO,
-                                     @PathVariable Integer id){
+                                     @PathVariable Integer id) {
         ResponseDTO responseDTO = accountService.updateAccount(id, accountDTO);
-        if(responseDTO.isStatus()){
+        if (responseDTO.isStatus()) {
             InformationAccountDTO dto = new InformationAccountDTO();
-            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO)responseDTO.getObjectResponse());
+            convertInformationAccountDTOFromAccountDTO(dto, (AccountDTO) responseDTO.getObjectResponse());
             responseDTO.setObjectResponse(dto);
         }
         return responseDTO;
@@ -82,37 +85,41 @@ public class AccountController {
 
     /**
      * Get List Account
+     *
      * @param roleId
      * @return
      */
     @RequestMapping(value = Const.LIST_ACCOUNTS, method = RequestMethod.GET)
-    public ResponseDTO getListAccount(@PathVariable Integer roleId){
+    public ResponseDTO getListAccount(@PathVariable Integer roleId) {
         return accountService.getListAccount(roleId);
     }
 
     /**
      * Change Password
+     *
      * @param dto
      * @return
      */
     @RequestMapping(value = Const.CHANGE_PASSWORD, method = RequestMethod.PUT)
-    public ResponseDTO changePassword(@RequestBody @Valid ChangePasswordDTO dto){
+    public ResponseDTO changePassword(@RequestBody @Valid ChangePasswordDTO dto) {
         return accountService.changePassword(dto);
     }
 
     /**
      * Register Account
+     *
      * @param accountDTO
      * @return
      */
     @RequestMapping(value = Const.REGISTER, method = RequestMethod.POST)
-    public ResponseDTO register(@RequestBody @Valid AccountDTO accountDTO){
+    public ResponseDTO register(@RequestBody @Valid AccountDTO accountDTO) {
         ResponseDTO responseDTO = accountService.registerAccount(accountDTO);
         return responseDTO;
     }
 
     /**
      * Set First Password for Admin/Supervisor Account
+     *
      * @param email
      * @param password
      * @param passwordConfirm
@@ -123,28 +130,45 @@ public class AccountController {
                                         @RequestParam(value = "password", required = true) String password,
                                         @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm) {
         ResponseDTO responseDTO = new ResponseDTO();
-        if(!password.equals(passwordConfirm)){
+        if (!password.equals(passwordConfirm)) {
             responseDTO.setStatus(false);
             responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
-        }else{
-            responseDTO = accountService.setFirstPassword(email,password);
+        } else {
+            responseDTO = accountService.setFirstPassword(email, password);
         }
         return responseDTO;
     }
 
     /**
      * Login
+     *
      * @param dto
      * @return
      */
     @RequestMapping(value = Const.LOGIN, method = RequestMethod.POST)
-    public ResponseDTO login(@RequestBody @Valid UserLoginDTO dto,
-                             HttpServletRequest request){
+    public ResponseDTO logout(@RequestBody @Valid UserLoginDTO dto,
+                              HttpServletRequest request) {
         ResponseDTO responseDTO = accountService.checkLogin(dto);
-        if(responseDTO.isStatus()){
+        if (responseDTO.isStatus()) {
             HttpSession session = request.getSession();
-            session.setAttribute("User" , responseDTO.getObjectResponse());
+            session.setAttribute("User", responseDTO.getObjectResponse());
         }
+        return responseDTO;
+    }
+
+    /**
+     * Logout
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = Const.LOGOUT, method = RequestMethod.POST)
+    public ResponseDTO login(HttpServletRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        HttpSession session = request.getSession();
+        session.removeAttribute("User");
+        responseDTO.setStatus(true);
+        responseDTO.setMessage("Logout Success");
         return responseDTO;
     }
 

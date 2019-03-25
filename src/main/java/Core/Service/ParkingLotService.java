@@ -3,6 +3,8 @@ package Core.Service;
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 public interface ParkingLotService {
     //Common
     ResponseDTO getParkingLot(Integer id);
@@ -14,6 +16,9 @@ public interface ParkingLotService {
     ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId);
     ResponseDTO deactiveParkingLot(Integer parkingLotId);
     ResponseDTO activeParkingLot(Integer parkingLotId);
+    ResponseDTO getListParkingLotOfOwner(Integer ownerId);
+    ResponseDTO getListParkingLotControlBySupervisor(Integer supervisorId);
+    ResponseDTO getListSupervisorOfParkingLot(Integer parkingLotId);
 
     //For Supervisor Account
     ResponseDTO getListParkingLotManagedBySupervisor(Integer supervisorId);
