@@ -39,10 +39,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Conver Short Info Parking Lot From Entity
+     *
      * @param dto
      * @param entity
      */
-    public void convertShortInfoParkingLotFromEntity(ShortInfoParkingLotDTO dto, ParkingLot entity){
+    public void convertShortInfoParkingLotFromEntity(ShortInfoParkingLotDTO dto, ParkingLot entity) {
         dto.setParkingLotId(entity.getParkingLotId());
         dto.setDisplayName(entity.getDisplayName());
         dto.setTotalSlot(entity.getTotalSlot());
@@ -58,10 +59,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Convert
+     *
      * @param dto
      * @param entity
      */
-    public void convertParkingSlotDTOFormEntity(ParkingSlotDTO dto, ParkingSlot entity){
+    public void convertParkingSlotDTOFormEntity(ParkingSlotDTO dto, ParkingSlot entity) {
         dto.setSlotId(entity.getSlotId());
         dto.setName(entity.getName());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
@@ -70,6 +72,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get Parking Lot by Id
+     *
      * @param id
      * @return
      */
@@ -77,26 +80,20 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO getParkingLot(Integer id) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(id);
-            if(parkingLot != null){
-                if(parkingLot.isActive()){
-                    ShortInfoParkingLotDTO dto = new ShortInfoParkingLotDTO();
-                    parkingLot.getEditedBy().setPassword(null);
-                    parkingLot.getCreatedBy().setPassword(null);
-                    convertShortInfoParkingLotFromEntity(dto, parkingLot);
-                    responseDTO.setStatus(true);
-                    responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
-                    responseDTO.setObjectResponse(dto);
-                }else{
-                    //parking lot is deactive
-                    responseDTO.setMessage(Const.PARKING_LOT_IS_DEACTIVE);
-                }
-
-            }else{
+            if (parkingLot != null) {
+                ShortInfoParkingLotDTO dto = new ShortInfoParkingLotDTO();
+                parkingLot.getEditedBy().setPassword(null);
+                parkingLot.getCreatedBy().setPassword(null);
+                convertShortInfoParkingLotFromEntity(dto, parkingLot);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage(Const.GET_PARKING_LOT_FAIL);
         }
         return responseDTO;
@@ -105,6 +102,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     /**
      * Get List Parking Lot for Admin
      * Get all parking lot (active / deactive)
+     *
      * @return
      */
     @Override
@@ -112,9 +110,9 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         List<ParkingLot> parkingLots = parkingLotRepository.findAll();
-        if(!parkingLots.isEmpty()){
+        if (!parkingLots.isEmpty()) {
             List<ShortInfoParkingLotDTO> shortInfoParkingLotDTOS = new ArrayList<>();
-            for(ParkingLot parkingLot: parkingLots){
+            for (ParkingLot parkingLot : parkingLots) {
                 parkingLot.getCreatedBy().setPassword(null);
                 parkingLot.getEditedBy().setPassword(null);
                 ShortInfoParkingLotDTO tmp = new ShortInfoParkingLotDTO();
@@ -124,7 +122,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_SUCCESS);
             responseDTO.setObjectResponse(shortInfoParkingLotDTOS);
-        }else{
+        } else {
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
         }
@@ -133,19 +131,20 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Create Parking Lot
+     *
      * @param dto
      * @param adminId
      * @return
      */
     @Override
-    public ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId){
+    public ResponseDTO createParkingLot(ParkingLotUpdateDTO dto, Integer adminId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
             Account adminAccount = accountRepository.findByAccountId(adminId);
-            if(owner != null && adminAccount != null){
-                if(dto != null){
+            if (owner != null && adminAccount != null) {
+                if (dto != null) {
                     //Create new record 'Parking Lot' on table Parking Lot
                     Date date = new Date();
                     ParkingLot parkingLot = new ParkingLot();
@@ -168,12 +167,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     //Generate Slot for Parking Lot
                     //Status default 'Free'
                     ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("Free");
-                    if(status == null){
+                    if (status == null) {
                         //If default status Free is not existed then create it
                         status = new ParkingSlotStatus("Free");
                         parkingSlotStatusRepository.save(status);
                     }
-                    for(int i = 0; i <parkingLot.getTotalSlot(); i++){
+                    for (int i = 0; i < parkingLot.getTotalSlot(); i++) {
                         String name = parkingLot.getDisplayName() + " " + (i + 1);
                         ParkingSlot parkingSlot = new ParkingSlot(name, status, parkingLot);
                         parkingSlotRepository.save(parkingSlot);
@@ -183,12 +182,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.CREATE_PARKING_LOT_SUCCESS);
                     responseDTO.setObjectResponse(parkingLot);
-                }else
+                } else
                     responseDTO.setMessage(Const.LACK_OF_DATA);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.CREATE_PARKING_LOT_FAIL);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Create Parking Lot Exception: " + e.getMessage());
         }
 
@@ -197,20 +196,21 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Update Parking Lot
+     *
      * @param dto
      * @return
      */
     @Override
-    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer accountId){
+    public ResponseDTO updateParkingLot(ParkingLotUpdateDTO dto, Integer accountId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
-            if(dto != null){
+        try {
+            if (dto != null) {
                 ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(dto.getParkingLotId());
                 Account account = accountRepository.findByAccountId(accountId);
                 Owner owner = ownerRepository.findByOwnerId(dto.getOwnerId());
-                if(parkingLot != null){
-                    if(account != null){
+                if (parkingLot != null) {
+                    if (account != null) {
                         //Update Data For Supervisor
                         Date date = new Date();
                         parkingLot.setLastEdited(date);
@@ -219,14 +219,14 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         parkingLot.setDisplayName(dto.getDisplayName());
                         parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
 
-                        if(account.getRole().getRoleName() == Const.ROLE_ADMIN){
+                        if (account.getRole().getRoleName() == Const.ROLE_ADMIN) {
                             //Update Parking Lot for Admin
                             parkingLot.setEditedBy(account);
                             parkingLot.setLatitude(dto.getLatitude());
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
                             parkingLot.setOwner(owner);
-                        }else{
+                        } else {
                             parkingLot.setEditedBy(account);
                         }
                         parkingLot.setParklotImage(dto.getParklotImage());
@@ -239,16 +239,16 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.UPDATE_PARKING_LOT_SUCCESS);
                         responseDTO.setObjectResponse(parkingLot);
-                    }else{
+                    } else {
                         responseDTO.setMessage(Const.UPDATE_PARKING_LOT_FAIL);
                     }
-                }else{
+                } else {
                     responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
                 }
-            }else{
+            } else {
                 responseDTO.setMessage(Const.LACK_OF_DATA);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Update Parking Lot Exception: " + e.getMessage());
         }
         return responseDTO;
@@ -256,6 +256,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Deactive Parking Lot
+     *
      * @param parkingLotId
      * @return
      */
@@ -263,17 +264,17 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO deactiveParkingLot(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 parkingLot.setActive(false);
                 parkingLotRepository.save(parkingLot);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.PARKING_LOT_IS_DEACTIVE);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage(Const.PARKING_LOT_DEACTIVE_FAIL);
         }
         return responseDTO;
@@ -281,6 +282,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Active Parking Lot
+     *
      * @param parkingLotId
      * @return
      */
@@ -288,17 +290,17 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO activeParkingLot(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 parkingLot.setActive(true);
                 parkingLotRepository.save(parkingLot);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.PARKING_LOT_IS_ACTIVE);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage(Const.PARKING_LOT_ACTIVE_FAIL);
         }
         return responseDTO;
@@ -306,6 +308,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get List Parking Lot Of Owner
+     *
      * @param ownerId
      * @return
      */
@@ -313,17 +316,17 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO getListParkingLotOfOwner(Integer ownerId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             Owner owner = ownerRepository.findByOwnerId(ownerId);
-            if(owner != null) {
+            if (owner != null) {
                 List<ParkingLot> parkingLots = parkingLotRepository.findByOwner(owner);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_OF_OWNER_SUCCESS);
                 responseDTO.setObjectResponse(parkingLots);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_OF_OWNER_FAIL);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Get List Parking Lot Of Onwer Exception: " + e.getMessage());
         }
         return responseDTO;
@@ -333,21 +336,21 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO getListParkingLotControlBySupervisor(Integer supervisorId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             Account supervisor = accountRepository.findByAccountId(supervisorId);
-            if(supervisor != null && supervisor.getRole().getRoleName().equals(Const.ROLE_SUPERVISOR)){
+            if (supervisor != null && supervisor.getRole().getRoleName().equals(Const.ROLE_SUPERVISOR)) {
                 List<Supervision> supervisions = supervisionRepository.findBySupervisor(supervisor);
                 List<ParkingLot> parkingLots = new ArrayList<>();
-                for (Supervision item: supervisions) {
+                for (Supervision item : supervisions) {
                     parkingLots.add(item.getParkingLot());
                 }
                 responseDTO.setStatus(true);
                 responseDTO.setObjectResponse(parkingLots);
                 responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_SUCCESS);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_FAIL);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Get List Parking Lot Control By Supervisor Error:  " + e.getMessage());
         }
         return responseDTO;
@@ -355,6 +358,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get List Supervisor Of Parking Lot
+     *
      * @param parkingLotId
      * @return
      */
@@ -362,21 +366,21 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO getListSupervisorOfParkingLot(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 List<Supervision> supervisions = supervisionRepository.findByParkingLot(parkingLot);
                 List<Account> accounts = new ArrayList<>();
-                for (Supervision item: supervisions) {
+                for (Supervision item : supervisions) {
                     accounts.add(item.getSupervisor());
                 }
                 responseDTO.setStatus(true);
                 responseDTO.setObjectResponse(accounts);
                 responseDTO.setMessage(Const.GET_LIST_SUPERVISOR_SUCCESS);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.GET_LIST_SUPERVISOR_FAIL);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Get List Supervisor Error:  " + e.getMessage());
         }
         return responseDTO;
@@ -384,6 +388,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get List Parking Lot Control By Supervisor
+     *
      * @param supervisorId
      * @return
      */
@@ -394,6 +399,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get All Slot of Parking Lot
+     *
      * @param parkingLotId
      * @return
      */
@@ -401,13 +407,13 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public ResponseDTO getAllSlotOfParkingLot(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingLot(parkingLot);
                 List<ParkingSlotDTO> parkingSlotDTOS = new ArrayList<>();
-                if(!parkingSlots.isEmpty()){
-                    for(ParkingSlot parkingSlot : parkingSlots){
+                if (!parkingSlots.isEmpty()) {
+                    for (ParkingSlot parkingSlot : parkingSlots) {
                         parkingLot.getCreatedBy().setPassword(null);
                         parkingLot.getEditedBy().setPassword(null);
                         ParkingSlotDTO tmp = new ParkingSlotDTO();
@@ -417,14 +423,14 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.GET_ALL_SLOT_OF_PARKING_LOT_SUCCESS);
                     responseDTO.setObjectResponse(parkingSlotDTOS);
-                }else{
+                } else {
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
                 }
-            }else{
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Get All Slot Exception: " + e.getMessage());
         }
         return responseDTO;
@@ -432,6 +438,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get All Parking Lot For Admin
+     *
      * @return
      */
     @Override
@@ -439,11 +446,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         List<ParkingLot> parkingLots = parkingLotRepository.findAll();
-        if(!parkingLots.isEmpty()){
+        if (!parkingLots.isEmpty()) {
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_SUCCESS);
             responseDTO.setObjectResponse(parkingLots);
-        }else{
+        } else {
             responseDTO.setMessage(Const.GET_LIST_PARKING_LOT_FAIL);
         }
         return responseDTO;
