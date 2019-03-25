@@ -3,7 +3,6 @@ package Core.Controller.MVC;
 import Core.Constant.Const;
 import Core.Controller.REST.AccountController;
 import Core.DTO.ResponseDTO;
-import Core.DTO.UserLoginDTO;
 import Core.Entity.Account;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,7 +48,7 @@ public class ViewController {
     @RequestMapping(value = {"/login", "/"})
     public String toLogin(Model model) {
         model.addAttribute("title", "Smart Parking - Login");
-        return "login";
+        return "admin/login";
     }
 
     /**
@@ -62,7 +60,7 @@ public class ViewController {
     @RequestMapping(value = "/home")
     public ModelAndView toHome(Model model) {
         model.addAttribute("Title", "Home");
-        ModelAndView view = new ModelAndView("home");
+        ModelAndView view = new ModelAndView("admin/home");
         ResponseDTO listDrivers = accountService.getListAccount(3);
         ResponseDTO listSupervisors = accountService.getListAccount(2);
         ResponseDTO listAdmins = accountService.getListAccount(1);
@@ -84,7 +82,7 @@ public class ViewController {
     @RequestMapping(value = "/change-password")
     public String toChangPassword(Model model) {
         //Excute anything here
-        return "change-password";
+        return "admin/change-password";
     }
 
     /**
@@ -96,7 +94,7 @@ public class ViewController {
     @RequestMapping(value = "/create-manager")
     public String toCreateManager(Model model) {
         //Excute anything here
-        return "create-manager";
+        return "admin/create-manager";
     }
 
     /**
@@ -108,7 +106,7 @@ public class ViewController {
     @RequestMapping(value = "/create-supervisor")
     public String toCreateSupervisor(Model model) {
         //Excute anything here
-        return "create-supervisor";
+        return "admin/create-supervisor";
     }
 
     /**
@@ -119,7 +117,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/edit-profile")
     public ModelAndView toEditProfile(@RequestParam Integer id) {
-        ModelAndView view = new ModelAndView("edit-profile");
+        ModelAndView view = new ModelAndView("admin/edit-profile");
         ResponseDTO managerAccount = accountService.getAccount(id);
         view.addObject("profile", managerAccount.getObjectResponse());
         return view;
@@ -134,7 +132,7 @@ public class ViewController {
     @RequestMapping(value = "/list-managers")
     public String toListManagers(Model model) {
         //Excute anything here
-        return "list-managers";
+        return "admin/list-managers";
     }
 
     /**
@@ -146,7 +144,7 @@ public class ViewController {
     @RequestMapping(value = "/list-parking-lots", method = RequestMethod.GET)
     public String toListParkingLots(Model model) {
         //Excute anything here
-        return "list-parking-lots";
+        return "admin/list-parking-lots";
     }
 
     /**
@@ -158,7 +156,7 @@ public class ViewController {
     @RequestMapping(value = "/list-supervisors")
     public String toListSupervisors(Model model) {
         //Excute anything here
-        return "list-supervisors";
+        return "admin/list-supervisors";
     }
 
     /**
@@ -170,7 +168,7 @@ public class ViewController {
     @RequestMapping(value = "/list-owners")
     public String toListOwners(Model model) {
         //Excute anything here
-        return "list-owners";
+        return "admin/list-owners";
     }
 
     /**
@@ -181,7 +179,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/manager-detail")
     public ModelAndView toManagerDetail(@RequestParam Integer id) {
-        ModelAndView view = new ModelAndView("manager-detail");
+        ModelAndView view = new ModelAndView("admin/manager-detail");
         ResponseDTO managerAccount = accountService.getAccount(id);
         view.addObject("manager", managerAccount.getObjectResponse());
         return view;
@@ -194,7 +192,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/supervisor-detail")
     public ModelAndView toSupervisorDetail(@RequestParam Integer id) {
-        ModelAndView view = new ModelAndView("supervisor-detail");
+        ModelAndView view = new ModelAndView("admin/supervisor-detail");
         ResponseDTO supervisorAccount = accountService.getAccount(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
         return view;
@@ -208,7 +206,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/owner-detail")
     public ModelAndView toOwnerDetail(@RequestParam Integer id) {
-        ModelAndView view = new ModelAndView("owner-detail");
+        ModelAndView view = new ModelAndView("admin/owner-detail");
         ResponseDTO owner = ownerService.getOwner(id);
         view.addObject("owner", owner.getObjectResponse());
         return view;
@@ -222,7 +220,7 @@ public class ViewController {
      */
     @RequestMapping(value = "/parking-lot-detail")
     public ModelAndView toParkinglotDetail(@RequestParam Integer id) {
-        ModelAndView view = new ModelAndView("parking-lot-detail");
+        ModelAndView view = new ModelAndView("admin/parking-lot-detail");
         ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
         view.addObject("plot", parkinglot.getObjectResponse());
         return view;
@@ -230,7 +228,7 @@ public class ViewController {
 
     @RequestMapping(value = "/create-parking-lot")
     public ModelAndView toCreateParkingLot(Model model) {
-        ModelAndView view = new ModelAndView("create-parking-lot");
+        ModelAndView view = new ModelAndView("admin/create-parking-lot");
         ResponseDTO owner = ownerService.getAllOwner();
         view.addObject("ownerName", owner.getObjectResponse());
         return view;
@@ -239,7 +237,7 @@ public class ViewController {
     @RequestMapping(value = "/create-owner")
     public String toCreateOwner(Model model) {
         //Excute anything here
-        return "create-owner";
+        return "admin/create-owner";
     }
 
     @RequestMapping(value = "account/set_password_page")

@@ -1,0 +1,199 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="admin/shared/head :: head"></div>
+
+<body>
+
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
+
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
+
+    <div th:replace="admin/shared/header :: header"></div>
+
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <b>Parking Lot</b>
+            </div>
+            <div class="card-body card-block">
+                <input type="hidden" th:value="${session.User.accountId}" id="accountId">
+                <div class="form-group">
+                    <label class="form-control-label required">Display Name <span></span></label>
+                    <input type="text" id="displayName" placeholder="Display Name" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label required">Longitude</label>
+                    <input type="text" id="long" placeholder="Longitude" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label required">Latitude</label>
+                    <input type="text" id="lat" placeholder="Latitude" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label required">Total Slot</label>
+                    <input type="number" id="slots" placeholder="Total Slot" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label required">Phone Number</label>
+                    <input type="text" id="phoneNumber" placeholder="Phone Number" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Address</label>
+                    <input type="text" id="address" placeholder="Address" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Time of Operation</label>
+                    <input type="text" id="timeOfOperation" placeholder="Time of Operation" class="form-control"/>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="select" class=" form-control-label">Owner</label>-->
+                    <!--&lt;!&ndash;<div class="col-12 col-md-9">&ndash;&gt;-->
+                    <!--<select name="select" id="select" class="form-control" th:field="*{ownerName}">-->
+                        <!--<option value="0">Please select</option>-->
+                        <!--&lt;!&ndash;<option value="1">Option #1</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option value="2">Option #2</option>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<option value="3">Option #3</option>&ndash;&gt;-->
+                        <!--<option th:each="i : ${ownerName.lastName}" th:value="${i}" th:text="${i}">-->
+                        <!--</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <label class="form-control-label">Owner</label>
+                    <input type="text" id="owner" placeholder="Owner" class="form-control"/>
+                    <input type="hidden" id="ownerId" />
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="reset" class="btn btn-danger float-left" id="btnReset">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
+                <button type="button" class="btn btn-primary float-right" id="btnCreate">
+                    <i class="fa fa-check"></i> Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div><!-- /#right-panel -->
+<!-- Right Panel -->
+
+<script src="vendors/popper.js/dist/umd/popper.min.js"></script>
+<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+<script>
+    let ownersList = [];
+    $(document).ready(function () {
+        $('#owner').prop("disabled", true);
+        doAjax("/admin/all_owners", "GET", null, function (data) {
+            ownersList = data.objectResponse;
+            $('#owner').prop("disabled", false);
+        });
+
+        $('#owner').autocomplete({
+            source: function (request, response) {
+                $('#ownerId').val("");
+                let searchValue = request.term;
+                response($.map(ownersList, function (owner, index) {
+                    let fullName = owner.lastName + " " + owner.firstName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: owner.lastName + " " + owner.firstName,
+                            value: owner.lastName + " " + owner.firstName,
+                            ownerId: owner.ownerId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#ownerId').val(ui.item.ownerId);
+            },
+            minLength: 2,
+            delay: 100
+        });
+
+        $("#btnCreate").click(function (event) {
+            let validatedData = validateInput();
+
+            let adminId = document.getElementById("accountId").value;
+
+            if (validatedData) {
+                doAjax("/admin/create_parking_lot/" + adminId, "POST", validatedData, function (response) {
+                    showAlert(true, response.message);
+                    document.location.href = "/list-parking-lots";
+                }, function (error) {
+                    //debugger;
+                    showAlert(false, error.message);
+                });
+            }
+        });
+
+        $("#btnReset").click(function (event) {
+            resetInput();
+        })
+    });
+
+    function validateInput() {
+        //TODO Check if ownerId is null or undefined
+        let validateMessage = '';
+
+        let displayName = $("#displayName").val().trim();
+        let long = $("#long").val().trim();
+        let lat = $("#lat").val().trim();
+        let slots = $("#slots").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
+        let address = $("#address").val().trim();
+        let timeOfOperation = $("#timeOfOperation").val().trim();
+        let ownerId = $("#ownerId").val();
+
+        let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (displayName.length === 0) {
+            validateMessage = 'Display Name is required!';
+        } else if (!floatRegex.test(long) || !floatRegex.test(lat)) {
+            validateMessage = 'Long and lat should be float number!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        } else if (!ownerId.length) {
+            validateMessage = 'Please choose an owner!';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            displayName: displayName,
+            longitude: parseFloat(long),
+            latitude: parseFloat(lat),
+            totalSlot: parseInt(slots),
+            address: address,
+            phoneNumber: phoneNumber,
+            timeOfOperation: timeOfOperation,
+            ownerId: ownerId
+        }
+    }
+
+    function resetInput() {
+        document.getElementById("name").value = '';
+        document.getElementById("long").value = '';
+        document.getElementById("lat").value = '';
+        document.getElementById("slots").value = '';
+        document.getElementById("phoneNumber").value = '';
+        document.getElementById("address").value = '';
+        document.getElementById("timeOfOperation").value = '';
+        document.getElementById("ownerId").value = '';
+    }
+
+</script>
+</html>

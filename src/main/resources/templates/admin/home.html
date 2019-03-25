@@ -1,0 +1,93 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="admin/shared/head :: head"></div>
+
+<body>
+
+    <div th:replace="admin/shared/left_panel :: left_panel"></div>
+
+    <div id="right-panel" class="right-panel">
+
+        <div th:replace="admin/shared/header :: header"></div>
+
+        <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+
+        <div class="content mt-3">
+            <div class="col-xl-12 col-lg-6">
+                <div class="card text-white bg-flat-color-1">
+                    <div class="card-body pb-0">
+                        <h4 class="mb-0">
+                            <span class="count" th:text="${#lists.size(listDriver)} + ${#lists.size(listSupervisors)} + ${#lists.size(listAdmins)}"></span>
+                        </h4>
+                        <p class="text-light">Total Accounts</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-car text-success border-success"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Total Drivers</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listDriver)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Total Supervisors</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listSupervisors)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-user text-primary border-primary"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Total Admins</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listAdmins)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-one">
+                            <div class="stat-icon dib"><i class="ti-map-alt text-danger border-danger"></i></div>
+                            <div class="stat-content dib">
+                                <div class="stat-text">Active Parking Lots</div>
+                                <div class="stat-digit count" th:text="${#lists.size(listParkingLots)}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- .content -->
+    </div><!-- /#right-panel -->
+
+    <!-- Right Panel -->
+
+    <script src="/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+    <script src="/assets/js/app.js"></script>
+    <script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+    <script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
+</body>
+
+</html>
