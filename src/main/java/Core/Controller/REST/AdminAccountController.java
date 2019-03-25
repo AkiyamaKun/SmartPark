@@ -2,7 +2,6 @@ package Core.Controller.REST;
 
 import Core.Constant.Const;
 import Core.DTO.*;
-import Core.Entity.Account;
 import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -294,6 +293,36 @@ public class AdminAccountController {
     public ResponseDTO assignParkingLotForSupervisor(@RequestParam(value = "parkingLotId") Integer parkingLotId,
                                                      @RequestParam(value = "supervisorId") Integer supervisorId){
         return supervisionService.assignParkingLotForSupervisor(parkingLotId, supervisorId);
+    }
+
+    /**
+     * Get List Parking Lot Of Owner
+     * @param ownerId
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_PARKINGLOT_OF_OWNER, method = RequestMethod.GET)
+    public ResponseDTO getListParkingLotOfOwner(@RequestParam(value = "ownerId") Integer ownerId){
+        return parkingLotService.getListParkingLotOfOwner(ownerId);
+    }
+
+    /**
+     * Get List Parking Lot Control By Supervisor
+     * @param supervisorId
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_PARKINGLOT_CONTROL_BY_SUPERVISOR, method = RequestMethod.GET)
+    public ResponseDTO getListParkingLotControlBySupervisor(@RequestParam(value = "supervisorId") Integer supervisorId){
+        return parkingLotService.getListParkingLotControlBySupervisor(supervisorId);
+    }
+
+    /**
+     * Get List Supervisor Of Parking Lot
+     * @param parkingLotId
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_SUPERVISOR_OF_PARKING_LOT, method = RequestMethod.GET)
+    public ResponseDTO getListSupervisorOfParkingLot(@RequestParam(value = "parkingLotId") Integer parkingLotId){
+        return parkingLotService.getListSupervisorOfParkingLot(parkingLotId);
     }
 
 }

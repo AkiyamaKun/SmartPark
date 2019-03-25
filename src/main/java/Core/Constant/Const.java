@@ -23,7 +23,7 @@ public class Const {
     public static final String SET_FIRST_PASSWORD = "/set_first_password";
     public static final String SET_PASSWORD_PAGE ="/set_password_page";
 
-    //Account Message Response
+    //Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
     public static final String DELETE_ACCOUNT_FAIL = "Delete Account Fail";
     public static final String ACTIVATE_ACCOUNT_SUCCESS = "Activate Account Successful";
@@ -77,6 +77,9 @@ public class Const {
     public static final String DEACTIVE_SUPERVISOR_ACCOUNT = "/deactive_supervisor/{id}";
     public static final String GET_ALL_ADMIN = "/all_admin";
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR = "/assign_parking_lot_for_supervisor";
+    public static final String LIST_PARKINGLOT_OF_OWNER = "/list_parking_lot_of_owner";
+    public static final String LIST_PARKINGLOT_CONTROL_BY_SUPERVISOR = "/list_parking_lot_control_by_supervisor";
+    public static final String LIST_SUPERVISOR_OF_PARKING_LOT = "/list_supervisor_of_parking_lot";
 
     public static final String CREATE_OWNER = "/create_owner";
     public static final String UPDATE_OWNER = "/update_owner/{id}";
@@ -125,6 +128,10 @@ public class Const {
     public static final String UPDATE_PARKING_LOT_SUCCESS = "Update Parking Lot Successful";
     public static final String UPDATE_PARKING_LOT_FAIL = "Update Parking Lot Fail";
     public static final String GET_ALL_SLOT_OF_PARKING_LOT_SUCCESS = "Get All Slot Success";
+    public static final String GET_LIST_PARKING_LOT_OF_OWNER_SUCCESS = "Get List Parking Lot Of Owner Successful";
+    public static final String GET_LIST_PARKING_LOT_OF_OWNER_FAIL = "Get List Parking Lot Of Owner Fail";
+    public static final String GET_LIST_SUPERVISOR_SUCCESS = "Get List Supervisor Successful";
+    public static final String GET_LIST_SUPERVISOR_FAIL = "Get List Supervisor Fail";
 
     //Supervision Message
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR_SUCCESS = "Assign Parking Lot for Supervisor Successful";
@@ -156,4 +163,9 @@ public class Const {
     //Parking Slot Message
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
+
+    //Common
+    public static final String ROLE_ADMIN = "Admin";
+    public static final String ROLE_SUPERVISOR = "Supervisor";
+    public static final String ROLE_DRIVER  = "Driver";
 }
