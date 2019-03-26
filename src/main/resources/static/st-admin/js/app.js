@@ -14,9 +14,9 @@ function GetAjaxWithFetch(url, success, fail = () => {}){
         .then((respond) => {
             if (respond.ok) {
                 // noinspection JSAnnotator
-        return response.json();
+                return respond.json();
             }
-            throw Error(response.statusText);
+            throw Error(respond.statusText);
         }).then((result)=> {
             success(result);
         }).catch((err)=>{

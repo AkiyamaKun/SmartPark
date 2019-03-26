@@ -68,7 +68,7 @@
     </div>
 
     <!-- List parking lot -->
-    <div class="col-lg-6">
+    <div class="col-lg-6" th:if="${not #lists.isEmpty(plotOwner)}">
         <div class="card">
             <div class="card-header">
                 <strong class="card-title">List Parking Lots</strong>
@@ -82,19 +82,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
+                    <!--<tr th:if="${plotOwner.empty}">-->
+                        <!--<td colspan="2"> No Books Available </td>-->
+                    <!--</tr>-->
+                    <tr th:each="plot, itr : ${plotOwner}">
+                        <th scope="row" th:text="${itr.count}"></th>
+                        <td th:text="${plot.displayName}"></td>
 
                     </tr>
                     </tbody>
@@ -104,16 +97,16 @@
     </div>
 </div>
 
-<script src="/vendors/jquery/dist/jquery.min.js"></script>
-<script src="/vendors/popper.js/dist/umd/popper.min.js"></script>
-<script src="/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/assets/js/main.js"></script>
-<script src="/js/app.js"></script>
-<script src="/js/service.js"></script>
+<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>
+<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/st-admin/assets/js/main.js"></script>
+<script src="/st-admin/js/app.js"></script>
+<script src="/st-admin/js/service.js"></script>
 
-<script src="/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-<script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-<script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
 <script>

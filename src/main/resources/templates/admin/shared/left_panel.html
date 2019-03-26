@@ -82,21 +82,5 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
-
-    <script>
-        // Add active class to the current button (highlight it)
-        let head = document.getElementById("main-menu");
-        let lis = head.getElementsByClassName("act");
-        for (let i = 0; i < lis.length; i++) {
-            lis[i].addEventListener("click", function () {
-                // let current = document.getElementsByClassName("active");
-                // if (current.length > 0) {
-                //     current[0].className = current[0].className.replace(" active", "");
-                // }
-                this.className.replace("act", "");
-                this.className += " active";
-            });
-        }
-    </script>
 </aside><!-- /#left-panel -->
 <!-- Left Panel -->

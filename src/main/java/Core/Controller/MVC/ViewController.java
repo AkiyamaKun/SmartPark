@@ -194,7 +194,9 @@ public class ViewController {
     public ModelAndView toSupervisorDetail(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("admin/supervisor-detail");
         ResponseDTO supervisorAccount = accountService.getAccount(id);
+        ResponseDTO plotOfSupervisor = parkingLotService.getListParkingLotControlBySupervisor(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
+        view.addObject("plotOfSupervisor", plotOfSupervisor.getObjectResponse());
         return view;
     }
 
@@ -208,7 +210,9 @@ public class ViewController {
     public ModelAndView toOwnerDetail(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("admin/owner-detail");
         ResponseDTO owner = ownerService.getOwner(id);
+        ResponseDTO plotOwner = parkingLotService.getListParkingLotOfOwner(id);
         view.addObject("owner", owner.getObjectResponse());
+        view.addObject("plotOwner", plotOwner.getObjectResponse());
         return view;
     }
 
@@ -222,7 +226,9 @@ public class ViewController {
     public ModelAndView toParkinglotDetail(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("admin/parking-lot-detail");
         ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
+        ResponseDTO supervisors = parkingLotService.getListSupervisorOfParkingLot(id);
         view.addObject("plot", parkinglot.getObjectResponse());
+        view.addObject("supervisors", supervisors.getObjectResponse());
         return view;
     }
 

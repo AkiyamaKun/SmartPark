@@ -34,8 +34,6 @@ function doAjax(url, method, data, callback, onError) {
 
 }
 
-
-
 function buildBootrapTable(tableId) {
     $(`#${tableId}`).DataTable({
         lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -77,4 +75,19 @@ function showAlert(success, message) {
             $("#alert").remove();
         }
     }, 5000);
+}
+
+//===========================Active menu===========
+function activeMenu() {
+    let headMenu = document.getElementById("main-menu");
+    let lis = headMenu.getElementsByClassName("act");
+    for (let i = 0; i < lis.length; i++) {
+        lis[i].addEventListener("click", function () {
+            let current = document.getElementsByClassName("active");
+            if (current.length > 0) {
+                current[0].className = current[0].className.replace(" active", "");
+            }
+            this.className += " active";
+        });
+    }
 }

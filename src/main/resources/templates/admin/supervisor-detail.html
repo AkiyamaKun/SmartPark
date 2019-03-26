@@ -16,12 +16,12 @@
 
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header" th:switch="${supervisor.active}">
+            <div class="card-header">
                 <b>Supervisor</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:case="true">
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:if="${supervisor.active} eq true and ${supervisor.token} eq null">
                     <i class="fa fa-ban"></i> Deactive
                 </button>
-                <button type="button" id="btnActive" class="btn btn-success float-right" th:case="false">
+                <button type="button" id="btnActive" class="btn btn-success float-right" th:if="${supervisor.active} eq false and ${supervisor.token} eq null">
                     <i class="fa fa-check"></i> Active
                 </button>
             </div>
@@ -62,24 +62,26 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card" th:if="${not #lists.isEmpty(plotOfSupervisor)}">
             <div class="card-header">
                 <b>Parking Lots</b>
             </div>
             <div class="card-body card-block">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs" >
                     <!--<li class="nav-item">-->
                     <!--<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"-->
                     <!--aria-controls="home" aria-selected="true">Parking Lot #8</a>-->
                     <!--</li>-->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="home-tab" data-toggle="dropdown" href="#home"
-                           role="button" aria-haspopup="true" aria-expanded="false">Parking Lot #8<span
+                        <a class="nav-link dropdown-toggle" id="home-tab" data-toggle="dropdown" href="#"
+                           role="button" aria-haspopup="true" aria-expanded="false">Choose parking lot<span
                                 class="caret"></span></a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Submenu 1-1</a>
-                            <a class="dropdown-item" href="#">Submenu 1-2</a>
-                            <a class="dropdown-item" href="#">Submenu 1-3</a>
+                        <div class="dropdown-menu" th:each="plot, plotStat: ${plotOfSupervisor}">
+                            <a class="dropdown-item"
+                               th:onclick="'chooseParkingLot(' + ${plot.parkingLotId} + ')'"
+                               th:text = "${plot.displayName}" ></a>
+                            <!--<a class="dropdown-item" href="#">Submenu 1-2</a>-->
+                            <!--<a class="dropdown-item" href="#">Submenu 1-3</a>-->
                         </div>
                     </li>
                 </ul>
@@ -90,7 +92,7 @@
                                 <label for="long" class=" form-control-label">Longitude</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="long" value="12.232121" class="form-control" disabled>
+                                <input type="text" id="long" value="" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -98,7 +100,7 @@
                                 <label for="lat" class=" form-control-label">Latitude</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="lat" value="38.21312" class="form-control" disabled>
+                                <input type="text" id="lat" value="" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -106,7 +108,7 @@
                                 <label for="slots" class=" form-control-label">Total Slots</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="number" id="slots" value="312" class="form-control" disabled>
+                                <input type="text" id="slots" value="" class="form-control" disabled>
                             </div>
                         </div>
                         <!--<button type="button" class="btn btn-danger float-left" disabled>-->
@@ -125,9 +127,6 @@
     </div>
 </div>
 
-<!--<script src="vendors/jquery/dist/jquery.min.js"></script>-->
-<!--<script src="vendors/popper.js/dist/umd/popper.min.js"></script>-->
-<!--<script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
 <!--<script src="assets/js/main.js"></script>-->
 <!--<script src="/js/app.js"></script>-->
 
@@ -239,5 +238,21 @@
         )
     }
 
+    function chooseParkingLot(parkingLotId) {
+        //let accountId = document.getElementById("accountId").value;
+        GetAjaxWithFetch(`/admin/get_parking_lot/${parkingLotId}`,
+            (response) => {
+                let data = response.objectResponse;
+                // showAlert(true, data.message);
+                // document.location.href = "/list-supervisors";
+                document.getElementById("long").value = data.longitude;
+                document.getElementById("lat").value = data.latitude;
+                document.getElementById("slots").value = data.totalSlot;
+            },
+            (err) => {
+                showAlert(false, err.message);
+            }
+        )
+    }
 </script>
 </html>
