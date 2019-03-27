@@ -75,7 +75,7 @@
         <div class="row form-group">
             <div class="col col-md-12">
                 <div class="input-group">
-                    <input type="text" id="input2-group2" name="input2-group2" placeholder="Search Owner"
+                    <input type="text" id="input2-group2" placeholder="Search Owner"
                            class="form-control" style="margin-right: 10px;">
                     <div class="input-group-btn">
                         <button class="btn btn-primary" id="btnAssign"><i class="fa fa-search"></i>&nbsp;Assign</button>
@@ -237,7 +237,7 @@
         $("#parkinglot-form input").keydown(function (event) {
             $("#btn-save").prop("disabled", false);
             //Validate
-            validateInput();
+            // validateInput();
         });
     });
 
@@ -284,10 +284,10 @@
     function validateInput() {
         let validateMessage = '';
 
-        let displayName = $("#name").val().trim();
+        let displayName = $("#displayName").val().trim();
         let long = $("#long-input").val().trim();
         let lat = $("#lat-input").val().trim();
-        let slots = $("#slots").val().trim();
+        let slots = $("#totalSlot").val().trim();
         let phoneNumber = $("#phoneNumberPlot").val().trim();
         let address = $("#address").val().trim();
         let timeOfOperation = $("#timeOfOperation").val().trim();
@@ -394,6 +394,7 @@
             }
             $('#lat-input').val(event.latLng.lat());
             $('#long-input').val(event.latLng.lng());
+            $("#btn-save").prop("disabled", false);
             marker = new google.maps.Marker({
                 position: event.latLng,
                 map: map
