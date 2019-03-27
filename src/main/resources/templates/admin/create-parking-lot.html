@@ -15,7 +15,7 @@
 
     <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
 
-    <div class="col-lg-10">
+    <div class="col-lg-6 col-sm-12">
         <div class="card">
             <div class="card-header">
                 <b>Parking Lot</b>
@@ -25,14 +25,6 @@
                 <div class="form-group">
                     <label class="form-control-label required">Display Name <span></span></label>
                     <input type="text" id="displayName" placeholder="Display Name" class="form-control"/>
-                </div>
-                <div class="form-group col-lg-6">
-                    <label class="form-control-label required">Longitude</label>
-                    <input type="text" id="long" placeholder="Longitude" class="form-control"/>
-                </div>
-                <div class="form-group col-lg-6">
-                    <label class="form-control-label required">Latitude</label>
-                    <input type="text" id="lat" placeholder="Latitude" class="form-control"/>
                 </div>
                 <div class="form-group col-lg-6">
                     <label class="form-control-label required">Total Slot</label>
@@ -78,12 +70,33 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-6 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <b>Location</b>
+            </div>
+            <div class="card-body card-block">
+                <div class="form-group col-lg-12">
+                    <div id="maps"></div>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label">Latitude</label>
+                    <input type="text" id="lat-input" placeholder="Latitude" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class="form-control-label">Longitude</label>
+                    <input type="text" id="long-input" placeholder="Longitude" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div><!-- /#right-panel -->
 <!-- Right Panel -->
 
 <script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>
 <script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/st-admin/assets/js/main.js"></script>
+<script src="/shared/js/maps.js"></script>
 
 </body>
 <script>
@@ -135,11 +148,10 @@
 
         $("#btnReset").click(function (event) {
             resetInput();
-        })
+        });
     });
 
     function validateInput() {
-        //TODO Check if ownerId is null or undefined
         let validateMessage = '';
 
         let displayName = $("#displayName").val().trim();
@@ -196,4 +208,6 @@
     }
 
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&callback=initMap"
+        async defer></script>
 </html>

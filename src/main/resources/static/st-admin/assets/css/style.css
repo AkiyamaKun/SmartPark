@@ -2519,3 +2519,7 @@ label.form-control-label.required::after {
   content: " (*)";
   color: red;
 }
+#maps {
+  width: 100%;
+  height: 250px;
+}
