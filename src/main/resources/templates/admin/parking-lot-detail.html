@@ -34,12 +34,15 @@
                     <input type="text" id="displayName" th:value="${plot.displayName}" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="long" class=" form-control-label">Longitude</label>
-                    <input type="text" id="long" th:value="${plot.longitude}" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="lat" class=" form-control-label">Latitude</label>
-                    <input type="text" id="lat" th:value="${plot.latitude}" class="form-control" required>
+                    <div id="maps"></div>
+                    <div class="col-lg-6">
+                        <label class=" form-control-label">Longitude</label>
+                        <input type="text" id="long-input" th:value="${plot.longitude}" class="form-control" required>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class=" form-control-label">Latitude</label>
+                        <input type="text" id="lat-input" th:value="${plot.latitude}" class="form-control" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="timeOfOperation" class=" form-control-label">Time Of Operation</label>
@@ -242,8 +245,8 @@
         let validateData = validateInput();
         let parkingLotId = document.getElementById("parkingLotId").value;
         let displayName = document.getElementById("displayName").value;
-        let longitude = document.getElementById("long").value;
-        let latitude = document.getElementById("lat").value;
+        let longitude = document.getElementById("long-input").value;
+        let latitude = document.getElementById("lat-input").value;
         let timeOfOperation = document.getElementById("timeOfOperation").value;
         let totalSlot = document.getElementById("totalSlot").value;
         let address = document.getElementById("address").value;
@@ -282,8 +285,8 @@
         let validateMessage = '';
 
         let displayName = $("#name").val().trim();
-        let long = $("#long").val().trim();
-        let lat = $("#lat").val().trim();
+        let long = $("#long-input").val().trim();
+        let lat = $("#lat-input").val().trim();
         let slots = $("#slots").val().trim();
         let phoneNumber = $("#phoneNumberPlot").val().trim();
         let address = $("#address").val().trim();
@@ -326,8 +329,8 @@
     function assignOwnerForParkingLot() {
         let parkingLotId = document.getElementById("parkingLotId").value;
         let displayName = document.getElementById("displayName").value;
-        let longitude = document.getElementById("long").value;
-        let latitude = document.getElementById("lat").value;
+        let longitude = document.getElementById("long-input").value;
+        let latitude = document.getElementById("lat-input").value;
         let timeOfOperation = document.getElementById("timeOfOperation").value;
         let totalSlot = document.getElementById("totalSlot").value;
         let address = document.getElementById("address").value;
@@ -360,5 +363,45 @@
         )
     }
 
+    function initMap() {
+        let latitude = parseFloat($("#lat-input").val().trim());
+        let longitude = parseFloat($("#long-input").val().trim());
+
+        let myLatLng = {
+            lat: latitude,
+            lng: longitude
+        };
+
+        map = new google.maps.Map(document.getElementById("maps"), {
+            center: myLatLng,
+            disableDefaultUI: true,
+            zoom: 14,
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false,
+            disableDoubleClickZoom: true, // disable the default map zoom on double click
+        });
+        marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            if (marker) {
+                marker.setMap(null);
+            }
+            $('#lat-input').val(event.latLng.lat());
+            $('#long-input').val(event.latLng.lng());
+            marker = new google.maps.Marker({
+                position: event.latLng,
+                map: map
+            });
+        });
+    }
+
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&callback=initMap"
+        async defer></script>
 </html>
