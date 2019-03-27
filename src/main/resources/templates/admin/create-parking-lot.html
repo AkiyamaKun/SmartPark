@@ -155,8 +155,8 @@
         let validateMessage = '';
 
         let displayName = $("#displayName").val().trim();
-        let long = $("#long").val().trim();
-        let lat = $("#lat").val().trim();
+        let long = $("#long-input").val().trim();
+        let lat = $("#lat-input").val().trim();
         let slots = $("#slots").val().trim();
         let phoneNumber = $("#phoneNumber").val().trim();
         let address = $("#address").val().trim();
@@ -198,8 +198,8 @@
 
     function resetInput() {
         document.getElementById("name").value = '';
-        document.getElementById("long").value = '';
-        document.getElementById("lat").value = '';
+        // document.getElementById("long").value = '';
+        // document.getElementById("lat").value = '';
         document.getElementById("slots").value = '';
         document.getElementById("phoneNumber").value = '';
         document.getElementById("address").value = '';
