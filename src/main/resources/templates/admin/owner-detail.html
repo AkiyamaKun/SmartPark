@@ -87,7 +87,7 @@
                     <!--</tr>-->
                     <tr th:each="plot, itr : ${plotOwner}">
                         <th scope="row" th:text="${itr.count}"></th>
-                        <td th:text="${plot.displayName}"></td>
+                        <td href="/parking-lot-detail?id=" ${plot.parkingLotId} th:text="${plot.displayName}"></td>
 
                     </tr>
                     </tbody>

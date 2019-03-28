@@ -292,7 +292,33 @@ public class ViewController {
     @RequestMapping(value = "/login-supervisor", method = RequestMethod.GET)
     public String toLoginSupervisor(Model model) {
         //Excute anything here
-        return "login-supervisor";
+        return "supervisor/login-supervisor";
+    }
+
+    /**
+     * Dashboard Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+    public String toDashboardSupervisor(Model model) {
+        //Excute anything here
+        return "supervisor/dashboard";
+    }
+
+    /**
+     * Edit Profile Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/user")
+    public ModelAndView toUser(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("supervisor/user");
+        ResponseDTO supervisorAccount = accountService.getAccount(id);
+        view.addObject("profile", supervisorAccount.getObjectResponse());
+        return view;
     }
 }
 

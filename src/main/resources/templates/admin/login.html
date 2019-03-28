@@ -55,18 +55,18 @@
     <script src="/st-admin/assets/js/main.js"></script>
 
 </body>
-    <script> //cái script này lúc nào cũng phải để dưới cuối cùng, sau tất cả các lệnh import script khác
+    <script>
 
-    var loginFailed = function(data, status) {
-        $(".error").remove();
-        $('#username-label').before('<div class="error">Login failed, please try again.</div>');
-    };
+    // var loginFailed = function(data, status) {
+    //     $(".error").remove();
+    //     $('#username-label').before('<div class="error">Login failed, please try again.</div>');
+    // };
 
     ready(function () {
         document.getElementById("btnLogin").addEventListener("click", function () {
             loginAccount();
         });
-        //chỗ này mai mốt bind listener cho element nào thì làm ở đây
+
     });
 
     function loginAccount() {
@@ -78,17 +78,16 @@
             {email, password},
             (data) => {
                 if (data.status === true) {
-                    // alert(data.message);
+                    showAlert(true, data.message);
                     window.jwtTokenGlobalVariable = data.objectResponse;
                     window.location.href = "/home";
                 }
                 if (data.status === false) {
-                    // alert(data.message);
-                    loginFailed(data);
+                    showAlert(false, data.message);
                 }
             },
             (err) => {
-                //alert(err.message);
+                showAlert(false, data.message);
             }
         );
     }
