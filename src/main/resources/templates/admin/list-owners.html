@@ -52,36 +52,57 @@
 </div>
 
 
-<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>
-<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>
-<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="/st-admin/assets/js/main.js"></script>
+<!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<!--<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
+<!--<script src="/st-admin/assets/js/main.js"></script>-->
 
 <script src="/st-admin/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="/st-admin/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
 <script src="/st-admin/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
 <script src="/st-admin/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
-<script src="/st-admin/vendors/jszip/dist/jszip.min.js"></script>
-<script src="/st-admin/vendors/pdfmake/build/pdfmake.min.js"></script>
-<script src="/st-admin/vendors/pdfmake/build/vfs_fonts.js"></script>
-<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+<!--<script src="/st-admin/vendors/jszip/dist/jszip.min.js"></script>-->
+<!--<script src="/st-admin/vendors/pdfmake/build/pdfmake.min.js"></script>-->
+<!--<script src="/st-admin/vendors/pdfmake/build/vfs_fonts.js"></script>-->
+<!--<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>-->
+<!--<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>-->
+<!--<script src="/st-admin/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>-->
 <script src="/st-admin/assets/js/init-scripts/data-table/datatables-init.js"></script>
 
 </body>
 
 <script>
+    const deactivateOwner = (ownerId) => {
+        doAjax(`/admin/deactive_owner/${ownerId}`, "PUT", {}, function (data) {
+            showAlert(true, data.message);
+            document.location.href = "list-owners";
+        }, function (err) {
+            showAlert(false, err.message);
+        });
+    };
+
+    const activateOwner = (ownerId) => {
+        doAjax(`/admin/active_owner/${ownerId}`, "PUT", {}, function (data) {
+            showAlert(true, data.message);
+            document.location.href = "list-owners";
+        }, function (err) {
+            showAlert(false, err.message);
+        });
+    };
+
     $(document).ready(function () {
         doAjax("/admin/all_owners", "GET", null, function (data) {
             let accounts = data.objectResponse;
             let status = "";
+            let activeStr = "";
             $("#list-owners").empty();
             $.each(accounts, function (index, value) {
                 if (value.active == true) {
                     status = "active";
+                    activeStr = "<td><a href='#' onclick='deactivateOwner(" + value.ownerId + ")'>" + "<i class=\"fa fa-ban\"></i> Deactive</a></td>";
                 } else {
-                    status = "not active"
+                    status = "not active";
+                    activeStr = "<td><a href='#' onclick='activateOwner(" + value.ownerId + ")'>" + "<i class=\"fa fa-check\"></i> Active</a></td>";
                 }
                 let tr =
                     "<tr>\n" +
@@ -89,7 +110,7 @@
                         "<td>" + value.address + "</a></td>\n" +
                         "<td>" + value.phoneNumber + "</td>\n" +
                         "<td>" + status + "</td>\n" +
-                        "<td><a href=\"#\"><i class=\"fa fa-ban\"></i> Deactive</a></td>\n" +
+                        activeStr +
                     "</tr>";
                 $("#list-owners").append(tr);
             });

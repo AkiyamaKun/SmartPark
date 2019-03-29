@@ -2,8 +2,10 @@ package Core.Controller.MVC;
 
 import Core.Constant.Const;
 import Core.Controller.REST.AccountController;
+import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
 import Core.Service.OwnerService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * View Controller for MVC
@@ -197,6 +201,11 @@ public class ViewController {
         ResponseDTO plotOfSupervisor = parkingLotService.getListParkingLotControlBySupervisor(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
         view.addObject("plotOfSupervisor", plotOfSupervisor.getObjectResponse());
+//        List<ParkingLot> list = (List<ParkingLot>) plotOfSupervisor.getObjectResponse();
+//        for(ParkingLot item : list){
+//            System.out.println("Parking Lot Id: " + item.getParkingLotId());
+//
+//        }
         return view;
     }
 

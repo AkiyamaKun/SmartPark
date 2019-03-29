@@ -85,6 +85,16 @@ public class AdminAccountController {
     }
 
     /**
+     * Active Owner
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.ACTIVE_OWNER, method = RequestMethod.PUT)
+    public ResponseDTO activeOwner(@PathVariable Integer id){
+        return ownerService.activeOwner(id);
+    }
+
+    /**
      * Search Owner by Name
      * @param searchValue
      * @return

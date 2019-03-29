@@ -9,5 +9,6 @@ public interface OwnerService {
     ResponseDTO createOwner(OwnerDTO dto);
     ResponseDTO updateOwner(Integer ownerId, OwnerDTO dto);
     ResponseDTO deactiveOwner(Integer ownerId);
+    ResponseDTO activeOwner(Integer ownerId);
     ResponseDTO searchOwnerByName(String name);
 }
