@@ -79,32 +79,13 @@
                     <!--role="button" aria-haspopup="true" aria-expanded="false">Choose parking lot<span-->
                     <!--class="caret"></span></a>-->
 
-                    <select th:field="*{plotOfSupervisor}" id="minh1" onclick="callParkingLot();">
-                        <option th:each="i : ${plotOfSupervisor}" th:value="${i.parkingLotId}" th:text="${i.displayName}"></option>
+                    <select th:field="*{plotOfSupervisor}" id="minh1" onchange="onChangeParkingLot()">
+                        <option th:each="i : ${plotOfSupervisor}"
+                                th:value="${i.parkingLotId}"
+                                th:text="${i.displayName}">
+                        </option>
                     </select>
 
-
-                    <!--<div class="dropdown-menu" th:each="plot: ${plotOfSupervisor}">-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<a class="dropdown-item"&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;th:onclick="'chooseParkingLot(' + ${plot.parkingLotId} + ')'"&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;th:text = "${plot.displayName}" ></a>&ndash;&gt;&ndash;&gt;-->
-
-                    <!--<a class="dropdown-item"-->
-                    <!--th:onclick="'chooseParkingLot(' + ${plot.parkingLotId} +','+ ${plotOfSupervisor} +')'"-->
-                    <!--th:text = "${plot.displayName}" ></a>-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Submenu 1-2</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a class="dropdown-item" href="#">Submenu 1-3</a>&ndash;&gt;-->
-                    <!--</div>-->
-
-                    <!--<div class ="dropdown-menu">-->
-                    <!--<select th:field="*{plotOfSupervisor}">-->
-                    <!--<option value="default">Select a parking lot</option>-->
-                    <!--<option th:each="${plotOfSupervisor}" th:value="${plotOfSupervisor.parkingLotId}"-->
-                    <!--th:text="${plotOfSupervisor.displayName}">-->
-                    <!--</option>-->
-                    <!--</select>-->
-                    <!--</div>-->
-                    <!--</li>-->
                 </ul>
                 <div class="tab-content pl-3 p-1" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -113,7 +94,7 @@
                                 <label  class=" form-control-label">Longitude</label>
                             </div>
                             <div class="col-12 col-sm-9" id="inputLong">
-                                <input type="text" id="long" th:value="${plotOfSupervisor.get(1).longitude}" class="form-control" disabled>
+                                <input type="text" id="long" th:value="${plotOfSupervisor.get(0).longitude}" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -121,7 +102,7 @@
                                 <label for="lat" class=" form-control-label">Latitude</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="lat" th:value="${plotOfSupervisor.get(1).latitude}" class="form-control" disabled>
+                                <input type="text" id="lat" th:value="${plotOfSupervisor.get(0).latitude}" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -129,18 +110,9 @@
                                 <label for="slots" class=" form-control-label">Total Slots</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="slots" th:value="${plotOfSupervisor.get(1).totalSlot}" class="form-control" disabled>
+                                <input type="text" id="slots" th:value="${plotOfSupervisor.get(0).totalSlot}" class="form-control" disabled>
                             </div>
                         </div>
-                        <!--<button type="button" class="btn btn-danger float-left" disabled>-->
-                        <!--<i class="fa fa-ban"></i> Cancel-->
-                        <!--</button>-->
-                        <!--<button type="button" class="btn btn-primary float-right" disabled>-->
-                        <!--<i class="fa fa-pencil"></i> Save-->
-                        <!--</button>-->
-                        <!--<button type="button" class="btn btn-danger float-right">-->
-                        <!--<i class="fa fa-trash-o"></i> Deactive-->
-                        <!--</button>-->
                     </div>
                 </div>
             </div>
@@ -156,6 +128,13 @@
 <!--<script src="vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
 
 </body>
+<!--https://stackoverflow.com/questions/25687816/setting-up-a-javascript-variable-from-spring-model-by-using-thymeleaf-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    plotOfSupervisor = /*[[${plotOfSupervisor}]]*/ 'default';
+    /*]]>*/
+</script>
+
 <script>
     let plotLists = [];
     ready(function () {
@@ -259,39 +238,29 @@
         )
     }
 
-    function chooseParkingLot(parkingLotId, plotOfSupervisor) {
-        var i;
-        for (i = 0; plotOfSupervisor.length; i++) {
-            var item = plotOfSupervisor[i];
-            if (item.parkingLotId === parkingLotId) {
-                document.getElementById("long").value = item.longitude;
-                document.getElementById("lat").value = item.latitude;
-                document.getElementById("slots").value = item.totalSlot;
-                break;
-            }
-        }
-        //     //let accountId = document.getElementById("accountId").value;
-        //     GetAjaxWithFetch(`/admin/get_parking_lot/${parkingLotId}`,
-        //         (response) => {
-        //             let data = response.objectResponse;
-        //             // showAlert(true, data.message);
-        //             // document.location.href = "/list-supervisors";
-        //             document.getElementById("long").value = data.longitude;
-        //             document.getElementById("lat").value = data.latitude;
-        //             document.getElementById("slots").value = data.totalSlot;
-        //         },
-        //         (err) => {
-        //             showAlert(false, err.message);
-        //         }
-        //     )
-    }
+    // function chooseParkingLot(parkingLotId, plotOfSupervisor) {
+    //     var i;
+    //     for (i = 0; plotOfSupervisor.length; i++) {
+    //         var item = plotOfSupervisor[i];
+    //         if (item.parkingLotId === parkingLotId) {
+    //             document.getElementById("long").value = item.longitude;
+    //             document.getElementById("lat").value = item.latitude;
+    //             document.getElementById("slots").value = item.totalSlot;
+    //             break;
+    //         }
+    //     }
+    // }
 
-    callParkingLot = () => {
-        var text = $('#minh1 option:selected').val();
-        console.log(text);
+    onChangeParkingLot = () => {
+        let selectBox = document.getElementById("minh1");
 
-        $("#inputLong").append("<input type='text' id='long' th:value='${plotOfSupervisor.get(" + text + ").longitude}' class='form-control' disabled>");
+        //load data into input fields
+        let lot = plotOfSupervisor[selectBox.selectedIndex];
+        let { longitude, latitude, totalSlot } = lot;
 
-    }
+        document.getElementById('long').value = longitude;
+        document.getElementById('lat').value = latitude;
+        document.getElementById('slots').value = totalSlot;
+    };
 </script>
 </html>
