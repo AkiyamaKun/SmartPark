@@ -169,7 +169,7 @@ public class Const {
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
 
     //Common
-    public static final String ROLE_ADMIN = "Admin";
-    public static final String ROLE_SUPERVISOR = "Supervisor";
-    public static final String ROLE_DRIVER  = "Driver";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_SUPERVISOR = "SUPERVISOR";
+    public static final String ROLE_DRIVER  = "DRIVER";
 }
