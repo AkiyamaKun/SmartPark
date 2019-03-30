@@ -34,14 +34,15 @@
                     <input type="text" id="displayName" th:value="${plot.displayName}" class="form-control" required>
                 </div>
                 <div class="form-group">
+                    <input id="pac-input" class="controls" type="text" placeholder="Search...">
                     <div id="maps"></div>
                     <div class="col-lg-6">
                         <label class=" form-control-label">Longitude</label>
-                        <input type="text" id="long-input" th:value="${plot.longitude}" class="form-control" required>
+                        <input type="text" disabled id="long-input" th:value="${plot.longitude}" class="form-control" required>
                     </div>
                     <div class="col-lg-6">
                         <label class=" form-control-label">Latitude</label>
-                        <input type="text" id="lat-input" th:value="${plot.latitude}" class="form-control" required>
+                        <input type="text" disabled id="lat-input" th:value="${plot.latitude}" class="form-control" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -400,9 +401,64 @@
                 map: map
             });
         });
+
+        // Create the search box and link it to the UI element.
+        let input = document.getElementById('pac-input');
+        let searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function () {
+            let places = searchBox.getPlaces();
+
+            if (!places.length) {
+                showAlert(false, "No place found! Please try again!");
+                return;
+            }
+
+            if (places.length > 1) {
+                showAlert(false, "Please choose an exact place from the dropdown list!");
+                return;
+            }
+
+            // Clear out the old marker.
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // For each place, get the icon, name and location.
+            let bounds = new google.maps.LatLngBounds();
+            place = places[0];
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+            // Create a marker for each place.
+            marker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: place.geometry.location.lat() + ', ' + place.geometry.location.lng()
+            });
+            $('#lat-input').val(place.geometry.location.lat());
+            $('#long-input').val(place.geometry.location.lng());
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+            map.fitBounds(bounds);
+        });
+
     }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&libraries=places&callback=initMap"
         async defer></script>
 </html>
