@@ -182,6 +182,30 @@ public class OwnerServiceImpl implements OwnerService {
         return responseDTO;
     }
 
+    /**
+     * Active Owner
+     * @param ownerId
+     * @return
+     */
+    @Override
+    public ResponseDTO activeOwner(Integer ownerId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Owner owner = ownerRepository.findByOwnerId(ownerId);
+            if(owner != null){
+                owner.setActive(true);
+                ownerRepository.save(owner);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.ACTIVE_OWNER_SUCCESS);
+            }else{
+                responseDTO.setMessage(Const.OWNER_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.ACTIVE_OWNER_FAIL);
+        }
+        return responseDTO;
+    }
 
     @Override
     public ResponseDTO searchOwnerByName(String searchValue){

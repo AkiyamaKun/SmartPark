@@ -7,7 +7,8 @@ package Core.DTO;
  */
 public class ParkingSlotDTO {
     private Integer slotId;
-    private String name;
+    private String lane;
+    private String row;
     private String status;
     private Integer parkingLotId;
 
@@ -17,13 +18,15 @@ public class ParkingSlotDTO {
     /**
      * Constructor full arguments
      * @param slotId
-     * @param name
+     * @param lane
+     * @param row
      * @param status
      * @param parkingLotId
      */
-    public ParkingSlotDTO(Integer slotId, String name, String status, Integer parkingLotId) {
+    public ParkingSlotDTO(Integer slotId, String lane, String row, String status, Integer parkingLotId) {
         this.slotId = slotId;
-        this.name = name;
+        this.lane = lane;
+        this.row = row;
         this.status = status;
         this.parkingLotId = parkingLotId;
     }
@@ -36,12 +39,20 @@ public class ParkingSlotDTO {
         this.slotId = slotId;
     }
 
-    public String getName() {
-        return name;
+    public String getLane() {
+        return lane;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLane(String lane) {
+        this.lane = lane;
+    }
+
+    public String getRow() {
+        return row;
+    }
+
+    public void setRow(String row) {
+        this.row = row;
     }
 
     public String getStatus() {

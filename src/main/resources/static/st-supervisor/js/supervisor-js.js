@@ -46,3 +46,19 @@ function CallAjaxWithFetch(url, method, data, success, fail = () => {}){
         fail(err);
     })
 }
+
+
+function showAlert(success, message) {
+    let alertDiv = (success ? "<div id='alert' class='alert alert-success'>" : "<div id='alert' class='alert alert-danger'>") +
+        "<i class='fa fa-info-circle'></i>" + "&nbsp;&nbsp;" + message +
+        "</div>";
+    $("body").append(alertDiv);
+    if ($("#alert").length) {
+        $("#alert").css("opacity", "1");
+    }
+    setTimeout(function () {
+        if ($("#alert").length) {
+            $("#alert").remove();
+        }
+    }, 5000);
+}

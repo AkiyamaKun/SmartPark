@@ -87,6 +87,7 @@ public class Const {
     public static final String GET_OWNER = "get_owner/{id}";
     public static final String GET_ALL_OWNER = "/all_owners";
     public static final String DEACTIVE_OWNER = "/deactive_owner/{id}";
+    public static final String ACTIVE_OWNER = "/active_owner/{id}";
     public static final String SEARCH_OWNER = "/search_owner";
 
     public static final String PARKING_LOT = "/parking_lot";
@@ -108,8 +109,10 @@ public class Const {
     public static final String CREATE_OWNER_FAIL = "Create Owner Fail";
     public static final String UPDATE_OWNER_SUCCESS = "Update Owner Successful";
     public static final String UPDATE_OWNER_FAIL = "Update Owner Fail";
-    public static final String DEACTIVE_OWNER_SUCCESS = "Deacitve Owner Successful";
-    public static final String DEACTIVE_OWNER_FAIL = "Deacitve Owner Fail";
+    public static final String DEACTIVE_OWNER_SUCCESS = "Deactive Owner Successful";
+    public static final String DEACTIVE_OWNER_FAIL = "Deactive Owner Fail";
+    public static final String ACTIVE_OWNER_SUCCESS = "Active Owner Successful";
+    public static final String ACTIVE_OWNER_FAIL = "Active Owner Fail";
     public static final String SEARCH_OWNER_SUCCESS = "Search Owner Successful";
     public static final String SEARCH_OWNER_FAIL = "Search Owner Fail";
     public static final String SEARCH_OWNER_FIND_NOT_FOUND = "Owner is not found";
@@ -166,7 +169,7 @@ public class Const {
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
 
     //Common
-    public static final String ROLE_ADMIN = "Admin";
-    public static final String ROLE_SUPERVISOR = "Supervisor";
-    public static final String ROLE_DRIVER  = "Driver";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_SUPERVISOR = "SUPERVISOR";
+    public static final String ROLE_DRIVER  = "DRIVER";
 }

@@ -17,12 +17,15 @@ public class ParkingSlot {
     /**
      * Name of slot: A1, A2, A3
      */
-    private String name;
+    @Column(name = "lane", columnDefinition = "NVARCHAR(50)")
+    private String lane;
+
+    @Column(name = "row", columnDefinition = "NVARCHAR(50)")
+    private String row;
     /**
      * Free: Slot blank
-     * Waiting: Slot had booked
      * Busy: Slot is used
-     * Closing: Slot can not used
+     * Undefined: Slot can not determine by webcame
      */
     @OneToOne(targetEntity=ParkingSlotStatus.class,cascade=CascadeType.ALL)
     @JoinColumn(name="statusId",referencedColumnName="statusId")
@@ -37,11 +40,9 @@ public class ParkingSlot {
     public ParkingSlot() {
     }
 
-    /**
-     * Constructor full arguments
-     */
-    public ParkingSlot(String name, ParkingSlotStatus parkingSlotStatus, ParkingLot parkingLot) {
-        this.name = name;
+    public ParkingSlot(String lane, String row, ParkingSlotStatus parkingSlotStatus, ParkingLot parkingLot) {
+        this.lane = lane;
+        this.row = row;
         this.parkingSlotStatus = parkingSlotStatus;
         this.parkingLot = parkingLot;
     }
@@ -54,12 +55,20 @@ public class ParkingSlot {
         this.slotId = slotId;
     }
 
-    public String getName() {
-        return name;
+    public String getLane() {
+        return lane;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLane(String lane) {
+        this.lane = lane;
+    }
+
+    public String getRow() {
+        return row;
+    }
+
+    public void setRow(String row) {
+        this.row = row;
     }
 
     public ParkingSlotStatus getParkingSlotStatus() {

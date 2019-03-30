@@ -65,7 +65,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      */
     public void convertParkingSlotDTOFormEntity(ParkingSlotDTO dto, ParkingSlot entity) {
         dto.setSlotId(entity.getSlotId());
-        dto.setName(entity.getName());
+        dto.setLane(entity.getLane());
+        dto.setRow(entity.getRow());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
         dto.setStatus(entity.getParkingSlotStatus().getStatusName());
     }
@@ -173,8 +174,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         parkingSlotStatusRepository.save(status);
                     }
                     for (int i = 0; i < parkingLot.getTotalSlot(); i++) {
-                        String name = parkingLot.getDisplayName() + " " + (i + 1);
-                        ParkingSlot parkingSlot = new ParkingSlot(name, status, parkingLot);
+                        //Hard code -> will implement in future
+                        String lane = "A";
+                        String row = Integer.toString(i);
+                        ParkingSlot parkingSlot = new ParkingSlot(lane, row, status, parkingLot);
                         parkingSlotRepository.save(parkingSlot);
                     }
 
@@ -219,7 +222,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         parkingLot.setDisplayName(dto.getDisplayName());
                         parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
 
-                        if (account.getRole().getRoleName() == Const.ROLE_ADMIN) {
+                        if (account.getRole().getRoleName().equals(Const.ROLE_ADMIN)) {
                             //Update Parking Lot for Admin
                             parkingLot.setEditedBy(account);
                             parkingLot.setLatitude(dto.getLatitude());
