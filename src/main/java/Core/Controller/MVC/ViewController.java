@@ -259,14 +259,14 @@ public class ViewController {
     public String toSetPasswordPage(@RequestParam(value = "email", required = true) String email,
                                     @RequestParam(value = "token", required = true) String token,
                                     Model model) {
-        String url = "verify-account-fail-page";
+        String url = "admin/verify-account-fail-page";
         Account account = accountRepository.findByEmail(email);
         if (account != null) {
             String oldToken = account.getToken();
             if (oldToken != null) {
                 if (oldToken.equals(token)) {
                     model.addAttribute("checkToken", true);
-                    url = "set-password-page";
+                    url = "admin/set-password-page";
                 }
             }
         }

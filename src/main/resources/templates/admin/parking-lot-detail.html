@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="card-body card-block" id="parkinglot-form">
-                <input id="ownerId" th:value="${plot.owner.ownerId}" type="hidden">
+                <input id="ownerIdPlot" th:value="${plot.owner.ownerId}" type="hidden">
                 <input id="parkingLotId" type="hidden" th:value="${plot.parkingLotId}"/>
                 <input id="accountId" type="hidden" th:value="${session.User.accountId}"/>
                 <div class="form-group">
@@ -80,7 +80,7 @@
                     <div class="input-group-btn">
                         <button class="btn btn-primary" id="btnAssign"><i class="fa fa-search"></i>&nbsp;Assign</button>
                     </div>
-                    <input type="hidden" id="ownerIdSearch"/>
+                    <input type="hidden" id="ownerId"/>
                 </div>
             </div>
         </div>
@@ -184,7 +184,7 @@
 
         $('#input2-group2').autocomplete({
             source: function (request, response) {
-                $('#ownerIdSearch').val("");
+                $('#ownerId').val("");
                 let searchValue = request.term;
                 response($.map(ownersList, function (owner, index) {
                     let fullName = owner.lastName + " " + owner.firstName;
@@ -198,7 +198,7 @@
                 }));
             },
             select: function (event, ui) {
-                $('#ownerIdSearch').val(ui.item.ownerId);
+                $('#ownerId').val(ui.item.ownerId);
             },
             minLength: 2,
             delay: 100
@@ -252,7 +252,7 @@
         let address = document.getElementById("address").value;
         let phoneNumber = document.getElementById("phoneNumberPlot").value;
         let accountId = document.getElementById("accountId").value;
-        let ownerId = document.getElementById("ownerId").value;
+        let ownerId = document.getElementById("ownerIdPlot").value;
         let active = true;
 
         if (validateData) {
@@ -336,7 +336,8 @@
         let address = document.getElementById("address").value;
         let phoneNumber = document.getElementById("phoneNumberPlot").value;
         let accountId = document.getElementById("accountId").value;
-        let ownerId = document.getElementById("ownerIdSearch").value;
+        let ownerId = document.getElementById("ownerId").value;
+        console.log("aaaaaaaaa" + ownerId);
         let active = true;
 
         CallAjaxWithFetch(`/admin/update_parking_lot/${accountId}`,
