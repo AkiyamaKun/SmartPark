@@ -291,6 +291,12 @@ public class ViewController {
         return url;
     }
 
+    @RequestMapping(value = "/verify-account-success")
+    public String toVerifyAccountSuccess(Model model) {
+        //Excute anything here
+        return "admin/verify-account-success";
+    }
+
     //SUPERVISOR PAGE
     /**
      * Login Supervisor Page
