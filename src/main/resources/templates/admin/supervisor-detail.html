@@ -79,7 +79,7 @@
                     <!--role="button" aria-haspopup="true" aria-expanded="false">Choose parking lot<span-->
                     <!--class="caret"></span></a>-->
 
-                    <select th:field="*{plotOfSupervisor}" id="minh1" onchange="onChangeParkingLot()">
+                    <select th:field="*{plotOfSupervisor}" id="selectLot" class="form-control" onchange="onChangeParkingLot()">
                         <option th:each="i : ${plotOfSupervisor}"
                                 th:value="${i.parkingLotId}"
                                 th:text="${i.displayName}">
@@ -252,7 +252,7 @@
     // }
 
     onChangeParkingLot = () => {
-        let selectBox = document.getElementById("minh1");
+        let selectBox = document.getElementById("selectLot");
 
         //load data into input fields
         let lot = plotOfSupervisor[selectBox.selectedIndex];

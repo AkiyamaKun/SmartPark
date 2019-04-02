@@ -82,7 +82,7 @@
         let roleId = 1;
 
         if (validateData) {
-            CallAjaxWithFetch(`/account/register`,
+            CallAjaxWithFetch(`/admin/create_admin`,
                 "POST",
                 { firstName, lastName, email, phoneNumber, roleId },
                 (data) => {
