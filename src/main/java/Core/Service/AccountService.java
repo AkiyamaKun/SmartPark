@@ -21,4 +21,5 @@ public interface AccountService {
     ResponseDTO getListAccount(Integer roleId);
     ResponseDTO registerAccount(AccountDTO accountDTO);
     ResponseDTO setFirstPassword(String email, String password);
+    ResponseDTO forgetPassword(String email, Integer type);
 }
