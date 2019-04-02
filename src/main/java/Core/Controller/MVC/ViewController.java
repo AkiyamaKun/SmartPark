@@ -297,6 +297,12 @@ public class ViewController {
         return "admin/verify-account-success";
     }
 
+    @RequestMapping(value = "/forget-password")
+    public String toForgetPassword(Model model) {
+        //Excute anything here
+        return "admin/forget-password";
+    }
+
     //SUPERVISOR PAGE
     /**
      * Login Supervisor Page
