@@ -427,4 +427,33 @@ public class AccountServiceImpl implements AccountService {
         }
         return responseDTO;
     }
+
+    @Override
+    public ResponseDTO forgetPassword(String email, Integer type) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByEmail(email);
+            if(account != null){
+                String token = Utilities.generateToken(email);
+                //Type 5: forget password of admin and supervisor account
+                ResponseDTO tmp = publicService.sendEmail(email, token, type);
+                if(tmp != null){
+                    if(tmp.isStatus()){
+                        account.setToken(token);
+                        accountRepository.save(account);
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.SEND_MESSAGE_SET_FIRST_PASSWORD);
+                    }else{
+                        responseDTO.setStatus(false);
+                        responseDTO.setMessage(Const.SEND_EMAIL_SET_NEW_PASSWORD_FAIL);
+                    }
+                }
+
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Error : " + e.getMessage());
+        }
+        return responseDTO;
+    }
 }

@@ -56,35 +56,6 @@ public class DriverAccountServiceImpl implements DriverAccountService {
     }
 
     @Override
-    public ResponseDTO forgetPasswordOfDriver(String email){
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setStatus(false);
-        try{
-            Account account = accountRepository.findByEmail(email);
-            if(account != null){
-                String token = Utilities.generateToken(email);
-                //Type 4: forget password
-                ResponseDTO tmp = publicService.sendEmail(email, token, 4);
-                if(tmp != null){
-                    if(tmp.isStatus()){
-                        account.setToken(token);
-                        accountRepository.save(account);
-                        responseDTO.setStatus(true);
-                        responseDTO.setMessage(Const.SEND_MESSAGE_SET_FIRST_PASSWORD);
-                    }else{
-                        responseDTO.setStatus(false);
-                        responseDTO.setMessage(Const.SEND_EMAIL_SET_NEW_PASSWORD_FAIL);
-                    }
-                }
-
-            }
-        }catch (Exception e){
-            responseDTO.setMessage("Error : " + e.getMessage());
-        }
-        return responseDTO;
-    }
-
-    @Override
     public Account getDriver(Integer id) {
         Account account = accountRepository.findByAccountId(id);
         if(account != null){

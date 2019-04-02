@@ -92,7 +92,8 @@ public class DriverAccountController{
      */
     @RequestMapping(value = Const.FORGET_PASSWORD, method = RequestMethod.POST)
     public ResponseDTO forgotPassword(@RequestParam(value = "email") String email){
-        return driverAccountService.forgetPasswordOfDriver(email);
+        //4 is type of Admin and supervisor on public service
+        return accountService.forgetPassword(email, 4);
     }
 
     /**
@@ -117,15 +118,4 @@ public class DriverAccountController{
         return responseDTO;
     }
 
-    /**
-     * Verify Driver Account
-     * @param email
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
-    public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
-                                           @RequestParam(value = "token", required = true) String token){
-        return driverAccountService.verifyAccount(email, token);
-    }
 }
