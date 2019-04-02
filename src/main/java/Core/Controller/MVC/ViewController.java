@@ -201,11 +201,6 @@ public class ViewController {
         ResponseDTO plotOfSupervisor = parkingLotService.getListParkingLotControlBySupervisor(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
         view.addObject("plotOfSupervisor", plotOfSupervisor.getObjectResponse());
-//        List<ParkingLot> list = (List<ParkingLot>) plotOfSupervisor.getObjectResponse();
-//        for(ParkingLot item : list){
-//            System.out.println("Parking Lot Id: " + item.getParkingLotId());
-//
-//        }
         return view;
     }
 
@@ -266,7 +261,8 @@ public class ViewController {
             if (oldToken != null) {
                 if (oldToken.equals(token)) {
                     model.addAttribute("checkToken", true);
-                    url = "set-password-page";
+                    model.addAttribute("email", email);
+                    url = "admin/set-password-page";
                 }
             }
         }
