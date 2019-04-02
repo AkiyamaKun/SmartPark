@@ -201,11 +201,6 @@ public class ViewController {
         ResponseDTO plotOfSupervisor = parkingLotService.getListParkingLotControlBySupervisor(id);
         view.addObject("supervisor", supervisorAccount.getObjectResponse());
         view.addObject("plotOfSupervisor", plotOfSupervisor.getObjectResponse());
-//        List<ParkingLot> list = (List<ParkingLot>) plotOfSupervisor.getObjectResponse();
-//        for(ParkingLot item : list){
-//            System.out.println("Parking Lot Id: " + item.getParkingLotId());
-//
-//        }
         return view;
     }
 
@@ -341,6 +336,12 @@ public class ViewController {
         view.addObject("profile", supervisorAccount.getObjectResponse());
         return view;
     }
+
+    @RequestMapping(value = "/set-password-successful")
+    public String toSetPasswordSuccessfulPage(){
+        return "admin/verify-account-success";
+    }
+
 }
 
 

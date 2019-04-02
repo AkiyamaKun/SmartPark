@@ -419,7 +419,8 @@ public class AccountServiceImpl implements AccountService {
             AccountDTO accountDTO = new AccountDTO();
             convertDTOFromEntity(accountDTO,account);
             responseDTO.setStatus(true);
-            responseDTO.setMessage(Const.VERIFY_ACCOUNT_SUCCESS);
+            responseDTO.setMessage(Const.SET_PASSWORD_SUCCESS);
+
             responseDTO.setObjectResponse(accountDTO);
         }else{
             responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);

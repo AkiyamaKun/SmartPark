@@ -55,7 +55,8 @@ public class Const {
     public static final String CREATE_DRIVER_ACCOUNT = "/create_driver";
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
     public static final String FORGET_PASSWORD = "/forget_password";
-    public static final String SET_NEW_PASSWORD ="/set_new_password";
+    public static final String SET_NEW_PASSWORD = "/set_new_password";
+    public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
