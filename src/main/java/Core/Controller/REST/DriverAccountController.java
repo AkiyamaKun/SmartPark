@@ -117,15 +117,4 @@ public class DriverAccountController{
         return responseDTO;
     }
 
-    /**
-     * Verify Driver Account
-     * @param email
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
-    public ResponseDTO createDriverAccount(@RequestParam(value = "email", required = true) String email,
-                                           @RequestParam(value = "token", required = true) String token){
-        return driverAccountService.verifyAccount(email, token);
-    }
 }

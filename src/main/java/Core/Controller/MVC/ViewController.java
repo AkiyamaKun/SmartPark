@@ -2,12 +2,11 @@ package Core.Controller.MVC;
 
 import Core.Constant.Const;
 import Core.Controller.REST.AccountController;
-import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
-import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Service.AccountService;
+import Core.Service.DriverAccountService;
 import Core.Service.OwnerService;
 import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * View Controller for MVC
@@ -42,6 +39,9 @@ public class ViewController {
 
     @Autowired
     ParkingLotService parkingLotService;
+
+    @Autowired
+    DriverAccountService driverAccountService;
 
     /**
      * Login Page
@@ -289,7 +289,7 @@ public class ViewController {
     @RequestMapping(value = "/verify-account-success")
     public String toVerifyAccountSuccess(Model model) {
         //Excute anything here
-        return "admin/verify-account-success";
+        return "verify-account-success-page";
     }
 
     //SUPERVISOR PAGE
@@ -333,7 +333,23 @@ public class ViewController {
 
     @RequestMapping(value = "/set-password-successful")
     public String toSetPasswordSuccessfulPage(){
-        return "admin/verify-account-success";
+        return "verify-account-success-page";
+    }
+
+    /**
+     * Verify Driver Account
+     * @param email
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
+    public String verifyDriverAccount(@RequestParam(value = "email", required = true) String email,
+                                           @RequestParam(value = "token", required = true) String token){
+        ResponseDTO responseDTO = driverAccountService.verifyAccount(email, token);
+        if(responseDTO.isStatus()){
+            return "admin/verify-account-success-page";
+        }
+        return "admin/verify-account-fail-page";
     }
 
 }
