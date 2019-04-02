@@ -330,6 +330,12 @@ public class ViewController {
         view.addObject("profile", supervisorAccount.getObjectResponse());
         return view;
     }
+
+    @RequestMapping(value = "/set-password-successful")
+    public String toSetPasswordSuccessfulPage(){
+        return "admin/verify-account-success";
+    }
+
 }
 
 
