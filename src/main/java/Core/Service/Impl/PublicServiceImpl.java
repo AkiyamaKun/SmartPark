@@ -58,6 +58,7 @@ public class PublicServiceImpl implements PublicService {
                 //Admin Account
             case 2:
                 //Supervisor Account
+                //Forget Passowrd of Admin and Supervisor Account
                 urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email +"&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_SET_PASSWORD_PAGE + ": " + urlVerify);
                 break;

@@ -92,7 +92,8 @@ public class DriverAccountController{
      */
     @RequestMapping(value = Const.FORGET_PASSWORD, method = RequestMethod.POST)
     public ResponseDTO forgotPassword(@RequestParam(value = "email") String email){
-        return driverAccountService.forgetPasswordOfDriver(email);
+        //4 is type of Admin and supervisor on public service
+        return accountService.forgetPassword(email, 4);
     }
 
     /**

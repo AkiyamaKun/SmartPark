@@ -142,7 +142,9 @@
             if (validatedData) {
                 doAjax("/admin/create_parking_lot/" + adminId, "POST", validatedData, function (response) {
                     showAlert(true, response.message);
-                    document.location.href = "/list-parking-lots";
+                    setTimeout(function () {
+                        document.location.href = "/list-parking-lots";
+                    }, 3000);
                 }, function (error) {
                     //debugger;
                     showAlert(false, error.message);

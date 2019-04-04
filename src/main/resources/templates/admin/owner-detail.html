@@ -155,12 +155,14 @@
         let sex = strSex.options[strSex.selectedIndex].value;
 
         if (validateData) {
-            CallAjaxWithFetch(`/owner/update/${ownerId}`,
+            CallAjaxWithFetch(`/admin/update_owner/${ownerId}`,
                 "PUT",
                 {ownerId, firstName, lastName, sex, address, phoneNumber},
                 (data) => {
                     showAlert(true, data.message);
-                    document.location.href = "/list-owners";
+                    setTimeout(function () {
+                        document.location.href = "/list-owners"
+                    }, 3000);
                 },
                 (err) => {
                     showAlert(false, err.message);
@@ -176,7 +178,7 @@
         let lastName = $("#lastName").val().trim();
         let sex = $("#sex").val().trim();
         let address = $("#address").val().trim();
-        let phoneNumber = $("#phoneNumber").val().trim();
+        let phoneNumber = $("#phone").val().trim();
 
         let intRegex = /\d+/;
         let phoneRegex = /0\d{9}/;

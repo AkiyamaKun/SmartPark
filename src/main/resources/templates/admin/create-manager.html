@@ -6,59 +6,59 @@
 
 <body>
 
-    <div th:replace="admin/shared/left_panel :: left_panel"></div>
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
 
-    <!-- Right Panel -->
-    <div id="right-panel" class="right-panel">
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
 
-        <div th:replace="admin/shared/header :: header"></div>
+    <div th:replace="admin/shared/header :: header"></div>
 
-        <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
 
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <b>Manager</b>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Manager</b>
+            </div>
+            <div class="card-body card-block">
+                <div class="form-group col-lg-6">
+                    <label for="firstName" class=" form-control-label">First Name</label>
+                    <input type="text" id="firstName" placeholder="First Name" class="form-control" required/>
                 </div>
-                <div class="card-body card-block">
-                    <div class="form-group col-lg-6">
-                        <label for="firstName" class=" form-control-label">First Name</label>
-                        <input type="text" id="firstName" placeholder="First Name" class="form-control" required/>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <label for="lastName" class=" form-control-label">Last Name</label>
-                        <input type="text" id="lastName" placeholder="Last Name" class="form-control" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" class="form-control-label">Email</label>
-                        <input type="email" id="email" placeholder="Email" class="form-control" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" class="form-control-label">Phone Number</label>
-                        <input type="tel" id="phone" placeholder="Phone Number" class="form-control" required/>
-                    </div>
+                <div class="form-group col-lg-6">
+                    <label for="lastName" class=" form-control-label">Last Name</label>
+                    <input type="text" id="lastName" placeholder="Last Name" class="form-control" required/>
                 </div>
-                <div class="card-footer">
-                    <button type="reset" id="reset" class="btn btn-danger float-left">
-                        <i class="fa fa-ban"></i> Reset
-                    </button>
-                    <button type="button" id="btnCreate" class="btn btn-primary float-right">
-                        <i class="fa fa-check"></i> Create
-                    </button>
+                <div class="form-group">
+                    <label for="email" class="form-control-label">Email</label>
+                    <input type="email" id="email" placeholder="Email" class="form-control" required/>
                 </div>
+                <div class="form-group">
+                    <label for="phone" class="form-control-label">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Phone Number" class="form-control" required/>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="reset" id="reset" class="btn btn-danger float-left">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
+                <button type="button" id="btnCreate" class="btn btn-primary float-right">
+                    <i class="fa fa-check"></i> Create
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
-    <!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
-    <script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!--<script src="/st-admin/assets/js/main.js"></script>-->
-    <script src="/st-admin/js/app.js"></script>
+<!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="/st-admin/assets/js/main.js"></script>-->
+<script src="/st-admin/js/app.js"></script>
 
-    <!--<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>-->
-    <!--<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
-    <!--<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
 
 </body>
 <script>
@@ -84,10 +84,16 @@
         if (validateData) {
             CallAjaxWithFetch(`/admin/create_admin`,
                 "POST",
-                { firstName, lastName, email, phoneNumber, roleId },
+                {firstName, lastName, email, phoneNumber, roleId},
                 (data) => {
-                    showAlert(true, data.message);
-                    document.location.href = "/list-managers";
+                    if (data.status === true) {
+                        showAlert(true, "We have sent link verify email for you. Please check your email to set password!");
+                        setTimeout(function () {
+                            document.location.href = "/list-managers";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);
@@ -108,7 +114,7 @@
         let phoneRegex = /0\d{9}/;
         let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-        if (firstName.length === 0 ) {
+        if (firstName.length === 0) {
             validateMessage = 'First Name is required!';
         } else if (lastName.length === 0) {
             validateMessage = 'Last Name is required';

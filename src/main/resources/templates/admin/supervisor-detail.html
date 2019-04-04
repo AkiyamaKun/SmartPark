@@ -79,7 +79,8 @@
                     <!--role="button" aria-haspopup="true" aria-expanded="false">Choose parking lot<span-->
                     <!--class="caret"></span></a>-->
 
-                    <select th:field="*{plotOfSupervisor}" id="selectLot" class="form-control" onchange="onChangeParkingLot()">
+                    <select th:field="*{plotOfSupervisor}" id="selectLot" class="form-control"
+                            onchange="onChangeParkingLot()">
                         <option th:each="i : ${plotOfSupervisor}"
                                 th:value="${i.parkingLotId}"
                                 th:text="${i.displayName}">
@@ -91,10 +92,11 @@
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="form-group">
                             <div class="col col-sm-3">
-                                <label  class=" form-control-label">Longitude</label>
+                                <label class=" form-control-label">Longitude</label>
                             </div>
                             <div class="col-12 col-sm-9" id="inputLong">
-                                <input type="text" id="long" th:value="${plotOfSupervisor.get(0).longitude}" class="form-control" disabled>
+                                <input type="text" id="long" th:value="${plotOfSupervisor.get(0).longitude}"
+                                       class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -102,7 +104,8 @@
                                 <label for="lat" class=" form-control-label">Latitude</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="lat" th:value="${plotOfSupervisor.get(0).latitude}" class="form-control" disabled>
+                                <input type="text" id="lat" th:value="${plotOfSupervisor.get(0).latitude}"
+                                       class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group">
@@ -110,7 +113,8 @@
                                 <label for="slots" class=" form-control-label">Total Slots</label>
                             </div>
                             <div class="col-12 col-sm-9">
-                                <input type="text" id="slots" th:value="${plotOfSupervisor.get(0).totalSlot}" class="form-control" disabled>
+                                <input type="text" id="slots" th:value="${plotOfSupervisor.get(0).totalSlot}"
+                                       class="form-control" disabled>
                             </div>
                         </div>
                     </div>
@@ -204,22 +208,31 @@
     });
 
     function updateAccount() {
+        let validateData = validateInput();
         let accountId = document.getElementById("accountId").value;
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
         let phoneNumber = document.getElementById("phoneNumber").value;
 
-        CallAjaxWithFetch(`/admin/update_supervisor/${accountId}`,
-            "PUT",
-            {accountId, firstName, lastName, phoneNumber},
-            (data) => {
-                showAlert(true, data.message);
-                document.location.href = "/list-supervisors";
-            },
-            (err) => {
-                showAlert(false, err.message);
-            }
-        )
+        if (validateData) {
+            CallAjaxWithFetch(`/admin/update_supervisor/${accountId}`,
+                "PUT",
+                {accountId, firstName, lastName, phoneNumber},
+                (data) => {
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        setTimeout(function () {
+                            document.location.href = "/list-supervisors";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
     }
 
     function assignParkingLot() {
@@ -238,25 +251,42 @@
         )
     }
 
-    // function chooseParkingLot(parkingLotId, plotOfSupervisor) {
-    //     var i;
-    //     for (i = 0; plotOfSupervisor.length; i++) {
-    //         var item = plotOfSupervisor[i];
-    //         if (item.parkingLotId === parkingLotId) {
-    //             document.getElementById("long").value = item.longitude;
-    //             document.getElementById("lat").value = item.latitude;
-    //             document.getElementById("slots").value = item.totalSlot;
-    //             break;
-    //         }
-    //     }
-    // }
+    function validateInput() {
+        let validateMessage = '';
+
+        let firstName = $("#firstName").val().trim();
+        let lastName = $("#lastName").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
+
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (firstName.length === 0) {
+            validateMessage = 'First Name is required!';
+        } else if (lastName.length === 0) {
+            validateMessage = 'Last Name is required';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+        }
+    }
 
     onChangeParkingLot = () => {
         let selectBox = document.getElementById("selectLot");
 
         //load data into input fields
         let lot = plotOfSupervisor[selectBox.selectedIndex];
-        let { longitude, latitude, totalSlot } = lot;
+        let {longitude, latitude, totalSlot} = lot;
 
         document.getElementById('long').value = longitude;
         document.getElementById('lat').value = latitude;
