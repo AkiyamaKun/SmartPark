@@ -1078,7 +1078,7 @@ aside.left-panel {
         display: none; }
       .navbar .navbar-nav li > a {
         background: none !important;
-        color: #c8c9ce !important;
+        color: #c8c9ce;
         display: inline-block;
         font-family: 'Open Sans';
         font-size: 16px;
@@ -2527,4 +2527,9 @@ label.form-control-label.required::after {
   margin-top: 5px;
   margin-left: 5px;
   width:300px;
+}
+
+.main-menu a.active{
+  color: white !important;
+
 }

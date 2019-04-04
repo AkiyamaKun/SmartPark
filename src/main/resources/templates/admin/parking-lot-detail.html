@@ -38,11 +38,13 @@
                     <div id="maps"></div>
                     <div class="col-lg-6">
                         <label class=" form-control-label">Longitude</label>
-                        <input type="text" disabled id="long-input" th:value="${plot.longitude}" class="form-control" required>
+                        <input type="text" disabled id="long-input" th:value="${plot.longitude}" class="form-control"
+                               required>
                     </div>
                     <div class="col-lg-6">
                         <label class=" form-control-label">Latitude</label>
-                        <input type="text" disabled id="lat-input" th:value="${plot.latitude}" class="form-control" required>
+                        <input type="text" disabled id="lat-input" th:value="${plot.latitude}" class="form-control"
+                               required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -272,8 +274,14 @@
                     totalSlot
                 },
                 (data) => {
-                    showAlert(true, data.message);
-                    document.location.href = "/list-parking-lots";
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        setTimeout(function () {
+                            document.location.href = "/list-parking-lots";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);

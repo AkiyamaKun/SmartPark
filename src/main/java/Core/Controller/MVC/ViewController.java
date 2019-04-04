@@ -289,7 +289,7 @@ public class ViewController {
     @RequestMapping(value = "/verify-account-success")
     public String toVerifyAccountSuccess(Model model) {
         //Excute anything here
-        return "verify-account-success-page";
+        return "admin/verify-account-success-page";
     }
 
     @RequestMapping(value = "/forget-password")

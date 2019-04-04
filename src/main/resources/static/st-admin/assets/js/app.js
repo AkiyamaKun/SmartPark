@@ -1,4 +1,3 @@
-
 // Counter Number
 $('.count').each(function () {
     $(this).prop('Counter', 0).animate({
@@ -17,14 +16,14 @@ function doAjax(url, method, data, callback, onError) {
         url: url,
         type: method,
         data: JSON.stringify(data),
-        success: function(response) {
+        success: function (response) {
             if (response.status) {
                 callback(response);
             } else {
                 showAlert(false, response.message);
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             debugger;
             showAlert(false, xhr.responseJSON.message);
         },
@@ -64,8 +63,8 @@ function buildBootrapTable(tableId) {
 
 function showAlert(success, message) {
     let alertDiv = (success ? "<div id='alert' class='alert alert-success'>" : "<div id='alert' class='alert alert-danger'>") +
-                        "<i class='fa fa-info-circle'></i>" + "&nbsp;&nbsp;" + message +
-                    "</div>";
+        "<i class='fa fa-info-circle'></i>" + "&nbsp;&nbsp;" + message +
+        "</div>";
     $("body").append(alertDiv);
     if ($("#alert").length) {
         $("#alert").css("opacity", "1");
@@ -78,16 +77,14 @@ function showAlert(success, message) {
 }
 
 //===========================Active menu===========
-function activeMenu() {
-    let headMenu = document.getElementById("main-menu");
-    let lis = headMenu.getElementsByClassName("act");
-    for (let i = 0; i < lis.length; i++) {
-        lis[i].addEventListener("click", function () {
-            let current = document.getElementsByClassName("active");
-            if (current.length > 0) {
-                current[0].className = current[0].className.replace(" active", "");
-            }
-            this.className += " active";
-        });
-    }
-}
+$(function(){
+    let url = window.location.pathname,
+        urlRegExp = new RegExp(url.replace(/\/$/,'') + "$"); // create regexp to match current url pathname and remove trailing slash if present as it could collide with the link in navigation in case trailing slash wasn't present there
+    // now grab every link from the navigation
+    $('.main-menu a').each(function(){
+        // and test its normalized href against the url pathname regexp
+        if(urlRegExp.test(this.href.replace(/\/$/,''))){
+            $(this).addClass('active');
+        }
+    });
+});

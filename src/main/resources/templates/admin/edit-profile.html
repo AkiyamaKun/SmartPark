@@ -6,53 +6,53 @@
 
 <body>
 
-    <div th:replace="admin/shared/left_panel :: left_panel"></div>
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
 
-    <!-- Right Panel -->
-    <div id="right-panel" class="right-panel">
+<!-- Right Panel -->
+<div id="right-panel" class="right-panel">
 
-        <div th:replace="admin/shared/header :: header"></div>
+    <div th:replace="admin/shared/header :: header"></div>
 
-        <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
 
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                    <b>Manager</b>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Manager</b>
+            </div>
+            <div class="card-body card-block" id="profile-form">
+                <input type="hidden" th:value="${session.User.accountId}" id="accountId">
+                <div class="form-group">
+                    <label for="firstName" class=" form-control-label">First Name</label>
+                    <input type="text" id="firstName" th:value="${profile.firstName}" class="form-control">
                 </div>
-                <div class="card-body card-block" id="profile-form">
-                    <input type="hidden" th:value="${session.User.accountId}" id="accountId">
-                    <div class="form-group">
-                        <label for="firstName" class=" form-control-label">First Name</label>
-                        <input type="text" id="firstName" th:value="${profile.firstName}" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName" class=" form-control-label">Last Name</label>
-                        <input type="text" id="lastName" th:value="${profile.lastName}" class="form-control" >
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber" class=" form-control-label">Phone number</label>
-                        <input type="text" id="phoneNumber" th:value="${profile.phoneNumber}" class="form-control" >
-                    </div>
+                <div class="form-group">
+                    <label for="lastName" class=" form-control-label">Last Name</label>
+                    <input type="text" id="lastName" th:value="${profile.lastName}" class="form-control">
                 </div>
-                <div class="card-footer">
-                    <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
-                        <i class="fa fa-pencil"></i> Save
-                    </button>
+                <div class="form-group">
+                    <label for="phoneNumber" class=" form-control-label">Phone number</label>
+                    <input type="text" id="phoneNumber" th:value="${profile.phoneNumber}" class="form-control">
                 </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
+                    <i class="fa fa-pencil"></i> Save
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>
-    <script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/st-admin/assets/js/main.js"></script>
-    <script src="/st-admin/js/app.js"></script>
+<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>
+<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>
+<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/st-admin/assets/js/main.js"></script>
+<script src="/st-admin/js/app.js"></script>
 
-    <script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
 <script>
@@ -80,9 +80,15 @@
                 "PUT",
                 {accountId, firstName, lastName, phoneNumber},
                 (data) => {
-                    showAlert(true, data.message);
-                    $('#btn-save').prop('disabled', true);
-                    document.location.href = "/home";
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        $('#btn-save').prop('disabled', true);
+                        setTimeout(function () {
+                            document.location.href = "/home";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);
@@ -101,7 +107,7 @@
         let intRegex = /\d+/;
         let phoneRegex = /0\d{9}/;
 
-        if (firstName.length === 0 ) {
+        if (firstName.length === 0) {
             validateMessage = 'First Name is required!';
         } else if (lastName.length === 0) {
             validateMessage = 'Last Name is required';

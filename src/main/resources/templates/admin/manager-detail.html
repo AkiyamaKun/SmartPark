@@ -18,10 +18,12 @@
         <div class="card">
             <div class="card-header">
                 <b>Manager</b>
-                <button type="button" id="btnDeactive" class="btn btn-danger float-right" th:if="${manager.active} eq true and ${manager.token} eq null">
+                <button type="button" id="btnDeactive" class="btn btn-danger float-right"
+                        th:if="${manager.active} eq true and ${manager.token} eq null">
                     <i class="fa fa-ban"></i> Deactive
                 </button>
-                <button type="button" id="btnActive" class="btn btn-success float-right" th:if="${manager.active} eq false and ${manager.token} eq null">
+                <button type="button" id="btnActive" class="btn btn-success float-right"
+                        th:if="${manager.active} eq false and ${manager.token} eq null">
                     <i class="fa fa-check"></i> Active
                 </button>
             </div>
@@ -112,8 +114,14 @@
                 "PUT",
                 {accountId, firstName, lastName, phoneNumber},
                 (data) => {
-                    showAlert(true, data.message);
-                    document.location.href = "/list-managers";
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        setTimeout(function () {
+                            document.location.href = "/list-managers";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);

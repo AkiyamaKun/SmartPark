@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li class="active">
-                        <a href="user.html">
+                        <a th:href="@{/user(id=${session.User.accountId})}">
                             <i class="pe-7s-user"></i>
                             <p>User Profile</p>
                         </a>
@@ -268,7 +268,7 @@
                 (data) => {
                     showAlert(true, data.message);
                     $('#btn-save').prop('disabled', true);
-                    document.location.href = "/home";
+                    document.location.href = "/dashboard";
                 },
                 (err) => {
                     showAlert(false, err.message);
