@@ -11,17 +11,11 @@ import Core.Service.AccountService;
 import Core.Service.JwtService;
 import Core.Service.PublicService;
 import Core.Utils.Utilities;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Account Service Implements

@@ -8,14 +8,14 @@ import javax.persistence.*;
  * Author: DangNHH - 20/02/2019
  */
 @Entity
-@Table(name = "ParkingSlotStatus")
+@Table(name = "parkingslotstatus")
 public class ParkingSlotStatus {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "statusId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "status_id")
     private Integer statusId;
 
-    @Column(name = "statusName")
+    @Column(name = "status_name")
     private String statusName;
 
     public ParkingSlotStatus() {
