@@ -346,4 +346,10 @@ public class AdminAccountController {
         return accountService.forgetPassword(email, 1);
     }
 
+    @RequestMapping(value = Const.TOTAL_ACCOUNT, method = RequestMethod.GET)
+    public ResponseDTO totalAccount(){
+        return accountService.totalAccount();
+    }
+
+
 }

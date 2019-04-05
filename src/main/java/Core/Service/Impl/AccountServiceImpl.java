@@ -450,4 +450,24 @@ public class AccountServiceImpl implements AccountService {
         }
         return responseDTO;
     }
+
+    @Override
+    public ResponseDTO totalAccount() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            List<Account> list = accountRepository.findAll();
+            if(!list.isEmpty()){
+                responseDTO.setObjectResponse(list.size());
+            }else{
+                int total = 0;
+                responseDTO.setObjectResponse(total);
+            }
+            responseDTO.setStatus(true);
+            responseDTO.setMessage("Get Total Account Success");
+        }catch (Exception e){
+            responseDTO.setMessage("Get Total Account Error : " + e.getMessage());
+        }
+        return responseDTO;
+    }
 }

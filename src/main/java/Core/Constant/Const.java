@@ -47,6 +47,7 @@ public class Const {
     public static final String GET_LIST_ACCOUNTS_SUCCESS = "Get List Account Successful";
     public static final String AVATAR_NAME_DEFAULT = "default_avatar";
     public static final String EDIT_PROFILE_SUCCESS = "Edit Profile Successful";
+    public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
@@ -56,7 +57,7 @@ public class Const {
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
     public static final String FORGET_PASSWORD = "/forget_password";
     public static final String SET_NEW_PASSWORD = "/set_new_password";
-    public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
+    public static final String TOTAL_ACCOUNT = "/total_account";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
