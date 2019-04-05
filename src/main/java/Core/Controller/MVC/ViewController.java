@@ -70,11 +70,13 @@ public class ViewController {
         ResponseDTO listSupervisors = accountService.getListAccount(2);
         ResponseDTO listAdmins = accountService.getListAccount(1);
         ResponseDTO listParkingLots = parkingLotService.getAllParkingLotForAdmin();
+        ResponseDTO totalAccount = accountService.totalAccount();
 
         view.addObject("listDrivers", listDrivers.getObjectResponse());
         view.addObject("listSupervisors", listSupervisors.getObjectResponse());
         view.addObject("listAdmins", listAdmins.getObjectResponse());
         view.addObject("listParkingLots", listParkingLots.getObjectResponse());
+        view.addObject("totalAccount", totalAccount.getObjectResponse());
 
 //        if (!StringUtils.isEmpty(listDrivers.getObjectResponse())) {
 //            view.addObject("listDrivers", listDrivers.getObjectResponse());

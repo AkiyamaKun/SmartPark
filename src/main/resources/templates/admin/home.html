@@ -17,15 +17,15 @@
         <div class="content mt-3">
             <div class="col-xl-12 col-lg-6">
                 <div class="card text-white bg-flat-color-1">
-                    <div class="card-body pb-0" th:if="${#lists.isEmpty(listDriver)}">
+                    <div class="card-body pb-0" th:if="${totalAccount != null}">
                         <h4 class="mb-0">
-                            <span class="count" th:text="0 + ${#lists.size(listSupervisors)} + ${#lists.size(listAdmins)}"></span>
+                            <span class="count" th:text="${totalAccount}"></span>
                         </h4>
                         <p class="text-light">Total Accounts</p>
                     </div>
-                    <div class="card-body pb-0" th:if="${#lists.isEmpty(listSupervisors)}">
+                    <div class="card-body pb-0" th:if="${totalAccount == null}">
                         <h4 class="mb-0">
-                            <span class="count" th:text="0 + ${#lists.size(listSupervisors)} + ${#lists.size(listAdmins)}"></span>
+                            <span class="count" th:text="0"></span>
                         </h4>
                         <p class="text-light">Total Accounts</p>
                     </div>
@@ -37,11 +37,11 @@
                     <div class="card-body">
                         <div class="stat-widget-one">
                             <div class="stat-icon dib"><i class="ti-car text-success border-success"></i></div>
-                            <div class="stat-content dib" th:if="${not #lists.isEmpty(listDriver)}">
+                            <div class="stat-content dib" th:if="${not #lists.isEmpty(listDrivers)}">
                                 <div class="stat-text">Total Drivers</div>
                                 <div class="stat-digit count" th:text="${#lists.size(listDrivers)}"></div>
                             </div>
-                            <div class="stat-content dib" th:if="${#lists.isEmpty(listDriver)}">
+                            <div class="stat-content dib" th:if="${#lists.isEmpty(listDrivers)}">
                                 <div class="stat-text">Total Drivers</div>
                                 <div class="stat-digit count" th:text="0"></div>
                             </div>
