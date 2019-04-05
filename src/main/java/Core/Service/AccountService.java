@@ -22,4 +22,5 @@ public interface AccountService {
     ResponseDTO registerAccount(AccountDTO accountDTO);
     ResponseDTO setFirstPassword(String email, String password);
     ResponseDTO forgetPassword(String email, Integer type);
+    ResponseDTO totalAccount();
 }

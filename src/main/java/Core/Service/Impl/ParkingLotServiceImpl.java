@@ -65,8 +65,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      */
     public void convertParkingSlotDTOFormEntity(ParkingSlotDTO dto, ParkingSlot entity) {
         dto.setSlotId(entity.getSlotId());
-        dto.setLane(entity.getLane());
-        dto.setRow(entity.getRow());
+        dto.setLane(entity.getSlotLane());
+        dto.setRow(entity.getSlotRow());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
         dto.setStatus(entity.getParkingSlotStatus().getStatusName());
     }

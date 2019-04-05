@@ -9,80 +9,80 @@ import java.util.Date;
  * Author: DangNHH - 19/02/2019
  */
 @Entity
-@Table(name = "ParkingLot")
+@Table(name = "parkinglot")
 public class ParkingLot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "parkingLotId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "parking_lot_id")
     private Integer parkingLotId;
     /**
      * Name of ParkingLot
      */
-    @Column(name = "displayName", columnDefinition = "NVARCHAR(100)")
+    @Column(name = "display_name")
     private String displayName;
 
     /**
      * Id of Admin Account
      */
     @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
-    @JoinColumn(name="createdBy", referencedColumnName="accountId")
+    @JoinColumn(name="created_by")
     private Account createdBy;
 
     //Id of Supervisor/Admin Account
     @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
-    @JoinColumn(name = "editedBy", referencedColumnName="accountId")
+    @JoinColumn(name = "edited_by")
     private Account editedBy;
 
-    @Column(name = "longitude", columnDefinition = "FLOAT")
+    @Column(name = "longitude")
     private float longitude;
 
-    @Column(name = "latitude", columnDefinition = "FLOAT")
+    @Column(name = "latitude")
     private float latitude;
 
-    @Column(name = "totalSlot", columnDefinition = "INT")
+    @Column(name = "total_slot")
     private Integer totalSlot;
 
-    @Column(name = "address", columnDefinition = "VARCHAR(250)")
+    @Column(name = "address")
     private String address;
     /**
      * Phone number of owner ParkingLot
      */
-    @Column(name = "phoneNumber", columnDefinition = "VARCHAR(15)")
+    @Column(name = "phone_number")
     private String phoneNumber;
     /**
      * Time ParkingLot open-close
      */
-    @Column(name = "timeOfOperation", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "time_of_operation")
     private String timeOfOperation;
     /**
      * Active: 1, Deactive: 0
      */
-    @Column(name = "isActive", columnDefinition = "BIT")
+    @Column(name = "is_active",columnDefinition = "TINYINT(1)")
     private boolean isActive;
 
     /**
      * Late Edit Date
      */
-    @Column(name = "lastEdited", columnDefinition = "DATETIME")
+    @Column(name = "last_edited")
     private Date lastEdited;
 
     /**
      * Create Date
      */
-    @Column(name = "createdDate", columnDefinition = "DATETIME")
+    @Column(name = "created_date")
     private Date createdDate;
 
     /**
      * Parking Lot Image
      */
-    @Column(name = "parklotImage", columnDefinition = "IMAGE")
+    @Column(name = "parklot_image")
     private byte[] parklotImage;
 
     /**
      * Owner of Parking Lot (Unique)
      */
     @OneToOne(targetEntity=Owner.class, cascade=CascadeType.ALL)
-    @JoinColumn(name="ownerId", referencedColumnName="ownerId")
+    @JoinColumn(name="owner_id", referencedColumnName="owner_id")
     private Owner owner;
 
     public ParkingLot() {

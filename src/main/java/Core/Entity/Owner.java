@@ -6,37 +6,37 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Owner")
+@Table(name = "owner")
 public class Owner {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ownerId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "owner_id")
     private Integer ownerId;
 
 
-    @Column(name = "firstName", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "sex", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "sex")
     private String sex;
 
-    @Column(name = "address", columnDefinition = "NVARCHAR(250)")
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "phoneNumber", columnDefinition = "VARCHAR(15)")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "yearOfBirth", columnDefinition = "DATETIME")
+    @Column(name = "year_of_birth")
     private Date yearOfBirth;
 
-    @Column(name = "createdDate", columnDefinition = "DATETIME")
+    @Column(name = "created_date")
     private Date createdDate;
 
     //Active: 1 , deactive: 0
-    @Column(name = "isActive", columnDefinition = "BIT")
+    @Column(name = "is_active",columnDefinition = "TINYINT(1)")
     private boolean isActive;
 
     public Owner() {
