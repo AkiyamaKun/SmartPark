@@ -12,6 +12,7 @@ import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,10 +70,35 @@ public class ViewController {
         ResponseDTO listSupervisors = accountService.getListAccount(2);
         ResponseDTO listAdmins = accountService.getListAccount(1);
         ResponseDTO listParkingLots = parkingLotService.getAllParkingLotForAdmin();
-        view.addObject("listDriver", listDrivers.getObjectResponse());
+
+        view.addObject("listDrivers", listDrivers.getObjectResponse());
         view.addObject("listSupervisors", listSupervisors.getObjectResponse());
-        view.addObject("listAdmins", listSupervisors.getObjectResponse());
+        view.addObject("listAdmins", listAdmins.getObjectResponse());
         view.addObject("listParkingLots", listParkingLots.getObjectResponse());
+
+//        if (!StringUtils.isEmpty(listDrivers.getObjectResponse())) {
+//            view.addObject("listDrivers", listDrivers.getObjectResponse());
+//        } else {
+//            view.addObject("listDrivers",(Object) 0);
+//        }
+//
+//        if (!StringUtils.isEmpty(listSupervisors.getObjectResponse())) {
+//            view.addObject("listSupervisors", listSupervisors.getObjectResponse());
+//        } else {
+//            view.addObject("listSupervisors", 0);
+//        }
+//
+//        if (!StringUtils.isEmpty(listAdmins.getObjectResponse())) {
+//            view.addObject("listAdmins", listAdmins.getObjectResponse());
+//        } else {
+//            view.addObject("listAdmins", 0);
+//        }
+//
+//        if (!StringUtils.isEmpty(listParkingLots.getObjectResponse())) {
+//            view.addObject("listParkingLots", listParkingLots.getObjectResponse());
+//        } else {
+//            view.addObject("listParkingLots", 0);
+//        }
         return view;
     }
 
