@@ -1,9 +1,16 @@
 package Core.Service.Impl;
 
 import Core.Constant.Const;
+import Core.DTO.ParkingSlotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
+import Core.Entity.ParkingSlot;
+import Core.Entity.ParkingSlotStatus;
 import Core.Repository.AccountRepository;
+import Core.Repository.ParkingLotRepository;
+import Core.Repository.ParkingSlotRepository;
+import Core.Repository.ParkingSlotStatusRepository;
 import Core.Service.PublicService;
 import Core.Utils.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +19,22 @@ import org.springframework.stereotype.Service;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import java.util.List;
 import java.util.Properties;
 
 @Service
 public class PublicServiceImpl implements PublicService {
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    ParkingSlotRepository parkingSlotRepository;
+
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
+
+    @Autowired
+    ParkingSlotStatusRepository parkingSlotStatusRepository;
 
     /**
      *
@@ -79,6 +96,48 @@ public class PublicServiceImpl implements PublicService {
         }
         responseDTO.setStatus(true);
         responseDTO.setMessage(Const.SEND_EMAIL_SUCCESSFUL);
+        return responseDTO;
+    }
+
+    /**
+     * Update Status of Parking Slot From Deep Learning
+     * @param parkingLotId
+     * @param listParkingSlot
+     * @return
+     */
+    @Override
+    public ResponseDTO updateStatusSlot(Integer parkingLotId, List<ParkingSlotDTO> listParkingSlot) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if(parkingLot != null){
+                List<ParkingSlot> listSlotEntity = parkingSlotRepository.findByParkingLot(parkingLot);
+                int sizeListParkingSlot = listParkingSlot.size();
+                int sizeListSlotEntity = listSlotEntity.size();
+                int maxSize = sizeListParkingSlot > sizeListSlotEntity ? sizeListParkingSlot : sizeListSlotEntity;
+                for(int i = 0 ; i < maxSize; i++){
+                    ParkingSlot parkingSlotEntity = listSlotEntity.get(i);
+                    ParkingSlotDTO parkingSlotDTO = listParkingSlot.get(i);
+                    parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
+                    parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
+                    ParkingSlotStatus parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
+                    if(parkingSlotStatus != null){
+                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
+                    }else{
+                        parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(Const.UNDEFINED_STATUS_OF_PARKING_SLOT);
+                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
+                    }
+                    parkingSlotRepository.save(parkingSlotEntity);
+                }
+                responseDTO.setMessage(Const.UPDATE_STATUS_SLOT_SUCCESS);
+                responseDTO.setStatus(true);
+            }else{
+                responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Update Status Parking Slot Error: " + e.getMessage());
+        }
         return responseDTO;
     }
 }

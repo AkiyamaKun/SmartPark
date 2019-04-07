@@ -166,11 +166,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot
-                    //Status default 'Free'
-                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("Free");
+                    //Status default 'empty'
+                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("");
                     if (status == null) {
-                        //If default status Free is not existed then create it
-                        status = new ParkingSlotStatus("Free");
+                        //If default status empty is not existed then create it
+                        status = new ParkingSlotStatus(Const.DEFAULT_STATUS_OF_PARKING_SLOT);
                         parkingSlotStatusRepository.save(status);
                     }
                     for (int i = 0; i < parkingLot.getTotalSlot(); i++) {

@@ -11,6 +11,7 @@ public class Const {
     public static final String SEND_EMAIL ="/send_email";
     public static final String AUTHORIZE = "/authorize";
     public static final String DOMAIN = "http://localhost:8080";
+    public static final String UPDATE_STATUS_SLOT = "/update_status_slot";
 
     //Account API
     public static final String ACCOUNT = "/account";
@@ -48,6 +49,7 @@ public class Const {
     public static final String AVATAR_NAME_DEFAULT = "default_avatar";
     public static final String EDIT_PROFILE_SUCCESS = "Edit Profile Successful";
     public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
+    public static final String UPDATE_STATUS_SLOT_SUCCESS = "Update Status Slot Success";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
@@ -118,6 +120,8 @@ public class Const {
     public static final String SEARCH_OWNER_SUCCESS = "Search Owner Successful";
     public static final String SEARCH_OWNER_FAIL = "Search Owner Fail";
     public static final String SEARCH_OWNER_FIND_NOT_FOUND = "Owner is not found";
+    public static final String DEFAULT_STATUS_OF_PARKING_SLOT = "empty";
+    public static final String UNDEFINED_STATUS_OF_PARKING_SLOT = "undefined";
 
     //Parking Lot Message
     public static final String GET_PARKING_LOT_SUCCESS = "Get Parking Lot Successful";
