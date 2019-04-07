@@ -14,46 +14,46 @@ import java.util.List;
  * Author: DangNHH - 19/02/2019
  */
 @Entity
-@Table(name = "Account")
+@Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "accountId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
     private Integer accountId;
 
-    @Column(name = "email", columnDefinition = "VARCHAR(100)")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "phoneNumber", columnDefinition = "VARCHAR(15)")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "password", columnDefinition = "VARCHAR(100)")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "firstName", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName", columnDefinition = "NVARCHAR(50)")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "createdDate", columnDefinition = "DATETIME")
+    @Column(name = "created_date")
     private Date createdDate;
 
     //Admin: 1, Supervisor: 2, Driver: 3
     @OneToOne(targetEntity=Role.class,cascade=CascadeType.ALL)
-    @JoinColumn(name="roleId",referencedColumnName="roleId")
+    @JoinColumn(name="role_id",referencedColumnName="role_id")
     private Role role;
 
     //Active: 1 , deactive: 0
-    @Column(name = "isActive", columnDefinition = "BIT")
+    @Column(name = "is_active", columnDefinition = "TINYINT(1)")
     private boolean isActive;
 
     //Token is used verify account
-    @Column(name = "token", columnDefinition = "VARCHAR(100)")
+    @Column(name = "token")
     private String token;
 
     //Image of driver user avatar
-    @Column(name = "avatar", columnDefinition = "IMAGE")
+    @Column(name = "avatar")
     private byte[] avatar;
 
     public Account() {

@@ -5,15 +5,15 @@
 <div th:replace="admin/shared/head :: head"></div>
 
 <body>
-    <div th:replace="admin/shared/left_panel :: left_panel"></div>
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
 
-    <div id="right-panel" class="right-panel">
+<div id="right-panel" class="right-panel">
 
-        <div th:replace="admin/shared/header :: header"></div>
+    <div th:replace="admin/shared/header :: header"></div>
 
-        <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
 
-        <div class="col-lg-6">
+    <div class="col-lg-6">
         <div class="card">
             <div class="card-header"><b>Supervisor</b></div>
             <div class="card-body card-block">
@@ -44,17 +44,17 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
-    <!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
-    <script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!--<script src="/st-admin/assets/js/main.js"></script>-->
-    <script src="/st-admin/js/app.js"></script>
+<!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="/st-admin/assets/js/main.js"></script>-->
+<script src="/st-admin/js/app.js"></script>
 
-    <script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-    <script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
 
 </body>
 <script>
@@ -78,10 +78,16 @@
         if (valdateData) {
             CallAjaxWithFetch(`/admin/create_supervisor`,
                 "POST",
-                { firstName, lastName, email, phoneNumber, roleId },
+                {firstName, lastName, email, phoneNumber, roleId},
                 (data) => {
-                    showAlert(true, data.message);
-                    document.location.href = "/list-supervisors";
+                    if (data.status === true) {
+                        showAlert(true, "We have sent link verify email for you. Please check your email to set password!");
+                        setTimeout(function () {
+                            document.location.href = "/list-supervisors";
+                        }, 3000);
+                    } else {
+                        showAlert(false, data.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);
@@ -102,7 +108,7 @@
         let phoneRegex = /0\d{9}/;
         let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
-        if (firstName.length === 0 ) {
+        if (firstName.length === 0) {
             validateMessage = 'First Name is required!';
         } else if (lastName.length === 0) {
             validateMessage = 'Last Name is required';

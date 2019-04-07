@@ -83,7 +83,7 @@
                     </thead>
                     <tbody>
                     <!--<tr th:if="${plotOwner.empty}">-->
-                        <!--<td colspan="2"> No Books Available </td>-->
+                    <!--<td colspan="2"> No Books Available </td>-->
                     <!--</tr>-->
                     <tr th:each="plot, itr : ${plotOwner}">
                         <th scope="row" th:text="${itr.count}"></th>
@@ -159,10 +159,14 @@
                 "PUT",
                 {ownerId, firstName, lastName, sex, address, phoneNumber},
                 (data) => {
-                    showAlert(true, data.message);
-                    setTimeout(function () {
-                        document.location.href = "/list-owners"
-                    }, 3000);
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        setTimeout(function () {
+                            document.location.href = "/list-owners"
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
                 },
                 (err) => {
                     showAlert(false, err.message);

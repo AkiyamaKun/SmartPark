@@ -11,17 +11,11 @@ import Core.Service.AccountService;
 import Core.Service.JwtService;
 import Core.Service.PublicService;
 import Core.Utils.Utilities;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Account Service Implements
@@ -453,6 +447,26 @@ public class AccountServiceImpl implements AccountService {
             }
         }catch (Exception e){
             responseDTO.setMessage("Error : " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO totalAccount() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            List<Account> list = accountRepository.findAll();
+            if(!list.isEmpty()){
+                responseDTO.setObjectResponse(list.size());
+            }else{
+                int total = 0;
+                responseDTO.setObjectResponse(total);
+            }
+            responseDTO.setStatus(true);
+            responseDTO.setMessage("Get Total Account Success");
+        }catch (Exception e){
+            responseDTO.setMessage("Get Total Account Error : " + e.getMessage());
         }
         return responseDTO;
     }

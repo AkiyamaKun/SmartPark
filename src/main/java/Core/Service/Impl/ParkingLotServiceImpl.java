@@ -65,8 +65,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
      */
     public void convertParkingSlotDTOFormEntity(ParkingSlotDTO dto, ParkingSlot entity) {
         dto.setSlotId(entity.getSlotId());
-        dto.setLane(entity.getLane());
-        dto.setRow(entity.getRow());
+        dto.setLane(entity.getSlotLane());
+        dto.setRow(entity.getSlotRow());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
         dto.setStatus(entity.getParkingSlotStatus().getStatusName());
     }
@@ -166,11 +166,11 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot
-                    //Status default 'Free'
-                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("Free");
+                    //Status default 'empty'
+                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("");
                     if (status == null) {
-                        //If default status Free is not existed then create it
-                        status = new ParkingSlotStatus("Free");
+                        //If default status empty is not existed then create it
+                        status = new ParkingSlotStatus(Const.DEFAULT_STATUS_OF_PARKING_SLOT);
                         parkingSlotStatusRepository.save(status);
                     }
                     for (int i = 0; i < parkingLot.getTotalSlot(); i++) {

@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="user.html">
+                        <a th:href="@{/user(id=${session.User.accountId})}">
                             <i class="pe-7s-user"></i>
                             <p>User Profile</p>
                         </a>
