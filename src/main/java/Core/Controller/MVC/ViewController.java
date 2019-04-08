@@ -12,7 +12,6 @@ import Core.Service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,30 +76,6 @@ public class ViewController {
         view.addObject("listAdmins", listAdmins.getObjectResponse());
         view.addObject("listParkingLots", listParkingLots.getObjectResponse());
         view.addObject("totalAccount", totalAccount.getObjectResponse());
-
-//        if (!StringUtils.isEmpty(listDrivers.getObjectResponse())) {
-//            view.addObject("listDrivers", listDrivers.getObjectResponse());
-//        } else {
-//            view.addObject("listDrivers",(Object) 0);
-//        }
-//
-//        if (!StringUtils.isEmpty(listSupervisors.getObjectResponse())) {
-//            view.addObject("listSupervisors", listSupervisors.getObjectResponse());
-//        } else {
-//            view.addObject("listSupervisors", 0);
-//        }
-//
-//        if (!StringUtils.isEmpty(listAdmins.getObjectResponse())) {
-//            view.addObject("listAdmins", listAdmins.getObjectResponse());
-//        } else {
-//            view.addObject("listAdmins", 0);
-//        }
-//
-//        if (!StringUtils.isEmpty(listParkingLots.getObjectResponse())) {
-//            view.addObject("listParkingLots", listParkingLots.getObjectResponse());
-//        } else {
-//            view.addObject("listParkingLots", 0);
-//        }
         return view;
     }
 
@@ -326,7 +301,28 @@ public class ViewController {
         return "admin/forget-password";
     }
 
-    //SUPERVISOR PAGE
+    @RequestMapping(value = "/set-password-successful")
+    public String toSetPasswordSuccessfulPage(){
+        return "verify-account-success-page";
+    }
+
+    /**
+     * Verify Driver Account
+     * @param email
+     * @param token
+     * @return
+     */
+    @RequestMapping(value = Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
+    public String verifyDriverAccount(@RequestParam(value = "email", required = true) String email,
+                                      @RequestParam(value = "token", required = true) String token){
+        ResponseDTO responseDTO = driverAccountService.verifyAccount(email, token);
+        if(responseDTO.isStatus()){
+            return "admin/verify-account-success-page";
+        }
+        return "admin/verify-account-fail-page";
+    }
+
+    //==============SUPERVISOR PAGE==================
     /**
      * Login Supervisor Page
      *
@@ -340,6 +336,18 @@ public class ViewController {
     }
 
     /**
+     * Change password Supervisor Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/change-password-supervisor", method = RequestMethod.GET)
+    public String toChangePasswordSupervisor(Model model) {
+        //Excute anything here
+        return "supervisor/change-password-supervisor";
+    }
+
+    /**
      * Dashboard Page
      *
      * @param model
@@ -347,7 +355,6 @@ public class ViewController {
      */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String toDashboardSupervisor(Model model) {
-        //Excute anything here
         return "supervisor/dashboard";
     }
 
@@ -363,27 +370,6 @@ public class ViewController {
         ResponseDTO supervisorAccount = accountService.getAccount(id);
         view.addObject("profile", supervisorAccount.getObjectResponse());
         return view;
-    }
-
-    @RequestMapping(value = "/set-password-successful")
-    public String toSetPasswordSuccessfulPage(){
-        return "verify-account-success-page";
-    }
-
-    /**
-     * Verify Driver Account
-     * @param email
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
-    public String verifyDriverAccount(@RequestParam(value = "email", required = true) String email,
-                                           @RequestParam(value = "token", required = true) String token){
-        ResponseDTO responseDTO = driverAccountService.verifyAccount(email, token);
-        if(responseDTO.isStatus()){
-            return "admin/verify-account-success-page";
-        }
-        return "admin/verify-account-fail-page";
     }
 
 }

@@ -58,23 +58,12 @@
                     <li>
                         <a href="#">
                             <i class="pe-7s-note2"></i>
-                            <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
                                 Parking Lots List
                             </p>
-                            <div class="collapse" id="collapseExample" aria-expanded="false">
-                                <ul style="padding-left: 0px;">
-                                    <li>
-                                        <a href="dashboard.html">
-                                            <i class="pe-7s-car" style="font-size: 1.5em;"></i>
-                                            <p>Parking Lot #8</p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard.html">
-                                            <i class="pe-7s-car" style="font-size: 1.5em;"></i>
-                                            <p>Parking Lot #9</p>
-                                        </a>
-                                    </li>
+                            <div class="collapse in" id="collapseExample" aria-expanded="true">
+                                <ul style="padding-left: 14px; list-style-type: none;" id="listPlots">
+
                                 </ul>
                             </div>
                         </a>
@@ -98,7 +87,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="user.html" th:text="${session.User.firstName + ' ' + session.User.lastName}"></a>
+                        <a class="navbar-brand" th:href="@{/user(id=${session.User.accountId})}" th:text="${session.User.firstName + ' ' + session.User.lastName}"></a>
                     </div>
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
@@ -110,9 +99,9 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/user(id=${session.User.accountId})}">User profile</a></li>
-                                    <li><a href="changePassword.html">Change password</a></li>
+                                    <li><a th:href="@{/change-password-supervisor.html}">Change password</a></li>
                                     <li class="divider"></li>
-                                    <li><a th:href="@{/login-supervisor}">Logout</a></li>
+                                    <li><a th:href="@{/logout}">Logout</a></li>
                                 </ul>
                             </li>
                             <li class="separator hidden-lg"></li>
@@ -172,28 +161,28 @@
                     </div>
                 </div>
             </div>
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="pull-left">
-                        <ul>
-                            <li>
-                                <a href="aboutUs.html">
-                                    About us
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    Contact
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <p class="copyright pull-right">
-                        &copy;
-                        <script>document.write(new Date().getFullYear())</script> <a href="#">Smart Parking</a>
-                    </p>
-                </div>
-            </footer>
+            <!--<footer class="footer">-->
+                <!--<div class="container-fluid">-->
+                    <!--<nav class="pull-left">-->
+                        <!--<ul>-->
+                            <!--<li>-->
+                                <!--<a href="aboutUs.html">-->
+                                    <!--About us-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li>-->
+                                <!--<a href="#">-->
+                                    <!--Contact-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        <!--</ul>-->
+                    <!--</nav>-->
+                    <!--<p class="copyright pull-right">-->
+                        <!--&copy;-->
+                        <!--<script>document.write(new Date().getFullYear())</script> <a href="#">Smart Parking</a>-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</footer>-->
         </div>
     </div>
 </body>
@@ -241,6 +230,23 @@
             $("#btn-update").text("Update Profile");
             $("#btn-update").data("confirm", "false")
         });
+
+        //get list parking lot control by supervisor
+        let accountId = document.getElementById("accountId").value;
+        doAjax("/admin/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
+            let plots = data.objectResponse;
+            $("#listPlots").empty();
+            $.each(plots, function (index, value) {
+                let li =
+                    "<a href=\"dashboard.html\" style=\"color: white;\">\n" +
+                    "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
+                    "<p>" + value.displayName + "</p>\n" +
+                    "</a>";
+                $("#listPlots").append(li);
+            });
+        }, function (error) {
+            console.log(error);
+        });
     });
 
     ready(function () {
@@ -266,12 +272,12 @@
                 "PUT",
                 {accountId, firstName, lastName, phoneNumber},
                 (data) => {
-                    showAlert(true, data.message);
+                    alert(data.message);
                     $('#btn-save').prop('disabled', true);
                     document.location.href = "/dashboard";
                 },
                 (err) => {
-                    showAlert(false, err.message);
+                    alert(err.message);
                 }
             )
         }
@@ -296,7 +302,7 @@
         }
 
         if (validateMessage.length) {
-            showAlert(false, validateMessage);
+            alert(validateMessage);
             return null;
         }
 
