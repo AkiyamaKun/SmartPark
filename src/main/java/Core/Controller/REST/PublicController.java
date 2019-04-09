@@ -5,7 +5,9 @@ import Core.DTO.ParkingSlotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -42,5 +44,11 @@ public class PublicController {
     public ResponseDTO updateStatusSlot(@RequestParam(value = "parkingLotId", required = true) Integer parkingLotId,
                                         @RequestBody @Valid List<ParkingSlotDTO> listParkingSlot){
         return publicService.updateStatusSlot(parkingLotId, listParkingSlot);
+    }
+
+    @RequestMapping(value = Const.UPLOAD_IMAGE_FOR_PARKING_LOT, method = RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseDTO uploadImageForParkingLot(@RequestParam(value = "image", required = true) MultipartFile image,
+                                                @PathVariable Integer parkingLotId){
+        return publicService.uploadImageForParkingLot(image, parkingLotId);
     }
 }

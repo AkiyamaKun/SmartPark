@@ -53,7 +53,7 @@ public class Account {
     private String token;
 
     //Image of driver user avatar
-    @Column(name = "avatar")
+    @Column(name = "avatar", columnDefinition = "MEDIUMBLOB")
     private byte[] avatar;
 
     public Account() {

@@ -9,6 +9,7 @@ import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Service.ParkingLotService;
+import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -162,7 +163,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLot.setLastEdited(date);
                     parkingLot.setCreatedDate(date);
                     parkingLot.setOwner(owner);
-                    parkingLot.setParklotImage(dto.getParklotImage());
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot

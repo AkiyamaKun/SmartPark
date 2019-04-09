@@ -13,12 +13,18 @@ import Core.Repository.ParkingSlotRepository;
 import Core.Repository.ParkingSlotStatusRepository;
 import Core.Service.PublicService;
 import Core.Utils.EmailUtil;
+import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
@@ -137,6 +143,35 @@ public class PublicServiceImpl implements PublicService {
             }
         }catch (Exception e){
             responseDTO.setMessage("Update Status Parking Slot Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Upload Image For Parking Lot
+     * @param multipartFile
+     * @param parkingLotId
+     * @return
+     */
+    @Override
+    public ResponseDTO uploadImageForParkingLot(MultipartFile multipartFile, Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if(parkingLot != null){
+                File file = Utilities.multipartToFile(multipartFile);
+                byte[] image = Utilities.fileToByteArray(file);
+                parkingLot.setParklotImage(image);
+                parkingLotRepository.save(parkingLot);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.UPLOAD_IMAGE_SUCCESS);
+
+            }else{
+                responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Upload Image Error : " + e.getMessage());
         }
         return responseDTO;
     }

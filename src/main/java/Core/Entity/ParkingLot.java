@@ -75,7 +75,7 @@ public class ParkingLot {
     /**
      * Parking Lot Image
      */
-    @Column(name = "parklot_image")
+    @Column(name = "parklot_image", columnDefinition = "MEDIUMBLOB")
     private byte[] parklotImage;
 
     /**
