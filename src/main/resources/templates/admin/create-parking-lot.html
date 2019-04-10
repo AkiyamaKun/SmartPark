@@ -61,20 +61,16 @@
                     <input type="hidden" id="ownerId" />
                 </div>
 
-
+                <!--Upload Image -->
                 <div class="form-group">
                     <label>Upload Image</label>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <span class="btn btn-default btn-file">
-                                Browse… <input type="file" id="imgInp">
-                            </span>
-                        </span>
-                        <input type="text" class="form-control" readonly>
-                    </div>
+                    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                        <div class="form-group">
+                            <input type="file" class="form-control-file border" name="image" id="fileImage">
+                        </div>
+                    </form>
                     <img id='img-upload'/>
                 </div>
-
             </div>
             <div class="card-footer">
                 <button type="reset" class="btn btn-danger float-left" id="btnReset">
@@ -152,18 +148,31 @@
 
         $("#btnCreate").click(function (event) {
             let validatedData = validateInput();
-
             let adminId = document.getElementById("accountId").value;
-
             if (validatedData) {
-                doAjax("/admin/create_parking_lot/" + adminId, "POST", validatedData, function (response) {
-                    showAlert(true, response.message);
-                    setTimeout(function () {
-                        document.location.href = "/list-parking-lots";
-                    }, 3000);
-                }, function (error) {
-                    showAlert(false, error.message);
-                });
+                CallAjaxWithFetch(`/admin/create_parking_lot/` + adminId,
+                    "POST", validatedData,
+                    (data) => {
+                        showAlert(true, data.message);
+                        let parkingLotId = data.objectResponse.parkingLotId;
+                        let formData = $(`#fileUploadForm`)[0];
+                        let image = new FormData(formData);
+
+                        CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
+                        "PUT", image, (dataUpload) => {
+                                showAlert(true, dataUpload.message);
+                                setTimeout(function () {
+                                    document.location.href = "/list-parking-lots";
+                                }, 3000);
+                            },
+                            (err) =>{
+                                showAlert(false, err.message);
+                            })
+                    },
+                    (err) => {
+                        showAlert(false, err.message);
+                    }
+                )
             }
         });
 
@@ -320,42 +329,7 @@
         });
     }
 
-    //Upload Image
-    $(document).ready( function() {
-        $(document).on('change', '.btn-file :file', function() {
-            var input = $(this),
-                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-            input.trigger('fileselect', [label]);
-        });
 
-        $('.btn-file :file').on('fileselect', function(event, label) {
-
-            var input = $(this).parents('.input-group').find(':text'),
-                log = label;
-
-            if( input.length ) {
-                input.val(log);
-            } else {
-                if( log ) alert(log);
-            }
-
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#img-upload').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#imgInp").change(function(){
-            readURL(this);
-        });
-    });
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&libraries=places&callback=initMap"
         async defer></script>

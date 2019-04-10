@@ -12,6 +12,7 @@ public class Const {
     public static final String AUTHORIZE = "/authorize";
     public static final String DOMAIN = "http://localhost:8080";
     public static final String UPDATE_STATUS_SLOT = "/update_status_slot";
+    public static final String UPLOAD_IMAGE_FOR_PARKING_LOT = "/upload_image_for_parking_lot/{parkingLotId}";
 
     //Account API
     public static final String ACCOUNT = "/account";
@@ -50,6 +51,7 @@ public class Const {
     public static final String EDIT_PROFILE_SUCCESS = "Edit Profile Successful";
     public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
     public static final String UPDATE_STATUS_SLOT_SUCCESS = "Update Status Slot Success";
+    public static final String UPLOAD_IMAGE_SUCCESS = "Upload Image Success";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";

@@ -2,6 +2,7 @@ package Core.Service;
 
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 

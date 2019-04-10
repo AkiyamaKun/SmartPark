@@ -3,6 +3,7 @@ package Core.Utils;
 import Core.DTO.InformationAccountDTO;
 import Core.Entity.Account;
 import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -51,7 +52,7 @@ public class Utilities {
      * @param multiplier
      * @return
      */
-    public byte[] compressImage(File input, float expectedKilobyte, float multiplier) {
+    public static byte[] compressImage(File input, float expectedKilobyte, float multiplier) {
         byte[] returnData = null;
         ByteArrayOutputStream returningByte = new ByteArrayOutputStream();
         ByteArrayInputStream inputByte;
@@ -87,5 +88,34 @@ public class Utilities {
             e.printStackTrace();
         }
         return returnData;
+    }
+
+    /**
+     * Convert Multipart File to File
+     * @param mulFile
+     * @return
+     * @throws IOException
+     */
+    public static File multipartToFile(MultipartFile mulFile) throws IOException {
+        File convertFile = new File(mulFile.getOriginalFilename());
+        convertFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convertFile);
+        fos.write(mulFile.getBytes());
+        fos.close();
+        return convertFile;
+    }
+
+    /**
+     * Convert File To Byte Array
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    public static byte[] fileToByteArray(File file) throws IOException {
+        byte[] bytes = new byte[(int) file.length()];
+        FileInputStream fis = new FileInputStream(file);
+        fis.read(bytes);
+        fis.close();
+        return bytes;
     }
 }
