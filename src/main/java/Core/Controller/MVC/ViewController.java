@@ -282,7 +282,7 @@ public class ViewController {
             if (oldToken != null) {
                 if (oldToken.equals(token)) {
                     model.addAttribute("checkToken", true);
-                    url = "set-new-password-for-driver";
+                    url = "admin/set-new-password-for-driver";
                 }
             }
         }
