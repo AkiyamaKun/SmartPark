@@ -125,7 +125,7 @@ public class PublicServiceImpl implements PublicService {
                     if(parkingSlotStatus != null){
                         parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     }else{
-                        parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(Const.UNDEFINED_STATUS_OF_PARKING_SLOT);
+                        parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_UNDEFINED);
                         parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     }
                     parkingSlotRepository.save(parkingSlotEntity);
