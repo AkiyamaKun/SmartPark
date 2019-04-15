@@ -131,9 +131,9 @@
 
 <script>
     ready(function () {
-        // document.getElementById("btnLogin").addEventListener("click", function () {
-        //     loginAccount();
-        // });
+        document.getElementById("btnLogin").addEventListener("click", function () {
+            loginAccount();
+        });
 
     });
 
@@ -146,16 +146,16 @@
             {email, password},
             (data) => {
                 if (data.status === true) {
-                    showAlert(true, data.message);
+                    alert(data.message);
                     window.jwtTokenGlobalVariable = data.objectResponse;
                     window.location.href = "/dashboard";
                 }
                 if (data.status === false) {
-                    showAlert(false, data.message);
+                    alert(data.message);
                 }
             },
             (err) => {
-                showAlert(false, data.message);
+                alert(data.message);
             }
         );
     }
