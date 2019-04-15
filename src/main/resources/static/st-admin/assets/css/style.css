@@ -1035,7 +1035,7 @@ aside.left-panel {
     text-align: left;
     text-transform: capitalize;
     display: block;
-    min-height: 69px;
+    min-height: 55px;
     padding: 0;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1061,8 +1061,8 @@ aside.left-panel {
     font-family: 'Open Sans';
     font-size: 14px;
     font-weight: 700;
-    line-height: 50px;
-    padding: 10px 0 0;
+    line-height: 24px;
+    padding: 5px 0 0;
     text-transform: uppercase;
     width: 100%; }
   .navbar .navbar-nav {
