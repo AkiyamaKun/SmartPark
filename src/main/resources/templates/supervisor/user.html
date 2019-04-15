@@ -209,27 +209,27 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#btn-update").click(function(ev) {
-            let confirm = $(this).data("confirm");
-            if (confirm === "true") {
-                $(".form-control").prop('disabled', true);
-                $("#btn-update").prop('disabled', false);
-                $("#btn-update").text("Update Profile");
-                $(this).data("confirm", "false");
-            } else {
-                $(".form-control").prop('disabled', false);
-                $("#btn-cancel").prop('disabled', false);
-                $(this).text("Confirm");
-                $(this).data("confirm", "true");
-            }
-
-        });
-        $("#btn-cancel").click(function(ev) {
-            $(".form-control").prop('disabled', true);
-            $("#btn-update").prop('disabled', false);
-            $("#btn-update").text("Update Profile");
-            $("#btn-update").data("confirm", "false")
-        });
+        // $("#btn-update").click(function(ev) {
+        //     let confirm = $(this).data("confirm");
+        //     if (confirm === "true") {
+        //         $(".form-control").prop('disabled', true);
+        //         $("#btn-update").prop('disabled', false);
+        //         $("#btn-update").text("Update Profile");
+        //         $(this).data("confirm", "false");
+        //     } else {
+        //         $(".form-control").prop('disabled', false);
+        //         $("#btn-cancel").prop('disabled', false);
+        //         $(this).text("Confirm");
+        //         $(this).data("confirm", "true");
+        //     }
+        //
+        // });
+        // $("#btn-cancel").click(function(ev) {
+        //     $(".form-control").prop('disabled', true);
+        //     $("#btn-update").prop('disabled', false);
+        //     $("#btn-update").text("Update Profile");
+        //     $("#btn-update").data("confirm", "false")
+        // });
 
         //get list parking lot control by supervisor
         let accountId = document.getElementById("accountId").value;
