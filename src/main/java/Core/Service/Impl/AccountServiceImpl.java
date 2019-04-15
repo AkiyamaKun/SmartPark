@@ -314,7 +314,8 @@ public class AccountServiceImpl implements AccountService {
             Role role = roleRepository.findByRoleId(roleAccount);
             if(account == null ){
                 //Account is not existed
-                ResponseDTO tmp = publicService.sendEmail(accountDTO.getEmail(), token, roleAccount);
+                String nameAccount = accountDTO.getLastName() + " " + accountDTO.getFirstName();
+                ResponseDTO tmp = publicService.sendEmail(accountDTO.getEmail(), token, roleAccount, nameAccount);
                 if(tmp != null){
                     if(tmp.isStatus()){
                         //Create New Account
@@ -354,7 +355,8 @@ public class AccountServiceImpl implements AccountService {
                     responseDTO.setMessage(Const.ACCOUNT_IS_EXISTED);
                 }else{
                     //Account had create but it is not verify -> Excute update and send again Mail Verify
-                    ResponseDTO tmp = publicService.sendEmail(account.getEmail(), token, roleAccount);
+                    String nameAccount = accountDTO.getLastName() + " " + accountDTO.getFirstName();
+                    ResponseDTO tmp = publicService.sendEmail(account.getEmail(), token, roleAccount, nameAccount);
                     if(tmp != null){
                         if(tmp.isStatus()){
                             account.setToken(token);
@@ -431,7 +433,8 @@ public class AccountServiceImpl implements AccountService {
             if(account != null){
                 String token = Utilities.generateToken(email);
                 //Type 5: forget password of admin and supervisor account
-                ResponseDTO tmp = publicService.sendEmail(email, token, type);
+                String nameAccount = account.getLastName() + " " + account.getFirstName();
+                ResponseDTO tmp = publicService.sendEmail(email, token, type, nameAccount);
                 if(tmp != null){
                     if(tmp.isStatus()){
                         account.setToken(token);
