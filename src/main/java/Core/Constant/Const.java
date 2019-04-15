@@ -122,8 +122,6 @@ public class Const {
     public static final String SEARCH_OWNER_SUCCESS = "Search Owner Successful";
     public static final String SEARCH_OWNER_FAIL = "Search Owner Fail";
     public static final String SEARCH_OWNER_FIND_NOT_FOUND = "Owner is not found";
-    public static final String DEFAULT_STATUS_OF_PARKING_SLOT = "empty";
-    public static final String UNDEFINED_STATUS_OF_PARKING_SLOT = "undefined";
 
     //Parking Lot Message
     public static final String GET_PARKING_LOT_SUCCESS = "Get Parking Lot Successful";
@@ -180,4 +178,7 @@ public class Const {
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String ROLE_SUPERVISOR = "SUPERVISOR";
     public static final String ROLE_DRIVER  = "DRIVER";
+    public static final String STATUS_SLOT_EMPTY = "empty";
+    public static final String STATUS_SLOT_OCCUPIED = "occupied";
+    public static final String STATUS_SLOT_UNDEFINED = "undefined";
 }

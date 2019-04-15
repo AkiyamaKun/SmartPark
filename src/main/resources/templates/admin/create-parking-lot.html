@@ -73,10 +73,10 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="reset" class="btn btn-danger float-left" id="btnReset">
+                <button type="reset" class="btn btn-danger float-left" id="btnReset" onclick="resetInput()">
                     <i class="fa fa-ban"></i> Reset
                 </button>
-                <button type="button" class="btn btn-primary float-right" id="btnCreate">
+                <button type="button" class="btn btn-primary float-right" id="btnCreate" onclick="createParkingLot(this)">
                     <i class="fa fa-check"></i> Create
                 </button>
             </div>
@@ -145,41 +145,40 @@
             minLength: 2,
             delay: 100
         });
-
-        $("#btnCreate").click(function (event) {
-            let validatedData = validateInput();
-            let adminId = document.getElementById("accountId").value;
-            if (validatedData) {
-                CallAjaxWithFetch(`/admin/create_parking_lot/` + adminId,
-                    "POST", validatedData,
-                    (data) => {
-                        showAlert(true, data.message);
-                        let parkingLotId = data.objectResponse.parkingLotId;
-                        let formData = $(`#fileUploadForm`)[0];
-                        let image = new FormData(formData);
-
-                        CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
-                        "PUT", image, (dataUpload) => {
-                                showAlert(true, dataUpload.message);
-                                setTimeout(function () {
-                                    document.location.href = "/list-parking-lots";
-                                }, 3000);
-                            },
-                            (err) =>{
-                                showAlert(false, err.message);
-                            })
-                    },
-                    (err) => {
-                        showAlert(false, err.message);
-                    }
-                )
-            }
-        });
-
-        $("#btnReset").click(function (event) {
-            resetInput();
-        });
     });
+
+    function createParkingLot(btn) {
+        let validatedData = validateInput();
+        let adminId = document.getElementById("accountId").value;
+        if (validatedData) {
+            btn.disabled = true;
+            CallAjaxWithFetch(`/admin/create_parking_lot/` + adminId,
+                "POST", validatedData,
+                (data) => {
+                    showAlert(true, data.message);
+                    let parkingLotId = data.objectResponse.parkingLotId;
+                    let formData = $(`#fileUploadForm`)[0];
+                    let image = new FormData(formData);
+
+                    CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
+                        "PUT", image, (dataUpload) => {
+                            showAlert(true, dataUpload.message);
+                            setTimeout(function () {
+                                document.location.href = "/list-parking-lots";
+                            }, 3000);
+                        },
+                        (err) =>{
+                            showAlert(false, err.message);
+                        });
+                    btn.disabled = false;
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                    btn.disabled = false;
+                }
+            )
+        }
+    }
 
     function validateInput() {
         let validateMessage = '';
@@ -328,7 +327,6 @@
             map.fitBounds(bounds);
         });
     }
-
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&libraries=places&callback=initMap"

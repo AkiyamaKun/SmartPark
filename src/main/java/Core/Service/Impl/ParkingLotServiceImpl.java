@@ -56,6 +56,19 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setLongitude(entity.getLongitude());
         dto.setActive(entity.isActive());
         dto.setParklotImage(entity.getParklotImage());
+        //Excute Count Empty Parking Lot
+        int count = 0;
+        ResponseDTO responseDTO = getAllSlotOfParkingLot(entity.getParkingLotId());
+        List<ParkingSlotDTO> parkingSlots = (List<ParkingSlotDTO>) responseDTO.getObjectResponse();
+        ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
+        if(status != null){
+            for(int i = 0; i < parkingSlots.size(); i++){
+                ParkingSlotDTO parkingSlot = parkingSlots.get(i);
+                if(parkingSlot.getStatus().equals(status.getStatusName()))
+                    count++;
+            }
+        }
+        dto.setEmptySlot(count);
     }
 
     /**
@@ -167,10 +180,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
                     //Generate Slot for Parking Lot
                     //Status default 'empty'
-                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName("");
+                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
                     if (status == null) {
                         //If default status empty is not existed then create it
-                        status = new ParkingSlotStatus(Const.DEFAULT_STATUS_OF_PARKING_SLOT);
+                        status = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
                         parkingSlotStatusRepository.save(status);
                     }
                     for (int i = 0; i < parkingLot.getTotalSlot(); i++) {

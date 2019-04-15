@@ -35,10 +35,10 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="reset" class="btn btn-danger float-left">
+                <button type="reset" class="btn btn-danger float-left" onclick="resetInput()">
                     <i class="fa fa-ban"></i> Reset
                 </button>
-                <button id="btnCreate" type="button" class="btn btn-primary float-right">
+                <button id="btnCreate" type="button" class="btn btn-primary float-right" onclick="createAccount(this)">
                     <i class="fa fa-check"></i> Create
                 </button>
             </div>
@@ -58,16 +58,7 @@
 
 </body>
 <script>
-
-    ready(function () {
-        document.getElementById("btnCreate").addEventListener("click", function () {
-            createAccount();
-        });
-
-        //chỗ này mai mốt bind listener cho element nào thì làm ở đây
-    });
-
-    function createAccount() {
+    function createAccount(btn) {
         let valdateData = validateInput();
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
@@ -76,6 +67,7 @@
         let roleId = 2;
 
         if (valdateData) {
+            btn.disabled = true;
             CallAjaxWithFetch(`/admin/create_supervisor`,
                 "POST",
                 {firstName, lastName, email, phoneNumber, roleId},
@@ -88,9 +80,11 @@
                     } else {
                         showAlert(false, data.message);
                     }
+                    btn.disabled = false;
                 },
                 (err) => {
                     showAlert(false, err.message);
+                    btn.disabled = false;
                 }
             )
         }

@@ -76,13 +76,7 @@ public class DriverAccountController{
      */
     @RequestMapping(value = Const.GET_ALL_PARKING_LOT, method = RequestMethod.GET)
     public ResponseDTO getListParkingLotAcitve(){
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setStatus(false);
-
-        List<ParkingLot> parkingLots = new ArrayList<>();
-        parkingLotService.getListParkingLotActiveForAndroid();
-        //Implement
-        return responseDTO;
+        return parkingLotService.getListParkingLotActiveForAndroid();
     }
 
     /**

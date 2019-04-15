@@ -39,10 +39,10 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="reset" id="reset" class="btn btn-danger float-left">
+                <button type="reset" id="reset" class="btn btn-danger float-left" onclick="resetInput()">
                     <i class="fa fa-ban"></i> Reset
                 </button>
-                <button type="button" id="btnCreate" class="btn btn-primary float-right">
+                <button type="button" id="btnCreate" class="btn btn-primary float-right" onclick="createAccount(this)">
                     <i class="fa fa-check"></i> Create
                 </button>
             </div>
@@ -63,17 +63,7 @@
 </body>
 <script>
 
-    ready(function () {
-        document.getElementById("btnCreate").addEventListener("click", function () {
-            createAccount();
-        });
-
-        document.getElementById("reset").addEventListener("click", function () {
-            resetInput();
-        })
-    });
-
-    function createAccount() {
+    function createAccount(btn) {
         let validateData = validateInput();
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
@@ -82,6 +72,7 @@
         let roleId = 1;
 
         if (validateData) {
+            btn.disabled = true;
             CallAjaxWithFetch(`/admin/create_admin`,
                 "POST",
                 {firstName, lastName, email, phoneNumber, roleId},
@@ -94,9 +85,11 @@
                     } else {
                         showAlert(false, err.message);
                     }
+                    btn.disabled = false;
                 },
                 (err) => {
                     showAlert(false, err.message);
+                    btn.disabled = false;
                 }
             );
         }
