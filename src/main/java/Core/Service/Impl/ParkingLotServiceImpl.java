@@ -247,6 +247,22 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
                             parkingLot.setOwner(owner);
+                            parkingLot.setTotalSlot(dto.getTotalSlot());
+
+                            //Excute Update Total Slot
+                            if(parkingLot.getTotalSlot() != dto.getTotalSlot()){
+                                //Remove all old slot in table ParkingSlot
+                                List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingLot(parkingLot);
+                                parkingSlotRepository.deleteInBatch(parkingSlots);
+                                ParkingSlotStatus status = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
+                                //Create new slot with new Total Slot
+                                for (int i = 0; i < parkingLot.getTotalSlot(); i++) {
+                                    String lane = "A";
+                                    String row = Integer.toString(i);
+                                    ParkingSlot parkingSlot = new ParkingSlot(lane, row, status, parkingLot);
+                                    parkingSlotRepository.save(parkingSlot);
+                                }
+                            }
                         } else {
                             parkingLot.setEditedBy(account);
                         }
