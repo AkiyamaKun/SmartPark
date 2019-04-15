@@ -66,7 +66,8 @@
                     <label>Upload Image</label>
                     <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
                         <div class="form-group">
-                            <input type="file" class="form-control-file border" name="image" id="fileImage">
+                            <input type="file" class="form-control-file border" name="image" id="fileImage"
+                                   accept="image/gif, image/jpeg, image/png" onchange="readURL(this);">
                         </div>
                     </form>
                     <img id='img-upload'/>
@@ -148,10 +149,10 @@
     });
 
     function createParkingLot(btn) {
+        btn.disabled = true;
         let validatedData = validateInput();
         let adminId = document.getElementById("accountId").value;
         if (validatedData) {
-            btn.disabled = true;
             CallAjaxWithFetch(`/admin/create_parking_lot/` + adminId,
                 "POST", validatedData,
                 (data) => {
@@ -159,24 +160,24 @@
                     let parkingLotId = data.objectResponse.parkingLotId;
                     let formData = $(`#fileUploadForm`)[0];
                     let image = new FormData(formData);
-
                     CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
                         "PUT", image, (dataUpload) => {
-                            showAlert(true, dataUpload.message);
                             setTimeout(function () {
                                 document.location.href = "/list-parking-lots";
                             }, 3000);
                         },
-                        (err) =>{
-                            showAlert(false, err.message);
+                        (err2) =>{
+                            btn.disabled = false;
+                            showAlert(false, err2.message);
                         });
-                    btn.disabled = false;
                 },
                 (err) => {
-                    showAlert(false, err.message);
                     btn.disabled = false;
+                    showAlert(false, err.message);
                 }
             )
+        }else{
+            btn.disabled = false;
         }
     }
 
@@ -195,7 +196,7 @@
         let floatRegex = /^[+-]?\d+(\.\d+)?$/;
         let intRegex = /\d+/;
         let phoneRegex = /0\d{9}/;
-        let parklotImage = $("#imgInp");
+
 
         if (displayName.length === 0) {
             validateMessage = 'Display Name is required!';
@@ -223,8 +224,12 @@
             phoneNumber: phoneNumber,
             timeOfOperation: timeOfOperation,
             ownerId: ownerId,
-            //parklotImage: parklotImage
         }
+    }
+
+    function setImage(image){
+        let parklotImage = $("#imgInp");
+        parklotImage.attr("src", image);
     }
 
     function resetInput() {
@@ -236,6 +241,21 @@
         document.getElementById("address").value = '';
         document.getElementById("timeOfOperation").value = '';
         document.getElementById("ownerId").value = '';
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-upload')
+                    .attr('src', e.target.result)
+                    .width(400)
+                    .height(300);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
     function initMap() {

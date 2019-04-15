@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label for="totalSlot" class=" form-control-label">Total Slot</label>
-                    <input type="text" id="totalSlot" th:value="${plot.totalSlot}" class="form-control" disabled>
+                    <input type="number" id="totalSlot" th:value="${plot.totalSlot}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="address" class=" form-control-label">Address</label>
@@ -317,6 +317,8 @@
             validateMessage = 'Time of operation is required!';
         } else if (address.length === 0) {
             validateMessage = 'Address is required!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
         }
 
         if (validateMessage.length) {

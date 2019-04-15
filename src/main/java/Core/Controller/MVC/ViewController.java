@@ -235,6 +235,7 @@ public class ViewController {
         ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
         ResponseDTO supervisors = parkingLotService.getListSupervisorOfParkingLot(id);
         view.addObject("plot", parkinglot.getObjectResponse());
+        System.out.println(parkinglot);
         view.addObject("supervisors", supervisors.getObjectResponse());
         return view;
     }
