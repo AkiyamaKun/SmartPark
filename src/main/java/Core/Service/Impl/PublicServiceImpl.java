@@ -54,7 +54,7 @@ public class PublicServiceImpl implements PublicService {
      * @return
      */
     @Override
-    public ResponseDTO sendEmail(String email, String token, Integer type) {
+    public ResponseDTO sendEmail(String email, String token, Integer type, String nameAccount) {
         ResponseDTO responseDTO = new ResponseDTO();
         String fromEmail = Const.MAIL_ACCOUNT; //requires valid gmail id
         String password = Const.MAIL_PASSWORD; // correct password for gmail id
@@ -76,6 +76,10 @@ public class PublicServiceImpl implements PublicService {
         };
         Session session = Session.getDefaultInstance(props, auth);
         String urlVerify = "";
+        Account account = accountRepository.findByEmail(email);
+
+        String welcomeMail = "Hello " + nameAccount + ",\n";
+        String congratulationMail = "Congratulations on successful registration of your account " + email + "\n";
         switch (type){
             case 1:
                 //Admin Account
@@ -83,16 +87,16 @@ public class PublicServiceImpl implements PublicService {
                 //Supervisor Account
                 //Forget Passowrd of Admin and Supervisor Account
                 urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email +"&token=" + token;
-                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_SET_PASSWORD_PAGE + ": " + urlVerify);
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + Const.MAIL_CONTENT_SET_PASSWORD_PAGE + ": " + urlVerify);
                 break;
             case 3:
                 //Driver Account
                 urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
-                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT + ": " + urlVerify);
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + congratulationMail + Const.MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT + ": " + urlVerify);
                 break;
             case 4:
                 urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email +"&token=" + token;
-                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, Const.MAIL_CONTENT_SET_NEW_PASSWORD + ": " + urlVerify);
+                EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + Const.MAIL_CONTENT_SET_NEW_PASSWORD + ": " + urlVerify);
                 //Forget Passowrd of Driver Account
             default:
                 //Exception
