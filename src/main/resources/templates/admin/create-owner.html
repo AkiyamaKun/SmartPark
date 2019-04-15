@@ -51,10 +51,10 @@
                 </div>
             </div>
             <div class="card-footer">
-                <button type="reset" class="btn btn-danger float-left" id="btnReset">
+                <button type="reset" class="btn btn-danger float-left" id="btnReset" onclick="resetInput()">
                     <i class="fa fa-ban"></i> Reset
                 </button>
-                <button type="button" class="btn btn-primary float-right" id="btnCreate">
+                <button type="button" class="btn btn-primary float-right" id="btnCreate" onclick="createOwner(this)">
                     <i class="fa fa-check"></i> Create
                 </button>
             </div>
@@ -76,14 +76,7 @@
 </body>
 <script>
 
-    ready(function () {
-        document.getElementById("btnCreate").addEventListener("click", function () {
-            createOwner();
-        });
-
-    });
-
-    function createOwner() {
+    function createOwner(btn) {
         let validateData = validateInput();
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
@@ -94,6 +87,7 @@
         let phoneNumber = document.getElementById("phoneNumber").value;
 
         if (validateData) {
+            btn.disabled = true;
             CallAjaxWithFetch(`/admin/create_owner`,
                 "POST",
                 {firstName, lastName, sex, address, phoneNumber, yearOfBirth},
@@ -106,9 +100,11 @@
                     } else {
                         showAlert(false, err.message);
                     }
+                    btn.disabled = false;
                 },
                 (err) => {
                     showAlert(false, err.message);
+                    btn.disabled = false;
                 }
             )
         }
