@@ -4,7 +4,9 @@ import Core.Constant.Const;
 import Core.Controller.REST.AccountController;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
+import Core.Repository.ParkingLotRepository;
 import Core.Service.AccountService;
 import Core.Service.DriverAccountService;
 import Core.Service.OwnerService;
@@ -16,6 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 
 /**
  * View Controller for MVC
@@ -42,6 +51,9 @@ public class ViewController {
 
     @Autowired
     DriverAccountService driverAccountService;
+
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
 
     /**
      * Login Page
@@ -230,12 +242,21 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/parking-lot-detail")
-    public ModelAndView toParkinglotDetail(@RequestParam Integer id) {
+    public ModelAndView toParkinglotDetail(@RequestParam Integer id) throws IOException {
         ModelAndView view = new ModelAndView("admin/parking-lot-detail");
         ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
         ResponseDTO supervisors = parkingLotService.getListSupervisorOfParkingLot(id);
+
+        //Show Image on Parking Lot Detail Page
+        ParkingLot parkingLotDetail = parkingLotRepository.findByParkingLotId(id);
+        if(parkingLotDetail.getParklotImage() != null){
+            byte[] picContent = parkingLotDetail.getParklotImage();
+            view.addObject("IMAGE_PARKING_LOT", Base64.getEncoder().encodeToString(picContent));
+        }
+
         view.addObject("plot", parkinglot.getObjectResponse());
         view.addObject("supervisors", supervisors.getObjectResponse());
+
         return view;
     }
 

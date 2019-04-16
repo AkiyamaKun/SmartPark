@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService {
@@ -60,12 +61,15 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         int count = 0;
         ResponseDTO responseDTO = getAllSlotOfParkingLot(entity.getParkingLotId());
         List<ParkingSlotDTO> parkingSlots = (List<ParkingSlotDTO>) responseDTO.getObjectResponse();
-        ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
-        if(status != null){
-            for(int i = 0; i < parkingSlots.size(); i++){
-                ParkingSlotDTO parkingSlot = parkingSlots.get(i);
-                if(parkingSlot.getStatus().equals(status.getStatusName()))
-                    count++;
+        if(!parkingSlots.isEmpty() || parkingSlots != null){
+            List<ParkingSlotStatus> status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
+            if(!status.isEmpty() || status != null){
+                String statusName = status.get(0).getStatusName();
+                for(int i = 0; i < parkingSlots.size(); i++){
+                    ParkingSlotDTO parkingSlot = parkingSlots.get(i);
+                    if(parkingSlot.getStatus().equals(statusName))
+                        count++;
+                }
             }
         }
         dto.setEmptySlot(count);
@@ -180,17 +184,18 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
                     //Generate Slot for Parking Lot
                     //Status default 'empty'
-                    ParkingSlotStatus status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
-                    if (status == null) {
+                    List<ParkingSlotStatus> status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
+
+                    if (status.isEmpty() || status == null) {
                         //If default status empty is not existed then create it
-                        status = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
-                        parkingSlotStatusRepository.save(status);
+                        ParkingSlotStatus parkingSlotStatus = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
+                        parkingSlotStatusRepository.save(parkingSlotStatus);
                     }
                     for (int i = 0; i < parkingLot.getTotalSlot(); i++) {
                         //Hard code -> will implement in future
                         String lane = "A";
                         String row = Integer.toString(i);
-                        ParkingSlot parkingSlot = new ParkingSlot(lane, row, status, parkingLot);
+                        ParkingSlot parkingSlot = new ParkingSlot(lane, row, status.get(0), parkingLot);
                         parkingSlotRepository.save(parkingSlot);
                     }
 
@@ -242,6 +247,22 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setLongitude(dto.getLongitude());
                             parkingLot.setActive(dto.isActive());
                             parkingLot.setOwner(owner);
+                            parkingLot.setTotalSlot(dto.getTotalSlot());
+
+                            //Excute Update Total Slot
+                            if(parkingLot.getTotalSlot() != dto.getTotalSlot()){
+                                //Remove all old slot in table ParkingSlot
+                                List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingLot(parkingLot);
+                                parkingSlotRepository.deleteInBatch(parkingSlots);
+                                ParkingSlotStatus status = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
+                                //Create new slot with new Total Slot
+                                for (int i = 0; i < parkingLot.getTotalSlot(); i++) {
+                                    String lane = "A";
+                                    String row = Integer.toString(i);
+                                    ParkingSlot parkingSlot = new ParkingSlot(lane, row, status, parkingLot);
+                                    parkingSlotRepository.save(parkingSlot);
+                                }
+                            }
                         } else {
                             parkingLot.setEditedBy(account);
                         }

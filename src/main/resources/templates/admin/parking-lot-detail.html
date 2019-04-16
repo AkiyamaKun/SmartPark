@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label for="totalSlot" class=" form-control-label">Total Slot</label>
-                    <input type="text" id="totalSlot" th:value="${plot.totalSlot}" class="form-control" disabled>
+                    <input type="number" id="totalSlot" th:value="${plot.totalSlot}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="address" class=" form-control-label">Address</label>
@@ -64,6 +64,18 @@
                     <label for="phoneNumberPlot" class=" form-control-label">Phone Number</label>
                     <input type="text" id="phoneNumberPlot" th:value="${plot.phoneNumber}" class="form-control"
                            required>
+                </div>
+
+                <!--Image-->
+                <div class="form-group">
+                    <label>Image</label>
+                    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                        <div class="form-group">
+                            <input type="file" class="form-control-file border" name="image" id="fileImage"
+                                   accept="image/gif, image/jpeg, image/png" onchange="readURL(this);">
+                        </div>
+                    </form>
+                    <img id='img-upload' th:src="${IMAGE_PARKING_LOT} == null ? _ : @{'data:image/jpg;base64,'+${IMAGE_PARKING_LOT}}"/>
                 </div>
             </div>
             <div class="card-footer">
@@ -276,9 +288,19 @@
                 (data) => {
                     if (data.status === true) {
                         showAlert(true, data.message);
-                        setTimeout(function () {
-                            document.location.href = "/list-parking-lots";
-                        }, 3000);
+
+                        let parkingLotId = data.objectResponse.parkingLotId;
+                        let formData = $(`#fileUploadForm`)[0];
+                        let image = new FormData(formData);
+                        CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
+                            "PUT", image, (dataUpload) => {
+                                setTimeout(function () {
+                                    document.location.href = "/list-parking-lots";
+                                }, 3000);
+                            },
+                            (err2) =>{
+                                showAlert(false, err2.message);
+                            });
                     } else {
                         showAlert(false, err.message);
                     }
@@ -289,6 +311,21 @@
             )
         }
     };
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-upload')
+                    .attr('src', e.target.result)
+                    .width(400)
+                    .height(300);
+            };
+            reader.readAsDataURL(input.files[0]);
+            $('#btn-save').prop('disabled', false);
+        }
+    }
 
     function validateInput() {
         let validateMessage = '';
@@ -317,6 +354,8 @@
             validateMessage = 'Time of operation is required!';
         } else if (address.length === 0) {
             validateMessage = 'Address is required!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
         }
 
         if (validateMessage.length) {
