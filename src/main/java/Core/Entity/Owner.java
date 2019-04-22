@@ -13,7 +13,6 @@ public class Owner {
     @Column(name = "owner_id")
     private Integer ownerId;
 
-
     @Column(name = "first_name")
     private String firstName;
 

@@ -52,6 +52,7 @@ public class Const {
     public static final String SET_PASSWORD_SUCCESS = "Set Password Success";
     public static final String UPDATE_STATUS_SLOT_SUCCESS = "Update Status Slot Success";
     public static final String UPLOAD_IMAGE_SUCCESS = "Upload Image Success";
+    public static final String ADD_CASH_SUCCESS = "Add cash successfull";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
@@ -62,6 +63,8 @@ public class Const {
     public static final String FORGET_PASSWORD = "/forget_password";
     public static final String SET_NEW_PASSWORD = "/set_new_password";
     public static final String TOTAL_ACCOUNT = "/total_account";
+    public static final String BOOKING_SLOT = "/booking_slot";
+    public static final String ADD_CASH = "add_cash";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -69,6 +72,7 @@ public class Const {
     public static final String GET_DRIVER_ACCOUNT_SUCCESS = "Get Driver Account Success";
     public static final String GET_DRIVER_ACCOUNT_FAIL = "Get Driver Account Fail";
     public static final String SEND_MESSAGE_SET_FIRST_PASSWORD = "We have send link set new password for you";
+    public static final String BOOKING_SUCCESS = "Booking success";
 
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";

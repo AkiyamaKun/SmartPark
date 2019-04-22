@@ -7,6 +7,7 @@ import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Entity.ParkingLot;
 import Core.Service.AccountService;
+import Core.Service.BookingService;
 import Core.Service.DriverAccountService;
 import Core.Service.ParkingLotService;
 import Core.Utils.Utilities;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +35,9 @@ public class DriverAccountController{
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    BookingService bookingService;
 
     /**
      * Get Driver Account
@@ -112,4 +117,29 @@ public class DriverAccountController{
         return responseDTO;
     }
 
+    /**
+     * Add Cash for Driver
+     * @param accountId
+     * @param amountOfCash
+     * @return
+     */
+    @RequestMapping(value = Const.ADD_CASH, method = RequestMethod.PUT)
+    public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
+                                   @RequestParam(value = "amountOfCash", required = true) Integer amountOfCash){
+        return  accountService.addCash(accountId, amountOfCash);
+    }
+
+    /**
+     * Create Booking Slot for Driver
+     * @param accountId
+     * @param parkingLotId
+     * @param bookingTime
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_SLOT, method = RequestMethod.POST)
+    public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
+                                   @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId,
+                                   @RequestParam(value = "bookingTime", required = true) Date bookingTime){
+        return  bookingService.createBooking(accountId, parkingLotId, bookingTime);
+    }
 }

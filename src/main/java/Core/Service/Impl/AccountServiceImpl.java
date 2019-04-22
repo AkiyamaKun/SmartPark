@@ -4,7 +4,6 @@ import Core.Constant.Const;
 import Core.DTO.*;
 import Core.Entity.Account;
 import Core.Entity.Role;
-import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Repository.RoleRepository;
 import Core.Service.AccountService;
@@ -468,6 +467,29 @@ public class AccountServiceImpl implements AccountService {
             }
             responseDTO.setStatus(true);
             responseDTO.setMessage("Get Total Account Success");
+        }catch (Exception e){
+            responseDTO.setMessage("Get Total Account Error : " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO addCash(Integer accountId, Integer amountOfCash) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByAccountId(accountId);
+            if(account != null){
+                String string;
+                Integer oldCash = account.getCash();
+                Integer newCash = oldCash + amountOfCash;
+                account.setCash(newCash);
+                accountRepository.save(account);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.ADD_CASH_SUCCESS);
+            }else{
+                responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
+            }
         }catch (Exception e){
             responseDTO.setMessage("Get Total Account Error : " + e.getMessage());
         }

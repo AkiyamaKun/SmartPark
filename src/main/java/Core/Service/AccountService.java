@@ -10,7 +10,6 @@ import java.util.List;
  * Author: DangNHH - 19/02/2019
  */
 public interface AccountService {
-
     ResponseDTO changePassword(ChangePasswordDTO changePasswordDTO);
     ResponseDTO checkLogin(UserLoginDTO dto);
     ResponseDTO authentication(AccountDTO accountDTO);
@@ -23,4 +22,5 @@ public interface AccountService {
     ResponseDTO setFirstPassword(String email, String password);
     ResponseDTO forgetPassword(String email, Integer type);
     ResponseDTO totalAccount();
+    ResponseDTO addCash(Integer accountId, Integer amountOfCash);
 }

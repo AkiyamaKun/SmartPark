@@ -56,6 +56,9 @@ public class Account {
     @Column(name = "avatar", columnDefinition = "MEDIUMBLOB")
     private byte[] avatar;
 
+    @Column(name = "cash")
+    private Integer cash;
+
     public Account() {
     }
 
@@ -75,6 +78,22 @@ public class Account {
         this.isActive = isActive;
         this.token = token;
         this.avatar = avatar;
+    }
+
+    public Account(String email, String phoneNumber, String password, String firstName,
+                   String lastName, Date createdDate, Role role, boolean isActive,
+                   String token, byte[] avatar, Integer cash) {
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.createdDate = createdDate;
+        this.role = role;
+        this.isActive = isActive;
+        this.token = token;
+        this.avatar = avatar;
+        this.cash = cash;
     }
 
     public List<GrantedAuthority> getAuthorities(){
@@ -169,5 +188,13 @@ public class Account {
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getCash() {
+        return cash;
+    }
+
+    public void setCash(Integer cash) {
+        this.cash = cash;
     }
 }
