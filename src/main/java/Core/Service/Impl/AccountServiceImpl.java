@@ -484,7 +484,9 @@ public class AccountServiceImpl implements AccountService {
                 Integer newCash = oldCash + amountOfCash;
                 account.setCash(newCash);
                 accountRepository.save(account);
+
                 responseDTO.setStatus(true);
+                responseDTO.setObjectResponse(account);
                 responseDTO.setMessage(Const.ADD_CASH_SUCCESS);
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);

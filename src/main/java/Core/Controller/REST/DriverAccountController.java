@@ -124,7 +124,7 @@ public class DriverAccountController{
      * @return
      */
     @RequestMapping(value = Const.ADD_CASH, method = RequestMethod.PUT)
-    public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
+    public ResponseDTO addCash(@RequestParam(value = "accountId", required = true) Integer accountId,
                                    @RequestParam(value = "amountOfCash", required = true) Integer amountOfCash){
         return  accountService.addCash(accountId, amountOfCash);
     }
