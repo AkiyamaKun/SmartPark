@@ -53,6 +53,7 @@ public class Const {
     public static final String UPDATE_STATUS_SLOT_SUCCESS = "Update Status Slot Success";
     public static final String UPLOAD_IMAGE_SUCCESS = "Upload Image Success";
     public static final String ADD_CASH_SUCCESS = "Add cash successfull";
+    public static final String BOOKING_IS_NOT_EXISTED = "Booking is not existed";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
@@ -73,6 +74,17 @@ public class Const {
     public static final String GET_DRIVER_ACCOUNT_FAIL = "Get Driver Account Fail";
     public static final String SEND_MESSAGE_SET_FIRST_PASSWORD = "We have send link set new password for you";
     public static final String BOOKING_SUCCESS = "Booking success";
+    public static final String BOOKING_CHECK_IN_SUCCESS = "Check in success";
+    public static final String BOOKING_CHECK_OUT_SUCCESS = "Check out success";
+    public static final String BOOKING_PAYMENT_SUCCESS = "Payment success";
+    public static final String MONEY_NOT_ENOUGH = "Money not enough";
+    public static final String BOOKING_HAD_CHECK_IN = "This QRCode Had Check In";
+    public static final String BOOKING_HAD_FINISH = "This session booking had finished";
+    public static final String BOOKING_TIME_OUT_CHECK_IN = "Check-in time has expired";
+    public static final String BOOKING_CHECK_IN_FAIL = "Check in fail";
+    public static final String BOOKING_CHECK_OUT_FAIL = "Check out fail";
+    public static final String BOOKING_PAYMENT_FAIL = "Payment fail";
+
 
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";
@@ -193,4 +205,8 @@ public class Const {
     public static final String STATUS_BOOKING_NONE = "NONE";
     public static final String STATUS_BOOKING_BOOKED = "BOOKED";
     public static final String STATUS_BOOKING_FINISH = "FINISH";
+
+    //Time is counted as seconds
+    //900 seconds = 15 minutes
+    public static final long DEFAULT_TIME_OUT_CHECK_IN = 900;
 }

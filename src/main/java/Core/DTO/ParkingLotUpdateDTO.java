@@ -12,11 +12,14 @@ public class ParkingLotUpdateDTO {
     private boolean isActive;
     private Integer totalSlot;
     private byte[] parklotImage;
+    private float price;
 
     public ParkingLotUpdateDTO() {
     }
 
-    public ParkingLotUpdateDTO(Integer parkingLotId, String displayName, float longitude, float latitude, String address, String phoneNumber, String timeOfOperation, Integer ownerId, boolean isActive, Integer totalSlot, byte[] parklotImage) {
+    public ParkingLotUpdateDTO(Integer parkingLotId, String displayName, float longitude, float latitude,
+                               String address, String phoneNumber, String timeOfOperation, Integer ownerId,
+                               boolean isActive, Integer totalSlot, byte[] parklotImage, float price) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.longitude = longitude;
@@ -28,6 +31,7 @@ public class ParkingLotUpdateDTO {
         this.isActive = isActive;
         this.totalSlot = totalSlot;
         this.parklotImage = parklotImage;
+        this.price = price;
     }
 
     public Integer getParkingLotId() {
@@ -116,5 +120,13 @@ public class ParkingLotUpdateDTO {
 
     public void setParklotImage(byte[] parklotImage) {
         this.parklotImage = parklotImage;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

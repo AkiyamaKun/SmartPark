@@ -180,6 +180,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLot.setLastEdited(date);
                     parkingLot.setCreatedDate(date);
                     parkingLot.setOwner(owner);
+                    parkingLot.setPrice(dto.getPrice());
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot
@@ -198,7 +199,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         ParkingSlot parkingSlot = new ParkingSlot(lane, row, status.get(0), parkingLot);
                         parkingSlotRepository.save(parkingSlot);
                     }
-
                     //Return
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.CREATE_PARKING_LOT_SUCCESS);
@@ -239,6 +239,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                         parkingLot.setAddress(dto.getAddress());
                         parkingLot.setDisplayName(dto.getDisplayName());
                         parkingLot.setTimeOfOperation(dto.getTimeOfOperation());
+                        parkingLot.setPrice(dto.getPrice());
 
                         if (account.getRole().getRoleName().equals(Const.ROLE_ADMIN)) {
                             //Update Parking Lot for Admin

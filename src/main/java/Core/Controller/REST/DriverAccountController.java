@@ -151,19 +151,34 @@ public class DriverAccountController{
      */
     @RequestMapping(value = Const.BOOKING_CHECK_IN, method = RequestMethod.PUT)
     public ResponseDTO checkIn(@RequestParam(value = "bookingId") Integer bookingId,
-                                   @RequestParam(value = "timeStart") Date timeStart){
-        return  bookingService.checkIn(bookingId, timeStart);
+                               @RequestParam(value = "token") String token,
+                               @RequestParam(value = "timeStart") Date timeStart){
+        return  bookingService.checkIn(bookingId, token, timeStart);
     }
 
     /**
      * Check Out
      * @param bookingId
      * @param timeEnd
+     * @param token
      * @return
      */
     @RequestMapping(value = Const.BOOKING_CHECK_OUT, method = RequestMethod.PUT)
     public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-                                   @RequestParam(value = "timeEnd") Date timeEnd){
-        return  bookingService.checkOut(bookingId, timeEnd);
+                                @RequestParam(value = "token") String token,
+                                @RequestParam(value = "timeEnd") Date timeEnd){
+        return bookingService.checkOut(bookingId, token, timeEnd);
+    }
+
+    /**
+     * Payment
+     * @param bookingId
+     * @param moneyToPay
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
+    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
+                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
+        return bookingService.payment(bookingId, moneyToPay);
     }
 }
