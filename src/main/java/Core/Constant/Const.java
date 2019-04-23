@@ -174,6 +174,11 @@ public class Const {
     public static final String PARKING_SLOT = "/parking_slot";
     public static final String GET_PARKING_SLOT = "/{id}";
 
+    //Booking API
+    public static final String BOOKING_CHECK_IN = "/check_in";
+    public static final String BOOKING_CHECK_OUT = "/check_out";
+    public static final String BOOKING_PAYMENT = "/payment";
+
     //Parking Slot Message
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
@@ -185,4 +190,7 @@ public class Const {
     public static final String STATUS_SLOT_EMPTY = "empty";
     public static final String STATUS_SLOT_OCCUPIED = "occupied";
     public static final String STATUS_SLOT_UNDEFINED = "undefined";
+    public static final String STATUS_BOOKING_NONE = "NONE";
+    public static final String STATUS_BOOKING_BOOKED = "BOOKED";
+    public static final String STATUS_BOOKING_FINISH = "FINISH";
 }

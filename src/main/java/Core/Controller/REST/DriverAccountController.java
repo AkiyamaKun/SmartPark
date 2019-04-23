@@ -142,4 +142,28 @@ public class DriverAccountController{
                                    @RequestParam(value = "bookingTime", required = true) Date bookingTime){
         return  bookingService.createBooking(accountId, parkingLotId, bookingTime);
     }
+
+    /**
+     * Check In
+     * @param bookingId
+     * @param timeStart
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_CHECK_IN, method = RequestMethod.PUT)
+    public ResponseDTO checkIn(@RequestParam(value = "bookingId") Integer bookingId,
+                                   @RequestParam(value = "timeStart") Date timeStart){
+        return  bookingService.checkIn(bookingId, timeStart);
+    }
+
+    /**
+     * Check Out
+     * @param bookingId
+     * @param timeEnd
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_CHECK_OUT, method = RequestMethod.PUT)
+    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
+                                   @RequestParam(value = "timeEnd") Date timeEnd){
+        return  bookingService.checkOut(bookingId, timeEnd);
+    }
 }

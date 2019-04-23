@@ -333,7 +333,7 @@ public class AccountServiceImpl implements AccountService {
                         {
                             if(accountDTO.getAvatar() != null){
                                 account.setAvatar(accountDTO.getAvatar());
-                            }                             
+                            }
                             account.setCash(0);
                         }
                         responseDTO.setStatus(true);

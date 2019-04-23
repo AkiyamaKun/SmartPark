@@ -47,9 +47,12 @@ public class BookingServiceImpl implements BookingService {
                 //Create token check in
                 String token = Utilities.generateToken(account.getEmail());
                 booking.setTokenInput(token);
+                booking.setBookingStatus(Const.STATUS_BOOKING_NONE);
                 bookingRepository.save(booking);
                 BookingDTO dto = new BookingDTO();
                 Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN;
+                dto.setUrlAPICheckIn(urlAPICheckIn);
                 responseDTO.setStatus(true);
                 responseDTO.setObjectResponse(dto);
                 responseDTO.setMessage(Const.BOOKING_SUCCESS);

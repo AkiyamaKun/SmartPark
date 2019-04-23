@@ -19,6 +19,9 @@ public class BookingDTO {
      */
     private String bookingStatus;
 
+    private String urlAPICheckIn;
+    private String urlAPICheckOut;
+
     public BookingDTO() {
     }
 
@@ -33,7 +36,7 @@ public class BookingDTO {
 
     public BookingDTO(Integer bookingId, Integer accountId, Integer parkingLotId,
                       Date bookingTime, Date timeStart, Date timeEnd, String tokenInput,
-                      String tokenOutput, String bookingStatus) {
+                      String tokenOutput, String bookingStatus, String urlAPICheckIn, String urlAPICheckOut) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.parkingLotId = parkingLotId;
@@ -43,7 +46,11 @@ public class BookingDTO {
         this.tokenInput = tokenInput;
         this.tokenOutput = tokenOutput;
         this.bookingStatus = bookingStatus;
+        this.urlAPICheckIn = urlAPICheckIn;
+        this.urlAPICheckOut = urlAPICheckOut;
     }
+
+
 
     public Integer getBookingId() {
         return bookingId;
@@ -115,5 +122,21 @@ public class BookingDTO {
 
     public void setBookingStatus(String bookingStatus) {
         this.bookingStatus = bookingStatus;
+    }
+
+    public String getUrlAPICheckIn() {
+        return urlAPICheckIn;
+    }
+
+    public void setUrlAPICheckIn(String urlAPICheckIn) {
+        this.urlAPICheckIn = urlAPICheckIn;
+    }
+
+    public String getUrlAPICheckOut() {
+        return urlAPICheckOut;
+    }
+
+    public void setUrlAPICheckOut(String urlAPICheckOut) {
+        this.urlAPICheckOut = urlAPICheckOut;
     }
 }
