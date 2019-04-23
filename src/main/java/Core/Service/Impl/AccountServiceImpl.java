@@ -331,10 +331,10 @@ public class AccountServiceImpl implements AccountService {
                         //Avatar for Driver Account
                         if(role.getRoleId() == 3)
                         {
-                            if(accountDTO.getAvatar() != null)
+                            if(accountDTO.getAvatar() != null){
                                 account.setAvatar(accountDTO.getAvatar());
-                            //else
-                                //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                            }                             
+                            account.setCash(0);
                         }
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
@@ -480,7 +480,6 @@ public class AccountServiceImpl implements AccountService {
         try{
             Account account = accountRepository.findByAccountId(accountId);
             if(account != null){
-                String string;
                 Integer oldCash = account.getCash();
                 Integer newCash = oldCash + amountOfCash;
                 account.setCash(newCash);

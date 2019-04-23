@@ -20,14 +20,14 @@ public class Booking {
      */
     @OneToOne(targetEntity=Account.class,cascade=CascadeType.ALL)
     @JoinColumn(name="account_id", referencedColumnName="account_id")
-    private Integer accountId;
+    private Account account;
 
     /**
      * Parking Lot which driver had booked
      */
     @OneToOne(targetEntity=ParkingLot.class,cascade=CascadeType.ALL)
     @JoinColumn(name="parking_lot_id",referencedColumnName="parking_lot_id")
-    private Integer parkingLotId;
+    private ParkingLot parkingLot;
 
     /**
      * Time of booking
@@ -71,17 +71,17 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Integer accountId, Integer parkingLotId, Date bookingTime) {
-        this.accountId = accountId;
-        this.parkingLotId = parkingLotId;
+    public Booking(Account account, ParkingLot parkingLot, Date bookingTime) {
+        this.account = account;
+        this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
     }
 
-    public Booking(Integer accountId, Integer parkingLotId, Date bookingTime,
+    public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
                    String tokenOutput, String bookingStatus) {
-        this.accountId = accountId;
-        this.parkingLotId = parkingLotId;
+        this.account = account;
+        this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
@@ -96,22 +96,6 @@ public class Booking {
 
     public void setBookingId(Integer bookingId) {
         this.bookingId = bookingId;
-    }
-
-    public Integer getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
-    public Integer getParkingLotId() {
-        return parkingLotId;
-    }
-
-    public void setParkingLotId(Integer parkingLotId) {
-        this.parkingLotId = parkingLotId;
     }
 
     public Date getBookingTime() {
@@ -160,5 +144,21 @@ public class Booking {
 
     public void setBookingStatus(String bookingStatus) {
         this.bookingStatus = bookingStatus;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public ParkingLot getParkingLot() {
+        return parkingLot;
+    }
+
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
     }
 }

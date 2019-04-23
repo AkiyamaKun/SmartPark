@@ -1,6 +1,7 @@
 package Core.Service.Impl;
 
 import Core.Constant.Const;
+import Core.DTO.BookingDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Entity.Booking;
@@ -9,6 +10,7 @@ import Core.Repository.AccountRepository;
 import Core.Repository.BookingRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Service.BookingService;
+import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,9 +43,15 @@ public class BookingServiceImpl implements BookingService {
             Account account = accountRepository.findByAccountId(accountId);
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if(account != null || parkingLot != null){
-                Booking booking = new Booking(accountId, parkingLotId, bookingTime);
+                Booking booking = new Booking(account, parkingLot, bookingTime);
+                //Create token check in
+                String token = Utilities.generateToken(account.getEmail());
+                booking.setTokenInput(token);
                 bookingRepository.save(booking);
+                BookingDTO dto = new BookingDTO();
+                Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                 responseDTO.setStatus(true);
+                responseDTO.setObjectResponse(dto);
                 responseDTO.setMessage(Const.BOOKING_SUCCESS);
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED + "or" + Const.PARKING_LOT_IS_NOT_EXISTED);

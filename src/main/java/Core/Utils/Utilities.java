@@ -1,7 +1,9 @@
 package Core.Utils;
 
+import Core.DTO.BookingDTO;
 import Core.DTO.InformationAccountDTO;
 import Core.Entity.Account;
+import Core.Entity.Booking;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +45,19 @@ public class Utilities {
             return  dto;
         }
         return null;
+    }
+
+    public static BookingDTO convertBookingDTOFromBookingEntity(BookingDTO dto, Booking entity){
+        dto.setBookingId(entity.getBookingId());
+        dto.setAccountId(entity.getAccount().getAccountId());
+        dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
+        dto.setBookingTime(entity.getBookingTime());
+        dto.setTokenInput(entity.getTokenInput());
+        dto.setTokenOutput(entity.getTokenOutput());
+        dto.setTimeStart(entity.getTimeStart());
+        dto.setTimeEnd(entity.getTimeEnd());
+        dto.setBookingStatus(entity.getBookingStatus());
+        return dto;
     }
 
     /**
