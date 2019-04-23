@@ -120,6 +120,7 @@ public class AccountServiceImpl implements AccountService {
                 String token = jwtService.generateTokenLogin(account.getEmail());
                 user.setToken(token);
                 user.setAvatar(account.getAvatar());
+                user.setCash(account.getCash());
 
                 responseDTO.setStatus(true);
                 responseDTO.setMessage("Login Successful");

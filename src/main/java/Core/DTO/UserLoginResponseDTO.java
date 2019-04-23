@@ -9,12 +9,14 @@ public class UserLoginResponseDTO {
     private String token;
     private Integer roleId;
     private byte[] avatar;
+    private Integer cash;
 
     public UserLoginResponseDTO() {
     }
 
     public UserLoginResponseDTO(Integer accountId, String email, String firstName,
-                                String lastName, String phoneNumber, String token, Integer roleId, byte[] avatar) {
+                                String lastName, String phoneNumber, String token,
+                                Integer roleId, byte[] avatar, Integer cash) {
         this.accountId = accountId;
         this.email = email;
         this.firstName = firstName;
@@ -23,6 +25,7 @@ public class UserLoginResponseDTO {
         this.token = token;
         this.roleId = roleId;
         this.avatar = avatar;
+        this.cash = cash;
     }
 
     public Integer getAccountId() {
@@ -87,5 +90,13 @@ public class UserLoginResponseDTO {
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getCash() {
+        return cash;
+    }
+
+    public void setCash(Integer cash) {
+        this.cash = cash;
     }
 }
