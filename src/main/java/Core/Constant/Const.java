@@ -191,6 +191,11 @@ public class Const {
     public static final String BOOKING_CHECK_IN = "/check_in";
     public static final String BOOKING_CHECK_OUT = "/check_out";
     public static final String BOOKING_PAYMENT = "/payment";
+    public static final String LIST_BOOKING_BY_PARKING_LOT = "/list_booking";
+
+    //Booking Message
+    public static final String GET_LIST_BOOKING_SUCCESS = "Get list booking success";
+    public static final String GET_LIST_BOOKING_FAIL = "Get list booking fail";
 
     //Parking Slot Message
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";

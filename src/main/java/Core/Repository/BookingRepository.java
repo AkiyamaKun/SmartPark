@@ -6,10 +6,12 @@ import Core.Entity.ParkingLot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     Booking findByBookingId(Integer bookingId);
-    Booking findByAccount(Account account);
-    Booking findByParkingLot(ParkingLot parkingLot);
-    Booking findByBookingStatus(String bookingStatus);
+    List<Booking> findByAccount(Account account);
+    List<Booking> findByParkingLot(ParkingLot parkingLot);
+    List<Booking> findByBookingStatus(String bookingStatus);
 }

@@ -183,14 +183,12 @@ public class DriverAccountController{
     }
 
     /**
-     * Payment
-     * @param bookingId
-     * @param moneyToPay
+     * Get List Booking By Parking Lot Id
+     * @param parkingLotId
      * @return
      */
-    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
-    public ResponseDTO getListBookingByParkingLot(@RequestParam(value = "bookingId") Integer bookingId,
-                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
-        return bookingService.payment(bookingId, moneyToPay);
+    @RequestMapping(value = Const.LIST_BOOKING_BY_PARKING_LOT, method = RequestMethod.GET)
+    public ResponseDTO getListBookingByParkingLot(@RequestParam(value = "parkingLotId") Integer parkingLotId){
+        return bookingService.getListBookingByParkingLotId(parkingLotId);
     }
 }

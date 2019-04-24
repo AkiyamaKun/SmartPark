@@ -16,7 +16,10 @@ import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -65,8 +68,10 @@ public class BookingServiceImpl implements BookingService {
                     Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
                     if(bookingSlotInParkingLot < 0){
                         bookingSlotInParkingLot = 0;
+                    }else{
+                        bookingSlotInParkingLot++;
                     }
-                    parkingLot.setBookingSlot(bookingSlotInParkingLot+1);
+                    parkingLot.setBookingSlot(bookingSlotInParkingLot);
                     parkingLotRepository.save(parkingLot);
 
                     //return response
@@ -123,6 +128,8 @@ public class BookingServiceImpl implements BookingService {
                             Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
                             if(bookingSlotInParkingLot - 1 < 0){
                                 bookingSlotInParkingLot = 0;
+                            }else{
+                                bookingSlotInParkingLot--;
                             }
                             parkingLot.setBookingSlot(bookingSlotInParkingLot);
                             parkingLotRepository.save(parkingLot);
@@ -266,6 +273,36 @@ public class BookingServiceImpl implements BookingService {
             }
         }catch (Exception e){
             responseDTO.setMessage(Const.BOOKING_PAYMENT_FAIL + ": " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Get List Booking By Parking Lot
+     * @param parkingLotId
+     * @return
+     */
+    @Override
+    public ResponseDTO getListBookingByParkingLotId(Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if(parkingLot != null){
+                List<Booking> bookings = bookingRepository.findByParkingLot(parkingLot);
+                if(!bookings.isEmpty()){
+                    responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
+                    responseDTO.setStatus(true);
+                    responseDTO.setObjectResponse(bookings);
+                }else{
+                    responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
+                    responseDTO.setStatus(true);
+                }
+            }else{
+                responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Get List Booking Error: " + e.getMessage());
         }
         return responseDTO;
     }
