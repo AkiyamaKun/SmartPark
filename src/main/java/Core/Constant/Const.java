@@ -192,6 +192,7 @@ public class Const {
     public static final String BOOKING_CHECK_OUT = "/check_out";
     public static final String BOOKING_PAYMENT = "/payment";
     public static final String LIST_BOOKING_BY_PARKING_LOT = "/list_booking";
+    public static final String LIST_BOOKING_BY_ACCOUNT_ID = "/list_booking/{accountId}";
 
     //Booking Message
     public static final String GET_LIST_BOOKING_SUCCESS = "Get list booking success";

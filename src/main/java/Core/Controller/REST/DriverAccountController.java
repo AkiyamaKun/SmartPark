@@ -191,4 +191,14 @@ public class DriverAccountController{
     public ResponseDTO getListBookingByParkingLot(@RequestParam(value = "parkingLotId") Integer parkingLotId){
         return bookingService.getListBookingByParkingLotId(parkingLotId);
     }
+
+    /**
+     * Get List Booking By AccountId
+     * @param accountId
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_BOOKING_BY_ACCOUNT_ID, method = RequestMethod.GET)
+    public ResponseDTO getListBookingByAccountId(@PathVariable Integer accountId){
+        return bookingService.getListBookingByAccountId(accountId);
+    }
 }

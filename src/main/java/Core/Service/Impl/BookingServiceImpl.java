@@ -37,6 +37,23 @@ public class BookingServiceImpl implements BookingService {
     ParkingLotServiceImpl parkingLotService;
 
     /**
+     * Convert BookingDTO From Booking Entity
+     * @param dto
+     * @param entity
+     */
+    public void convertBookingDTOFromBookingEntity(BookingDTO dto, Booking entity){
+        dto.setBookingId(entity.getBookingId());
+        dto.setAccountId(entity.getAccount().getAccountId());
+        dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
+        dto.setBookingTime(entity.getBookingTime());
+        dto.setTimeStart(entity.getTimeStart());
+        dto.setTimeEnd(entity.getTimeEnd());
+        dto.setTokenInput(entity.getTokenInput());
+        dto.setTokenOutput(entity.getTokenOutput());
+        dto.setBookingStatus(entity.getBookingStatus());
+    }
+
+    /**
      * Create Booking Slot
      * @param accountId
      * @param parkingLotId
@@ -300,6 +317,42 @@ public class BookingServiceImpl implements BookingService {
                 }
             }else{
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Get List Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Get List Booking By Account Id
+     * @param accountId
+     * @return
+     */
+    @Override
+    public ResponseDTO getListBookingByAccountId(Integer accountId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByAccountId(accountId);
+            if(account != null){
+                List<Booking> bookings = bookingRepository.findByAccount(account);
+                if(!bookings.isEmpty()){
+                    List<BookingDTO> bookingDTOList = new ArrayList<>();
+                    for(Booking element: bookings){
+                        BookingDTO bookingDTO = new BookingDTO();
+                        convertBookingDTOFromBookingEntity(bookingDTO, element);
+                        bookingDTOList.add(bookingDTO);
+                    }
+                    responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
+                    responseDTO.setStatus(true);
+                    responseDTO.setObjectResponse(bookingDTOList);
+                }else{
+                    responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
+                    responseDTO.setStatus(true);
+                }
+            }else{
+                responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
             }
         }catch (Exception e){
             responseDTO.setMessage("Get List Booking Error: " + e.getMessage());

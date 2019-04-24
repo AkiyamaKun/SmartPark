@@ -12,4 +12,5 @@ public interface BookingService {
     ResponseDTO updateTokenGoOut(Integer bookingId, String token);
     ResponseDTO payment(Integer bookingId, Integer moneyToPay);
     ResponseDTO getListBookingByParkingLotId(Integer parkingLotId);
+    ResponseDTO getListBookingByAccountId(Integer accountId);
 }
