@@ -1,7 +1,13 @@
 package Core.Entity;
 
+import Core.Constant.Const;
+import Core.Repository.ParkingSlotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * ParkingLot Entity
@@ -41,6 +47,9 @@ public class ParkingLot {
 
     @Column(name = "total_slot")
     private Integer totalSlot;
+
+    @Column(name = "booking_slot")
+    private Integer bookingSlot;
 
     @Column(name = "address")
     private String address;
@@ -94,7 +103,7 @@ public class ParkingLot {
     public ParkingLot(String displayName, Account createdBy, Account editedBy, float longitude,
                       float latitude, Integer totalSlot, String address, String phoneNumber,
                       String timeOfOperation, boolean isActive, Date lastEdited, Date createdDate,
-                      Owner owner, byte[] parklotImage, float price) {
+                      Owner owner, byte[] parklotImage, float price, Integer bookingSlot) {
         this.displayName = displayName;
         this.createdBy = createdBy;
         this.editedBy = editedBy;
@@ -110,6 +119,7 @@ public class ParkingLot {
         this.owner = owner;
         this.parklotImage = parklotImage;
         this.price = price;
+        this.bookingSlot = bookingSlot;
     }
 
     public Integer getParkingLotId() {
@@ -239,4 +249,13 @@ public class ParkingLot {
     public void setPrice(float price) {
         this.price = price;
     }
+
+    public Integer getBookingSlot() {
+        return bookingSlot;
+    }
+
+    public void setBookingSlot(Integer bookingSlot) {
+        this.bookingSlot = bookingSlot;
+    }
+
 }

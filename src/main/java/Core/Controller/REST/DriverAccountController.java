@@ -181,4 +181,16 @@ public class DriverAccountController{
                                 @RequestParam(value = "moneyToPay") Integer moneyToPay){
         return bookingService.payment(bookingId, moneyToPay);
     }
+
+    /**
+     * Payment
+     * @param bookingId
+     * @param moneyToPay
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
+    public ResponseDTO getListBookingByParkingLot(@RequestParam(value = "bookingId") Integer bookingId,
+                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
+        return bookingService.payment(bookingId, moneyToPay);
+    }
 }

@@ -1,10 +1,16 @@
 package Core.Utils;
 
+import Core.Constant.Const;
 import Core.DTO.BookingDTO;
 import Core.DTO.InformationAccountDTO;
 import Core.Entity.Account;
 import Core.Entity.Booking;
+import Core.Entity.ParkingLot;
+import Core.Entity.ParkingSlot;
+import Core.Repository.ParkingLotRepository;
+import Core.Repository.ParkingSlotRepository;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.IIOImage;
@@ -15,6 +21,7 @@ import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.security.SecureRandom;
+import java.util.List;
 
 public class Utilities {
     /**
@@ -133,4 +140,5 @@ public class Utilities {
         fis.close();
         return bytes;
     }
+
 }

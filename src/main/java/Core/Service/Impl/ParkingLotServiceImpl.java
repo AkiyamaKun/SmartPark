@@ -9,14 +9,12 @@ import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Service.ParkingLotService;
-import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService {
@@ -57,22 +55,9 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setLongitude(entity.getLongitude());
         dto.setActive(entity.isActive());
         dto.setParklotImage(entity.getParklotImage());
-        //Excute Count Empty Parking Lot
-        int count = 0;
-        ResponseDTO responseDTO = getAllSlotOfParkingLot(entity.getParkingLotId());
-        List<ParkingSlotDTO> parkingSlots = (List<ParkingSlotDTO>) responseDTO.getObjectResponse();
-        if(!parkingSlots.isEmpty() || parkingSlots != null){
-            List<ParkingSlotStatus> status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
-            if(!status.isEmpty() || status != null){
-                String statusName = status.get(0).getStatusName();
-                for(int i = 0; i < parkingSlots.size(); i++){
-                    ParkingSlotDTO parkingSlot = parkingSlots.get(i);
-                    if(parkingSlot.getStatus().equals(statusName))
-                        count++;
-                }
-            }
-        }
-        dto.setEmptySlot(count);
+        dto.setPrice(entity.getPrice());
+        dto.setBookingSlot(entity.getBookingSlot());
+        dto.setEmptySlot(this.getEmptySlot(entity));
     }
 
     /**
@@ -87,6 +72,43 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         dto.setRow(entity.getSlotRow());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
         dto.setStatus(entity.getParkingSlotStatus().getStatusName());
+    }
+
+    /**
+     * Get Available Slot can booking
+     * @return
+     */
+    public Integer getAvailableSlot(ParkingLot parkingLot){
+        List<ParkingSlot> parkingSlotList = parkingSlotRepository.findByParkingLot(parkingLot);
+        if(!parkingSlotList.isEmpty()){
+            int count = 0;
+            int bookingSlot = parkingLot.getBookingSlot();
+            for (ParkingSlot element: parkingSlotList) {
+                if(element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)){
+                    count++;
+                }
+            }
+            return (count - bookingSlot);
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * Get Empty Slot
+     * @return
+     */
+    public Integer getEmptySlot(ParkingLot parkingLot){
+        List<ParkingSlot> parkingSlotList = parkingSlotRepository.findByParkingLot(parkingLot);
+        int count = 0;
+        if(!parkingSlotList.isEmpty()){
+            for (ParkingSlot element: parkingSlotList) {
+                if(element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)){
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     /**
@@ -181,12 +203,12 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                     parkingLot.setCreatedDate(date);
                     parkingLot.setOwner(owner);
                     parkingLot.setPrice(dto.getPrice());
+                    parkingLot.setBookingSlot(0);
                     parkingLotRepository.save(parkingLot);
 
                     //Generate Slot for Parking Lot
                     //Status default 'empty'
                     List<ParkingSlotStatus> status = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_EMPTY);
-
                     if (status.isEmpty() || status == null) {
                         //If default status empty is not existed then create it
                         ParkingSlotStatus parkingSlotStatus = new ParkingSlotStatus(Const.STATUS_SLOT_EMPTY);
@@ -493,4 +515,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         }
         return responseDTO;
     }
+
+
 }

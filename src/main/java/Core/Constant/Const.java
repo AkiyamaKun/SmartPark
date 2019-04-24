@@ -84,6 +84,7 @@ public class Const {
     public static final String BOOKING_CHECK_IN_FAIL = "Check in fail";
     public static final String BOOKING_CHECK_OUT_FAIL = "Check out fail";
     public static final String BOOKING_PAYMENT_FAIL = "Payment fail";
+    public static final String BOOKING_OUT_OF_SLOT = "No one slot can booking";
 
 
     //Admin Account API
@@ -202,11 +203,12 @@ public class Const {
     public static final String STATUS_SLOT_EMPTY = "empty";
     public static final String STATUS_SLOT_OCCUPIED = "occupied";
     public static final String STATUS_SLOT_UNDEFINED = "undefined";
-    public static final String STATUS_BOOKING_NONE = "NONE";
-    public static final String STATUS_BOOKING_BOOKED = "BOOKED";
+    public static final String STATUS_SLOT_BOOKED = "booked";
+    public static final String STATUS_BOOKING_BOOK = "BOOK";
+    public static final String STATUS_BOOKING_USE = "USE";
     public static final String STATUS_BOOKING_FINISH = "FINISH";
 
     //Time is counted as seconds
-    //900 seconds = 15 minutes
-    public static final long DEFAULT_TIME_OUT_CHECK_IN = 900;
+    //1800 seconds = 30 minutes
+    public static final long DEFAULT_TIME_OUT_CHECK_IN = 1800;
 }

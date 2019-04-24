@@ -3,6 +3,7 @@ package Core.Service.Impl;
 import Core.Constant.Const;
 import Core.DTO.BookingDTO;
 import Core.DTO.CheckOutDTO;
+import Core.DTO.ParkingLotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Entity.Booking;
@@ -29,6 +30,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
+    @Autowired
+    ParkingLotServiceImpl parkingLotService;
+
     /**
      * Create Booking Slot
      * @param accountId
@@ -44,20 +48,35 @@ public class BookingServiceImpl implements BookingService {
             Account account = accountRepository.findByAccountId(accountId);
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if(account != null || parkingLot != null){
-                Booking booking = new Booking(account, parkingLot, bookingTime);
-                //Create token check in
-                String token = Utilities.generateToken(account.getEmail());
-                booking.setTokenInput(token);
-                booking.setBookingStatus(Const.STATUS_BOOKING_NONE);
-                bookingRepository.save(booking);
-                BookingDTO dto = new BookingDTO();
-                Utilities.convertBookingDTOFromBookingEntity(dto, booking);
-                String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
-                        + "&token=" + token;
-                dto.setUrlAPICheckIn(urlAPICheckIn);
-                responseDTO.setStatus(true);
-                responseDTO.setObjectResponse(dto);
-                responseDTO.setMessage(Const.BOOKING_SUCCESS);
+                if(parkingLotService.getAvailableSlot(parkingLot) > 0){
+                    Booking booking = new Booking(account, parkingLot, bookingTime);
+                    //Create token check in
+                    String token = Utilities.generateToken(account.getEmail());
+                    booking.setTokenInput(token);
+                    booking.setBookingStatus(Const.STATUS_BOOKING_BOOK);
+                    bookingRepository.save(booking);
+                    BookingDTO dto = new BookingDTO();
+                    Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                    String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
+                            + "&token=" + token;
+                    dto.setUrlAPICheckIn(urlAPICheckIn);
+
+                    //Excute update field 'bookingSlot' in Parking Lot
+                    Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
+                    if(bookingSlotInParkingLot < 0){
+                        bookingSlotInParkingLot = 0;
+                    }
+                    parkingLot.setBookingSlot(bookingSlotInParkingLot+1);
+                    parkingLotRepository.save(parkingLot);
+
+                    //return response
+                    responseDTO.setStatus(true);
+                    responseDTO.setObjectResponse(dto);
+                    responseDTO.setMessage(Const.BOOKING_SUCCESS);
+                }else{
+                    //Available slot = 0 -> Cant booking
+                    responseDTO.setMessage(Const.BOOKING_OUT_OF_SLOT);
+                }
             }else{
                 responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED + "or" + Const.PARKING_LOT_IS_NOT_EXISTED);
             }
@@ -90,7 +109,7 @@ public class BookingServiceImpl implements BookingService {
                             //Create token check out
                             String tokenOutPut = Utilities.generateToken(account.getEmail());
                             booking.setTokenOutput(tokenOutPut);
-                            booking.setBookingStatus(Const.STATUS_BOOKING_BOOKED);
+                            booking.setBookingStatus(Const.STATUS_BOOKING_USE);
                             booking.setTimeStart(timeStart);
                             bookingRepository.save(booking);
                             BookingDTO dto = new BookingDTO();
@@ -98,6 +117,17 @@ public class BookingServiceImpl implements BookingService {
                             String urlAPICheckOut = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_OUT + "?bookingId=" + booking.getBookingId()
                                     + "&token=" + tokenOutPut;
                             dto.setUrlAPICheckOut(urlAPICheckOut);
+
+                            //Excute update field 'bookingSlot' in Parking Lot
+                            ParkingLot parkingLot = booking.getParkingLot();
+                            Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
+                            if(bookingSlotInParkingLot - 1 < 0){
+                                bookingSlotInParkingLot = 0;
+                            }
+                            parkingLot.setBookingSlot(bookingSlotInParkingLot);
+                            parkingLotRepository.save(parkingLot);
+
+                            //return response
                             responseDTO.setStatus(true);
                             responseDTO.setObjectResponse(dto);
                             responseDTO.setMessage(Const.BOOKING_CHECK_IN_SUCCESS);

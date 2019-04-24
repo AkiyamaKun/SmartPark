@@ -1,9 +1,15 @@
 package Core.DTO;
 
+import Core.Constant.Const;
 import Core.Entity.Account;
 import Core.Entity.Owner;
+import Core.Entity.ParkingLot;
+import Core.Entity.ParkingSlot;
+import Core.Repository.ParkingSlotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Account DTO
@@ -11,7 +17,6 @@ import java.util.Date;
  * Author: DangNHH - 19/02/2019
  */
 public class ParkingLotDTO {
-
     private Integer parkingLotId;
     private String displayName;
     private Account ownedBy;
@@ -28,12 +33,17 @@ public class ParkingLotDTO {
     private Date lastEdited;
     private Owner owner;
     private byte[] parklotImage;
+    private Integer bookingSlot;
+    private float price;
 
 
     public ParkingLotDTO() {
     }
 
-    public ParkingLotDTO(Integer parkingLotId, String displayName, Account ownedBy, float longitude, float latitude, Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive, Integer createdBy, Date createdDate, Integer editedBy, Date lastEdited, Owner owner, byte[] parklotImage) {
+    public ParkingLotDTO(Integer parkingLotId, String displayName, Account ownedBy, float longitude, float latitude,
+                         Integer totalSlot, String address, String phoneNumber, String timeOfOperation, boolean isActive,
+                         Integer createdBy, Date createdDate, Integer editedBy, Date lastEdited, Owner owner, byte[] parklotImage,
+                         Integer bookingSlot, float price) {
         this.parkingLotId = parkingLotId;
         this.displayName = displayName;
         this.ownedBy = ownedBy;
@@ -50,6 +60,8 @@ public class ParkingLotDTO {
         this.lastEdited = lastEdited;
         this.owner = owner;
         this.parklotImage = parklotImage;
+        this.bookingSlot = bookingSlot;
+        this.price = price;
     }
 
     /**
@@ -184,4 +196,21 @@ public class ParkingLotDTO {
     public void setParklotImage(byte[] parklotImage) {
         this.parklotImage = parklotImage;
     }
+
+    public Integer getBookingSlot() {
+        return bookingSlot;
+    }
+
+    public void setBookingSlot(Integer bookingSlot) {
+        this.bookingSlot = bookingSlot;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
 }
