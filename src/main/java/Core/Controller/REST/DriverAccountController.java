@@ -133,54 +133,49 @@ public class DriverAccountController{
      * Create Booking Slot for Driver
      * @param accountId
      * @param parkingLotId
-     * @param bookingTime
      * @return
      */
     @RequestMapping(value = Const.BOOKING_SLOT, method = RequestMethod.POST)
     public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
-                                   @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId,
-                                   @RequestParam(value = "bookingTime", required = true) Date bookingTime){
-        return  bookingService.createBooking(accountId, parkingLotId, bookingTime);
+                                   @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId){
+        return  bookingService.createBooking(accountId, parkingLotId);
     }
 
     /**
      * Check In
      * @param bookingId
-     * @param timeStart
+     * @param token
      * @return
      */
     @RequestMapping(value = Const.BOOKING_CHECK_IN, method = RequestMethod.PUT)
     public ResponseDTO checkIn(@RequestParam(value = "bookingId") Integer bookingId,
-                               @RequestParam(value = "token") String token,
-                               @RequestParam(value = "timeStart") Date timeStart){
-        return  bookingService.checkIn(bookingId, token, timeStart);
+                               @RequestParam(value = "token") String token){
+        return  bookingService.checkIn(bookingId, token);
     }
 
     /**
      * Check Out
      * @param bookingId
-     * @param timeEnd
      * @param token
      * @return
      */
     @RequestMapping(value = Const.BOOKING_CHECK_OUT, method = RequestMethod.PUT)
     public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-                                @RequestParam(value = "token") String token,
-                                @RequestParam(value = "timeEnd") Date timeEnd){
-        return bookingService.checkOut(bookingId, token, timeEnd);
+                                @RequestParam(value = "token") String token){
+        return bookingService.checkOut(bookingId, token);
     }
-
-    /**
-     * Payment
-     * @param bookingId
-     * @param moneyToPay
-     * @return
-     */
-    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
-    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
-        return bookingService.payment(bookingId, moneyToPay);
-    }
+//
+//    /**
+//     * Payment
+//     * @param bookingId
+//     * @param moneyToPay
+//     * @return
+//     */
+//    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
+//    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
+//                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
+//        return bookingService.payment(bookingId, moneyToPay);
+//    }
 
     /**
      * Get List Booking By Parking Lot Id
@@ -193,12 +188,26 @@ public class DriverAccountController{
     }
 
     /**
-     * Get List Booking By AccountId
+     * Get List Booking By AccountId with status Name
      * @param accountId
+     * @param statusName
      * @return
      */
     @RequestMapping(value = Const.LIST_BOOKING_BY_ACCOUNT_ID, method = RequestMethod.GET)
-    public ResponseDTO getListBookingByAccountId(@PathVariable Integer accountId){
-        return bookingService.getListBookingByAccountId(accountId);
+    public ResponseDTO getListBookingByAccountId(@PathVariable Integer accountId,
+                                                 @RequestParam(value = "statusName", required = true) String statusName,
+                                                 @RequestParam(value = "quantity", required = true) Integer quantity){
+        return bookingService.getListBookingByAccountId(accountId, statusName, quantity);
     }
+
+    /**
+     * Cancel Booking
+     * @param bookingId
+     * @return
+     */
+    @RequestMapping(value = Const.BOOKING_CANCEL, method = RequestMethod.PUT)
+    public ResponseDTO cancelBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId){
+        return bookingService.cancelBooking(bookingId);
+    }
+
 }

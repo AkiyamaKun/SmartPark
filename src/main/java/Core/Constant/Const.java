@@ -193,10 +193,15 @@ public class Const {
     public static final String BOOKING_PAYMENT = "/payment";
     public static final String LIST_BOOKING_BY_PARKING_LOT = "/list_booking";
     public static final String LIST_BOOKING_BY_ACCOUNT_ID = "/list_booking/{accountId}";
+    public static final String BOOKING_CANCEL = "/booking_cancel";
+
 
     //Booking Message
     public static final String GET_LIST_BOOKING_SUCCESS = "Get list booking success";
     public static final String GET_LIST_BOOKING_FAIL = "Get list booking fail";
+    public static final String CANCEL_BOOKING_SUCCESS = "Cancel booking success";
+    public static final String CANCEL_BOOKING_FAIL = "Cancel booking fail";
+
 
     //Parking Slot Message
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";

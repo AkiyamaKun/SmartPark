@@ -57,11 +57,10 @@ public class BookingServiceImpl implements BookingService {
      * Create Booking Slot
      * @param accountId
      * @param parkingLotId
-     * @param bookingTime
      * @return
      */
     @Override
-    public ResponseDTO createBooking(Integer accountId, Integer parkingLotId, Date bookingTime) {
+    public ResponseDTO createBooking(Integer accountId, Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
@@ -69,6 +68,8 @@ public class BookingServiceImpl implements BookingService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if(account != null || parkingLot != null){
                 if(parkingLotService.getAvailableSlot(parkingLot) > 0){
+                    //Generate currentTime
+                    Date bookingTime = new Date();
                     Booking booking = new Booking(account, parkingLot, bookingTime);
                     //Create token check in
                     String token = Utilities.generateToken(account.getEmail());
@@ -111,12 +112,11 @@ public class BookingServiceImpl implements BookingService {
     /**
      * Check In
      * @param bookingId
-     * @param timeStart
      * @param token
      * @return
      */
     @Override
-    public ResponseDTO checkIn(Integer bookingId, String token, Date timeStart) {
+    public ResponseDTO checkIn(Integer bookingId, String token) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
@@ -124,6 +124,8 @@ public class BookingServiceImpl implements BookingService {
             if(booking != null && token.equalsIgnoreCase(booking.getTokenInput())){
                 if(!booking.getBookingStatus().equalsIgnoreCase(Const.STATUS_BOOKING_FINISH)){
                     if(booking.getTokenOutput() == null){
+                        //Generate currentTime
+                        Date timeStart = new Date();
                         Account account = accountRepository.findByAccountId(booking.getAccount().getAccountId());
                         long milisecond = timeStart.getTime()- booking.getBookingTime().getTime();
                         long second = milisecond/1000;
@@ -187,20 +189,18 @@ public class BookingServiceImpl implements BookingService {
      * Check Out
      * @param bookingId
      * @param token
-     * @param timeEnd
      * @return
      */
     @Override
-    public ResponseDTO checkOut(Integer bookingId, String token, Date timeEnd) {
+    public ResponseDTO checkOut(Integer bookingId, String token) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             Booking booking = bookingRepository.findByBookingId(bookingId);
             if(booking != null && token.equalsIgnoreCase(booking.getTokenOutput())){
                 if(!booking.getBookingStatus().equalsIgnoreCase(Const.STATUS_BOOKING_FINISH)){
-                    booking.setTimeEnd(timeEnd);
-                    bookingRepository.save(booking);
-
+                    //Generate currentTime
+                    Date timeEnd = new Date();
                     //Calculate the amount to pay
                     long milisecond = timeEnd.getTime() - booking.getTimeStart().getTime();
                     long second = milisecond/1000;
@@ -209,22 +209,38 @@ public class BookingServiceImpl implements BookingService {
                     if(remainder > 0){
                         hour++;
                     }
-                    Integer money = ((int)booking.getParkingLot().getPrice())*hour;
-                    //Return response DTO
-                    CheckOutDTO checkOutDTO = new CheckOutDTO();
-                    checkOutDTO.setBookingId(bookingId);
-                    checkOutDTO.setEmail(booking.getAccount().getEmail());
-                    checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
-                    checkOutDTO.setPrice(booking.getParkingLot().getPrice());
-                    checkOutDTO.setBookingTime(booking.getBookingTime());
-                    checkOutDTO.setTimeStart(booking.getTimeStart());
-                    checkOutDTO.setTimeEnd(booking.getTimeEnd());
-                    checkOutDTO.setTimeUseBySecond(second);
-                    checkOutDTO.setMoneyToPay(money);
+                    Integer moneyToPay = ((int)booking.getParkingLot().getPrice())*hour;
 
-                    responseDTO.setStatus(true);
-                    responseDTO.setObjectResponse(checkOutDTO);
-                    responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+                    //Excute payment
+                    if(booking.getAccount().getCash() >= moneyToPay){
+                        Integer newCash = booking.getAccount().getCash() - moneyToPay;
+                        Account account = booking.getAccount();
+                        account.setCash(newCash);
+                        accountRepository.save(account);
+                        booking.setTimeEnd(timeEnd);
+                        booking.setBookingStatus(Const.STATUS_BOOKING_FINISH);
+                        bookingRepository.save(booking);
+
+                        //Return response DTO
+                        CheckOutDTO checkOutDTO = new CheckOutDTO();
+                        checkOutDTO.setBookingId(bookingId);
+                        checkOutDTO.setEmail(booking.getAccount().getEmail());
+                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
+                        checkOutDTO.setPrice(booking.getParkingLot().getPrice());
+                        checkOutDTO.setBookingTime(booking.getBookingTime());
+                        checkOutDTO.setTimeStart(booking.getTimeStart());
+                        checkOutDTO.setTimeEnd(booking.getTimeEnd());
+                        checkOutDTO.setTimeUseBySecond(second);
+                        checkOutDTO.setMoneyToPay(moneyToPay);
+
+                        responseDTO.setStatus(true);
+                        responseDTO.setObjectResponse(checkOutDTO);
+                        responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+                    }else{
+                        //Money not enough
+                        responseDTO.setMessage(Const.MONEY_NOT_ENOUGH);
+                        bookingRepository.save(booking);
+                    }
                 }else{
                     //Booking had finished
                     responseDTO.setMessage(Const.BOOKING_HAD_FINISH);
@@ -237,16 +253,6 @@ public class BookingServiceImpl implements BookingService {
             responseDTO.setMessage(Const.BOOKING_CHECK_OUT_FAIL + ": " + e.getMessage());
         }
         return responseDTO;
-    }
-
-    @Override
-    public ResponseDTO updateTokenGoIn(Integer bookingId, String token) {
-        return null;
-    }
-
-    @Override
-    public ResponseDTO updateTokenGoOut(Integer bookingId, String token) {
-        return null;
     }
 
     /**
@@ -330,19 +336,26 @@ public class BookingServiceImpl implements BookingService {
      * @return
      */
     @Override
-    public ResponseDTO getListBookingByAccountId(Integer accountId) {
+    public ResponseDTO getListBookingByAccountId(Integer accountId, String statusName, Integer quantity) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try{
             Account account = accountRepository.findByAccountId(accountId);
             if(account != null){
-                List<Booking> bookings = bookingRepository.findByAccount(account);
+                List<Booking> bookings = bookingRepository.findByAccountOrderByBookingIdDesc(account);
                 if(!bookings.isEmpty()){
+                    int countNumber = 0;
                     List<BookingDTO> bookingDTOList = new ArrayList<>();
                     for(Booking element: bookings){
                         BookingDTO bookingDTO = new BookingDTO();
-                        convertBookingDTOFromBookingEntity(bookingDTO, element);
-                        bookingDTOList.add(bookingDTO);
+                        if(element.getBookingStatus().equals(statusName)){
+                            convertBookingDTOFromBookingEntity(bookingDTO, element);
+                            bookingDTOList.add(bookingDTO);
+                            countNumber++;
+                        }
+                        if(countNumber >= quantity){
+                            break;
+                        }
                     }
                     responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
                     responseDTO.setStatus(true);
@@ -356,6 +369,47 @@ public class BookingServiceImpl implements BookingService {
             }
         }catch (Exception e){
             responseDTO.setMessage("Get List Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Cancel Booking
+     * @param bookingId
+     * @return
+     */
+    @Override
+    public ResponseDTO cancelBooking(Integer bookingId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            if(booking != null){
+                if(booking.getBookingStatus().equals(Const.STATUS_BOOKING_BOOK)){
+                    booking.setBookingStatus(Const.STATUS_BOOKING_FINISH);
+                    bookingRepository.save(booking);
+
+                    //Excute update field 'bookingSlot' in Parking Lot
+                    ParkingLot parkingLot = booking.getParkingLot();
+                    Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
+                    if(bookingSlotInParkingLot - 1 < 0){
+                        bookingSlotInParkingLot = 0;
+                    }else{
+                        bookingSlotInParkingLot--;
+                    }
+                    parkingLot.setBookingSlot(bookingSlotInParkingLot);
+                    parkingLotRepository.save(parkingLot);
+
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.CANCEL_BOOKING_SUCCESS);
+                }else{
+                    responseDTO.setMessage(Const.CANCEL_BOOKING_FAIL);
+                }
+            }else {
+                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Cancel Booking Error: " + e.getMessage());
         }
         return responseDTO;
     }
