@@ -114,7 +114,7 @@ public class Const {
     public static final String SEARCH_OWNER = "/search_owner";
 
     public static final String PARKING_LOT = "/parking_lot";
-    public static final String GET_PARKING_LOT ="get_parking_lot/{id}";
+    public static final String GET_PARKING_LOT ="/get_parking_lot/{id}";
     public static final String GET_ALL_SLOT_OF_PARKING_LOT = "/list_parking_slot";
     public static final String GET_ALL_PARKING_LOT = "/all_parking_lot";
     public static final String CREATE_PARKING_LOT = "/create_parking_lot/{adminId}";
