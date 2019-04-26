@@ -18,9 +18,10 @@ public class BookingDTO {
      * Finish: Booking status when driver payment successful.
      */
     private String bookingStatus;
-
     private String urlAPICheckIn;
     private String urlAPICheckOut;
+    private String parkingLotName;
+    private float price;
 
     public BookingDTO() {
     }
@@ -36,7 +37,8 @@ public class BookingDTO {
 
     public BookingDTO(Integer bookingId, Integer accountId, Integer parkingLotId,
                       Date bookingTime, Date timeStart, Date timeEnd, String tokenInput,
-                      String tokenOutput, String bookingStatus, String urlAPICheckIn, String urlAPICheckOut) {
+                      String tokenOutput, String bookingStatus, String urlAPICheckIn, String urlAPICheckOut,
+                      String parkingLotName, float price) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.parkingLotId = parkingLotId;
@@ -48,9 +50,26 @@ public class BookingDTO {
         this.bookingStatus = bookingStatus;
         this.urlAPICheckIn = urlAPICheckIn;
         this.urlAPICheckOut = urlAPICheckOut;
+        this.parkingLotName = parkingLotName;
+        this.price = price;
     }
 
 
+    public String getParkingLotName() {
+        return parkingLotName;
+    }
+
+    public void setParkingLotName(String parkingLotName) {
+        this.parkingLotName = parkingLotName;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
 
     public Integer getBookingId() {
         return bookingId;

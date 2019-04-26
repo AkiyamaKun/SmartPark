@@ -37,23 +37,6 @@ public class BookingServiceImpl implements BookingService {
     ParkingLotServiceImpl parkingLotService;
 
     /**
-     * Convert BookingDTO From Booking Entity
-     * @param dto
-     * @param entity
-     */
-    public void convertBookingDTOFromBookingEntity(BookingDTO dto, Booking entity){
-        dto.setBookingId(entity.getBookingId());
-        dto.setAccountId(entity.getAccount().getAccountId());
-        dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
-        dto.setBookingTime(entity.getBookingTime());
-        dto.setTimeStart(entity.getTimeStart());
-        dto.setTimeEnd(entity.getTimeEnd());
-        dto.setTokenInput(entity.getTokenInput());
-        dto.setTokenOutput(entity.getTokenOutput());
-        dto.setBookingStatus(entity.getBookingStatus());
-    }
-
-    /**
      * Create Booking Slot
      * @param accountId
      * @param parkingLotId
@@ -76,11 +59,14 @@ public class BookingServiceImpl implements BookingService {
                     booking.setTokenInput(token);
                     booking.setBookingStatus(Const.STATUS_BOOKING_BOOK);
                     bookingRepository.save(booking);
-                    BookingDTO dto = new BookingDTO();
-                    Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                     String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
                             + "&token=" + token;
-                    dto.setUrlAPICheckIn(urlAPICheckIn);
+                    booking.setUrlAPICheckIn(urlAPICheckIn);
+                    bookingRepository.save(booking);
+                    BookingDTO dto = new BookingDTO();
+                    Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                    dto.setPrice(parkingLot.getPrice());
+                    dto.setParkingLotName(parkingLot.getDisplayName());
 
                     //Excute update field 'bookingSlot' in Parking Lot
                     Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
@@ -136,12 +122,12 @@ public class BookingServiceImpl implements BookingService {
                             booking.setBookingStatus(Const.STATUS_BOOKING_USE);
                             booking.setTimeStart(timeStart);
                             bookingRepository.save(booking);
-                            BookingDTO dto = new BookingDTO();
-                            Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                             String urlAPICheckOut = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_OUT + "?bookingId=" + booking.getBookingId()
                                     + "&token=" + tokenOutPut;
-                            dto.setUrlAPICheckOut(urlAPICheckOut);
-
+                            booking.setUrlAPICheckOut(urlAPICheckOut);
+                            bookingRepository.save(booking);
+                            BookingDTO dto = new BookingDTO();
+                            Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                             //Excute update field 'bookingSlot' in Parking Lot
                             ParkingLot parkingLot = booking.getParkingLot();
                             Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
@@ -349,7 +335,7 @@ public class BookingServiceImpl implements BookingService {
                     for(Booking element: bookings){
                         BookingDTO bookingDTO = new BookingDTO();
                         if(element.getBookingStatus().equals(statusName)){
-                            convertBookingDTOFromBookingEntity(bookingDTO, element);
+                            Utilities.convertBookingDTOFromBookingEntity(bookingDTO, element);
                             bookingDTOList.add(bookingDTO);
                             countNumber++;
                         }

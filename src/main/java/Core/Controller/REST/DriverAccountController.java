@@ -85,6 +85,16 @@ public class DriverAccountController{
     }
 
     /**
+     * Get Parking Lot by Id
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = Const.GET_PARKING_LOT, method = RequestMethod.GET)
+    public ResponseDTO getParkingLot(@PathVariable Integer id){
+        return parkingLotService.getParkingLot(id);
+    }
+
+    /**
      * Forget Password
      * @param email
      * @return

@@ -64,6 +64,8 @@ public class Utilities {
         dto.setTimeStart(entity.getTimeStart());
         dto.setTimeEnd(entity.getTimeEnd());
         dto.setBookingStatus(entity.getBookingStatus());
+        dto.setUrlAPICheckIn(entity.getUrlAPICheckIn());
+        dto.setUrlAPICheckOut(entity.getUrlAPICheckOut());
         return dto;
     }
 
