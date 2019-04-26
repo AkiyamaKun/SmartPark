@@ -191,6 +191,18 @@ public class ViewController {
     }
 
     /**
+     * List Drivers Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/list-drivers")
+    public String toListDrivers(Model model) {
+        //Excute anything here
+        return "admin/list-drivers";
+    }
+
+    /**
      * Manager Detail Page
      *
      * @param id
@@ -232,6 +244,20 @@ public class ViewController {
         ResponseDTO plotOwner = parkingLotService.getListParkingLotOfOwner(id);
         view.addObject("owner", owner.getObjectResponse());
         view.addObject("plotOwner", plotOwner.getObjectResponse());
+        return view;
+    }
+
+    /**
+     * Driver Detail Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/driver-detail")
+    public ModelAndView toDriverDetail(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("admin/driver-detail");
+        ResponseDTO driverAccount = accountService.getAccount(id);
+        view.addObject("driver", driverAccount.getObjectResponse());
         return view;
     }
 

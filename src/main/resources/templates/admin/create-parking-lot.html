@@ -29,9 +29,13 @@
                 </div>
                 <div class="form-group col-lg-6">
                     <label class="form-control-label required">Total Slot</label>
-                    <input type="number" id="slots" placeholder="Total Slot" class="form-control"/>
+                    <input type="number" id="totalSlot" placeholder="Total Slot" class="form-control"/>
                 </div>
                 <div class="form-group col-lg-6">
+                    <label class="form-control-label required">Price</label>
+                    <input type="text" id="price" placeholder="Price" class="form-control"/>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label required">Phone Number</label>
                     <input type="text" id="phoneNumber" placeholder="Phone Number" class="form-control"/>
                 </div>
@@ -43,18 +47,7 @@
                     <label class="form-control-label">Time of Operation</label>
                     <input type="text" id="timeOfOperation" placeholder="Time of Operation" class="form-control"/>
                 </div>
-                <!--<div class="form-group">-->
-                <!--<label for="select" class=" form-control-label">Owner</label>-->
-                <!--&lt;!&ndash;<div class="col-12 col-md-9">&ndash;&gt;-->
-                <!--<select name="select" id="select" class="form-control" th:field="*{ownerName}">-->
-                <!--<option value="0">Please select</option>-->
-                <!--&lt;!&ndash;<option value="1">Option #1</option>&ndash;&gt;-->
-                <!--&lt;!&ndash;<option value="2">Option #2</option>&ndash;&gt;-->
-                <!--&lt;!&ndash;<option value="3">Option #3</option>&ndash;&gt;-->
-                <!--<option th:each="i : ${ownerName.lastName}" th:value="${i}" th:text="${i}">-->
-                <!--</option>-->
-                <!--</select>-->
-                <!--</div>-->
+
                 <div class="form-group">
                     <label class="form-control-label">Owner</label>
                     <input type="text" id="owner" placeholder="Owner" class="form-control"/>
@@ -179,7 +172,7 @@
                     showAlert(false, err.message);
                 }
             )
-        }else{
+        } else{
             btn.disabled = false;
         }
     }
@@ -190,7 +183,8 @@
         let displayName = $("#displayName").val().trim();
         let long = $("#long-input").val().trim();
         let lat = $("#lat-input").val().trim();
-        let slots = $("#slots").val().trim();
+        let totalSlot = $("#totalSlot").val().trim();
+        let price = $("#price").val().trim();
         let phoneNumber = $("#phoneNumber").val().trim();
         let address = $("#address").val().trim();
         let timeOfOperation = $("#timeOfOperation").val().trim();
@@ -205,8 +199,10 @@
             validateMessage = 'Display Name is required!';
         } else if (!floatRegex.test(long) || !floatRegex.test(lat)) {
             validateMessage = 'Long and lat should be float number!';
-        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+        } else if (!intRegex.test(totalSlot) || parseInt(totalSlot) === 0) {
             validateMessage = 'Total slots should be positive integer number!';
+        } else if (!floatRegex.test(price) || parseFloat(price) === 0) {
+            validateMessage = 'Price should be float number!';
         } else if (!phoneRegex.test(phoneNumber)) {
             validateMessage = 'Phone number should follow format 0#########';
         } else if (!ownerId.length) {
@@ -222,11 +218,12 @@
             displayName: displayName,
             longitude: parseFloat(long),
             latitude: parseFloat(lat),
-            totalSlot: parseInt(slots),
+            totalSlot: parseInt(totalSlot),
             address: address,
             phoneNumber: phoneNumber,
             timeOfOperation: timeOfOperation,
             ownerId: ownerId,
+            price: parseFloat(price)
         }
     }
 
@@ -244,6 +241,7 @@
         document.getElementById("address").value = '';
         document.getElementById("timeOfOperation").value = '';
         document.getElementById("ownerId").value = '';
+        document.getElementById("price").value = '';
     }
 
     function readURL(input) {
