@@ -68,6 +68,12 @@ public class Booking {
     @Column(name = "booking_status")
     private String bookingStatus;
 
+    @Column(name = "urlAPICheckIn")
+    private String urlAPICheckIn;
+
+    @Column(name = "urlAPICheckOut")
+    private String urlAPICheckOut;
+
     public Booking() {
     }
 
@@ -79,7 +85,8 @@ public class Booking {
 
     public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
-                   String tokenOutput, String bookingStatus) {
+                   String tokenOutput, String bookingStatus,
+                   String urlAPICheckIn, String urlAPICheckOut) {
         this.account = account;
         this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
@@ -88,6 +95,24 @@ public class Booking {
         this.tokenInput = tokenInput;
         this.tokenOutput = tokenOutput;
         this.bookingStatus = bookingStatus;
+        this.urlAPICheckIn = urlAPICheckIn;
+        this.urlAPICheckOut = urlAPICheckOut;
+    }
+
+    public String getUrlAPICheckIn() {
+        return urlAPICheckIn;
+    }
+
+    public void setUrlAPICheckIn(String urlAPICheckIn) {
+        this.urlAPICheckIn = urlAPICheckIn;
+    }
+
+    public String getUrlAPICheckOut() {
+        return urlAPICheckOut;
+    }
+
+    public void setUrlAPICheckOut(String urlAPICheckOut) {
+        this.urlAPICheckOut = urlAPICheckOut;
     }
 
     public Integer getBookingId() {
