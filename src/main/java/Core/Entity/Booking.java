@@ -68,11 +68,11 @@ public class Booking {
     @Column(name = "booking_status")
     private String bookingStatus;
 
-    @Column(name = "urlAPICheckIn")
-    private String urlAPICheckIn;
+    @Column(name = "url_api_check_out")
+    private String urlApiCheckIn;
 
-    @Column(name = "urlAPICheckOut")
-    private String urlAPICheckOut;
+    @Column(name = "url_api_check_in")
+    private String urlApiCheckOut;
 
     public Booking() {
     }
@@ -86,7 +86,7 @@ public class Booking {
     public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
                    String tokenOutput, String bookingStatus,
-                   String urlAPICheckIn, String urlAPICheckOut) {
+                   String urlApiCheckIn, String urlApiCheckOut) {
         this.account = account;
         this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
@@ -95,24 +95,24 @@ public class Booking {
         this.tokenInput = tokenInput;
         this.tokenOutput = tokenOutput;
         this.bookingStatus = bookingStatus;
-        this.urlAPICheckIn = urlAPICheckIn;
-        this.urlAPICheckOut = urlAPICheckOut;
+        this.urlApiCheckIn = urlApiCheckIn;
+        this.urlApiCheckOut = urlApiCheckOut;
     }
 
-    public String getUrlAPICheckIn() {
-        return urlAPICheckIn;
+    public String getUrlApiCheckIn() {
+        return urlApiCheckIn;
     }
 
-    public void setUrlAPICheckIn(String urlAPICheckIn) {
-        this.urlAPICheckIn = urlAPICheckIn;
+    public void setUrlApiCheckIn(String urlApiCheckIn) {
+        this.urlApiCheckIn = urlApiCheckIn;
     }
 
-    public String getUrlAPICheckOut() {
-        return urlAPICheckOut;
+    public String getUrlApiCheckOut() {
+        return urlApiCheckOut;
     }
 
-    public void setUrlAPICheckOut(String urlAPICheckOut) {
-        this.urlAPICheckOut = urlAPICheckOut;
+    public void setUrlApiCheckOut(String urlApiCheckOut) {
+        this.urlApiCheckOut = urlApiCheckOut;
     }
 
     public Integer getBookingId() {

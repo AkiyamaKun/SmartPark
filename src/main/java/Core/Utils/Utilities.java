@@ -55,6 +55,12 @@ public class Utilities {
         return null;
     }
 
+    /**
+     * Convert BookingDTO from Booking Entity
+     * @param dto
+     * @param entity
+     * @return
+     */
     public static BookingDTO convertBookingDTOFromBookingEntity(BookingDTO dto, Booking entity){
         dto.setBookingId(entity.getBookingId());
         dto.setAccountId(entity.getAccount().getAccountId());
@@ -65,8 +71,10 @@ public class Utilities {
         dto.setTimeStart(entity.getTimeStart());
         dto.setTimeEnd(entity.getTimeEnd());
         dto.setBookingStatus(entity.getBookingStatus());
-        dto.setUrlAPICheckIn(entity.getUrlAPICheckIn());
-        dto.setUrlAPICheckOut(entity.getUrlAPICheckOut());
+        dto.setUrlApiCheckIn(entity.getUrlApiCheckIn());
+        dto.setUrlApiCheckOut(entity.getUrlApiCheckOut());
+        dto.setParkingLotName(entity.getParkingLot().getDisplayName());
+        dto.setPrice(entity.getParkingLot().getPrice());
         return dto;
     }
 

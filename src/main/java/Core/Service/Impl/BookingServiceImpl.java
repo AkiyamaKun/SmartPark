@@ -61,7 +61,7 @@ public class BookingServiceImpl implements BookingService {
                     bookingRepository.save(booking);
                     String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
                             + "&token=" + token;
-                    booking.setUrlAPICheckIn(urlAPICheckIn);
+                    booking.setUrlApiCheckIn(urlAPICheckIn);
                     bookingRepository.save(booking);
                     BookingDTO dto = new BookingDTO();
                     Utilities.convertBookingDTOFromBookingEntity(dto, booking);
@@ -124,7 +124,7 @@ public class BookingServiceImpl implements BookingService {
                             bookingRepository.save(booking);
                             String urlAPICheckOut = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_OUT + "?bookingId=" + booking.getBookingId()
                                     + "&token=" + tokenOutPut;
-                            booking.setUrlAPICheckOut(urlAPICheckOut);
+                            booking.setUrlApiCheckOut(urlAPICheckOut);
                             bookingRepository.save(booking);
                             BookingDTO dto = new BookingDTO();
                             Utilities.convertBookingDTOFromBookingEntity(dto, booking);

@@ -18,8 +18,8 @@ public class BookingDTO {
      * Finish: Booking status when driver payment successful.
      */
     private String bookingStatus;
-    private String urlAPICheckIn;
-    private String urlAPICheckOut;
+    private String urlApiCheckIn;
+    private String urlApiCheckOut;
     private String parkingLotName;
     private float price;
 
@@ -37,7 +37,7 @@ public class BookingDTO {
 
     public BookingDTO(Integer bookingId, Integer accountId, Integer parkingLotId,
                       Date bookingTime, Date timeStart, Date timeEnd, String tokenInput,
-                      String tokenOutput, String bookingStatus, String urlAPICheckIn, String urlAPICheckOut,
+                      String tokenOutput, String bookingStatus, String urlApiCheckIn, String urlApiCheckOut,
                       String parkingLotName, float price) {
         this.bookingId = bookingId;
         this.accountId = accountId;
@@ -48,8 +48,8 @@ public class BookingDTO {
         this.tokenInput = tokenInput;
         this.tokenOutput = tokenOutput;
         this.bookingStatus = bookingStatus;
-        this.urlAPICheckIn = urlAPICheckIn;
-        this.urlAPICheckOut = urlAPICheckOut;
+        this.urlApiCheckIn = urlApiCheckIn;
+        this.urlApiCheckOut = urlApiCheckOut;
         this.parkingLotName = parkingLotName;
         this.price = price;
     }
@@ -143,19 +143,19 @@ public class BookingDTO {
         this.bookingStatus = bookingStatus;
     }
 
-    public String getUrlAPICheckIn() {
-        return urlAPICheckIn;
+    public String getUrlApiCheckIn() {
+        return urlApiCheckIn;
     }
 
-    public void setUrlAPICheckIn(String urlAPICheckIn) {
-        this.urlAPICheckIn = urlAPICheckIn;
+    public void setUrlApiCheckIn(String urlApiCheckIn) {
+        this.urlApiCheckIn = urlApiCheckIn;
     }
 
-    public String getUrlAPICheckOut() {
-        return urlAPICheckOut;
+    public String getUrlApiCheckOut() {
+        return urlApiCheckOut;
     }
 
-    public void setUrlAPICheckOut(String urlAPICheckOut) {
-        this.urlAPICheckOut = urlAPICheckOut;
+    public void setUrlApiCheckOut(String urlApiCheckOut) {
+        this.urlApiCheckOut = urlApiCheckOut;
     }
 }
