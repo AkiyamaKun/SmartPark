@@ -9,12 +9,13 @@ public class InformationAccountDTO {
     private String lastName;
     private byte[] avatar;
     private boolean isActive;
+    private Integer cash;
 
     public InformationAccountDTO() {
     }
 
     public InformationAccountDTO(Integer accountId, String email, String phoneNumber,
-                                 String firstName, String lastName, byte[] avatar, boolean isActive) {
+                                 String firstName, String lastName, byte[] avatar, boolean isActive, Integer cash) {
         this.accountId = accountId;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -22,6 +23,7 @@ public class InformationAccountDTO {
         this.lastName = lastName;
         this.avatar = avatar;
         this.isActive = isActive;
+        this.cash = cash;
     }
 
     public Integer getAccountId() {
@@ -78,5 +80,13 @@ public class InformationAccountDTO {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Integer getCash() {
+        return cash;
+    }
+
+    public void setCash(Integer cash) {
+        this.cash = cash;
     }
 }

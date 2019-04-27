@@ -2,6 +2,7 @@ package Core.Controller.MVC;
 
 import Core.Constant.Const;
 import Core.Controller.REST.AccountController;
+import Core.Controller.REST.DriverAccountController;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Account;
 import Core.Entity.ParkingLot;
@@ -42,6 +43,9 @@ public class ViewController {
 
     @Autowired
     AccountController accountController;
+
+    @Autowired
+    DriverAccountController driverAccountController;
 
     @Autowired
     OwnerService ownerService;
@@ -256,7 +260,7 @@ public class ViewController {
     @RequestMapping(value = "/driver-detail")
     public ModelAndView toDriverDetail(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("admin/driver-detail");
-        ResponseDTO driverAccount = accountService.getAccount(id);
+        ResponseDTO driverAccount = driverAccountController.getDriverAccount(id);
         view.addObject("driver", driverAccount.getObjectResponse());
         return view;
     }
