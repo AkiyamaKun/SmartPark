@@ -50,6 +50,9 @@ public class Utilities {
             dto.setLastName(account.getLastName());
             dto.setPhoneNumber(account.getPhoneNumber());
             dto.setCash(account.getCash());
+            dto.setActive(account.isActive());
+            dto.setPlateNumber(account.getPlateNumber());
+            dto.setAvatar(account.getAvatar());
             return  dto;
         }
         return null;

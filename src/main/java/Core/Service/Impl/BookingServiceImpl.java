@@ -57,7 +57,11 @@ public class BookingServiceImpl implements BookingService {
                     //Create token check in
                     String token = Utilities.generateToken(account.getEmail());
                     booking.setTokenInput(token);
-                    booking.setPlateNumber(account.getPlateNumber());
+                    if(account.getPlateNumber() == null){
+                        booking.setPlateNumber("");
+                    }else{
+                        booking.setPlateNumber(account.getPlateNumber());
+                    }
                     booking.setBookingStatus(Const.STATUS_BOOKING_BOOK);
                     bookingRepository.save(booking);
                     String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
