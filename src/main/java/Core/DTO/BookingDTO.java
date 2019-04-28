@@ -11,6 +11,7 @@ public class BookingDTO {
     private Date timeEnd;
     private String tokenInput;
     private String tokenOutput;
+
     /**
      * Booking Status
      * None: Default status when booking record had created
@@ -22,6 +23,7 @@ public class BookingDTO {
     private String urlApiCheckOut;
     private String parkingLotName;
     private float price;
+    private String plateNumber;
 
     public BookingDTO() {
     }
@@ -38,7 +40,7 @@ public class BookingDTO {
     public BookingDTO(Integer bookingId, Integer accountId, Integer parkingLotId,
                       Date bookingTime, Date timeStart, Date timeEnd, String tokenInput,
                       String tokenOutput, String bookingStatus, String urlApiCheckIn, String urlApiCheckOut,
-                      String parkingLotName, float price) {
+                      String parkingLotName, float price, String plateNumber) {
         this.bookingId = bookingId;
         this.accountId = accountId;
         this.parkingLotId = parkingLotId;
@@ -52,6 +54,7 @@ public class BookingDTO {
         this.urlApiCheckOut = urlApiCheckOut;
         this.parkingLotName = parkingLotName;
         this.price = price;
+        this.plateNumber = plateNumber;
     }
 
 
@@ -157,5 +160,13 @@ public class BookingDTO {
 
     public void setUrlApiCheckOut(String urlApiCheckOut) {
         this.urlApiCheckOut = urlApiCheckOut;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

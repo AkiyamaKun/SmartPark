@@ -59,6 +59,9 @@ public class Account {
     @Column(name = "cash")
     private Integer cash;
 
+    @Column(name = "plate_number")
+    private String plateNumber;
+
     public Account() {
     }
 
@@ -82,7 +85,7 @@ public class Account {
 
     public Account(String email, String phoneNumber, String password, String firstName,
                    String lastName, Date createdDate, Role role, boolean isActive,
-                   String token, byte[] avatar, Integer cash) {
+                   String token, byte[] avatar, Integer cash, String plateNumber) {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -94,6 +97,7 @@ public class Account {
         this.token = token;
         this.avatar = avatar;
         this.cash = cash;
+        this.plateNumber = plateNumber;
     }
 
     public List<GrantedAuthority> getAuthorities(){
@@ -196,5 +200,13 @@ public class Account {
 
     public void setCash(Integer cash) {
         this.cash = cash;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

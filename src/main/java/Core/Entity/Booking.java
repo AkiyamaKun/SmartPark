@@ -74,6 +74,9 @@ public class Booking {
     @Column(name = "url_api_check_in")
     private String urlApiCheckOut;
 
+    @Column(name = "plate_number")
+    private String plateNumber;
+
     public Booking() {
     }
 
@@ -86,7 +89,7 @@ public class Booking {
     public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
                    String tokenOutput, String bookingStatus,
-                   String urlApiCheckIn, String urlApiCheckOut) {
+                   String urlApiCheckIn, String urlApiCheckOut, String plateNumber) {
         this.account = account;
         this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
@@ -97,6 +100,7 @@ public class Booking {
         this.bookingStatus = bookingStatus;
         this.urlApiCheckIn = urlApiCheckIn;
         this.urlApiCheckOut = urlApiCheckOut;
+        this.plateNumber = plateNumber;
     }
 
     public String getUrlApiCheckIn() {
@@ -185,5 +189,13 @@ public class Booking {
 
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

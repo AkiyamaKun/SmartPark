@@ -10,13 +10,14 @@ public class UserLoginResponseDTO {
     private Integer roleId;
     private byte[] avatar;
     private Integer cash;
+    private String plateNumber;
 
     public UserLoginResponseDTO() {
     }
 
     public UserLoginResponseDTO(Integer accountId, String email, String firstName,
                                 String lastName, String phoneNumber, String token,
-                                Integer roleId, byte[] avatar, Integer cash) {
+                                Integer roleId, byte[] avatar, Integer cash, String plateNumber) {
         this.accountId = accountId;
         this.email = email;
         this.firstName = firstName;
@@ -26,6 +27,7 @@ public class UserLoginResponseDTO {
         this.roleId = roleId;
         this.avatar = avatar;
         this.cash = cash;
+        this.plateNumber = plateNumber;
     }
 
     public Integer getAccountId() {
@@ -98,5 +100,13 @@ public class UserLoginResponseDTO {
 
     public void setCash(Integer cash) {
         this.cash = cash;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

@@ -12,12 +12,13 @@ public class CheckOutDTO {
     private Date timeEnd;
     private long timeUseBySecond;
     private Integer moneyToPay;
+    private String plateNumber;
 
     public CheckOutDTO() {
     }
 
     public CheckOutDTO(Integer bookingId, String email, String parkingLotName, float price, Date bookingTime,
-                       Date timeStart, Date timeEnd, long timeUseBySecond, Integer moneyToPay) {
+                       Date timeStart, Date timeEnd, long timeUseBySecond, Integer moneyToPay, String plateNumber) {
         this.bookingId = bookingId;
         this.email = email;
         this.parkingLotName = parkingLotName;
@@ -27,6 +28,7 @@ public class CheckOutDTO {
         this.timeEnd = timeEnd;
         this.timeUseBySecond = timeUseBySecond;
         this.moneyToPay = moneyToPay;
+        this.plateNumber = plateNumber;
     }
 
     public Integer getBookingId() {
@@ -99,5 +101,13 @@ public class CheckOutDTO {
 
     public void setMoneyToPay(Integer moneyToPay) {
         this.moneyToPay = moneyToPay;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

@@ -57,6 +57,7 @@ public class BookingServiceImpl implements BookingService {
                     //Create token check in
                     String token = Utilities.generateToken(account.getEmail());
                     booking.setTokenInput(token);
+                    booking.setPlateNumber(account.getPlateNumber());
                     booking.setBookingStatus(Const.STATUS_BOOKING_BOOK);
                     bookingRepository.save(booking);
                     String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
@@ -218,6 +219,7 @@ public class BookingServiceImpl implements BookingService {
                         checkOutDTO.setTimeEnd(booking.getTimeEnd());
                         checkOutDTO.setTimeUseBySecond(second);
                         checkOutDTO.setMoneyToPay(moneyToPay);
+                        checkOutDTO.setPlateNumber(booking.getPlateNumber());
 
                         responseDTO.setStatus(true);
                         responseDTO.setObjectResponse(checkOutDTO);

@@ -53,6 +53,8 @@ public class AccountServiceImpl implements AccountService {
         dto.setActive(entity.isActive());
         dto.setAvatar(entity.getAvatar());
         dto.setToken(entity.getToken());
+        dto.setCash(entity.getCash());
+        dto.setPlateNumber(entity.getPlateNumber());
     }
 
     /**
@@ -185,11 +187,9 @@ public class AccountServiceImpl implements AccountService {
                 account.setPhoneNumber(accountDTO.getPhoneNumber());
                 //Update Avatar only for Driver Account
                 if(account.getRole().getRoleId() == 3){
-                    account.setAvatar(accountDTO.getAvatar());
                     if(accountDTO.getAvatar() != null)
                         account.setAvatar(accountDTO.getAvatar());
-                    //else
-                        //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                    account.setPlateNumber(accountDTO.getPlateNumber());
                 }
                 accountRepository.save(account);
                 account.setPassword(null);
@@ -336,6 +336,7 @@ public class AccountServiceImpl implements AccountService {
                                 account.setAvatar(accountDTO.getAvatar());
                             }
                             account.setCash(0);
+                            account.setPlateNumber(accountDTO.getPlateNumber());
                         }
                         responseDTO.setStatus(true);
                         responseDTO.setMessage(Const.CREATE_ACCOUNT_SUCCESS);
@@ -371,8 +372,8 @@ public class AccountServiceImpl implements AccountService {
                             {
                                 if(accountDTO.getAvatar() != null)
                                     account.setAvatar(accountDTO.getAvatar());
-                                //else
-                                    //account.setAvatar(Const.AVATAR_NAME_DEFAULT);
+                                account.setCash(0);
+                                account.setPlateNumber(accountDTO.getPlateNumber());
                             }
                             accountRepository.save(account);
 

@@ -19,6 +19,8 @@ public class AccountDTO{
     private boolean isActive;
     private byte[] avatar;
     private String token;
+    private Integer cash;
+    private String plateNumber;
 
     public AccountDTO() {
     }
@@ -36,7 +38,8 @@ public class AccountDTO{
      * @param isActive
      */
     public AccountDTO(Integer accountId, String email, String password, String phoneNumber, String firstName,
-                      String lastName, Date createdDate, Integer roleId, boolean isActive, byte[] avatar, String token) {
+                      String lastName, Date createdDate, Integer roleId, boolean isActive, byte[] avatar, String token,
+                      Integer cash, String plateNumber) {
         this.accountId = accountId;
         this.email = email;
         this.password = password;
@@ -48,6 +51,8 @@ public class AccountDTO{
         this.isActive = isActive;
         this.avatar = avatar;
         this.token = token;
+        this.cash = cash;
+        this.plateNumber = plateNumber;
     }
 
     public Integer getAccountId() {
@@ -136,5 +141,21 @@ public class AccountDTO{
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Integer getCash() {
+        return cash;
+    }
+
+    public void setCash(Integer cash) {
+        this.cash = cash;
+    }
+
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
     }
 }

@@ -75,6 +75,7 @@ public class Utilities {
         dto.setUrlApiCheckOut(entity.getUrlApiCheckOut());
         dto.setParkingLotName(entity.getParkingLot().getDisplayName());
         dto.setPrice(entity.getParkingLot().getPrice());
+        dto.setPlateNumber(entity.getPlateNumber());
         return dto;
     }
 
