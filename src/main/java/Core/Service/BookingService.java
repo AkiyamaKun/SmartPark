@@ -12,4 +12,5 @@ public interface BookingService {
     ResponseDTO getListBookingByParkingLotId(Integer parkingLotId);
     ResponseDTO getListBookingByAccountId(Integer accountId, String statusName, Integer quantity);
     ResponseDTO cancelBooking(Integer bookingId);
+    ResponseDTO getBookingById(Integer bookingId);
 }

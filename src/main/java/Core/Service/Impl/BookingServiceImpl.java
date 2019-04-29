@@ -405,4 +405,30 @@ public class BookingServiceImpl implements BookingService {
         }
         return responseDTO;
     }
+
+    /**
+     * Get Booking By Id
+     * @param bookingId
+     * @return
+     */
+    @Override
+    public ResponseDTO getBookingById(Integer bookingId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            if(booking != null){
+                BookingDTO dto = new BookingDTO();
+                Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            }else {
+                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage("Get Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
 }

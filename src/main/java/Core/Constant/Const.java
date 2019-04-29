@@ -54,6 +54,7 @@ public class Const {
     public static final String UPLOAD_IMAGE_SUCCESS = "Upload Image Success";
     public static final String ADD_CASH_SUCCESS = "Add cash successfull";
     public static final String BOOKING_IS_NOT_EXISTED = "Booking is not existed";
+    public static final String GET_BOOKING_SUCCESS = "Get Booking Success";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";
@@ -194,6 +195,7 @@ public class Const {
     public static final String LIST_BOOKING_BY_PARKING_LOT = "/list_booking";
     public static final String LIST_BOOKING_BY_ACCOUNT_ID = "/list_booking/{accountId}";
     public static final String BOOKING_CANCEL = "/booking_cancel";
+    public static final String GET_BOOKING = "/get_booking/{bookingId}";
 
 
     //Booking Message

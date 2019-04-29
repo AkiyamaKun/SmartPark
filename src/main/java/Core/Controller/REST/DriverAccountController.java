@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Driver Account Controller
- * <p>
+ *
  * Author: DangNHH - 17/02/2019
  */
 @RestController
@@ -230,6 +230,16 @@ public class DriverAccountController {
     @RequestMapping(value = Const.BOOKING_CANCEL, method = RequestMethod.PUT)
     public ResponseDTO cancelBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId) {
         return bookingService.cancelBooking(bookingId);
+    }
+
+    /**
+     * Get Booking by id
+     * @param bookingId
+     * @return
+     */
+    @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
+    public ResponseDTO getBookingById(@PathVariable Integer bookingId){
+        return bookingService.getBookingById(bookingId);
     }
 
 }
