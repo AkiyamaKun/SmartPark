@@ -77,6 +77,9 @@ public class Booking {
     @Column(name = "plate_number")
     private String plateNumber;
 
+    @Column(name = "cash_to_pay")
+    private Integer cashToPay;
+
     public Booking() {
     }
 
@@ -89,7 +92,8 @@ public class Booking {
     public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
                    String tokenOutput, String bookingStatus,
-                   String urlApiCheckIn, String urlApiCheckOut, String plateNumber) {
+                   String urlApiCheckIn, String urlApiCheckOut, String plateNumber,
+                   Integer cashToPay) {
         this.account = account;
         this.parkingLot = parkingLot;
         this.bookingTime = bookingTime;
@@ -101,6 +105,7 @@ public class Booking {
         this.urlApiCheckIn = urlApiCheckIn;
         this.urlApiCheckOut = urlApiCheckOut;
         this.plateNumber = plateNumber;
+        this.cashToPay = cashToPay;
     }
 
     public String getUrlApiCheckIn() {
@@ -197,5 +202,13 @@ public class Booking {
 
     public void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
+    }
+
+    public Integer getCashToPay() {
+        return cashToPay;
+    }
+
+    public void setCashToPay(Integer cashToPay) {
+        this.cashToPay = cashToPay;
     }
 }

@@ -210,6 +210,7 @@ public class BookingServiceImpl implements BookingService {
                         accountRepository.save(account);
                         booking.setTimeEnd(timeEnd);
                         booking.setBookingStatus(Const.STATUS_BOOKING_FINISH);
+                        booking.setCashToPay(moneyToPay);
                         bookingRepository.save(booking);
 
                         //Return response DTO
