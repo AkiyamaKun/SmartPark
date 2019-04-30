@@ -111,25 +111,56 @@ public class AccountServiceImpl implements AccountService {
         responseDTO.setStatus(false);
         Account account = accountRepository.findByEmail(dto.getEmail());
         if(account != null){
-            if(account.getPassword().equals(dto.getPassword()) && account.isActive()){
-                UserLoginResponseDTO user = new UserLoginResponseDTO();
-                user.setAccountId(account.getAccountId());
-                user.setEmail(account.getEmail());
-                user.setFirstName(account.getFirstName());
-                user.setLastName(account.getLastName());
-                user.setPhoneNumber(account.getPhoneNumber());
-                user.setRoleId(account.getRole().getRoleId());
-                String token = jwtService.generateTokenLogin(account.getEmail());
-                user.setToken(token);
-                user.setAvatar(account.getAvatar());
-                user.setCash(account.getCash());
-
-                responseDTO.setStatus(true);
-                responseDTO.setMessage("Login Successful");
-                responseDTO.setObjectResponse(user);
-            }else{
-                responseDTO.setMessage("Wrong userId and password");
+            //This variable confirms whether the user is allowed to enter the system
+            boolean acceptGoSystem = false;
+            if(dto.getSystem() != null){
+                switch (dto.getSystem()){
+                    case 1:
+                        //Web Admin (Admin)
+                        if(account.getRole().getRoleName().equals(Const.ROLE_ADMIN)){
+                            acceptGoSystem = true;
+                        }
+                        break;
+                    case 2:
+                        //Web Application (Supervisor)
+                        if(account.getRole().getRoleName().equals(Const.ROLE_SUPERVISOR)){
+                            acceptGoSystem = true;
+                        }
+                        break;
+                    case 3:
+                        //Android Applicartion (Driver)
+                        if(account.getRole().getRoleName().equals(Const.ROLE_DRIVER)){
+                            acceptGoSystem = true;
+                        }
+                        break;
+                };
             }
+            if(acceptGoSystem){
+                //User had login exactly user's system
+                if(account.getPassword().equals(dto.getPassword()) && account.isActive()){
+                    UserLoginResponseDTO user = new UserLoginResponseDTO();
+                    user.setAccountId(account.getAccountId());
+                    user.setEmail(account.getEmail());
+                    user.setFirstName(account.getFirstName());
+                    user.setLastName(account.getLastName());
+                    user.setPhoneNumber(account.getPhoneNumber());
+                    user.setRoleId(account.getRole().getRoleId());
+                    String token = jwtService.generateTokenLogin(account.getEmail());
+                    user.setToken(token);
+                    user.setAvatar(account.getAvatar());
+                    user.setCash(account.getCash());
+
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.LOGIN_SUCCESS);
+                    responseDTO.setObjectResponse(user);
+                }else{
+                    responseDTO.setMessage(Const.WRONG_USERNAME_PASSWORD);
+                }
+            }else{
+                responseDTO.setMessage(Const.ACCESS_DENIED);
+            }
+        }else{
+            responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
         }
         return responseDTO;
     }

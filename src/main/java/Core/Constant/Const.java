@@ -55,6 +55,9 @@ public class Const {
     public static final String ADD_CASH_SUCCESS = "Add cash successfull";
     public static final String BOOKING_IS_NOT_EXISTED = "Booking is not existed";
     public static final String GET_BOOKING_SUCCESS = "Get Booking Success";
+    public static final String LOGIN_SUCCESS = "Login Successful";
+    public static final String WRONG_USERNAME_PASSWORD = "Wrong username or password";
+    public static final String ACCESS_DENIED = "Access Denied";
 
     //Driver Account API
     public static final String DRIVER_ACCOUNT = "/driver";

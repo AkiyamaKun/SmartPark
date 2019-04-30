@@ -140,10 +140,12 @@
     function loginAccount() {
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
+        //2 is Web Application
+        let system = 2;
 
         CallAjaxWithFetch(`/account/login`,
             "POST",
-            {email, password},
+            {email, password, system},
             (data) => {
                 if (data.status === true) {
                     alert(data.message);

@@ -64,10 +64,12 @@
     function loginAccount() {
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
+        //1 web admin
+        let system = 1;
 
         CallAjaxWithFetch(`/account/login`,
             "POST",
-            {email, password},
+            {email, password, system},
             (data) => {
                 if (data.status === true) {
                     showAlert(true, data.message);
