@@ -61,12 +61,13 @@ public class Booking {
 
     /**
      * Booking Status
-     * None: Default status when booking record had created
-     * Booked: Booking status when driver go in and waiting them go out
-     * Finish: Booking status when driver payment successful.
+     * 1: BOOK: Default status when booking record had created
+     * 2: USE: Booking status when driver go in and waiting them go out
+     * 3: FINISH: Booking status when driver payment successful.
      */
-    @Column(name = "booking_status")
-    private String bookingStatus;
+    @OneToOne(targetEntity=BookingStatus.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="booking_status_id",referencedColumnName="booking_status_id")
+    private BookingStatus bookingStatus;
 
     @Column(name = "url_api_check_out")
     private String urlApiCheckIn;
@@ -91,7 +92,7 @@ public class Booking {
 
     public Booking(Account account, ParkingLot parkingLot, Date bookingTime,
                    Date timeStart, Date timeEnd, String tokenInput,
-                   String tokenOutput, String bookingStatus,
+                   String tokenOutput, BookingStatus bookingStatus,
                    String urlApiCheckIn, String urlApiCheckOut, String plateNumber,
                    Integer cashToPay) {
         this.account = account;
@@ -101,11 +102,11 @@ public class Booking {
         this.timeEnd = timeEnd;
         this.tokenInput = tokenInput;
         this.tokenOutput = tokenOutput;
-        this.bookingStatus = bookingStatus;
         this.urlApiCheckIn = urlApiCheckIn;
         this.urlApiCheckOut = urlApiCheckOut;
         this.plateNumber = plateNumber;
         this.cashToPay = cashToPay;
+        this.bookingStatus = bookingStatus;
     }
 
     public String getUrlApiCheckIn() {
@@ -172,14 +173,6 @@ public class Booking {
         this.tokenOutput = tokenOutput;
     }
 
-    public String getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(String bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -210,5 +203,13 @@ public class Booking {
 
     public void setCashToPay(Integer cashToPay) {
         this.cashToPay = cashToPay;
+    }
+
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
     }
 }

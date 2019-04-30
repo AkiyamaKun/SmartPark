@@ -73,7 +73,7 @@ public class Utilities {
         dto.setTokenOutput(entity.getTokenOutput());
         dto.setTimeStart(entity.getTimeStart());
         dto.setTimeEnd(entity.getTimeEnd());
-        dto.setBookingStatus(entity.getBookingStatus());
+        dto.setBookingStatus(entity.getBookingStatus().getBookingStatusName());
         dto.setUrlApiCheckIn(entity.getUrlApiCheckIn());
         dto.setUrlApiCheckOut(entity.getUrlApiCheckOut());
         dto.setParkingLotName(entity.getParkingLot().getDisplayName());
