@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -384,6 +386,18 @@ public class ViewController {
     public String toLoginSupervisor(Model model) {
         //Excute anything here
         return "supervisor/login-supervisor";
+    }
+
+    /**
+     * Logout Supervisor Page
+     *
+     * @param httpServletRequest
+     * @return
+     */
+    @RequestMapping(value = "/logout-supervisor", method = RequestMethod.GET)
+    public RedirectView toLogoutSupervisor(HttpServletRequest httpServletRequest) {
+        ResponseDTO logout = accountController.logout(httpServletRequest);
+        return new RedirectView("/login-supervisor");
     }
 
     /**

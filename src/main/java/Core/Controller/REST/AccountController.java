@@ -147,7 +147,7 @@ public class AccountController {
      * @return
      */
     @RequestMapping(value = Const.LOGIN, method = RequestMethod.POST)
-    public ResponseDTO logout(@RequestBody @Valid UserLoginDTO dto,
+    public ResponseDTO login(@RequestBody @Valid UserLoginDTO dto,
                               HttpServletRequest request) {
         ResponseDTO responseDTO = accountService.checkLogin(dto);
         if (responseDTO.isStatus()) {
@@ -164,7 +164,7 @@ public class AccountController {
      * @return
      */
     @RequestMapping(value = Const.LOGOUT, method = RequestMethod.POST)
-    public ResponseDTO login(HttpServletRequest request) {
+    public ResponseDTO logout(HttpServletRequest request) {
         ResponseDTO responseDTO = new ResponseDTO();
         HttpSession session = request.getSession();
         session.removeAttribute("User");
