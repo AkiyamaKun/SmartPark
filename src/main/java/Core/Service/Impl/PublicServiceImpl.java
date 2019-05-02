@@ -131,12 +131,12 @@ public class PublicServiceImpl implements PublicService {
                     ParkingSlotDTO parkingSlotDTO = listParkingSlot.get(i);
                     parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
                     parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
-                    List<ParkingSlotStatus> parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
-                    if(!parkingSlotStatus.isEmpty() || parkingSlotStatus != null){
-                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus.get(0));
+                    ParkingSlotStatus parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
+                    if(parkingSlotStatus != null){
+                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     }else{
                         parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_UNDEFINED);
-                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus.get(0));
+                        parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     }
                     parkingSlotRepository.save(parkingSlotEntity);
                 }

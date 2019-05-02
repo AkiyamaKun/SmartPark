@@ -1,5 +1,6 @@
 package Core.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,13 +19,19 @@ import Core.Handler.RestAuthenticationEntryPoint;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    //Register JwtAuthenticationTokenFilter
-//    @Bean
-//    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
-//        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
-//        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
-//        return jwtAuthenticationTokenFilter;
-//    }
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    //Register JwtAuthenticationTokenFilter
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
+        JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
+        jwtAuthenticationTokenFilter.setAuthenticationManager(authenticationManager());
+        return jwtAuthenticationTokenFilter;
+    }
 
     //Register RestAuthenticationEntryPoint
     @Bean
@@ -44,27 +51,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Disable CSRF (cross site request forgery)
-        http.csrf().disable();
-//        //Pages do not need login
-        http.authorizeRequests().antMatchers("/**").permitAll();
-//        //Pages need login with any role
-//        http.authorizeRequests().antMatchers("/home").access("hasAnyRole('ROLE_ADMIN', 'ROLE_DRIVER','ROLE_SUPVISOR')");
-//        //Pages only access with Admin
-//        http.authorizeRequests().antMatchers("/create-supervisor", "/create-manager", "/list-supervisors").access("hasRole('ADMIN')");
-//        //Access Denied Exception
-//        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-//        //Config for Login Form
-//        http.authorizeRequests().and().formLogin()//
-//                // Submit URL của trang login
-//                .loginPage("/login")//
-//                .defaultSuccessUrl("/home")//
-//                .failureUrl("/login?error=true")//
-//                .usernameParameter("email")//
-//                .passwordParameter("password")
-//                // Cấu hình cho Logout Page.
-//                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+        // Public API
+        http.csrf().disable()
+        .authorizeRequests()
+        // API follow Role
+        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/supervisor/**").hasRole("SUPERVISOR")
+        .antMatchers("/driver/**").hasRole("DRIVER")
+        .antMatchers("/**").permitAll()
+        // All urls must be authenticated
+        .anyRequest().authenticated()
+        .and()
+        // Call our errorHandler if authentication/authorisation fails
+        .exceptionHandling()
+            .authenticationEntryPoint(restAuthenticationEntryPoint)
+        .and()
+        // don't create session (REST)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        // Custom JWT based security filter
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // disable page caching
+        http.headers().cacheControl();
     }
 }

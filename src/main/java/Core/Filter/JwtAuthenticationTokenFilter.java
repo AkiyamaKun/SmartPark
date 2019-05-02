@@ -33,20 +33,22 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
-        if (jwtService.validateTokenLogin(authToken)) {
-            String email = jwtService.getEmailFromToken(authToken);
-            Account account = accountRepository.findByEmail(email);
-            if (account != null) {
-                boolean enabled = true;
-                boolean accountNonExpired = true;
-                boolean credentialsNonExpired = true;
-                boolean accountNonLocked = true;
-                UserDetails userDetail = new User(email, account.getPassword(), enabled, accountNonExpired,
-                        credentialsNonExpired, accountNonLocked,account.getAuthorities());
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail,
-                        null, userDetail.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        if(authToken != null){
+            if (jwtService.validateTokenLogin(authToken)) {
+                String email = jwtService.getEmailFromToken(authToken);
+                Account account = accountRepository.findByEmail(email);
+                if (account != null) {
+                    boolean enabled = true;
+                    boolean accountNonExpired = true;
+                    boolean credentialsNonExpired = true;
+                    boolean accountNonLocked = true;
+                    UserDetails userDetail = new User(email, account.getPassword(), enabled, accountNonExpired,
+                            credentialsNonExpired, accountNonLocked,account.getAuthorities());
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail,
+                            null, userDetail.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         }
         chain.doFilter(request, response);

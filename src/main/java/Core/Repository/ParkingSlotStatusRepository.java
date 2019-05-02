@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ParkingSlotStatusRepository extends JpaRepository<ParkingSlotStatus, Integer> {
-    List<ParkingSlotStatus> findByStatusName(String name);
+    ParkingSlotStatus findByStatusName(String name);
 }

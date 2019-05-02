@@ -213,9 +213,9 @@ public class Const {
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
 
     //Common
-    public static final String ROLE_ADMIN = "ADMIN";
-    public static final String ROLE_SUPERVISOR = "SUPERVISOR";
-    public static final String ROLE_DRIVER  = "DRIVER";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_SUPERVISOR = "ROLE_SUPERVISOR";
+    public static final String ROLE_DRIVER  = "ROLE_DRIVER";
     public static final String STATUS_SLOT_EMPTY = "empty";
     public static final String STATUS_SLOT_OCCUPIED = "occupied";
     public static final String STATUS_SLOT_UNDEFINED = "undefined";
@@ -223,6 +223,10 @@ public class Const {
     public static final String STATUS_BOOKING_BOOK = "BOOK";
     public static final String STATUS_BOOKING_USE = "USE";
     public static final String STATUS_BOOKING_FINISH = "FINISH";
+    public static final String ACCOUNT_ADMIN_DEFAULT = "admin@gmail.com";
+    public static final String ACCOUNT_SUPERVISOR_DEFAULT = "supervisor@gmail.com";
+    public static final String ACCOUNT_DRIVER_DEFAULT = "driver@gmail.com";
+    public static final String ACCOUNT_PASSWORD_DEFAULT = "123456";
 
     //Time is counted as seconds
     //1800 seconds = 30 minutes

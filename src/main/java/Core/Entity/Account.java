@@ -40,7 +40,7 @@ public class Account {
     private Date createdDate;
 
     //Admin: 1, Supervisor: 2, Driver: 3
-    @OneToOne(targetEntity=Role.class,cascade=CascadeType.ALL)
+    @OneToOne(targetEntity=Role.class)
     @JoinColumn(name="role_id",referencedColumnName="role_id")
     private Role role;
 
