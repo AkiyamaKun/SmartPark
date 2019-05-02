@@ -65,10 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // All urls must be authenticated
         .anyRequest().authenticated()
         .and()
-        // Call our errorHandler if authentication/authorisation fails
-        .exceptionHandling()
-            .authenticationEntryPoint(restAuthenticationEntryPoint)
-        .and()
         // don't create session (REST)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
