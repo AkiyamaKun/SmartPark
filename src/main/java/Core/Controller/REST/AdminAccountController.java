@@ -338,16 +338,7 @@ public class AdminAccountController {
         return parkingLotService.getListSupervisorOfParkingLot(parkingLotId);
     }
 
-    /**
-     * Forget Password
-     * @param email
-     * @return
-     */
-    @RequestMapping(value = Const.FORGET_PASSWORD, method = RequestMethod.POST)
-    public ResponseDTO forgotPassword(@RequestParam(value = "email") String email){
-        //1 is type of Admin and supervisor on public service
-        return accountService.forgetPassword(email, 1);
-    }
+
 
     @RequestMapping(value = Const.TOTAL_ACCOUNT, method = RequestMethod.GET)
     public ResponseDTO totalAccount(){

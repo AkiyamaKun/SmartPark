@@ -65,7 +65,8 @@ public class Const {
     public static final String GET_DRIVER_ACCOUNT = "/{id}";
     public static final String CREATE_DRIVER_ACCOUNT = "/create_driver";
     public static final String VERIFY_DRIVER_ACCOUNT = "/verify";
-    public static final String FORGET_PASSWORD = "/forget_password";
+    public static final String FORGET_PASSWORD_ADMIN = "/forget_password_admin";
+    public static final String FORGET_PASSWORD_DRIVER = "/forget_password_driver";
     public static final String SET_NEW_PASSWORD = "/set_new_password";
     public static final String TOTAL_ACCOUNT = "/total_account";
     public static final String BOOKING_SLOT = "/booking_slot";

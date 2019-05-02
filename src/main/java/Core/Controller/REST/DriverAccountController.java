@@ -64,20 +64,6 @@ public class DriverAccountController {
     }
 
     /**
-     * Create Driver Account
-     *
-     * @param accountDTO
-     * @return
-     */
-    @RequestMapping(value = Const.CREATE_DRIVER_ACCOUNT, method = RequestMethod.POST)
-    public ResponseDTO createDriver(@RequestBody @Valid AccountDTO accountDTO) {
-        //Register Driver Account
-        accountDTO.setRoleId(3);
-        return accountService.registerAccount(accountDTO);
-
-    }
-
-    /**
      * Get All Parking Lot
      *
      * @return
@@ -95,18 +81,6 @@ public class DriverAccountController {
     @RequestMapping(value = Const.GET_PARKING_LOT, method = RequestMethod.GET)
     public ResponseDTO getParkingLot(@PathVariable Integer id){
         return parkingLotService.getParkingLot(id);
-    }
-
-    /**
-     * Forget Password
-     *
-     * @param email
-     * @return
-     */
-    @RequestMapping(value = Const.FORGET_PASSWORD, method = RequestMethod.POST)
-    public ResponseDTO forgotPassword(@RequestParam(value = "email") String email) {
-        //4 is type of Admin and supervisor on public service
-        return accountService.forgetPassword(email, 4);
     }
 
     /**
@@ -183,18 +157,6 @@ public class DriverAccountController {
                                 @RequestParam(value = "token") String token) {
         return bookingService.checkOut(bookingId, token);
     }
-//
-//    /**
-//     * Payment
-//     * @param bookingId
-//     * @param moneyToPay
-//     * @return
-//     */
-//    @RequestMapping(value = Const.BOOKING_PAYMENT, method = RequestMethod.PUT)
-//    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-//                                @RequestParam(value = "moneyToPay") Integer moneyToPay){
-//        return bookingService.payment(bookingId, moneyToPay);
-//    }
 
     /**
      * Get List Booking By Parking Lot Id

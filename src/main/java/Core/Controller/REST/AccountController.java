@@ -173,4 +173,40 @@ public class AccountController {
         return responseDTO;
     }
 
+    /**
+     * Forget Password for Driver Account
+     *
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = Const.FORGET_PASSWORD_DRIVER, method = RequestMethod.POST)
+    public ResponseDTO forgotPasswordDriver(@RequestParam(value = "email") String email) {
+        //4 is type of Admin and supervisor on public service
+        return accountService.forgetPassword(email, 4);
+    }
+
+    /**
+     * Forget Password
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = Const.FORGET_PASSWORD_ADMIN, method = RequestMethod.POST)
+    public ResponseDTO forgotPasswordAdmin(@RequestParam(value = "email") String email){
+        //1 is type of Admin and supervisor on public service
+        return accountService.forgetPassword(email, 1);
+    }
+
+    /**
+     * Create Driver Account
+     *
+     * @param accountDTO
+     * @return
+     */
+    @RequestMapping(value = Const.CREATE_DRIVER_ACCOUNT, method = RequestMethod.POST)
+    public ResponseDTO createDriver(@RequestBody @Valid AccountDTO accountDTO) {
+        //Register Driver Account
+        accountDTO.setRoleId(3);
+        return accountService.registerAccount(accountDTO);
+
+    }
 }
