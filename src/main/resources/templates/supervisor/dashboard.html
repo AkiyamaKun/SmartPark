@@ -114,29 +114,6 @@
                 <img src="http://localhost:8081/video_feed" width="100%" alt="Please check your connection!" />
             </div>
 
-            <!--<footer class="footer">-->
-                <!--<div class="container-fluid">-->
-                    <!--<nav class="pull-left">-->
-                        <!--<ul>-->
-                            <!--<li>-->
-                                <!--<a href="aboutUs.html">-->
-                                    <!--About us-->
-                                <!--</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">-->
-                                    <!--Contact-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</nav>-->
-                    <!--<p class="copyright pull-right">-->
-                        <!--&copy;-->
-                        <!--<script>document.write(new Date().getFullYear())</script> <a href="#">Smart Parking</a>-->
-                    <!--</p>-->
-                <!--</div>-->
-            <!--</footer>-->
-
         </div>
     </div>
 
@@ -166,7 +143,7 @@
 <script>
     $(document).ready(function () {
         let accountId = document.getElementById("accountId").value;
-        doAjax("/admin/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
+        doAjax("/supervisor/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
             let plots = data.objectResponse;
             $("#listPlots").empty();
             $.each(plots, function (index, value) {

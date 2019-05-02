@@ -59,6 +59,13 @@
             loginAccount();
         });
 
+        document.addEventListener('keypress', function(e) {
+            var key = e.which || e.keyCode;
+            if(key === 13) { //13 is enter
+                loginAccount();
+            }
+        });
+
     });
 
     function loginAccount() {
@@ -73,7 +80,8 @@
             (data) => {
                 if (data.status === true) {
                     showAlert(true, data.message);
-                    window.jwtTokenGlobalVariable = data.objectResponse;
+                    let authorizationToken = data.objectResponse.token;
+                    localStorage.setItem("authorizationToken", authorizationToken);
                     window.location.href = "/home";
                 }
                 if (data.status === false) {

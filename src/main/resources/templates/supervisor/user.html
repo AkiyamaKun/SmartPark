@@ -233,7 +233,7 @@
 
         //get list parking lot control by supervisor
         let accountId = document.getElementById("accountId").value;
-        doAjax("/admin/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
+        doAjax("/supervisor/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
             let plots = data.objectResponse;
             $("#listPlots").empty();
             $.each(plots, function (index, value) {

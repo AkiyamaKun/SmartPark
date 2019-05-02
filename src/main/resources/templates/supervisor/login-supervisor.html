@@ -149,7 +149,8 @@
             (data) => {
                 if (data.status === true) {
                     alert(data.message);
-                    window.jwtTokenGlobalVariable = data.objectResponse;
+                    let authorizationToken = data.objectResponse.token;
+                    localStorage.setItem("authorizationToken", authorizationToken);
                     window.location.href = "/dashboard";
                 }
                 if (data.status === false) {

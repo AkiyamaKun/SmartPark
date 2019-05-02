@@ -1,5 +1,5 @@
 //Fetch API
-var jwtTokenGlobalVariable;
+var AUTHORIZATION_TOKEN = localStorage.getItem("authorizationToken");
 
 function ready(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
@@ -10,21 +10,6 @@ function ready(fn) {
     }
 }
 
-function GetAjaxWithFetch(url, success, fail = () => {}){
-    fetch(url)
-        .then((respond) => {
-            if (respond.ok) {
-                // noinspection JSAnnotator
-                return respond.json();
-            }
-            throw Error(respond.statusText);
-        }).then((result)=> {
-        success(result);
-    }).catch((err)=>{
-        fail(err);
-    });
-}
-
 function CallAjaxWithFetch(url, method, data, success, fail = () => {}){
     data = data || {};
     fetch(url,{
@@ -33,7 +18,7 @@ function CallAjaxWithFetch(url, method, data, success, fail = () => {}){
         headers: {
             'Accept' : 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': window.jwtTokenGlobalVariable
+            'Authorization': AUTHORIZATION_TOKEN
         }
     }).then((response)=>{
         if(response.ok){
@@ -55,7 +40,7 @@ function CallAjaxWithFetchWithFormData(url, method, data, success, fail = () => 
         body: data,
         headers: {
             'Accept' : 'application/json, application/x-www-form-urlencoded',
-            'Authorization': window.jwtTokenGlobalVariable
+            'Authorization': AUTHORIZATION_TOKEN
         }
     }).then((response)=>{
         if(response.ok){
@@ -86,7 +71,11 @@ function doAjax(url, method, data, callback, onError) {
             debugger;
             showAlert(false, xhr.responseJSON.message);
         },
+        //Headers: {'Authorization': 'authorizationToken'},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", AUTHORIZATION_TOKEN);
+        },
         dataType: "json",
-        contentType: "application/json"
+        contentType: "application/json",
     });
 }

@@ -1,3 +1,5 @@
+var AUTHORIZATION_TOKEN = localStorage.getItem("authorizationToken");
+
 // Counter Number
 $('.count').each(function () {
     $(this).prop('Counter', 0).animate({
@@ -27,8 +29,12 @@ function doAjax(url, method, data, callback, onError) {
             debugger;
             showAlert(false, xhr.responseJSON.message);
         },
+        //Headers: {'Authorization': 'authorizationToken'},
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", AUTHORIZATION_TOKEN);
+        },
         dataType: "json",
-        contentType: "application/json"
+        contentType: "application/json",
     });
 
 }
