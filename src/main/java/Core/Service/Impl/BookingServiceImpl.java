@@ -321,7 +321,7 @@ public class BookingServiceImpl implements BookingService {
                     List<BookingDTO> bookingDTOList = new ArrayList<>();
                     for(Booking element: bookings){
                         BookingDTO bookingDTO = new BookingDTO();
-                        if(element.getBookingStatus().equals(statusName)){
+                        if(element.getBookingStatus().getBookingStatusName().equals(statusName)){
                             Utilities.convertBookingDTOFromBookingEntity(bookingDTO, element);
                             bookingDTOList.add(bookingDTO);
                             countNumber++;
