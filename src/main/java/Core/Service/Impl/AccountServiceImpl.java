@@ -529,4 +529,30 @@ public class AccountServiceImpl implements AccountService {
         }
         return responseDTO;
     }
+
+    /**
+     * Get Information Account
+     * @param email
+     * @return
+     */
+    @Override
+    public ResponseDTO getAccountByEmail(String email) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByEmail(email);
+            if(account != null){
+                AccountDTO dto = new AccountDTO();
+                convertDTOFromEntity(dto, account);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_ACCOUNT_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            }else{
+                responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.GET_ACCOUNT_FAIL);
+        }
+        return responseDTO;
+    }
 }

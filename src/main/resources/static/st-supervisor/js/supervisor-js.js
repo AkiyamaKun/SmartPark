@@ -40,12 +40,11 @@ function doAjax(url, method, data, callback, onError) {
             if (response.status) {
                 callback(response);
             } else {
-                showAlert(false, response.message);
+                alert(response.message);
             }
         },
         error: function (xhr, status, error) {
-            debugger;
-            showAlert(false, xhr.responseJSON.message);
+            alert(xhr.responseJSON.message);
         },
         //Headers: {'Authorization': 'authorizationToken'},
         beforeSend: function (xhr) {
@@ -56,3 +55,17 @@ function doAjax(url, method, data, callback, onError) {
     });
 }
 
+// function showAlert(success, message) {
+//     let alertNoti = (success ? "<div id='alert' class='alert alert-success'>" : "<div id='alert' class='alert alert-danger'>") +
+//         "<span data-notify='message'>" + message +
+//         "</span></div>";
+//     $("body").append(alertNoti);
+//     if ($("#alert").length) {
+//         $("#alert").css("opacity", "1");
+//     }
+//     setTimeout(function () {
+//         if ($("#alert").length) {
+//             $("#alert").remove();
+//         }
+//     }, 5000);
+// }

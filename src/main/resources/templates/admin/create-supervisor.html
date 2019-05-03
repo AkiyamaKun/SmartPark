@@ -73,7 +73,7 @@
                 {firstName, lastName, email, phoneNumber, roleId},
                 (data) => {
                     if (data.status === true) {
-                        showAlert(true, "We have sent link verify email for you. Please check your email to set password!");
+                        showAlert(true, data.message);
                         setTimeout(function () {
                             document.location.href = "/list-supervisors";
                         }, 3000);

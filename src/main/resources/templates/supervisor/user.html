@@ -268,12 +268,12 @@
         let phoneNumber = document.getElementById("phoneNumber").value;
 
         if (validateData) {
-            CallAjaxWithFetch(`/admin/update_supervisor/${accountId}`,
+            doAjax("/account/update/" + accountId,
                 "PUT",
                 {accountId, firstName, lastName, phoneNumber},
                 (data) => {
                     alert(data.message);
-                    $('#btn-save').prop('disabled', true);
+                    $('#btn-update').prop('disabled', true);
                     document.location.href = "/dashboard";
                 },
                 (err) => {

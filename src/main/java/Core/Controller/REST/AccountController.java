@@ -209,4 +209,16 @@ public class AccountController {
         return accountService.registerAccount(accountDTO);
 
     }
+
+    /**
+     * Get Account
+     *
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = Const.GET_ACCOUNT_BY_EMAIL, method = RequestMethod.GET)
+    public ResponseDTO getAccount(@RequestParam(value = "email") String email) {
+        ResponseDTO responseDTO = accountService.getAccountByEmail(email);
+        return responseDTO;
+    }
 }

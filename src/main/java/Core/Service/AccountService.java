@@ -23,4 +23,5 @@ public interface AccountService {
     ResponseDTO forgetPassword(String email, Integer type);
     ResponseDTO totalAccount();
     ResponseDTO addCash(Integer accountId, Integer amountOfCash);
+    ResponseDTO getAccountByEmail(String email);
 }

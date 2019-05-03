@@ -18,6 +18,7 @@ public class Const {
     public static final String ACCOUNT = "/account";
     public static final String CHANGE_PASSWORD = "/change_password";
     public static final String GET_ACCOUNT = "/{id}";
+    public static final String GET_ACCOUNT_BY_EMAIL = "/get_by_email";
     public static final String UPDATE_ACCOUNT = "/update/{id}";
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
     public static final String LOGIN = "/login";
