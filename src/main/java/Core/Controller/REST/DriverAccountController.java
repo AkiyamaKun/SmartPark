@@ -83,28 +83,6 @@ public class DriverAccountController {
         return parkingLotService.getParkingLot(id);
     }
 
-    /**
-     * Set new password then forget password
-     *
-     * @param email
-     * @param password
-     * @param passwordConfirm
-     * @return
-     */
-    @RequestMapping(value = Const.SET_NEW_PASSWORD, method = RequestMethod.PUT)
-    public ResponseDTO setNewPassword(@RequestParam(value = "email", required = true) String email,
-                                      @RequestParam(value = "password", required = true) String password,
-                                      @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm) {
-        ResponseDTO responseDTO = new ResponseDTO();
-        if (!password.equals(passwordConfirm)) {
-            responseDTO.setStatus(false);
-            responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
-        } else {
-            responseDTO = accountService.setFirstPassword(email, password);
-            responseDTO.setMessage(Const.CHANGE_PASSWORD_SUCCESS);
-        }
-        return responseDTO;
-    }
 
     /**
      * Add Cash for Driver
@@ -130,32 +108,6 @@ public class DriverAccountController {
     public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
                                    @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId) {
         return bookingService.createBooking(accountId, parkingLotId);
-    }
-
-    /**
-     * Check In
-     *
-     * @param bookingId
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.BOOKING_CHECK_IN, method = RequestMethod.PUT)
-    public ResponseDTO checkIn(@RequestParam(value = "bookingId") Integer bookingId,
-                               @RequestParam(value = "token") String token) {
-        return bookingService.checkIn(bookingId, token);
-    }
-
-    /**
-     * Check Out
-     *
-     * @param bookingId
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.BOOKING_CHECK_OUT, method = RequestMethod.PUT)
-    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-                                @RequestParam(value = "token") String token) {
-        return bookingService.checkOut(bookingId, token);
     }
 
     /**
@@ -192,16 +144,6 @@ public class DriverAccountController {
     @RequestMapping(value = Const.BOOKING_CANCEL, method = RequestMethod.PUT)
     public ResponseDTO cancelBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId) {
         return bookingService.cancelBooking(bookingId);
-    }
-
-    /**
-     * Get Booking by id
-     * @param bookingId
-     * @return
-     */
-    @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
-    public ResponseDTO getBookingById(@PathVariable Integer bookingId){
-        return bookingService.getBookingById(bookingId);
     }
 
 }

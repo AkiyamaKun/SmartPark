@@ -4,6 +4,7 @@ import Core.Constant.Const;
 import Core.DTO.*;
 import Core.Entity.Account;
 import Core.Service.AccountService;
+import Core.Service.BookingService;
 import Core.Service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class AccountController {
 
     @Autowired
     JwtService jwtService;
+
+    @Autowired
+    BookingService bookingService;
 
     /**
      * Convert InformationAccountDTO form AccountDTO
@@ -141,6 +145,29 @@ public class AccountController {
     }
 
     /**
+     * Set new password then forget password
+     *
+     * @param email
+     * @param password
+     * @param passwordConfirm
+     * @return
+     */
+    @RequestMapping(value = Const.SET_NEW_PASSWORD, method = RequestMethod.PUT)
+    public ResponseDTO setNewPassword(@RequestParam(value = "email", required = true) String email,
+                                      @RequestParam(value = "password", required = true) String password,
+                                      @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        if (!password.equals(passwordConfirm)) {
+            responseDTO.setStatus(false);
+            responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
+        } else {
+            responseDTO = accountService.setFirstPassword(email, password);
+            responseDTO.setMessage(Const.CHANGE_PASSWORD_SUCCESS);
+        }
+        return responseDTO;
+    }
+
+    /**
      * Login
      *
      * @param dto
@@ -220,5 +247,15 @@ public class AccountController {
     public ResponseDTO getAccount(@RequestParam(value = "email") String email) {
         ResponseDTO responseDTO = accountService.getAccountByEmail(email);
         return responseDTO;
+    }
+
+    /**
+     * Get Booking by id
+     * @param bookingId
+     * @return
+     */
+    @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
+    public ResponseDTO getBookingById(@PathVariable Integer bookingId){
+        return bookingService.getBookingById(bookingId);
     }
 }

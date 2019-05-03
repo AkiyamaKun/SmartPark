@@ -324,7 +324,7 @@ public class ViewController {
         return url;
     }
 
-    @RequestMapping(value = Const.DRIVER_ACCOUNT + Const.SET_NEW_PASSWORD)
+    @RequestMapping(value = Const.ACCOUNT + Const.SET_NEW_PASSWORD)
     public String toNewPasswordForDriver(@RequestParam(value = "email", required = true) String email,
                                     @RequestParam(value = "token", required = true) String token,
                                     Model model) {
@@ -365,7 +365,7 @@ public class ViewController {
      * @param token
      * @return
      */
-    @RequestMapping(value = Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
+    @RequestMapping(value = Const.ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT, method = RequestMethod.GET)
     public String verifyDriverAccount(@RequestParam(value = "email", required = true) String email,
                                       @RequestParam(value = "token", required = true) String token){
         ResponseDTO responseDTO = driverAccountService.verifyAccount(email, token);
