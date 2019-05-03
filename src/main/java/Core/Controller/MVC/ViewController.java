@@ -437,6 +437,17 @@ public class ViewController {
         return view;
     }
 
+    /**
+     * Forget Password Supervisor Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/forget-pass-supervisor", method = RequestMethod.GET)
+    public String toForgetPassSupervisor(Model model) {
+        //Excute anything here
+        return "supervisor/forget-pass-supervisor";
+    }
 }
 
 
