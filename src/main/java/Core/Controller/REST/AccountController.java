@@ -141,6 +141,29 @@ public class AccountController {
     }
 
     /**
+     * Set new password then forget password
+     *
+     * @param email
+     * @param password
+     * @param passwordConfirm
+     * @return
+     */
+    @RequestMapping(value = Const.SET_NEW_PASSWORD, method = RequestMethod.PUT)
+    public ResponseDTO setNewPassword(@RequestParam(value = "email", required = true) String email,
+                                      @RequestParam(value = "password", required = true) String password,
+                                      @RequestParam(value = "passwordConfirm", required = true) String passwordConfirm) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        if (!password.equals(passwordConfirm)) {
+            responseDTO.setStatus(false);
+            responseDTO.setMessage(Const.PASSWORD_CONFIRM_FAIL);
+        } else {
+            responseDTO = accountService.setFirstPassword(email, password);
+            responseDTO.setMessage(Const.CHANGE_PASSWORD_SUCCESS);
+        }
+        return responseDTO;
+    }
+
+    /**
      * Login
      *
      * @param dto
@@ -209,4 +232,6 @@ public class AccountController {
         return accountService.registerAccount(accountDTO);
 
     }
+
+
 }

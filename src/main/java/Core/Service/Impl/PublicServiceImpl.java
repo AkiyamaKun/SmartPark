@@ -91,11 +91,11 @@ public class PublicServiceImpl implements PublicService {
                 break;
             case 3:
                 //Driver Account
-                urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + congratulationMail + Const.MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT + ": " + urlVerify);
                 break;
             case 4:
-                urlVerify = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email +"&token=" + token;
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email +"&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + Const.MAIL_CONTENT_SET_NEW_PASSWORD + ": " + urlVerify);
                 //Forget Passowrd of Driver Account
             default:

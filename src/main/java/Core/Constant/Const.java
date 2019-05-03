@@ -81,14 +81,12 @@ public class Const {
     public static final String BOOKING_SUCCESS = "Booking success";
     public static final String BOOKING_CHECK_IN_SUCCESS = "Check in success";
     public static final String BOOKING_CHECK_OUT_SUCCESS = "Check out success";
-    public static final String BOOKING_PAYMENT_SUCCESS = "Payment success";
     public static final String MONEY_NOT_ENOUGH = "Money not enough";
     public static final String BOOKING_HAD_CHECK_IN = "This QRCode Had Check In";
     public static final String BOOKING_HAD_FINISH = "This session booking had finished";
     public static final String BOOKING_TIME_OUT_CHECK_IN = "Check-in time has expired";
     public static final String BOOKING_CHECK_IN_FAIL = "Check in fail";
     public static final String BOOKING_CHECK_OUT_FAIL = "Check out fail";
-    public static final String BOOKING_PAYMENT_FAIL = "Payment fail";
     public static final String BOOKING_OUT_OF_SLOT = "No one slot can booking";
 
 
@@ -195,7 +193,6 @@ public class Const {
     //Booking API
     public static final String BOOKING_CHECK_IN = "/check_in";
     public static final String BOOKING_CHECK_OUT = "/check_out";
-    public static final String BOOKING_PAYMENT = "/payment";
     public static final String LIST_BOOKING_BY_PARKING_LOT = "/list_booking";
     public static final String LIST_BOOKING_BY_ACCOUNT_ID = "/list_booking/{accountId}";
     public static final String BOOKING_CANCEL = "/booking_cancel";
