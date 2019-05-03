@@ -111,32 +111,6 @@ public class DriverAccountController {
     }
 
     /**
-     * Check In
-     *
-     * @param bookingId
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.BOOKING_CHECK_IN, method = RequestMethod.PUT)
-    public ResponseDTO checkIn(@RequestParam(value = "bookingId") Integer bookingId,
-                               @RequestParam(value = "token") String token) {
-        return bookingService.checkIn(bookingId, token);
-    }
-
-    /**
-     * Check Out
-     *
-     * @param bookingId
-     * @param token
-     * @return
-     */
-    @RequestMapping(value = Const.BOOKING_CHECK_OUT, method = RequestMethod.PUT)
-    public ResponseDTO checkOut(@RequestParam(value = "bookingId") Integer bookingId,
-                                @RequestParam(value = "token") String token) {
-        return bookingService.checkOut(bookingId, token);
-    }
-
-    /**
      * Get List Booking By Parking Lot Id
      *
      * @param parkingLotId
@@ -170,16 +144,6 @@ public class DriverAccountController {
     @RequestMapping(value = Const.BOOKING_CANCEL, method = RequestMethod.PUT)
     public ResponseDTO cancelBooking(@RequestParam(value = "bookingId", required = true) Integer bookingId) {
         return bookingService.cancelBooking(bookingId);
-    }
-
-    /**
-     * Get Booking by id
-     * @param bookingId
-     * @return
-     */
-    @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
-    public ResponseDTO getBookingById(@PathVariable Integer bookingId){
-        return bookingService.getBookingById(bookingId);
     }
 
 }

@@ -74,7 +74,7 @@ public class BookingServiceImpl implements BookingService {
                     }
                     booking.setBookingStatus(bookingStatus);
                     bookingRepository.save(booking);
-                    String urlAPICheckIn = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
+                    String urlAPICheckIn = Const.DOMAIN + Const.PUBLIC + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
                             + "&token=" + token;
                     booking.setUrlApiCheckIn(urlAPICheckIn);
                     bookingRepository.save(booking);
@@ -143,7 +143,7 @@ public class BookingServiceImpl implements BookingService {
                             booking.setBookingStatus(bookingStatus);
                             booking.setTimeStart(timeStart);
                             bookingRepository.save(booking);
-                            String urlAPICheckOut = Const.DOMAIN + Const.DRIVER_ACCOUNT + Const.BOOKING_CHECK_OUT + "?bookingId=" + booking.getBookingId()
+                            String urlAPICheckOut = Const.DOMAIN + Const.PUBLIC + Const.BOOKING_CHECK_OUT + "?bookingId=" + booking.getBookingId()
                                     + "&token=" + tokenOutPut;
                             booking.setUrlApiCheckOut(urlAPICheckOut);
                             bookingRepository.save(booking);

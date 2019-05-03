@@ -4,6 +4,7 @@ import Core.Constant.Const;
 import Core.DTO.*;
 import Core.Entity.Account;
 import Core.Service.AccountService;
+import Core.Service.BookingService;
 import Core.Service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class AccountController {
 
     @Autowired
     JwtService jwtService;
+
+    @Autowired
+    BookingService bookingService;
 
     /**
      * Convert InformationAccountDTO form AccountDTO
@@ -233,5 +237,13 @@ public class AccountController {
 
     }
 
-
+    /**
+     * Get Booking by id
+     * @param bookingId
+     * @return
+     */
+    @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
+    public ResponseDTO getBookingById(@PathVariable Integer bookingId){
+        return bookingService.getBookingById(bookingId);
+    }
 }
