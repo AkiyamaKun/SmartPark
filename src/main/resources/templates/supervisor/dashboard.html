@@ -110,8 +110,8 @@
                 </div>
             </nav>
 
-            <div class="content" id="livestream" onload="getVideoFeed(this)">
-                <!--<img src="http://703da524.ngrok.io/video_feed/" width="100%" alt="Please check your connection!" />-->
+            <div class="content" id="livestream">
+
             </div>
         </div>
     </div>
@@ -140,12 +140,12 @@
 <script>
 
     const getVideoFeed = (parkingLotId) => {
+        // debugger
+        if (event) {
+            event.stopPropagation();
+        }
         let img = "<img src='http://703da524.ngrok.io/video_feed/" + parkingLotId + "' width=\"100%\" alt=\"Please check your connection!\" />";
-        $("#livestream").one("click", function () {
-            // executes only once
-            $(this).append(img);
-            alert(img);
-        });
+        $("#livestream").html(img);
     };
 
     $(document).ready(function () {
