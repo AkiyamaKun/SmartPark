@@ -28,6 +28,7 @@ public class SupervisionServiceImpl implements SupervisionService {
 
     /**
      * Assign Parking Lot for Supervisor
+     *
      * @param parkingLotId
      * @param supervisorId
      * @return
@@ -36,22 +37,22 @@ public class SupervisionServiceImpl implements SupervisionService {
     public ResponseDTO assignParkingLotForSupervisor(Integer parkingLotId, Integer supervisorId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             Account supervisor = accountRepository.findByAccountId(supervisorId);
-            if(parkingLot != null && supervisor != null){
+            if (parkingLot != null && supervisor != null) {
                 //Check Existed
                 List<Supervision> supervisions = supervisionRepository.findByParkingLot(parkingLot);
                 boolean existed = false;
-                if(!supervisions.isEmpty()){
-                    for(Supervision supervision : supervisions){
-                        if(supervision.getSupervisor().getAccountId() == supervisorId){
+                if (!supervisions.isEmpty()) {
+                    for (Supervision supervision : supervisions) {
+                        if (supervision.getSupervisor().getAccountId() == supervisorId) {
                             existed = true;
                             break;
                         }
                     }
                 }
-                if(!existed){
+                if (!existed) {
                     //Not existed -> Create new Supervision
                     Supervision supervision = new Supervision();
                     supervision.setParkingLot(parkingLot);
@@ -62,11 +63,35 @@ public class SupervisionServiceImpl implements SupervisionService {
                     responseDTO.setMessage(Const.ASSIGN_PARKING_LOT_FOR_SUPERVISOR_SUCCESS);
                     responseDTO.setObjectResponse(supervision);
                 }
-            }else{
+            } else {
                 responseDTO.setMessage(Const.ASSIGN_PARKING_LOT_FOR_SUPERVISOR_FAIL);
             }
-        }catch (Exception e){
-            responseDTO.setMessage("Assign Parking Lot for Supervisor Error: "+ e.getMessage());
+        } catch (Exception e) {
+            responseDTO.setMessage("Assign Parking Lot for Supervisor Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO deassignParkingLotForSupervisor(Integer parkingLotId, Integer supervisorId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            Account supervisor = accountRepository.findByAccountId(supervisorId);
+            Supervision supervision = supervisionRepository.findByParkingLotAndSupervisor(parkingLot, supervisor);
+            if (supervision != null) {
+                supervision.setParkingLot(null);
+                supervision.setSupervisor(null);
+                supervisionRepository.save(supervision);
+                supervisionRepository.delete(supervision);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.DEASSIGN_PARKING_LOT_FOR_SUPERVISOR_SUCCESS);
+            } else {
+                responseDTO.setMessage(Const.DEASSIGN_PARKING_LOT_FOR_SUPERVISOR_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Deassign Parking Lot for Supervisor Error: " + e.getMessage());
         }
         return responseDTO;
     }

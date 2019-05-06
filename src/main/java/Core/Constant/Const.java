@@ -26,6 +26,7 @@ public class Const {
     public static final String REGISTER =  "/register";
     public static final String SET_FIRST_PASSWORD = "/set_first_password";
     public static final String SET_PASSWORD_PAGE ="/set_password_page";
+    public static final String DEASSIGN_PARKING_LOT ="/deassign_parking_lot";
 
     //Message Response
     public static final String DELETE_ACCOUNT_SUCCESS = "Delete Account Successful";
@@ -167,6 +168,8 @@ public class Const {
     //Supervision Message
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR_SUCCESS = "Assign Parking Lot for Supervisor Successful";
     public static final String ASSIGN_PARKING_LOT_FOR_SUPERVISOR_FAIL = "Assign Parking Lot for Supervisor Fail";
+    public static final String DEASSIGN_PARKING_LOT_FOR_SUPERVISOR_SUCCESS = "Deassign Parking Lot for Supervisor Successful";
+    public static final String DEASSIGN_PARKING_LOT_FOR_SUPERVISOR_FAIL = "Deassign Parking Lot for Supervisor Fail";
 
     //Supervisor Account API
     public static final String SUPERVISOR_ACCOUNT = "/supervisor";

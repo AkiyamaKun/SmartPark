@@ -6,6 +6,7 @@ import Core.Entity.Account;
 import Core.Service.AccountService;
 import Core.Service.BookingService;
 import Core.Service.JwtService;
+import Core.Service.SupervisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,9 @@ public class AccountController {
 
     @Autowired
     BookingService bookingService;
+
+    @Autowired
+    SupervisionService supervisionService;
 
     /**
      * Convert InformationAccountDTO form AccountDTO
@@ -257,5 +261,17 @@ public class AccountController {
     @RequestMapping(value = Const.GET_BOOKING, method = RequestMethod.GET)
     public ResponseDTO getBookingById(@PathVariable Integer bookingId){
         return bookingService.getBookingById(bookingId);
+    }
+
+    /**
+     * Deassign Parking Lot
+     * @param parkingLotId
+     * @param supervisorId
+     * @return
+     */
+    @RequestMapping(value = Const.DEASSIGN_PARKING_LOT, method = RequestMethod.DELETE)
+    public ResponseDTO deassignParkingLotForSupervisor(@RequestParam Integer parkingLotId,
+                                                       @RequestParam Integer supervisorId){
+            return supervisionService.deassignParkingLotForSupervisor(parkingLotId, supervisorId);
     }
 }

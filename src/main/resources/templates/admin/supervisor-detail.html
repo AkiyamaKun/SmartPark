@@ -82,7 +82,7 @@
                     <select th:field="*{plotOfSupervisor}" id="selectLot" class="form-control"
                             onchange="onChangeParkingLot()">
                         <option th:each="i : ${plotOfSupervisor}"
-                                th:value="${i.parkingLotId}"
+                                th:value="${i.parkingLotId}" id="parkLotId"
                                 th:text="${i.displayName}">
                         </option>
                     </select>
@@ -119,6 +119,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-danger float-left" id="btnDeassign">
+                    <i class="fa fa-ban"></i> Deassign
+                </button>
             </div>
         </div>
     </div>
@@ -194,6 +199,18 @@
             let accountId = document.getElementById("accountId").value;
 
             doAjax("/admin/active_admin/" + accountId, "PUT", {}, function (response) {
+                showAlert(true, response.message);
+                document.location.href = "/list-supervisors";
+            }, function (error) {
+                showAlert(false, error.message);
+            });
+        });
+
+        $("#btnDeassign").click(function (event) {
+            let accountId = document.getElementById("accountId").value;
+            let parkingLotId = document.getElementById("parkLotId").value;
+
+            doAjax("/account/deassign_parking_lot?parkingLotId=" + parkingLotId + "&supervisorId=" + accountId, "DELETE", {}, function (response) {
                 showAlert(true, response.message);
                 document.location.href = "/list-supervisors";
             }, function (error) {

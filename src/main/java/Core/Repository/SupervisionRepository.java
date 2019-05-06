@@ -13,4 +13,5 @@ public interface SupervisionRepository extends JpaRepository<Supervision, Intege
     Supervision findBySupervisionId(Integer id);
     List<Supervision> findByParkingLot(ParkingLot parkingLot);
     List<Supervision> findBySupervisor(Account supervisor);
+    Supervision findByParkingLotAndSupervisor(ParkingLot parkingLot, Account supervisor);
 }
