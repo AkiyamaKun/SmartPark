@@ -555,4 +555,32 @@ public class AccountServiceImpl implements AccountService {
         }
         return responseDTO;
     }
+
+    /**
+     * Logout for Android
+     * @param accountId
+     * @return
+     */
+    @Override
+    public ResponseDTO logoutAndroid(Integer accountId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            Account account = accountRepository.findByAccountId(accountId);
+            if(account != null){
+                //Logout for Android
+                account.setToken(null);
+                AccountDTO dto = new AccountDTO();
+                convertDTOFromEntity(dto, account);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.LOGOUT_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            }else{
+                responseDTO.setMessage(Const.ACCOUNT_IS_NOT_EXISTED);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.LOGOUT_FAIL + " : " + e.getMessage());
+        }
+        return responseDTO;
+    }
 }

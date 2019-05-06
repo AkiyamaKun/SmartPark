@@ -201,6 +201,19 @@ public class AccountController {
     }
 
     /**
+     * Logout Account Android
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = Const.LOGOUT_ANDROID, method = RequestMethod.PUT)
+    public ResponseDTO logoutAndroid(@PathVariable Integer id ,HttpServletRequest request) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        accountService.logoutAndroid(id);
+        return responseDTO;
+    }
+
+    /**
      * Forget Password for Driver Account
      *
      * @param email

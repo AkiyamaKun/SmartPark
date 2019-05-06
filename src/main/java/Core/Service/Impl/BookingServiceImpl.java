@@ -257,6 +257,10 @@ public class BookingServiceImpl implements BookingService {
                         responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
                     }else{
                         //Money not enough
+                        CheckOutDTO checkOutDTO = new CheckOutDTO();
+                        checkOutDTO.setBookingId(bookingId);
+                        checkOutDTO.setMoneyToPay(moneyToPay);
+                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
                         responseDTO.setMessage(Const.MONEY_NOT_ENOUGH);
                         bookingRepository.save(booking);
                     }

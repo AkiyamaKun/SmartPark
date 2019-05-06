@@ -24,4 +24,5 @@ public interface AccountService {
     ResponseDTO totalAccount();
     ResponseDTO addCash(Integer accountId, Integer amountOfCash);
     ResponseDTO getAccountByEmail(String email);
+    ResponseDTO logoutAndroid(Integer accountId);
 }

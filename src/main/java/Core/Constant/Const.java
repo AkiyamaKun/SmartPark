@@ -23,6 +23,9 @@ public class Const {
     public static final String LIST_ACCOUNTS = "/list_accounts/{roleId}";
     public static final String LOGIN = "/login";
     public static final String LOGOUT = "/logout";
+    public static final String LOGOUT_ANDROID = "/logout/{id}";
+    public static final String LOGOUT_SUCCESS = "Logout Successful";
+    public static final String LOGOUT_FAIL = "Logout Fail";
     public static final String REGISTER =  "/register";
     public static final String SET_FIRST_PASSWORD = "/set_first_password";
     public static final String SET_PASSWORD_PAGE ="/set_password_page";
