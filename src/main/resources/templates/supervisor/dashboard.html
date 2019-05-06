@@ -64,6 +64,8 @@
                             </p>
                             <div class="collapse in" id="collapseExample"  aria-expanded="true">
                                 <ul style="padding-left: 14px; list-style-type: none;" id="listPlots">
+                                    <a href="#"></a>
+
                                 </ul>
                             </div>
                         </a>
@@ -155,10 +157,13 @@
             $("#listPlots").empty();
             $.each(plots, function (index, value) {
                 let li =
-                    "<a href=\"dashboard.html\" style=\"color: white;\">\n" +
-                    "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
-                    "<p style=\"color: white;\" href='#' onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</p>\n" +
-                    "</a>";
+                    "<li>" +
+                        "<a href=\"#\"></a>" +
+                        "<a href='#'>" +
+                            "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
+                            "<p style=\"color: white;\" onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</p>\n" +
+                        "</a>" +
+                    "</li>";
                 $("#listPlots").append(li);
             });
         }, function (error) {
