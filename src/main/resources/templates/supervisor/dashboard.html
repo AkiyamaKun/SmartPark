@@ -115,8 +115,6 @@
             </div>
         </div>
     </div>
-
-
 </body>
 
 <!--   Core JS Files   -->
@@ -142,7 +140,7 @@
 <script>
 
     const getVideoFeed = (parkingLotId) => {
-        let img = "<img src='http://localhost:8081/video_feed/" + parkingLotId + "' width=\"100%\" alt=\"Please check your connection!\" />";
+        let img = "<img src='http://703da524.ngrok.io/video_feed/" + parkingLotId + "' width=\"100%\" alt=\"Please check your connection!\" />";
         $("#livestream").one("click", function () {
             // executes only once
             $(this).append(img);
