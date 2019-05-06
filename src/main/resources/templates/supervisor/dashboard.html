@@ -110,8 +110,8 @@
                 </div>
             </nav>
 
-            <div class="content" id="livestream" onclick="getVideoFeed(this)">
-
+            <div class="content" id="livestream" onload="getVideoFeed(this)">
+                <!--<img src="http://703da524.ngrok.io/video_feed/" width="100%" alt="Please check your connection!" />-->
             </div>
         </div>
     </div>
@@ -144,6 +144,7 @@
         $("#livestream").one("click", function () {
             // executes only once
             $(this).append(img);
+            alert(img);
         });
     };
 
@@ -156,7 +157,7 @@
                 let li =
                     "<a href=\"dashboard.html\" style=\"color: white;\">\n" +
                     "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
-                    "<a style=\"color: white;\" href='#' onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</a>\n" +
+                    "<p style=\"color: white;\" href='#' onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</p>\n" +
                     "</a>";
                 $("#listPlots").append(li);
             });

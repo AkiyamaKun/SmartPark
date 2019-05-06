@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label">Address</label>
-                    <input type="text" id="address" placeholder="Address" class="form-control" readonly/>
+                    <input type="text" id="address" placeholder="Address" class="form-control" disabled/>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label">Time of Operation</label>
@@ -188,6 +188,7 @@
         let lat = $("#lat-input").val().trim();
         let totalSlot = $("#totalSlot").val().trim();
         let price = $("#price").val().trim();
+        let address = $("#address").val().trim();
         let phoneNumber = $("#phoneNumber").val().trim();
         let timeOfOperation = $("#timeOfOperation").val().trim();
         let ownerId = $("#ownerId").val();
@@ -221,6 +222,7 @@
             longitude: parseFloat(long),
             latitude: parseFloat(lat),
             totalSlot: parseInt(totalSlot),
+            address: address,
             phoneNumber: phoneNumber,
             timeOfOperation: timeOfOperation,
             ownerId: ownerId,
