@@ -176,6 +176,8 @@ public class Const {
 
     //Supervisor Account API
     public static final String SUPERVISOR_ACCOUNT = "/supervisor";
+    public static final String LIST_CAMERA = "/list_camera";
+
 
     //Account Gmail vs Mail Properties
     public static final String MAIL_ACCOUNT = "smartparking50@gmail.com";
@@ -216,6 +218,18 @@ public class Const {
     //Parking Slot Message
     public static final String PARKING_SLOT_IS_NOT_EXISTED = "Parking Slot is not existed";
     public static final String GET_PARKING_SLOT_SUCCESS = "Get Parking Slot Successful";
+
+    //Payment message
+    public static final String GET_PAYMENT_SUCCESS = "Get Payment Successful";
+    public static final String PAYMENT_IS_NOT_EXISTED = "Payment is not existed";
+    public static final String GET_LIST_PAYMENT_SUCCESS = "Get List Payment Successful";
+    public static final String GET_LIST_PAYMENT_FAIL = "Get List Payment Fail";
+
+    //Camera message
+    public static final String GET_CAMERA_SUCCESS = "Get Camera Successful";
+    public static final String CAMERA_IS_NOT_EXISTED = "Camera is not existed";
+    public static final String GET_LIST_CAMERA_SUCCESS = "Get List Camera Successful";
+    public static final String GET_LIST_CAMERA_FAIL = "Get List Camera Fail";
 
     //Common
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
