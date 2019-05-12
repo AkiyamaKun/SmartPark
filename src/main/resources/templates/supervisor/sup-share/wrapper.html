@@ -1,0 +1,45 @@
+<div class="sidebar" xmlns:th="http://www.thymeleaf.org" th:fragment="wrapper"
+     data-color="purple" data-image="st-supervisor/img/sidebar-5.jpg">
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="dashboard.html" class="simple-text">
+                Smart Parking
+            </a>
+        </div>
+        <ul class="nav">
+            <li>
+                <a th:href="@{/dashboard}">
+                    <i class="pe-7s-home"></i>
+                    <p>Home</p>
+                </a>
+            </li>
+            <li>
+                <input type="hidden" th:value="${session.User.accountId}" id="accountId">
+                <a th:href="@{/user(id=${session.User.accountId})}">
+                    <i class="pe-7s-user"></i>
+                    <p>User Profile</p>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#">
+                    <i class="pe-7s-note2"></i>
+                    <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="true"
+                       aria-controls="collapseExample">
+                        Parking Lots List
+                    </p>
+                    <div class="collapse in" id="collapseExample" aria-expanded="true">
+                        <ul style="padding-left: 14px; list-style-type: none;" id="listPlots">
+                            <a href="#"></a>
+
+                        </ul>
+                    </div>
+                </a>
+            </li>
+            <li class="active-pro">
+                <a th:href="@{/logout-supervisor}">
+                    <p>Logout</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
