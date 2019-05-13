@@ -2,7 +2,7 @@
      data-color="purple" data-image="st-supervisor/img/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="dashboard.html" class="simple-text">
+            <a th:href="@{/dashboard}" class="simple-text">
                 Smart Parking
             </a>
         </div>
@@ -11,6 +11,12 @@
                 <a th:href="@{/dashboard}">
                     <i class="pe-7s-home"></i>
                     <p>Home</p>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/report}">
+                    <i class="pe-7s-graph"></i>
+                    <p>Report</p>
                 </a>
             </li>
             <li>

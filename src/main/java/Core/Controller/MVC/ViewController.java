@@ -22,12 +22,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 
 /**
  * View Controller for MVC
@@ -80,7 +83,18 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/home")
-    public ModelAndView toHome(Model model) {
+    public ModelAndView toHome(HttpServletRequest request, HttpServletResponse response, Model model) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie:cookies) {
+            if(cookie.getName().equals("JSESSIONID")){
+                Integer age = cookie.getMaxAge();
+                if(age == -1){
+                    cookie.setMaxAge(365 * 24 * 60 * 60);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
         model.addAttribute("Title", "Home");
         ModelAndView view = new ModelAndView("admin/home");
         ResponseDTO listDrivers = accountService.getListAccount(3);
@@ -421,6 +435,17 @@ public class ViewController {
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
     public String toDashboardSupervisor(Model model) {
         return "supervisor/dashboard";
+    }
+
+    /**
+     * Report Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public String toReportSupervisor(Model model) {
+        return "supervisor/report";
     }
 
     /**

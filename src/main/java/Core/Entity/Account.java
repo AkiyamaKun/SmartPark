@@ -1,7 +1,7 @@
 package Core.Entity;
 
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -100,11 +100,11 @@ public class Account {
         this.plateNumber = plateNumber;
     }
 
-//    public List<GrantedAuthority> getAuthorities(){
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-//        return authorities;
-//    }
+    public List<GrantedAuthority> getAuthorities(){
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        return authorities;
+    }
 
     public Integer getAccountId() {
         return accountId;
