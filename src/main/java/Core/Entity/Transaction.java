@@ -25,16 +25,20 @@ public class Transaction {
     @Column(name = "money")
     private Integer money;
 
+    @Column(name = "type_of_transaction")
+    private String typeOfTransaction;
+
     @Column(name = "transaction_status")
     private String transactionStatus;
 
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, String transactionStatus) {
+    public Transaction(Account accountId, Date rechargeDate, Integer money, String typeOfTransaction, String transactionStatus) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
+        this.typeOfTransaction = typeOfTransaction;
         this.transactionStatus = transactionStatus;
     }
 
@@ -76,5 +80,13 @@ public class Transaction {
 
     public void setTransactionStatus(String transactionStatus) {
         this.transactionStatus = transactionStatus;
+    }
+
+    public String getTypeOfTransaction() {
+        return typeOfTransaction;
+    }
+
+    public void setTypeOfTransaction(String typeOfTransaction) {
+        this.typeOfTransaction = typeOfTransaction;
     }
 }
