@@ -16,6 +16,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -33,6 +34,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
+        //Cookie[] allCookies = httpRequest.getCookies();
         if(authToken != null){
             if (jwtService.validateTokenLogin(authToken)) {
                 String email = jwtService.getEmailFromToken(authToken);

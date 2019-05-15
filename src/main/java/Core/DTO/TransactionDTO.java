@@ -1,44 +1,29 @@
-package Core.Entity;
+package Core.DTO;
 
-import javax.persistence.*;
+import Core.Entity.Account;
+
 import java.util.Date;
 
-@Entity
-@Table(name = "transaction")
-public class Transaction {
+public class TransactionDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
     private Integer transactionId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="account_id", referencedColumnName="account_id")
-    private Account accountId;
+    private Integer accountId;
 
-    /**
-     * Time of create transaction
-     */
-    @Column(name = "recharge_date")
     private Date rechargeDate;
 
-    @Column(name = "money")
     private Integer money;
 
-    @Column(name = "type_of_transaction")
-    private String typeOfTransaction;
-
-    @Column(name = "transaction_status")
     private String transactionStatus;
 
-    public Transaction() {
+    public TransactionDTO() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, String typeOfTransaction, String transactionStatus) {
+    public TransactionDTO(Integer transactionId, Integer accountId, Date rechargeDate, Integer money, String transactionStatus) {
+        this.transactionId = transactionId;
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
-        this.typeOfTransaction = typeOfTransaction;
         this.transactionStatus = transactionStatus;
     }
 
@@ -50,11 +35,11 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public Account getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Account accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
 
@@ -80,13 +65,5 @@ public class Transaction {
 
     public void setTransactionStatus(String transactionStatus) {
         this.transactionStatus = transactionStatus;
-    }
-
-    public String getTypeOfTransaction() {
-        return typeOfTransaction;
-    }
-
-    public void setTypeOfTransaction(String typeOfTransaction) {
-        this.typeOfTransaction = typeOfTransaction;
     }
 }

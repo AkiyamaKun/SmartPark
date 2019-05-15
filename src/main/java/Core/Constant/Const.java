@@ -76,6 +76,7 @@ public class Const {
     public static final String TOTAL_ACCOUNT = "/total_account";
     public static final String BOOKING_SLOT = "/booking_slot";
     public static final String ADD_CASH = "add_cash";
+    public static final String SAVE_TRANSACTION = "/save_transaction";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -230,6 +231,10 @@ public class Const {
     public static final String CAMERA_IS_NOT_EXISTED = "Camera is not existed";
     public static final String GET_LIST_CAMERA_SUCCESS = "Get List Camera Successful";
     public static final String GET_LIST_CAMERA_FAIL = "Get List Camera Fail";
+
+    //Transaction message
+    public static final String SAVE_TRANSACTION_SUCCESS = "Save Transaction Successful";
+    public static final String SAVE_TRANSACTION_FAIL = "Save Transaction Fail";
 
     //Common
     public static final String ROLE_ADMIN = "ROLE_ADMIN";

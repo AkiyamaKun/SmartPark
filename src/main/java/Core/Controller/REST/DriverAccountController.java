@@ -4,12 +4,10 @@ import Core.Constant.Const;
 import Core.DTO.AccountDTO;
 import Core.DTO.InformationAccountDTO;
 import Core.DTO.ResponseDTO;
+import Core.DTO.TransactionDTO;
 import Core.Entity.Account;
 import Core.Entity.ParkingLot;
-import Core.Service.AccountService;
-import Core.Service.BookingService;
-import Core.Service.DriverAccountService;
-import Core.Service.ParkingLotService;
+import Core.Service.*;
 import Core.Utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +36,9 @@ public class DriverAccountController {
 
     @Autowired
     BookingService bookingService;
+
+    @Autowired
+    TransactionService transactionService;
 
     /**
      * Get Driver Account
@@ -146,4 +147,14 @@ public class DriverAccountController {
         return bookingService.cancelBooking(bookingId);
     }
 
+    /**
+     * Save Transaction
+     *
+     * @param transactionDTO
+     * @return
+     */
+    @RequestMapping(value = Const.SAVE_TRANSACTION, method = RequestMethod.POST)
+    public ResponseDTO saveTransaction(@RequestBody TransactionDTO transactionDTO) {
+        return transactionService.saveTransaction(transactionDTO);
+    }
 }

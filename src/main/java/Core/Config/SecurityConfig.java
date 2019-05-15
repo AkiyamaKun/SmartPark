@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import Core.Filter.JwtAuthenticationTokenFilter;
 import Core.Handler.CustomAccessDeniedHandler;
 import Core.Handler.RestAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -55,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Disable CSRF (cross site request forgery)
         // Public API
+
         http.csrf().disable()
         .authorizeRequests()
         // API follow Role
@@ -63,11 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/driver/**").hasRole("DRIVER")
         .antMatchers("/**").permitAll()
         // All urls must be authenticated
-        .anyRequest().authenticated()
+
         .and()
         // don't create session (REST)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         // Custom JWT based security filter
         http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

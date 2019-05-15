@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="admin/shared/head :: head"></div>
+
+<body>
+
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
+
+<div id="right-panel" class="right-panel">
+
+    <div th:replace="admin/shared/header :: header"></div>
+
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <b>Camera</b>
+            </div>
+            <div class="card-body card-block">
+                <div class="form-group col-lg-6">
+                    <label class=" form-control-label">Camera Name</label>
+                    <input type="text" id="cameraName" placeholder="Camera Name" class="form-control"/>
+                </div>
+                <div class="form-group col-lg-6">
+                    <label class=" form-control-label">IP Address</label>
+                    <input type="text" id="ipAddress" placeholder="IP Address" class="form-control"/>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="reset" class="btn btn-danger float-left" id="btnReset" onclick="resetInput()">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
+                <button type="button" class="btn btn-primary float-right" id="btnCreate" onclick="createOwner(this)">
+                    <i class="fa fa-check"></i> Create
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="/st-admin/assets/js/main.js"></script>-->
+<script src="/st-admin/js/app.js"></script>
+
+<script src="/st-admin/assets/js/app.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
+<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+
+</body>
+</html>

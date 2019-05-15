@@ -1,143 +1,23 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/png" href="st-supervisor/img/favicon.ico">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-    <title>Smart Parking</title>
-
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-
-
-    <!-- Bootstrap core CSS     -->
-    <link href="st-supervisor/assets/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Animation library for notifications   -->
-    <link href="st-supervisor/assets/css/animate.min.css" rel="stylesheet" />
-
-    <!--  Light Bootstrap Table core CSS    -->
-    <link href="st-supervisor/assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
-
-
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="st-supervisor/assets/css/demo.css" rel="stylesheet" />
-
-
-    <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="st-supervisor/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-
-</head>
-
+<div th:replace="supervisor/sup-share/head :: head"></div>
 <body>
-    <div class="wrapper">
-        <div class="sidebar" data-color="purple" data-image="st-supervisor/img/sidebar-5.jpg">
-            <div class="sidebar-wrapper">
-                <div class="logo">
-                    <a href="dashboard.html" class="simple-text">
-                        Smart Parking
-                    </a>
-                </div>
-                <ul class="nav">
-                    <li>
-                        <a th:href="@{/dashboard}">
-                            <i class="pe-7s-home"></i>
-                            <p>Home</p>
-                        </a>
-                    </li>
-                    <li>
-                        <input type="hidden" th:value="${session.User.accountId}" id="accountId">
-                        <a th:href="@{/user(id=${session.User.accountId})}">
-                            <i class="pe-7s-user"></i>
-                            <p>User Profile</p>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="#">
-                            <i class="pe-7s-note2"></i>
-                            <p data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
-                                Parking Lots List
-                            </p>
-                            <div class="collapse in" id="collapseExample"  aria-expanded="true">
-                                <ul style="padding-left: 14px; list-style-type: none;" id="listPlots">
-                                    <a href="#"></a>
 
-                                </ul>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="active-pro">
-                        <a th:href="@{/logout-supervisor}">
-                            <p>Logout</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<div class="wrapper">
+    <div th:replace="supervisor/sup-share/wrapper :: wrapper"></div>
 
-        <div class="main-panel">
-            <nav class="navbar navbar-default navbar-fixed">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" th:href="@{/user(id=${session.User.accountId})}" th:text="${session.User.firstName + ' ' + session.User.lastName}"></a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <p th:text="${session.User.firstName + ' ' + session.User.lastName}">
-                                        <b class="caret"></b>
-                                    </p>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a th:href="@{/user(id=${session.User.accountId})}">User profile</a></li>
-                                    <li><a th:href="@{/change-password-supervisor}">Change password</a></li>
-                                    <li class="divider"></li>
-                                    <li><a th:href="@{/logout-supervisor}">Logout</a></li>
-                                </ul>
-                            </li>
-                            <li class="separator hidden-lg"></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+    <div class="main-panel">
 
-            <div class="content" id="livestream">
+        <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
 
-            </div>
+        <div class="content" id="livestream">
+
         </div>
     </div>
+</div>
 </body>
 
-<!--   Core JS Files   -->
-<script src="st-supervisor/assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
-<script src="st-supervisor/assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-<!--  Charts Plugin -->
-<script src="st-supervisor/assets/js/chartist.min.js"></script>
-
-<!--  Notifications Plugin    -->
-<script src="st-supervisor/assets/js/bootstrap-notify.js"></script>
-
-<!--  Google Maps Plugin    -->
-<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-
-<!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-<script src="st-supervisor/assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
-
-<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-<script src="st-supervisor/assets/js/demo.js"></script>
-<script src="st-supervisor/js/supervisor-js.js"></script>
 
 <script>
 
@@ -158,11 +38,11 @@
             $.each(plots, function (index, value) {
                 let li =
                     "<li>" +
-                        "<a href=\"#\"></a>" +
-                        "<a href='#'>" +
-                            "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
-                            "<p style=\"color: white;\" onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</p>\n" +
-                        "</a>" +
+                    "<a href=\"#\"></a>" +
+                    "<a href='#'>" +
+                    "<i class=\"pe-7s-car\" style=\"font-size: 1.5em;\"></i>\n" +
+                    "<p style=\"color: white;\" onclick='getVideoFeed(" + value.parkingLotId + ")'>" + value.displayName + "</p>\n" +
+                    "</a>" +
                     "</li>";
                 $("#listPlots").append(li);
             });
