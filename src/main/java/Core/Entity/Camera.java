@@ -24,14 +24,18 @@ public class Camera {
     @Column(name = "is_active",columnDefinition = "TINYINT(1)")
     private boolean isActive;
 
+    @Column(name = "url_live_stream")
+    private String urlLiveStream;
+
     public Camera() {
     }
 
-    public Camera(ParkingLot parkingLotId, String cameraName, String ipAddress, boolean isActive) {
+    public Camera(ParkingLot parkingLotId, String cameraName, String ipAddress, boolean isActive, String urlLiveStream) {
         this.parkingLotId = parkingLotId;
         this.cameraName = cameraName;
         this.ipAddress = ipAddress;
         this.isActive = isActive;
+        this.urlLiveStream = urlLiveStream;
     }
 
     public Integer getCameraId() {
@@ -72,5 +76,13 @@ public class Camera {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getUrlLiveStream() {
+        return urlLiveStream;
+    }
+
+    public void setUrlLiveStream(String urlLiveStream) {
+        this.urlLiveStream = urlLiveStream;
     }
 }

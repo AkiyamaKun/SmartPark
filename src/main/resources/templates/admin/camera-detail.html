@@ -1,0 +1,139 @@
+<!doctype html>
+
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="admin/shared/head :: head"></div>
+
+<body>
+
+<div th:replace="admin/shared/left_panel :: left_panel"></div>
+
+<div id="right-panel" class="right-panel">
+
+    <div th:replace="admin/shared/header :: header"></div>
+
+    <div th:replace="admin/shared/breadcrumbs :: breadcrumbs"></div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <b>Camera</b>
+                <!--<button type="button" id="btnDeactive" class="btn btn-danger float-right"-->
+                        <!--th:if="${manager.active} eq true and ${manager.token} eq null">-->
+                    <!--<i class="fa fa-ban"></i> Deactive-->
+                <!--</button>-->
+                <!--<button type="button" id="btnActive" class="btn btn-success float-right"-->
+                        <!--th:if="${manager.active} eq false and ${manager.token} eq null">-->
+                    <!--<i class="fa fa-check"></i> Active-->
+                <!--</button>-->
+            </div>
+            <div class="card-body card-block" id="manager-form">
+                <input id="cameraId" type="hidden" th:value="${webcam.cameraId}"/>
+                <div class="form-group">
+                    <label for="cam-name" class=" form-control-label">Camera Name</label>
+                    <input type="text" id="cam-name" th:value="${webcam.cameraName}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="ip-address" class=" form-control-label">IP Address</label>
+                    <input type="text" id="ip-address" th:value="${webcam.ipAddress}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="cam-status" class=" form-control-label">Status</label>
+                    <input type="text" id="cam-status" th:value="${webcam.active == true} ? 'active' : 'not active'" class="form-control" disabled>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="btn-save" class="btn btn-primary float-right" disabled>
+                    <i class="fa fa-pencil"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
+<!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
+<!--<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
+<!--<script src="/st-admin/assets/js/main.js"></script>-->
+<!--<script src="/st-admin/js/app.js"></script>-->
+<!--<script src="/st-admin/js/service.js"></script>-->
+
+<!--<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
+
+</body>
+<script>
+
+    ready(function () {
+        document.getElementById("btn-save").addEventListener("click", function () {
+            updateCamera();
+        });
+
+        $("#manager-form input").keydown(function (event) {
+            $("#btn-save").prop("disabled", false);
+            validateInput();
+        });
+
+    });
+
+    function updateCamera() {
+        let validateData = validateInput();
+        let cameraId = document.getElementById("cameraId").value;
+        let cameraName = document.getElementById("cam-name").value;
+        let ipAddress = document.getElementById("ip-address").value;
+
+        if (validateData) {
+            CallAjaxWithFetch(`/admin/update_camera/${cameraId}`,
+                "PUT",
+                {cameraId, cameraName, ipAddress},
+                (data) => {
+                    if (data.status === true) {
+                        showAlert(true, data.message);
+                        setTimeout(function () {
+                            document.location.href = "/list-parking-lots";
+                        }, 3000);
+                    } else {
+                        showAlert(false, err.message);
+                    }
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        }
+    };
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let cameraId = $("#cameraId").val().trim();
+        let cameraName = $("#cam-name").val().trim();
+        let ipAddress = $("#ip-address").val().trim();
+        //let parkingLotId = $("#parkingLotId").val().trim();
+
+        let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+
+        if (cameraName.length === 0) {
+            validateMessage = 'Camera Name is required!';
+        } else if (ipAddress.length === 0) {
+            validateMessage = 'IP Address is required!';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            cameraId: cameraId,
+            cameraName: cameraName,
+            ipAddress: ipAddress
+        }
+    }
+
+</script>
+</html>

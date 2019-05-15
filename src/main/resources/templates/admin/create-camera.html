@@ -20,20 +20,25 @@
                 <b>Camera</b>
             </div>
             <div class="card-body card-block">
-                <div class="form-group col-lg-6">
+                <div class="form-group">
                     <label class=" form-control-label">Camera Name</label>
                     <input type="text" id="cameraName" placeholder="Camera Name" class="form-control"/>
                 </div>
-                <div class="form-group col-lg-6">
+                <div class="form-group">
                     <label class=" form-control-label">IP Address</label>
                     <input type="text" id="ipAddress" placeholder="IP Address" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Parking Lot</label>
+                    <input type="text" id="parkinglot" placeholder="Parking Lot" class="form-control"/>
+                    <input type="hidden" id="parkingLotId"/>
                 </div>
             </div>
             <div class="card-footer">
                 <button type="reset" class="btn btn-danger float-left" id="btnReset" onclick="resetInput()">
                     <i class="fa fa-ban"></i> Reset
                 </button>
-                <button type="button" class="btn btn-primary float-right" id="btnCreate" onclick="createOwner(this)">
+                <button type="button" class="btn btn-primary float-right" id="btnCreate" onclick="createCamera(this)">
                     <i class="fa fa-check"></i> Create
                 </button>
             </div>
@@ -43,14 +48,106 @@
 
 <!--<script src="/st-admin/vendors/jquery/dist/jquery.min.js"></script>-->
 <!--<script src="/st-admin/vendors/popper.js/dist/umd/popper.min.js"></script>-->
-<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<!--<script src="/st-admin/vendors/bootstrap/dist/js/bootstrap.min.js"></script>-->
 <!--<script src="/st-admin/assets/js/main.js"></script>-->
-<script src="/st-admin/js/app.js"></script>
+<!--<script src="/st-admin/js/app.js"></script>-->
 
-<script src="/st-admin/assets/js/app.js"></script>
-<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>
-<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+<!--<script src="/st-admin/assets/js/app.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/dist/jquery.vmap.min.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>-->
+<!--<script src="/st-admin/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>-->
 
 </body>
+<script>
+    let plotList = [];
+
+    $(document).ready(function () {
+        $('#parkinglot').prop("disabled", true);
+        doAjax("/admin/all_parking_lot", "GET", null, function (data) {
+            plotList = data.objectResponse;
+            $('#parkinglot').prop("disabled", false);
+        });
+        //====================
+
+        //====================
+        $('#parkinglot').autocomplete({
+            source: function (request, response) {
+                $('#parkingLotId').val("");
+                let searchValue = request.term;
+                response($.map(plotList, function (plot, index) {
+                    let fullName = plot.displayName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: plot.displayName,
+                            value: plot.displayName,
+                            parkingLotId: plot.parkingLotId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#parkingLotId').val(ui.item.parkingLotId);
+            },
+            minLength: 2,
+            delay: 100
+        });
+    });
+
+    function createCamera(btn) {
+        btn.disabled = true;
+        let validatedData = validateInput();
+        if (validatedData) {
+            CallAjaxWithFetch(`/admin/create_camera/`,
+                "POST", validatedData,
+                (data) => {
+                    showAlert(true, data.message);
+                    setTimeout(function () {
+                        document.location.href = "/list-parking-lots";
+                    }, 3000);
+                },
+                (err) => {
+                    btn.disabled = false;
+                },
+                (err) => {
+                    showAlert(false, err.message);
+                }
+            )
+        } else {
+            btn.disabled = false;
+        }
+    }
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let cameraName = $("#cameraName").val().trim();
+        let ipAddress = $("#ipAddress").val().trim();
+        let parkingLotId = $("#parkingLotId").val().trim();
+
+        let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+
+        if (cameraName.length === 0) {
+            validateMessage = 'Camera Name is required!';
+        } else if (ipAddress.length === 0) {
+            validateMessage = 'IP Address is required!';
+        } else if (parkingLotId.length === 0) {
+            validateMessage = 'Parking Lot is required!';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            cameraName: cameraName,
+            ipAddress: ipAddress,
+            parkingLotId: parkingLotId
+        }
+    }
+</script>
+
 </html>

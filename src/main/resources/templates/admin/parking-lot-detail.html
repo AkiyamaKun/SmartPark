@@ -79,7 +79,8 @@
                                    accept="image/gif, image/jpeg, image/png" onchange="readURL(this);">
                         </div>
                     </form>
-                    <img id='img-upload' th:src="${IMAGE_PARKING_LOT} == null ? _ : @{'data:image/jpg;base64,'+${IMAGE_PARKING_LOT}}"/>
+                    <img id='img-upload'
+                         th:src="${IMAGE_PARKING_LOT} == null ? _ : @{'data:image/jpg;base64,'+${IMAGE_PARKING_LOT}}"/>
                 </div>
             </div>
             <div class="card-footer">
@@ -100,6 +101,18 @@
                         <button class="btn btn-primary" id="btnAssign"><i class="fa fa-search"></i>&nbsp;Assign</button>
                     </div>
                     <input type="hidden" id="ownerId"/>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col col-md-12">
+                <div class="input-group">
+                    <input type="text" id="assign-camera" placeholder="Search Camera"
+                           class="form-control" style="margin-right: 10px;">
+                    <div class="input-group-btn">
+                        <button class="btn btn-primary" id="btnAssignCamera"><i class="fa fa-search"></i>&nbsp;Assign</button>
+                    </div>
+                    <input type="hidden" id="cameraId"/>
                 </div>
             </div>
         </div>
@@ -164,6 +177,30 @@
                 </table>
             </div>
         </div>
+
+        <div class="card" th:if="${not #lists.isEmpty(cameras)}">
+            <div class="card-header">
+                <strong class="card-title">List Cameras</strong>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="camera, itr : ${cameras}">
+                        <th scope="row" th:text="${itr.count}">1</th>
+                        <td><a th:href="@{/camera-detail(id=${camera.cameraId})}" th:text="${camera.cameraName}"></a></td>
+                        <td th:text="${camera.active == true} ? 'active' : 'not active'"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -180,7 +217,10 @@
 </body>
 <script>
     let ownersList = [];
+    let cameraList = [];
+
     ready(function () {
+        //assign owner
         $('#input2-group2').prop("disabled", true);
         doAjax("/admin/all_owners", "GET", null, function (data) {
             ownersList = data.objectResponse;
@@ -209,12 +249,45 @@
             delay: 100
         });
 
+        //assign camera
+        $('#assign-camera').prop("disabled", true);
+        doAjax("/admin/all_cameras", "GET", null, function (data) {
+            cameraList = data.objectResponse;
+            $('#assign-camera').prop("disabled", false);
+        });
+
+        $('#assign-camera').autocomplete({
+            source: function (request, response) {
+                $('#cameraId').val("");
+                let searchValue = request.term;
+                response($.map(cameraList, function (cam, index) {
+                    let fullName = cam.cameraName;
+                    if (fullName.toUpperCase().indexOf(searchValue.toUpperCase()) >= 0) {
+                        return {
+                            label: cam.cameraName,
+                            value: cam.cameraName,
+                            cameraId: cam.cameraId
+                        };
+                    }
+                }));
+            },
+            select: function (event, ui) {
+                $('#cameraId').val(ui.item.cameraId);
+            },
+            minLength: 2,
+            delay: 100
+        });
+
         document.getElementById("btn-save").addEventListener("click", function () {
             updateParkingLot();
         });
 
         document.getElementById("btnAssign").addEventListener("click", function () {
             assignOwnerForParkingLot();
+        });
+
+        document.getElementById("btnAssignCamera").addEventListener("click", function () {
+            assignCameraForParkingLot();
         });
 
         $("#btnDeactive").click(function (event) {
@@ -290,7 +363,7 @@
                                     document.location.href = "/list-parking-lots";
                                 }, 3000);
                             },
-                            (err2) =>{
+                            (err2) => {
                                 showAlert(false, err2.message);
                             });
                     } else {
@@ -395,6 +468,22 @@
                 totalSlot,
                 price
             },
+            (data) => {
+                showAlert(true, data.message);
+                document.location.href = "/list-parking-lots";
+            },
+            (err) => {
+                showAlert(false, err.message);
+            }
+        )
+    }
+
+    function assignCameraForParkingLot() {
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        let cameraId = document.getElementById("cameraId").value;
+
+        CallAjaxWithFetch(`/admin/assign_camera_for_parking_lot?cameraId=${cameraId}&parkingLotId=${parkingLotId}`,
+            "PUT", {},
             (data) => {
                 showAlert(true, data.message);
                 document.location.href = "/list-parking-lots";

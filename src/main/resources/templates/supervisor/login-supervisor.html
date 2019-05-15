@@ -148,10 +148,10 @@
             {email, password, system},
             (data) => {
                 if (data.status === true) {
-                    alert(data.message);
+                    //alert(data.message);
                     let authorizationToken = data.objectResponse.token;
                     localStorage.setItem("authorizationToken", authorizationToken);
-                    window.location.href = "/dashboard";
+                    window.location.href = "/report";
                 }
                 if (data.status === false) {
                     alert(data.message);

@@ -131,6 +131,11 @@ public class Const {
     public static final String DEACTIVE_PARKING_LOT = "/deactive_parking_lot/{parkingLotId}";
     public static final String ACTIVE_PARKING_LOT = "/active_parking_lot/{parkingLotId}";
 
+    public static final String CREATE_CAMERA = "/create_camera";
+    public static final String UPDATE_CAMERA = "/update_camera/{id}";
+    public static final String GET_ALL_CAMERA = "/all_cameras";
+    public static final String ASSIGN_CAMERA_FOR_PARKING_LOT = "/assign_camera_for_parking_lot";
+
     //Owner Message
     public static final String GET_OWNER_SUCCESS = "Get Owner Successful";
     public static final String GET_OWNER_FAIL = "Get Owner Fail";
@@ -231,6 +236,14 @@ public class Const {
     public static final String CAMERA_IS_NOT_EXISTED = "Camera is not existed";
     public static final String GET_LIST_CAMERA_SUCCESS = "Get List Camera Successful";
     public static final String GET_LIST_CAMERA_FAIL = "Get List Camera Fail";
+    public static final String CREATE_CAMERA_SUCCESS = "Create Camera Successful";
+    public static final String CREATE_CAMERA_FAIL = "Create Camera Fail";
+    public static final String UPDATE_CAMERA_SUCCESS = "Update Camera Successful";
+    public static final String UPDATE_CAMERA_FAIL = "Update Camera Fail";
+    public static final String ASSIGN_CAMERA_FOR_PARKING_LOT_SUCCESS = "Assign Camera for Parking Lot Successful";
+    public static final String ASSIGN_CAMERA_FOR_PARKING_LOT_FAIL = "Assign Camera for Parking Lot Fail";
+    public static final String GET_LIST_CAMERA_OF_PARKING_LOT_SUCCESS = "Get List Camera Of Parking Lot Successful";
+    public static final String GET_LIST_CAMERA_OF_PARKING_LOT_FAIL = "Get List Camera Of Parking Lot Fail";
 
     //Transaction message
     public static final String SAVE_TRANSACTION_SUCCESS = "Save Transaction Successful";

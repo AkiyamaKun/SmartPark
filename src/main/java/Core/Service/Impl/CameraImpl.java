@@ -4,12 +4,16 @@ import Core.Constant.Const;
 import Core.DTO.CameraDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.Camera;
+import Core.Entity.ParkingLot;
 import Core.Repository.CameraRepository;
+import Core.Repository.ParkingLotRepository;
 import Core.Service.CameraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +21,9 @@ public class CameraImpl implements CameraService {
 
     @Autowired
     private CameraRepository cameraRepository;
+
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
 
     /**
      * Function Convert DTO From Entity
@@ -28,7 +35,7 @@ public class CameraImpl implements CameraService {
         dto.setCameraId(entity.getCameraId());
         dto.setCameraName(entity.getCameraName());
         dto.setIpAddress(entity.getIpAddress());
-        dto.setParkingLotId(entity.getParkingLotId());
+        dto.setParkingLotId(entity.getParkingLotId().getParkingLotId());
         dto.setActive(entity.isActive());
     }
 
@@ -75,6 +82,106 @@ public class CameraImpl implements CameraService {
             }
         } catch (Exception e) {
             responseDTO.setMessage(Const.GET_LIST_CAMERA_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getListCameraOfParkingLot(Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if (parkingLot != null) {
+                List<Camera> cameras = cameraRepository.findAllByParkingLotId(parkingLot);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_LIST_CAMERA_OF_PARKING_LOT_SUCCESS);
+                responseDTO.setObjectResponse(cameras);
+            } else {
+                responseDTO.setMessage(Const.GET_LIST_CAMERA_OF_PARKING_LOT_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get List Camera Of Parking Lot Exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * @param cameraDTO
+     * @return
+     */
+    @Override
+    public ResponseDTO createCamera(CameraDTO cameraDTO) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            CameraDTO responseCameraDTO = new CameraDTO();
+            Camera camera = new Camera();
+            camera.setCameraName(cameraDTO.getCameraName());
+            camera.setIpAddress(cameraDTO.getIpAddress());
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(cameraDTO.getParkingLotId());
+            camera.setParkingLotId(parkingLot);
+            camera.setActive(true);
+            cameraRepository.save(camera);
+            convertDTOFromEntity(cameraDTO, camera);
+            responseDTO.setStatus(true);
+            responseDTO.setMessage(Const.CREATE_CAMERA_SUCCESS);
+            responseDTO.setObjectResponse(responseCameraDTO);
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.CREATE_CAMERA_FAIL);
+        }
+        return responseDTO;
+    }
+
+    /**
+     * @param cameraId
+     * @param dto
+     * @return
+     */
+    @Override
+    public ResponseDTO updateCamera(Integer cameraId, CameraDTO dto) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Camera camera = cameraRepository.findByCameraId(cameraId);
+            if (camera != null) {
+                camera.setCameraName(dto.getCameraName());
+                camera.setIpAddress(dto.getIpAddress());
+                cameraRepository.save(camera);
+                CameraDTO responseCameraDTO = new CameraDTO();
+                convertDTOFromEntity(responseCameraDTO, camera);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.UPDATE_CAMERA_SUCCESS);
+                responseDTO.setObjectResponse(responseCameraDTO);
+            } else {
+                responseDTO.setMessage(Const.CAMERA_IS_NOT_EXISTED);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.UPDATE_CAMERA_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO assignCameraForParkingLot(Integer cameraId, Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Camera camera = cameraRepository.findByCameraId(cameraId);
+            if (camera != null) {
+                ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+                camera.setParkingLotId(parkingLot);
+                cameraRepository.save(camera);
+                CameraDTO responseCameraDTO = new CameraDTO();
+                convertDTOFromEntity(responseCameraDTO, camera);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.ASSIGN_CAMERA_FOR_PARKING_LOT_SUCCESS);
+                responseDTO.setObjectResponse(responseCameraDTO);
+            } else {
+                responseDTO.setMessage(Const.CAMERA_IS_NOT_EXISTED);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.ASSIGN_CAMERA_FOR_PARKING_LOT_FAIL);
         }
         return responseDTO;
     }

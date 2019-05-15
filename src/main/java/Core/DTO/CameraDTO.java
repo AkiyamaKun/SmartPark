@@ -6,7 +6,7 @@ public class CameraDTO {
 
     private Integer cameraId;
 
-    private ParkingLot parkingLotId;
+    private Integer parkingLotId;
 
     private String cameraName;
 
@@ -17,7 +17,7 @@ public class CameraDTO {
     public CameraDTO() {
     }
 
-    public CameraDTO(Integer cameraId, ParkingLot parkingLotId, String cameraName, String ipAddress, boolean isActive) {
+    public CameraDTO(Integer cameraId, Integer parkingLotId, String cameraName, String ipAddress, boolean isActive) {
         this.cameraId = cameraId;
         this.parkingLotId = parkingLotId;
         this.cameraName = cameraName;
@@ -33,11 +33,11 @@ public class CameraDTO {
         this.cameraId = cameraId;
     }
 
-    public ParkingLot getParkingLotId() {
+    public Integer getParkingLotId() {
         return parkingLotId;
     }
 
-    public void setParkingLotId(ParkingLot parkingLotId) {
+    public void setParkingLotId(Integer parkingLotId) {
         this.parkingLotId = parkingLotId;
     }
 

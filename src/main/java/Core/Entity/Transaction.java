@@ -25,6 +25,10 @@ public class Transaction {
     @Column(name = "money")
     private Integer money;
 
+    @OneToOne(targetEntity=Booking.class,cascade=CascadeType.ALL)
+    @JoinColumn(name="booking_id",referencedColumnName="booking_id")
+    private Booking bookingId;
+
     @Column(name = "type_of_transaction")
     private String typeOfTransaction;
 
@@ -34,10 +38,11 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, String typeOfTransaction, String transactionStatus) {
+    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String transactionStatus) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
+        this.bookingId = bookingId;
         this.typeOfTransaction = typeOfTransaction;
         this.transactionStatus = transactionStatus;
     }
@@ -80,6 +85,14 @@ public class Transaction {
 
     public void setTransactionStatus(String transactionStatus) {
         this.transactionStatus = transactionStatus;
+    }
+
+    public Booking getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(Booking bookingId) {
+        this.bookingId = bookingId;
     }
 
     public String getTypeOfTransaction() {

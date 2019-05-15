@@ -8,10 +8,7 @@ import Core.Entity.Account;
 import Core.Entity.ParkingLot;
 import Core.Repository.AccountRepository;
 import Core.Repository.ParkingLotRepository;
-import Core.Service.AccountService;
-import Core.Service.DriverAccountService;
-import Core.Service.OwnerService;
-import Core.Service.ParkingLotService;
+import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +60,9 @@ public class ViewController {
 
     @Autowired
     ParkingLotRepository parkingLotRepository;
+
+    @Autowired
+    CameraService cameraService;
 
     /**
      * Login Page
@@ -146,6 +146,18 @@ public class ViewController {
     public String toCreateSupervisor(Model model) {
         //Excute anything here
         return "admin/create-supervisor";
+    }
+
+    /**
+     * Create Camera Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/create-camera")
+    public String toCreateCamera(Model model) {
+        //Excute anything here
+        return "admin/create-camera";
     }
 
     /**
@@ -300,9 +312,26 @@ public class ViewController {
             view.addObject("IMAGE_PARKING_LOT", Base64.getEncoder().encodeToString(picContent));
         }
 
+        ResponseDTO camera = cameraService.getListCameraOfParkingLot(id);
+        System.out.println(camera.getObjectResponse());
+
         view.addObject("plot", parkinglot.getObjectResponse());
         view.addObject("supervisors", supervisors.getObjectResponse());
+        view.addObject("cameras", camera.getObjectResponse());
+        return view;
+    }
 
+    /**
+     * Manager Detail Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/camera-detail")
+    public ModelAndView toCameraDetail(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("admin/camera-detail");
+        ResponseDTO camera = cameraService.getCamera(id);
+        view.addObject("webcam", camera.getObjectResponse());
         return view;
     }
 
