@@ -71,4 +71,14 @@ public class SupervisorAccountController {
     public ResponseDTO getListCamera(){
         return cameraService.getAllCamera();
     }
+
+    /**
+     * Get List Camera
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_CAMERA_BY_PARKINGLOTID, method = RequestMethod.GET)
+    public ResponseDTO getListCameraByParkingLotId(@PathVariable Integer parkingLotId){
+        return cameraService.getListCameraOfParkingLot(parkingLotId);
+    }
 }

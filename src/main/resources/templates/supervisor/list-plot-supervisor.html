@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="supervisor/sup-share/head :: head"></div>
+<body>
+
+<div class="wrapper">
+    <div th:replace="supervisor/sup-share/wrapper :: wrapper"></div>
+
+    <div class="main-panel">
+
+        <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
+
+        <div class="content" id="livestream">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">List Parking Lots</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Owned By</th>
+                                        <th>Num Of Slots</th>
+                                        <th>Status</th>
+                                        <th>More</th>
+                                    </thead>
+                                    <tbody id="listPlots">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+
+    const getVideoFeed = (parkingLotId) => {
+        // debugger
+        if (event) {
+            event.stopPropagation();
+        }
+        let img = "<img src='http://703da524.ngrok.io/video_feed/" + parkingLotId + "' width=\"100%\" alt=\"Please check your connection!\" />";
+        $("#livestream").html(img);
+    };
+
+    $(document).ready(function () {
+        let accountId = document.getElementById("accountId").value;
+        doAjax("/supervisor/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
+            let plots = data.objectResponse;
+            let status = "";
+            $("#listPlots").empty();
+            $.each(plots, function (index, value) {
+                if (value.active == true) {
+                    status = "active";
+                } else {
+                    status = "not active";
+                }
+                let tr =
+                    "<tr>" +
+                    "<td>" + (index + 1) + "</td>" +
+                    "<td><a href='/plot-detail?id=" + value.parkingLotId + "'>" + value.displayName + "</a></td>" +
+                    "<td>" + value.owner.lastName + " " + value.owner.firstName + "</td>" +
+                    "<td>" + value.totalSlot + "</td>" +
+                    "<td>" + status + "</td>" +
+                    "<td><a href='/dashboard' onclick='getVideoFeed(" + value.parkingLotId + ")'>Live Stream</a></td>" +
+                    "</tr>";
+                $("#listPlots").append(tr);
+            });
+        }, function (error) {
+            console.log(error);
+        });
+    });
+
+</script>
+
+</html>

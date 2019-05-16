@@ -45,17 +45,18 @@ public class MessageController {
     Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, (JsonDeserializer) (json, typeOfT, context)
             -> new Date(json.getAsJsonPrimitive().getAsLong())).setLenient().create();
 
-    public void sendToUser(ResponseDTO responseOnject){
+    public void sendToUser(ResponseDTO responseOnject) {
         JSONObject jsonObj = new JSONObject(gson.toJson(responseOnject));
         Callback callback = new Callback() {
             public void successCallback(String channel, Object response) {
                 System.out.println("Success: " + response.toString());
             }
+
             public void errorCallback(String channel, Object error) {
                 System.out.println("Error: :" + error.toString());
             }
         };
-                pubnub.publish("chat-engine-server", jsonObj, callback);
+        pubnub.publish("chat-engine-server", jsonObj, callback);
     }
 
 

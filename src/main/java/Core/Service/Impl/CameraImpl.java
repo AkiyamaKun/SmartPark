@@ -11,10 +11,11 @@ import Core.Service.CameraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class CameraImpl implements CameraService {
@@ -90,10 +91,34 @@ public class CameraImpl implements CameraService {
     public ResponseDTO getListCameraOfParkingLot(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
+        Map<Integer, String> message = new HashMap<>();
         try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (parkingLot != null) {
                 List<Camera> cameras = cameraRepository.findAllByParkingLotId(parkingLot);
+                cameras.forEach(e -> {
+                    if (e.getUrlLiveStream() != null) {
+                        String urlStr = e.getUrlLiveStream() + parkingLotId;
+                        System.out.println(urlStr);
+                        URL url = null;
+                        try {
+                            url = new URL(urlStr);
+                            HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+                            urlConn.connect();
+                            if (urlConn.getResponseCode() == 200) {
+                                message.put(1, "active");
+                                responseDTO.setMapMessage(message);
+                            } else {
+                                message.put(1, "not active");
+                                responseDTO.setMapMessage(message);
+                            }
+                        } catch (MalformedURLException ex) {
+                            ex.printStackTrace();
+                        } catch (IOException o) {
+                            o.printStackTrace();
+                        }
+                    }
+                });
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_LIST_CAMERA_OF_PARKING_LOT_SUCCESS);
                 responseDTO.setObjectResponse(cameras);

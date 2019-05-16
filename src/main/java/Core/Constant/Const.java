@@ -183,6 +183,7 @@ public class Const {
     //Supervisor Account API
     public static final String SUPERVISOR_ACCOUNT = "/supervisor";
     public static final String LIST_CAMERA = "/list_camera";
+    public static final String LIST_CAMERA_BY_PARKINGLOTID = "/list_camera/{parkingLotId}";
 
 
     //Account Gmail vs Mail Properties

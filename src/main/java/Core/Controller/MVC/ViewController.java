@@ -313,7 +313,6 @@ public class ViewController {
         }
 
         ResponseDTO camera = cameraService.getListCameraOfParkingLot(id);
-        System.out.println(camera.getObjectResponse());
 
         view.addObject("plot", parkinglot.getObjectResponse());
         view.addObject("supervisors", supervisors.getObjectResponse());
@@ -501,6 +500,43 @@ public class ViewController {
     public String toForgetPassSupervisor(Model model) {
         //Excute anything here
         return "supervisor/forget-pass-supervisor";
+    }
+
+    /**
+     * List Parking Lot Supervisor Page
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/list-plot-supervisor", method = RequestMethod.GET)
+    public String toListCameraSupervisor(Model model) {
+        //Excute anything here
+        return "supervisor/list-plot-supervisor";
+    }
+
+    /**
+     * Parking Lot Detail Supervisor Page
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/plot-detail", method = RequestMethod.GET)
+    public ModelAndView toPlotDetail(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("supervisor/plot-detail");
+        ResponseDTO parkinglot = parkingLotService.getParkingLot(id);
+        ResponseDTO camera = cameraService.getListCameraOfParkingLot(id);
+
+        //Show Image on Parking Lot Detail Page
+        ParkingLot parkingLotDetail = parkingLotRepository.findByParkingLotId(id);
+        if(parkingLotDetail.getParklotImage() != null){
+            byte[] picContent = parkingLotDetail.getParklotImage();
+            view.addObject("IMAGE_PARKING_LOT", Base64.getEncoder().encodeToString(picContent));
+        }
+
+        view.addObject("parklot", parkinglot.getObjectResponse());
+        view.addObject("cam", camera.getObjectResponse());
+        view.addObject("camStatus", camera.getMapMessage());
+        return view;
     }
 }
 

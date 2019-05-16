@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="supervisor/sup-share/head :: head"></div>
+
+<body>
+
+<div class="wrapper">
+    <div th:replace="supervisor/sup-share/wrapper :: wrapper"></div>
+
+    <div class="main-panel">
+
+        <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row" id="profile-form">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Edit Parking Lot</h4>
+                            </div>
+                            <div class="content">
+                                <input id="ownerIdPlot" th:value="${parklot.owner.ownerId}" type="hidden">
+                                <input id="parkingLotId" type="hidden" th:value="${parklot.parkingLotId}"/>
+                                <input type="hidden" th:value="${session.User.accountId}" id="accountId">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Display Name</label>
+                                            <input type="text" class="form-control" placeholder="Display Name"
+                                                   id="displayName" th:value="${parklot.displayName}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Price</label>
+                                            <input type="text" class="form-control" placeholder="Price"
+                                                   id="price" th:value="${parklot.price}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                            <label>Total Slot</label>
+                                            <input type="number" class="form-control" placeholder="Total Slot"
+                                                   id="totalSlot" th:value="${parklot.totalSlot}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Time Of Operation</label>
+                                            <input type="text" class="form-control" placeholder="Time Of Operation"
+                                                   id="timeOfOperation" th:value="${parklot.timeOfOperation}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Phone number</label>
+                                            <input type="text" class="form-control" placeholder="Phone Number"
+                                                   id="phoneNumber" th:value="${parklot.phoneNumber}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" placeholder="Address"
+                                                   id="address" th:value="${parklot.address}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file border" name="image" id="fileImage"
+                                                   accept="image/gif, image/jpeg, image/png" onchange="readURL(this);">
+                                        </div>
+                                    </form>
+                                    <img id='img-upload'
+                                         th:src="${IMAGE_PARKING_LOT} == null ? _ : @{'data:image/jpg;base64,'+${IMAGE_PARKING_LOT}}"/>
+                                </div>
+                                <!--<button id="btn-cancel" type="button" class="btn btn-default btn-fill pull-left" disabled>Cancel</button>-->
+                                <button id="btn-update" disabled type="button"
+                                        class="btn btn-info btn-fill pull-right" data-confirm="false">Save
+                                </button>
+                                <div class="clearfix"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="content">
+                                <div class="form-group">
+                                    <input id="pac-input" class="controls" type="text" placeholder="Search...">
+                                    <div id="maps"></div>
+                                    <div class="col-md-6 pr-1">
+                                        <label class=" form-control-label">Longitude</label>
+                                        <input type="text" disabled id="long-input" th:value="${parklot.longitude}"
+                                               class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 pl-1">
+                                        <label class=" form-control-label">Latitude</label>
+                                        <input type="text" disabled id="lat-input" th:value="${parklot.latitude}"
+                                               class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" th:if="${not #lists.isEmpty(cam)}">
+                        <div class="card">
+                            <div class="content">
+                                <div class="header">
+                                    <h4 class="title">List Cameras</h4>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <th>No.</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="webcam, itr : ${cam}">
+                                                <td th:text="${itr.count}"></td>
+                                                <td th:text="${webcam.cameraName}"></td>
+                                                <td th:each="entry : ${camStatus}" th:text="${entry.value}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+    ready(function () {
+        $("#profile-form input").keydown(function (event) {
+            $("#btn-update").prop("disabled", false);
+            //Validate
+        });
+
+        document.getElementById("btn-update").addEventListener("click", function () {
+            updateParkingLot();
+        });
+    });
+
+    function updateParkingLot() {
+        let validateData = validateInput();
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        let displayName = document.getElementById("displayName").value;
+        let longitude = document.getElementById("long-input").value;
+        let latitude = document.getElementById("lat-input").value;
+        let timeOfOperation = document.getElementById("timeOfOperation").value;
+        let totalSlot = document.getElementById("totalSlot").value;
+        let price = document.getElementById("price").value;
+        let address = document.getElementById("address").value;
+        let phoneNumber = document.getElementById("phoneNumber").value;
+        let accountId = document.getElementById("accountId").value;
+        let ownerId = document.getElementById("ownerIdPlot").value;
+        let active = true;
+
+        if (validateData) {
+            CallAjaxWithFetch(`/supervisor/update_parking_lot/${accountId}`,
+                "PUT",
+                {
+                    parkingLotId,
+                    displayName,
+                    longitude,
+                    latitude,
+                    address,
+                    phoneNumber,
+                    timeOfOperation,
+                    ownerId,
+                    active,
+                    totalSlot,
+                    price
+                },
+                (data) => {
+                    if (data.status === true) {
+                        alert(data.message);
+
+                        let parkingLotId = data.objectResponse.parkingLotId;
+                        let formData = $(`#fileUploadForm`)[0];
+                        let image = new FormData(formData);
+                        CallAjaxWithFetchWithFormData(`/public/upload_image_for_parking_lot/` + parkingLotId,
+                            "PUT", image, (dataUpload) => {
+                                setTimeout(function () {
+                                    document.location.href = "/list-plot-supervisor";
+                                }, 3000);
+                            },
+                            (err2) => {
+                                alert(err2.message);
+                            });
+                    } else {
+                        alert(err.message);
+                    }
+                },
+                (err) => {
+                    alert(err.message);
+                }
+            )
+        }
+    };
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#img-upload')
+                    .attr('src', e.target.result)
+                    .width(400)
+                    .height(300);
+            };
+            reader.readAsDataURL(input.files[0]);
+            $('#btn-update').prop('disabled', false);
+        }
+    }
+
+    function validateInput() {
+        let validateMessage = '';
+
+        let displayName = $("#displayName").val().trim();
+        let long = $("#long-input").val().trim();
+        let lat = $("#lat-input").val().trim();
+        let slots = $("#totalSlot").val().trim();
+        let price = $("#price").val().trim();
+        let phoneNumber = $("#phoneNumber").val().trim();
+        let timeOfOperation = $("#timeOfOperation").val().trim();
+
+        let floatRegex = /^[+-]?\d+(\.\d+)?$/;
+        let intRegex = /\d+/;
+        let phoneRegex = /0\d{9}/;
+
+        if (displayName.length === 0) {
+            validateMessage = 'Display Name is required!';
+        } else if (!floatRegex.test(long) || !floatRegex.test(lat)) {
+            validateMessage = 'Long and lat should be float number!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
+        } else if (!floatRegex.test(price) || parseFloat(price) === 0) {
+            validateMessage = 'Price should be float number!';
+        } else if (!phoneRegex.test(phoneNumber)) {
+            validateMessage = 'Phone number should follow format 0#########';
+        } else if (timeOfOperation.length === 0) {
+            validateMessage = 'Time of operation is required!';
+        } else if (!intRegex.test(slots) || parseInt(slots) === 0) {
+            validateMessage = 'Total slots should be positive integer number!';
+        }
+
+        if (validateMessage.length) {
+            showAlert(false, validateMessage);
+            return null;
+        }
+
+        return {
+            displayName: displayName,
+            longitude: parseFloat(long),
+            latitude: parseFloat(lat),
+            totalSlot: parseInt(slots),
+            price: parseFloat(price),
+            phoneNumber: phoneNumber,
+            timeOfOperation: timeOfOperation
+        }
+    }
+
+    function initMap() {
+        let latitude = parseFloat($("#lat-input").val().trim());
+        let longitude = parseFloat($("#long-input").val().trim());
+
+        let myLatLng = {
+            lat: latitude,
+            lng: longitude
+        };
+
+        map = new google.maps.Map(document.getElementById("maps"), {
+            center: myLatLng,
+            disableDefaultUI: true,
+            zoom: 14,
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false,
+            disableDoubleClickZoom: true, // disable the default map zoom on double click
+        });
+        marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
+        });
+        google.maps.event.addListener(map, 'click', function (event) {
+            if (marker) {
+                marker.setMap(null);
+            }
+            $('#lat-input').val(event.latLng.lat());
+            $('#long-input').val(event.latLng.lng());
+            $("#btn-save").prop("disabled", false);
+            marker = new google.maps.Marker({
+                position: event.latLng,
+                map: map
+            });
+        });
+
+        // Create the search box and link it to the UI element.
+        let input = document.getElementById('pac-input');
+        let searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function () {
+            let places = searchBox.getPlaces();
+
+            if (!places.length) {
+                showAlert(false, "No place found! Please try again!");
+                return;
+            }
+
+            if (places.length > 1) {
+                showAlert(false, "Please choose an exact place from the dropdown list!");
+                return;
+            }
+
+            // Clear out the old marker.
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // For each place, get the icon, name and location.
+            let bounds = new google.maps.LatLngBounds();
+            place = places[0];
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+            // Create a marker for each place.
+            marker = new google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: place.geometry.location.lat() + ', ' + place.geometry.location.lng()
+            });
+            $('#lat-input').val(place.geometry.location.lat());
+            $('#long-input').val(place.geometry.location.lng());
+            let locInput = document.getElementById('pac-input').value;
+            $('#address').val(locInput);
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+            map.fitBounds(bounds);
+        });
+
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMZwxxIJNq2mSLJjFYuoiTmpkaE8v-8T8&libraries=places&callback=initMap"
+        async defer></script>
+</html>
