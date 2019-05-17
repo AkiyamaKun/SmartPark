@@ -157,4 +157,16 @@ public class DriverAccountController {
     public ResponseDTO saveTransaction(@RequestBody TransactionDTO transactionDTO) {
         return transactionService.saveTransaction(transactionDTO);
     }
+
+    /**
+     * Check Payment
+     *
+     * @param parkingLotId
+     * @param nonce
+     * @return
+     */
+    @RequestMapping(value = Const.CHECK_PAYMENT, method = RequestMethod.GET)
+    public ResponseDTO checkPayment(@RequestParam Integer parkingLotId, @RequestParam String nonce) {
+        return transactionService.checkPayment(parkingLotId, nonce);
+    }
 }

@@ -77,6 +77,7 @@ public class Const {
     public static final String BOOKING_SLOT = "/booking_slot";
     public static final String ADD_CASH = "add_cash";
     public static final String SAVE_TRANSACTION = "/save_transaction";
+    public static final String CHECK_PAYMENT = "/check_payment";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -249,6 +250,8 @@ public class Const {
     //Transaction message
     public static final String SAVE_TRANSACTION_SUCCESS = "Save Transaction Successful";
     public static final String SAVE_TRANSACTION_FAIL = "Save Transaction Fail";
+    public static final String CHECK_PAYMENT_SUCCESS = "Check Payment Successful";
+    public static final String CHECK_PAYMENT_FAIL = "Check Payment Fail";
 
     //Common
     public static final String ROLE_ADMIN = "ROLE_ADMIN";

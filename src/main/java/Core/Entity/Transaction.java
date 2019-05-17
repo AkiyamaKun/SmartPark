@@ -38,10 +38,13 @@ public class Transaction {
     @Column(name = "card_id")
     private String cardId;
 
+    @Column(name = "transaction_code")
+    private String transactionCode;
+
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, String cardId) {
+    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, String cardId, String transactionCode) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
@@ -49,6 +52,7 @@ public class Transaction {
         this.typeOfTransaction = typeOfTransaction;
         this.cardType = cardType;
         this.cardId = cardId;
+        this.transactionCode = transactionCode;
     }
 
     public Integer getTransactionId() {
@@ -113,5 +117,13 @@ public class Transaction {
 
     public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 }

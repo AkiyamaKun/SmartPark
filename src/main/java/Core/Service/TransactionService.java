@@ -10,4 +10,6 @@ public interface TransactionService {
     ResponseDTO getListTransaction();
 
     ResponseDTO saveTransaction(TransactionDTO transactionDTO);
+
+    ResponseDTO checkPayment(Integer parkingLotId, String nonce);
 }

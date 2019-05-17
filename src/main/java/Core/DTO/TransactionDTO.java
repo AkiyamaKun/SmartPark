@@ -20,10 +20,12 @@ public class TransactionDTO {
 
     private String cardId;
 
+    private String transactionCode;
+
     public TransactionDTO() {
     }
 
-    public TransactionDTO(Integer transactionId, Integer accountId, Date rechargeDate, Integer money, Integer bookingId, String cardType, String cardId) {
+    public TransactionDTO(Integer transactionId, Integer accountId, Date rechargeDate, Integer money, Integer bookingId, String cardType, String cardId, String transactionCode) {
         this.transactionId = transactionId;
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
@@ -31,6 +33,7 @@ public class TransactionDTO {
         this.bookingId = bookingId;
         this.cardType = cardType;
         this.cardId = cardId;
+        this.transactionCode = transactionCode;
     }
 
     public Integer getTransactionId() {
@@ -87,5 +90,13 @@ public class TransactionDTO {
 
     public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 }

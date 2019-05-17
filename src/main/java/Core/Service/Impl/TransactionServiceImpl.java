@@ -1,11 +1,14 @@
 package Core.Service.Impl;
 
+import Core.BrainTreePayPal.BrainTreeAction;
 import Core.Constant.Const;
 import Core.DTO.ResponseDTO;
 import Core.DTO.TransactionDTO;
 import Core.Entity.Account;
+import Core.Entity.ParkingLot;
 import Core.Entity.Transaction;
 import Core.Repository.AccountRepository;
+import Core.Repository.ParkingLotRepository;
 import Core.Repository.TransactionRepository;
 import Core.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ParkingLotRepository parkingLotRepository;
 
     /**
      * Function Convert DTO From Entity
@@ -65,6 +71,28 @@ public class TransactionServiceImpl implements TransactionService {
 
         } catch (Exception e) {
             responseDTO.setMessage(Const.SAVE_TRANSACTION_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO checkPayment(Integer parkingLotId, String nonce) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if (parkingLot != null) {
+                BrainTreeAction brainTreeAction = new BrainTreeAction();
+                brainTreeAction.generateToken();
+                brainTreeAction.acceptPayment(String.valueOf(parkingLot.getPrice()), nonce);
+                responseDTO.setStatus(true);
+                responseDTO.setObjectResponse(brainTreeAction);
+                responseDTO.setMessage(Const.CHECK_PAYMENT_SUCCESS);
+            } else {
+                responseDTO.setMessage(Const.GET_PARKING_LOT_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.CHECK_PAYMENT_FAIL);
         }
         return responseDTO;
     }

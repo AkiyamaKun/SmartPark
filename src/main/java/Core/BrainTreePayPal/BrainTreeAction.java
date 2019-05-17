@@ -14,13 +14,6 @@ import com.braintreegateway.CreditCard;
 import com.braintreegateway.Customer;
 import com.braintreegateway.ValidationError;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public class BrainTreeAction {
 
@@ -28,6 +21,7 @@ public class BrainTreeAction {
     public static BraintreeGateway gateway;
 
     File configFile = new File(DEFAULT_CONFIG_FILENAME);
+
     private boolean configAction() {
         try {
             if (configFile.exists() && !configFile.isDirectory()) {
@@ -77,15 +71,15 @@ public class BrainTreeAction {
         }
     }
 
-     private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[] {
-        Status.AUTHORIZED,
-        Status.AUTHORIZING,
-        Status.SETTLED,
-        Status.SETTLEMENT_CONFIRMED,
-        Status.SETTLEMENT_PENDING,
-        Status.SETTLING,
-        Status.SUBMITTED_FOR_SETTLEMENT
-     };
+    private Status[] TRANSACTION_SUCCESS_STATUSES = new Status[]{
+            Status.AUTHORIZED,
+            Status.AUTHORIZING,
+            Status.SETTLED,
+            Status.SETTLEMENT_CONFIRMED,
+            Status.SETTLEMENT_PENDING,
+            Status.SETTLING,
+            Status.SUBMITTED_FOR_SETTLEMENT
+    };
 
     public String generateToken() {
         return gateway.clientToken().generate();
@@ -105,7 +99,7 @@ public class BrainTreeAction {
             System.out.println("Exception: " + e);
             return transactionResult;
         }
-        if(Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus())){
+        if (Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus())) {
             transactionResult = new TransactionDTO();
             transactionResult.setCardId(creditCard.getCustomerId());
             transactionResult.setCardType(creditCard.getCardType());
