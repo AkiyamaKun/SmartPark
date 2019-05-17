@@ -73,7 +73,7 @@
                     "<td>" + value.owner.lastName + " " + value.owner.firstName + "</td>" +
                     "<td>" + value.totalSlot + "</td>" +
                     "<td>" + status + "</td>" +
-                    "<td><a href='/dashboard' onclick='getVideoFeed(" + value.parkingLotId + ")'>Live Stream</a></td>" +
+                    "<td><a href='/dashboard?id=" + value.parkingLotId + "'>Live Stream</a></td>" +
                     "</tr>";
                 $("#listPlots").append(tr);
             });

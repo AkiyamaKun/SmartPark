@@ -11,8 +11,9 @@
 
         <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
 
-        <div class="content" id="livestream">
-
+        <div class="content">
+            <input type="hidden" th:value="${plotid.parkingLotId}">
+            <img th:each="item : ${live}" th:src="${item.value + plotid.parkingLotId}" width="100%" alt="Please check your connection!" />
         </div>
     </div>
 </div>

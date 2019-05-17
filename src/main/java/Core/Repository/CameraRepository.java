@@ -11,4 +11,6 @@ public interface CameraRepository extends JpaRepository<Camera, Integer> {
     Camera findByCameraId(Integer cameraId);
 
     List<Camera> findAllByParkingLotId(ParkingLot parkingLot);
+
+    Camera findByParkingLotId(ParkingLot parkingLot);
 }

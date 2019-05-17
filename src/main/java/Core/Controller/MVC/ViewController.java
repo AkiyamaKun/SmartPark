@@ -457,12 +457,16 @@ public class ViewController {
     /**
      * Dashboard Page
      *
-     * @param model
+     * @param id
      * @return
      */
     @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public String toDashboardSupervisor(Model model) {
-        return "supervisor/dashboard";
+    public ModelAndView toDashboardSupervisor(@RequestParam Integer id) {
+        ModelAndView view = new ModelAndView("supervisor/dashboard");
+        ResponseDTO webcam = cameraService.getCameraByParkingLotId(id);
+        view.addObject("plotid", webcam.getObjectResponse());
+        view.addObject("live", webcam.getMapMessage());
+        return view;
     }
 
     /**

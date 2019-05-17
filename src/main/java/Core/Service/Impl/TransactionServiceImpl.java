@@ -33,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
         //dto.setAccountId(entity.getAccountId().getAccountId());
         dto.setMoney(entity.getMoney());
         dto.setRechargeDate(entity.getRechargeDate());
-        dto.setTransactionStatus(entity.getTransactionStatus());
+        //dto.setTransactionStatus(entity.getTransactionStatus());
     }
 
     @Override
@@ -56,7 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
             //transaction.setTransactionId(transactionDTO.getTransactionId());
             transaction.setMoney(transactionDTO.getMoney());
             transaction.setRechargeDate(date);
-            transaction.setTransactionStatus("Done");
+            //transaction.setTransactionStatus("Done");
             Account account = accountRepository.findByAccountId(transactionDTO.getAccountId());
             transaction.setAccountId(account);
             transactionRepository.save(transaction);

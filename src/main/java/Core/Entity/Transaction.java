@@ -32,19 +32,23 @@ public class Transaction {
     @Column(name = "type_of_transaction")
     private String typeOfTransaction;
 
-    @Column(name = "transaction_status")
-    private String transactionStatus;
+    @Column(name = "card_type")
+    private String cardType;
+
+    @Column(name = "card_id")
+    private Integer cardId;
 
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String transactionStatus) {
+    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, Integer cardId) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
         this.bookingId = bookingId;
         this.typeOfTransaction = typeOfTransaction;
-        this.transactionStatus = transactionStatus;
+        this.cardType = cardType;
+        this.cardId = cardId;
     }
 
     public Integer getTransactionId() {
@@ -79,14 +83,6 @@ public class Transaction {
         this.money = money;
     }
 
-    public String getTransactionStatus() {
-        return transactionStatus;
-    }
-
-    public void setTransactionStatus(String transactionStatus) {
-        this.transactionStatus = transactionStatus;
-    }
-
     public Booking getBookingId() {
         return bookingId;
     }
@@ -101,5 +97,21 @@ public class Transaction {
 
     public void setTypeOfTransaction(String typeOfTransaction) {
         this.typeOfTransaction = typeOfTransaction;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public Integer getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(Integer cardId) {
+        this.cardId = cardId;
     }
 }

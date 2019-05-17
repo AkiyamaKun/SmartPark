@@ -62,6 +62,32 @@ public class CameraImpl implements CameraService {
     }
 
     @Override
+    public ResponseDTO getCameraByParkingLotId(Integer parkingLotId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        Map<Integer, String> message = new HashMap<>();
+        try {
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            if (parkingLot != null) {
+                Camera camera = cameraRepository.findByCameraId(1);
+                if (camera.getUrlLiveStream() != null) {
+                    String urlStr = camera.getUrlLiveStream();
+                    message.put(2, urlStr);
+                    responseDTO.setMapMessage(message);
+                }
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_PARKING_LOT_SUCCESS);
+                responseDTO.setObjectResponse(parkingLot);
+            } else {
+                responseDTO.setMessage(Const.GET_PARKING_LOT_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Parking Lot Exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
     public ResponseDTO getAllCamera() {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);

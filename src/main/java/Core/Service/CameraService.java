@@ -7,6 +7,8 @@ public interface CameraService {
 
     ResponseDTO getCamera(Integer cameraId);
 
+    ResponseDTO getCameraByParkingLotId(Integer parkingLotId);
+
     ResponseDTO getAllCamera();
 
     ResponseDTO getListCameraOfParkingLot(Integer parkingLotId);
