@@ -36,12 +36,12 @@ public class Transaction {
     private String cardType;
 
     @Column(name = "card_id")
-    private Integer cardId;
+    private String cardId;
 
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, Integer cardId) {
+    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, String cardId) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
@@ -107,11 +107,11 @@ public class Transaction {
         this.cardType = cardType;
     }
 
-    public Integer getCardId() {
+    public String getCardId() {
         return cardId;
     }
 
-    public void setCardId(Integer cardId) {
+    public void setCardId(String cardId) {
         this.cardId = cardId;
     }
 }
