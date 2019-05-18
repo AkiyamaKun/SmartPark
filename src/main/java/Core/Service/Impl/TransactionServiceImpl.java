@@ -84,9 +84,13 @@ public class TransactionServiceImpl implements TransactionService {
             if (parkingLot != null) {
                 BrainTreeAction brainTreeAction = new BrainTreeAction();
                 TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(parkingLot.getPrice()), nonce);
-                responseDTO.setStatus(true);
-                responseDTO.setObjectResponse(transactionDTO);
-                responseDTO.setMessage(Const.CHECK_PAYMENT_SUCCESS);
+                if (transactionDTO != null) {
+                    responseDTO.setStatus(true);
+                    responseDTO.setObjectResponse(transactionDTO);
+                    responseDTO.setMessage(Const.CHECK_PAYMENT_SUCCESS);
+                } else {
+                    responseDTO.setMessage(Const.CHECK_PAYMENT_FAIL);
+                }
             } else {
                 responseDTO.setMessage(Const.GET_PARKING_LOT_FAIL);
             }
