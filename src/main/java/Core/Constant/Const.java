@@ -78,6 +78,7 @@ public class Const {
     public static final String ADD_CASH = "add_cash";
     public static final String SAVE_TRANSACTION = "/save_transaction";
     public static final String CHECK_PAYMENT = "/check_payment";
+    public static final String GENERATE_TOKEN_CLIENT = "/generate_token_client";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -252,6 +253,8 @@ public class Const {
     public static final String SAVE_TRANSACTION_FAIL = "Save Transaction Fail";
     public static final String CHECK_PAYMENT_SUCCESS = "Check Payment Successful";
     public static final String CHECK_PAYMENT_FAIL = "Check Payment Fail";
+    public static final String GENERATE_SUCCESS = "Generate Successful";
+    public static final String GENERATE_FAIL = "Generate Fail";
 
     //Common
     public static final String ROLE_ADMIN = "ROLE_ADMIN";

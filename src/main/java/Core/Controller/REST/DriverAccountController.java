@@ -169,4 +169,14 @@ public class DriverAccountController {
     public ResponseDTO checkPayment(@RequestParam Integer parkingLotId, @RequestParam String nonce) {
         return transactionService.checkPayment(parkingLotId, nonce);
     }
+
+    /**
+     * Check Payment
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.GENERATE_TOKEN_CLIENT, method = RequestMethod.GET)
+    public ResponseDTO generateTokenClient() {
+        return transactionService.generateTokenClient();
+    }
 }

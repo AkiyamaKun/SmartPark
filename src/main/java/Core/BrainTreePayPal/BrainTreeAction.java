@@ -22,7 +22,7 @@ public class BrainTreeAction {
 
     File configFile = new File(DEFAULT_CONFIG_FILENAME);
 
-    private boolean configAction() {
+    public boolean configAction() {
         try {
             if (configFile.exists() && !configFile.isDirectory()) {
                 gateway = BraintreeGatewayFactory.fromConfigFile(configFile);

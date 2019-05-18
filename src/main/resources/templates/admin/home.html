@@ -105,5 +105,17 @@
 <!--    <script src="/st-admin/assets/js/main.js"></script>-->
 
 </body>
-
+<script>
+    var pubnubDemo = new PubNub({
+        publishKey: 'pub-c-4bd9ae88-d5ff-42fe-9c1b-5143f1c6b5da',
+        subscribeKey: 'sub-c-f80276b4-7330-11e9-b514-6a4d3cd75da8'
+    });
+    // Publish a simple message to the demo_tutorial channel
+    pubnubDemo.publish({
+        message: {
+            "color" : "blue"
+        },
+        channel: 'demo_tutorial'
+    });
+</script>
 </html>

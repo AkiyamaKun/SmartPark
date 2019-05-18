@@ -83,16 +83,34 @@ public class TransactionServiceImpl implements TransactionService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (parkingLot != null) {
                 BrainTreeAction brainTreeAction = new BrainTreeAction();
-                brainTreeAction.generateToken();
-                brainTreeAction.acceptPayment(String.valueOf(parkingLot.getPrice()), nonce);
+                TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(parkingLot.getPrice()), nonce);
                 responseDTO.setStatus(true);
-                responseDTO.setObjectResponse(brainTreeAction);
+                responseDTO.setObjectResponse(transactionDTO);
                 responseDTO.setMessage(Const.CHECK_PAYMENT_SUCCESS);
             } else {
                 responseDTO.setMessage(Const.GET_PARKING_LOT_FAIL);
             }
         } catch (Exception e) {
             responseDTO.setMessage(Const.CHECK_PAYMENT_FAIL);
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO generateTokenClient() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            String token = "";
+            BrainTreeAction brainTreeAction = new BrainTreeAction();
+            if (brainTreeAction.configAction()) {
+                token = brainTreeAction.generateToken();
+            }
+            responseDTO.setStatus(true);
+            responseDTO.setMessage(token);
+        } catch (Exception e) {
+            responseDTO.setMessage(null);
+            responseDTO.setMessage(Const.GENERATE_FAIL);
         }
         return responseDTO;
     }

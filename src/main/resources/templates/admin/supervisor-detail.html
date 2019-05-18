@@ -181,7 +181,7 @@
         });
 
         document.getElementById("btnAssign").addEventListener("click", function () {
-            assignParkingLot();
+             assignParkingLot();
         });
 
         $("#btnDeactive").click(function (event) {
@@ -216,6 +216,7 @@
             }, function (error) {
                 showAlert(false, error.message);
             });
+            connect();
         });
 
         $("#supervisor-form input").keydown(function (event) {

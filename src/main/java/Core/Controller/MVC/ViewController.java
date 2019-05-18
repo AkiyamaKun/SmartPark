@@ -10,6 +10,8 @@ import Core.Repository.AccountRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -513,7 +515,8 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/list-plot-supervisor", method = RequestMethod.GET)
-    public String toListCameraSupervisor(Model model) {
+    public String toListCameraSupervisor(Model model) throws Exception{
+        Thread.sleep(10000);
         //Excute anything here
         return "supervisor/list-plot-supervisor";
     }

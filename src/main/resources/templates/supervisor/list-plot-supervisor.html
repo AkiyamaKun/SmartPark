@@ -41,19 +41,11 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
 </body>
 
 <script>
-
-    // const getVideoFeed = (parkingLotId) => {
-    //     // debugger
-    //     if (event) {
-    //         event.stopPropagation();
-    //     }
-    //     let img = "<img src='http://703da524.ngrok.io/video_feed/" + parkingLotId + "' width=\"100%\" alt=\"Please check your connection!\" />";
-    //     $("#livestream").html(img);
-    // };
-
     $(document).ready(function () {
         let accountId = document.getElementById("accountId").value;
         doAjax("/supervisor/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
@@ -81,6 +73,7 @@
             console.log(error);
         });
     });
+
 </script>
 
 </html>
