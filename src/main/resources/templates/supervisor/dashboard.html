@@ -12,7 +12,7 @@
         <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
 
         <div class="my-live">
-            <input type="hidden" th:value="${plotid.parkingLotId}">
+            <input type="hidden" id="parkingLotId" th:value="${plotid.parkingLotId}">
             <img th:each="item : ${live}" th:src="${item.value + plotid.parkingLotId}" width="100%"
                  alt="Please check your connection!"/>
         </div>
@@ -41,10 +41,10 @@
 
     function loadData() {
         let accountId = document.getElementById("accountId").value;
-        doAjax("/account/" + accountId, "GET", null, function (response) {
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        doAjax("/supervisor/count_booking?parkingLotId=" + parkingLotId, "GET", null, function (response) {
             let data = response.objectResponse;
-            let result = data.firstName + " / " + data.lastName;
-            document.getElementById("numBook").innerHTML = result;
+            document.getElementById("numBook").innerHTML = data;
         }, function (error) {
             console.log(error.message)
         });

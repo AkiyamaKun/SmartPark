@@ -442,15 +442,17 @@ public class BookingServiceImpl implements BookingService {
      * @return
      */
     @Override
-    public ResponseDTO countBookingSlotByStatus() {
+    public ResponseDTO countBookingSlotByStatus(Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            Integer available = parkingLotService.getAvailableSlot(parkingLot);
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatus);
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
-            responseDTO.setObjectResponse(bookingList.size());
+            responseDTO.setObjectResponse(bookingList.size() + " / " + available);
 
         } catch (Exception e) {
             responseDTO.setMessage("Get Booking Error: " + e.getMessage());

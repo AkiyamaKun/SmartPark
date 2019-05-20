@@ -88,7 +88,7 @@ public class SupervisorAccountController {
      * @return
      */
     @RequestMapping(value = Const.COUNT_BOOKING, method = RequestMethod.GET)
-    public ResponseDTO countBookingSlotByStatus(){
-        return bookingService.countBookingSlotByStatus();
+    public ResponseDTO countBookingSlotByStatus(@RequestParam Integer parkingLotId){
+        return bookingService.countBookingSlotByStatus(parkingLotId);
     }
 }

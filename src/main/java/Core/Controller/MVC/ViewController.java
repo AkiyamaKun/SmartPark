@@ -10,8 +10,6 @@ import Core.Repository.AccountRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.messaging.handler.annotation.MessageMapping;
-//import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
