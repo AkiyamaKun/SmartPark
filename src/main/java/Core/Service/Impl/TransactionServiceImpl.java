@@ -5,9 +5,11 @@ import Core.Constant.Const;
 import Core.DTO.ResponseDTO;
 import Core.DTO.TransactionDTO;
 import Core.Entity.Account;
+import Core.Entity.Booking;
 import Core.Entity.ParkingLot;
 import Core.Entity.Transaction;
 import Core.Repository.AccountRepository;
+import Core.Repository.BookingRepository;
 import Core.Repository.ParkingLotRepository;
 import Core.Repository.TransactionRepository;
 import Core.Service.TransactionService;
@@ -28,6 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private ParkingLotRepository parkingLotRepository;
 
+    @Autowired
+    private BookingRepository bookingRepository;
+
     /**
      * Function Convert DTO From Entity
      *
@@ -36,15 +41,35 @@ public class TransactionServiceImpl implements TransactionService {
      */
     public void convertDTOFromEntity(TransactionDTO dto, Transaction entity) {
         dto.setTransactionId(entity.getTransactionId());
-        //dto.setAccountId(entity.getAccountId().getAccountId());
+        dto.setAccountId(entity.getAccountId().getAccountId());
+        dto.setRechargeDate(entity.getRechargeDate());
+        dto.setCardId(entity.getCardId());
+        dto.setCardType(entity.getCardType());
         dto.setMoney(entity.getMoney());
         dto.setRechargeDate(entity.getRechargeDate());
-        //dto.setTransactionStatus(entity.getTransactionStatus());
+        dto.setTransactionCode(entity.getTransactionCode());
+        dto.setBookingId(entity.getBookingId().getBookingId());
     }
 
     @Override
     public ResponseDTO getTransaction(Integer id) {
-        return null;
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Transaction transaction = transactionRepository.findByTransactionId(id);
+            TransactionDTO dto = new TransactionDTO();
+            if (transaction != null) {
+                convertDTOFromEntity(dto, transaction);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            } else {
+                responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Transaction is exception: " + e.getMessage());
+        }
+        return responseDTO;
     }
 
     @Override
@@ -57,14 +82,18 @@ public class TransactionServiceImpl implements TransactionService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            Date date = new Date();
+            //Date date = new Date();
             Transaction transaction = new Transaction();
-            //transaction.setTransactionId(transactionDTO.getTransactionId());
             transaction.setMoney(transactionDTO.getMoney());
-            transaction.setRechargeDate(date);
-            //transaction.setTransactionStatus("Done");
+            transaction.setRechargeDate(transactionDTO.getRechargeDate());
+            transaction.setCardId(transactionDTO.getCardId());
+            transaction.setCardType(transactionDTO.getCardType());
+            Booking booking = bookingRepository.findByBookingId(transactionDTO.getBookingId());
+            transaction.setBookingId(booking);
             Account account = accountRepository.findByAccountId(transactionDTO.getAccountId());
             transaction.setAccountId(account);
+            transaction.setTransactionCode(transactionDTO.getTransactionCode());
+            transaction.setTypeOfTransaction(transactionDTO.getTypeOfTransaction());
             transactionRepository.save(transaction);
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.SAVE_TRANSACTION_SUCCESS);

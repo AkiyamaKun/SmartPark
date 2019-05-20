@@ -3,10 +3,7 @@ package Core.Service.Impl;
 import Core.BrainTreePayPal.BrainTreeAction;
 import Core.Constant.Const;
 import Core.DTO.*;
-import Core.Entity.Account;
-import Core.Entity.Booking;
-import Core.Entity.BookingStatus;
-import Core.Entity.ParkingLot;
+import Core.Entity.*;
 import Core.Repository.AccountRepository;
 import Core.Repository.BookingRepository;
 import Core.Repository.BookingStatusRepository;
@@ -40,6 +37,25 @@ public class BookingServiceImpl implements BookingService {
     BookingStatusRepository bookingStatusRepository;
 
     /**
+     * Function Convert DTO From Entity
+     *
+     * @param transactionDTO
+     */
+    public void saveTransaction(TransactionDTO transactionDTO, Integer accountId, Integer bookingId) {
+        Transaction transaction = new Transaction();
+        transaction.setMoney(transactionDTO.getMoney());
+        transaction.setRechargeDate(transactionDTO.getRechargeDate());
+        transaction.setCardId(transactionDTO.getCardId());
+        transaction.setCardType(transactionDTO.getCardType());
+        Booking booking = bookingRepository.findByBookingId(bookingId);
+        transaction.setBookingId(booking);
+        Account account = accountRepository.findByAccountId(accountId);
+        transaction.setAccountId(account);
+        transaction.setTransactionCode(transactionDTO.getTransactionCode());
+        transaction.setTypeOfTransaction(transactionDTO.getTypeOfTransaction());
+    }
+
+    /**
      * Create Booking Slot
      *
      * @param accountId
@@ -55,56 +71,76 @@ public class BookingServiceImpl implements BookingService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (account != null || parkingLot != null) {
                 if (parkingLotService.getAvailableSlot(parkingLot) > 0) {
-                    BrainTreeAction brainTreeAction = new BrainTreeAction();
-                    if (brainTreeAction.configAction()) {
-                        int amount = Math.round(parkingLot.getPrice() / 4);
-                        TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(amount), nonce);
-                        if (transactionDTO != null) {
-                            //Generate currentTime
-                            Date bookingTime = new Date();
-                            Booking booking = new Booking(account, parkingLot, bookingTime);
-                            //Create token check in
-                            String token = Utilities.generateToken(account.getEmail());
-                            booking.setTokenInput(token);
-                            if (account.getPlateNumber() == null) {
-                                booking.setPlateNumber("");
+                    BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
+                    BookingStatus bookingStatusUse = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_USE);
+                    List<Booking> checkInfoBook = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusBook.getBookingStatusId(), accountId);
+                    List<Booking> checkInfoUse = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusUse.getBookingStatusId(), accountId);
+                    if (checkInfoBook.size() > 0 || checkInfoUse.size() > 0) {
+                        for (Booking book : checkInfoUse) {
+                            if (book.getParkingLot().getParkingLotId().equals(parkingLotId)) {
+                                responseDTO.setStatus(true);
+                                return checkOut(book.getBookingId(), book.getTokenOutput());
                             } else {
-                                booking.setPlateNumber(account.getPlateNumber());
+                                responseDTO.setStatus(false);
+                                responseDTO.setMessage(Const.BOOKING_FAIL);
+                                return responseDTO;
                             }
-                            BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
-                            if (bookingStatus == null) {
-                                bookingStatus = new BookingStatus(Const.STATUS_BOOKING_BOOK);
-                                bookingStatusRepository.save(bookingStatus);
-                            }
-                            booking.setBookingStatus(bookingStatus);
-                            bookingRepository.save(booking);
-                            String urlAPICheckIn = Const.DOMAIN + Const.PUBLIC + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
-                                    + "&token=" + token;
-                            booking.setUrlApiCheckIn(urlAPICheckIn);
-                            bookingRepository.save(booking);
-                            BookingDTO dto = new BookingDTO();
-
-                            Utilities.convertBookingDTOFromBookingEntity(dto, booking);
-                            dto.setPrice(parkingLot.getPrice());
-                            dto.setParkingLotName(parkingLot.getDisplayName());
-
-                            //Excute update field 'bookingSlot' in Parking Lot
-                            Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
-                            if (bookingSlotInParkingLot < 0) {
-                                bookingSlotInParkingLot = 0;
-                            } else {
-                                bookingSlotInParkingLot++;
-                            }
-                            parkingLot.setBookingSlot(bookingSlotInParkingLot);
-                            parkingLotRepository.save(parkingLot);
-
-                            //return response
-                            responseDTO.setStatus(true);
-                            responseDTO.setObjectResponse(dto);
-                            responseDTO.setMessage(Const.BOOKING_SUCCESS);
-                        } else {
-                            responseDTO.setMessage(Const.BOOKING_FAIL);
                         }
+                    } else if (checkInfoBook.isEmpty() || checkInfoUse.isEmpty()) {
+                        BrainTreeAction brainTreeAction = new BrainTreeAction();
+                        if (brainTreeAction.configAction()) {
+                            int amount = Math.round(parkingLot.getPrice() / 4);
+                            TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(amount), nonce);
+                            if (transactionDTO != null) {
+                                //Generate currentTime
+                                Date bookingTime = new Date();
+                                Booking booking = new Booking(account, parkingLot, bookingTime);
+                                //Create token check in
+                                String token = Utilities.generateToken(account.getEmail());
+                                booking.setTokenInput(token);
+                                if (account.getPlateNumber() == null) {
+                                    booking.setPlateNumber("");
+                                } else {
+                                    booking.setPlateNumber(account.getPlateNumber());
+                                }
+                                BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
+                                if (bookingStatus == null) {
+                                    bookingStatus = new BookingStatus(Const.STATUS_BOOKING_BOOK);
+                                    bookingStatusRepository.save(bookingStatus);
+                                }
+                                booking.setBookingStatus(bookingStatus);
+                                bookingRepository.save(booking);
+                                String urlAPICheckIn = Const.DOMAIN + Const.PUBLIC + Const.BOOKING_CHECK_IN + "?bookingId=" + booking.getBookingId()
+                                        + "&token=" + token;
+                                booking.setUrlApiCheckIn(urlAPICheckIn);
+                                bookingRepository.save(booking);
+                                BookingDTO dto = new BookingDTO();
+
+                                Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                                dto.setPrice(parkingLot.getPrice());
+                                dto.setParkingLotName(parkingLot.getDisplayName());
+                                saveTransaction(transactionDTO, accountId, booking.getBookingId());
+
+                                //Excute update field 'bookingSlot' in Parking Lot
+                                Integer bookingSlotInParkingLot = parkingLot.getBookingSlot();
+                                if (bookingSlotInParkingLot < 0) {
+                                    bookingSlotInParkingLot = 0;
+                                } else {
+                                    bookingSlotInParkingLot++;
+                                }
+                                parkingLot.setBookingSlot(bookingSlotInParkingLot);
+                                parkingLotRepository.save(parkingLot);
+
+                                //return response
+                                responseDTO.setStatus(true);
+                                responseDTO.setObjectResponse(dto);
+                                responseDTO.setMessage(Const.BOOKING_SUCCESS);
+                            } else {
+                                responseDTO.setMessage(Const.BOOKING_FAIL);
+                            }
+                        }
+                    } else {
+                        responseDTO.setMessage(Const.BOOKING_FAIL);
                     }
                 } else {
                     //Available slot = 0 -> Cant booking
@@ -425,9 +461,10 @@ public class BookingServiceImpl implements BookingService {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             if (booking != null) {
                 BookingDTO dto = new BookingDTO();
+                Account account = accountRepository.findByAccountId(booking.getAccount().getAccountId());
                 Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                 responseDTO.setStatus(true);
-                responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+                responseDTO.setMessage(account.getEmail());
                 responseDTO.setObjectResponse(dto);
             } else {
                 responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);

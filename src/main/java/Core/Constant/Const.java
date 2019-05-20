@@ -256,6 +256,8 @@ public class Const {
     public static final String CHECK_PAYMENT_FAIL = "Check Payment Fail";
     public static final String GENERATE_SUCCESS = "Generate Successful";
     public static final String GENERATE_FAIL = "Generate Fail";
+    public static final String GET_TRANSACTION_SUCCESS = "Get Transaction Successful";
+    public static final String GET_TRANSACTION_FAIL = "Get Transaction Fail";
 
     //Common
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
