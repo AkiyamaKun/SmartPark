@@ -46,7 +46,29 @@
 </body>
 
 <script>
+
+    let pubnubDemo = new PubNub({
+        publishKey: 'pub-c-4bd9ae88-d5ff-42fe-9c1b-5143f1c6b5da',
+        subscribeKey: 'sub-c-f80276b4-7330-11e9-b514-6a4d3cd75da8'
+    });
+
     $(document).ready(function () {
+        pubnubDemo.addListener({
+            message: function (message) {
+                console.log(message);
+                document.location.reload();
+            }
+        });
+
+        updateTable();
+
+        pubnubDemo.subscribe({
+            channels: ['demo_tutorial']
+        });
+
+    });
+
+    let updateTable = () => {
         let accountId = document.getElementById("accountId").value;
         doAjax("/supervisor/list_parking_lot_control_by_supervisor?supervisorId=" + accountId, "GET", null, function (data) {
             let plots = data.objectResponse;
@@ -72,8 +94,7 @@
         }, function (error) {
             console.log(error);
         });
-    });
-
+    };
 </script>
 
 </html>

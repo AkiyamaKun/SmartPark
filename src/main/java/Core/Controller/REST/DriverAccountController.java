@@ -107,8 +107,9 @@ public class DriverAccountController {
      */
     @RequestMapping(value = Const.BOOKING_SLOT, method = RequestMethod.POST)
     public ResponseDTO bookingSlot(@RequestParam(value = "accountId", required = true) Integer accountId,
-                                   @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId) {
-        return bookingService.createBooking(accountId, parkingLotId);
+                                   @RequestParam(value = "parkingLotId", required = true) Integer parkingLotId,
+                                   @RequestParam(value = "nonce", required = true) String nonce) {
+        return bookingService.createBooking(accountId, parkingLotId, nonce);
     }
 
     /**

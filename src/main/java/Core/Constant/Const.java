@@ -87,6 +87,7 @@ public class Const {
     public static final String GET_DRIVER_ACCOUNT_FAIL = "Get Driver Account Fail";
     public static final String SEND_MESSAGE_SET_FIRST_PASSWORD = "We have send link set new password for you";
     public static final String BOOKING_SUCCESS = "Booking success";
+    public static final String BOOKING_FAIL = "Booking fail";
     public static final String BOOKING_CHECK_IN_SUCCESS = "Check in success";
     public static final String BOOKING_CHECK_OUT_SUCCESS = "Check out success";
     public static final String MONEY_NOT_ENOUGH = "Money not enough";
@@ -186,7 +187,7 @@ public class Const {
     public static final String SUPERVISOR_ACCOUNT = "/supervisor";
     public static final String LIST_CAMERA = "/list_camera";
     public static final String LIST_CAMERA_BY_PARKINGLOTID = "/list_camera/{parkingLotId}";
-
+    public static final String COUNT_BOOKING = "/count_booking";
 
     //Account Gmail vs Mail Properties
     public static final String MAIL_ACCOUNT = "smartparking50@gmail.com";

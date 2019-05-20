@@ -527,6 +527,21 @@ input:focus {
     min-height: calc(100% - 123px);
 }
 
+.main-panel > .my-live {
+    padding: 30px 15px;
+    min-height: calc(100% - 123px);
+    width: 80%;
+    display: inline-block;
+}
+
+.main-panel > .booking {
+    padding: 30px 15px;
+    min-height: calc(100% - 123px);
+    width: 20%;
+    display: inline-block;
+    float: right;
+}
+
 .main-panel > .footer {
     border-top: 1px solid #e7e7e7;
 }

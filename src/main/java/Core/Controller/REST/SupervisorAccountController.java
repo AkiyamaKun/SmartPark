@@ -4,10 +4,7 @@ import Core.Constant.Const;
 import Core.DTO.ParkingLotUpdateDTO;
 import Core.DTO.ResponseDTO;
 import Core.Entity.ParkingLot;
-import Core.Service.AccountService;
-import Core.Service.CameraService;
-import Core.Service.ParkingLotService;
-import Core.Service.SupervisionService;
+import Core.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +27,9 @@ public class SupervisorAccountController {
 
     @Autowired
     CameraService cameraService;
+
+    @Autowired
+    BookingService bookingService;
 
     /**
      * Get List Parking Lot Control By Supervisor
@@ -80,5 +80,15 @@ public class SupervisorAccountController {
     @RequestMapping(value = Const.LIST_CAMERA_BY_PARKINGLOTID, method = RequestMethod.GET)
     public ResponseDTO getListCameraByParkingLotId(@PathVariable Integer parkingLotId){
         return cameraService.getListCameraOfParkingLot(parkingLotId);
+    }
+
+    /**
+     * Get List Camera
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.COUNT_BOOKING, method = RequestMethod.GET)
+    public ResponseDTO countBookingSlotByStatus(){
+        return bookingService.countBookingSlotByStatus();
     }
 }
