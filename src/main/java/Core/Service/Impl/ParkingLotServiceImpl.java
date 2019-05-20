@@ -76,34 +76,36 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     /**
      * Get Available Slot can booking
+     *
      * @return
      */
-    public Integer getAvailableSlot(ParkingLot parkingLot){
+    public Integer getAvailableSlot(ParkingLot parkingLot) {
         List<ParkingSlot> parkingSlotList = parkingSlotRepository.findByParkingLot(parkingLot);
-        if(!parkingSlotList.isEmpty()){
+        if (!parkingSlotList.isEmpty()) {
             int count = 0;
             int bookingSlot = parkingLot.getBookingSlot();
-            for (ParkingSlot element: parkingSlotList) {
-                if(element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)){
+            for (ParkingSlot element : parkingSlotList) {
+                if (element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)) {
                     count++;
                 }
             }
             return (count - bookingSlot);
-        }else{
+        } else {
             return 0;
         }
     }
 
     /**
      * Get Empty Slot
+     *
      * @return
      */
-    public Integer getEmptySlot(ParkingLot parkingLot){
+    public Integer getEmptySlot(ParkingLot parkingLot) {
         List<ParkingSlot> parkingSlotList = parkingSlotRepository.findByParkingLot(parkingLot);
         int count = 0;
-        if(!parkingSlotList.isEmpty()){
-            for (ParkingSlot element: parkingSlotList) {
-                if(element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)){
+        if (!parkingSlotList.isEmpty()) {
+            for (ParkingSlot element : parkingSlotList) {
+                if (element.getParkingSlotStatus().getStatusName().equals(Const.STATUS_SLOT_EMPTY)) {
                     count++;
                 }
             }
@@ -268,7 +270,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                             parkingLot.setTotalSlot(dto.getTotalSlot());
 
                             //Excute Update Total Slot
-                            if(parkingLot.getTotalSlot() != dto.getTotalSlot()){
+                            if (parkingLot.getTotalSlot() != dto.getTotalSlot()) {
                                 //Remove all old slot in table ParkingSlot
                                 List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingLot(parkingLot);
                                 parkingSlotRepository.deleteInBatch(parkingSlots);

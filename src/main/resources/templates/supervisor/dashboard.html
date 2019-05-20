@@ -11,9 +11,21 @@
 
         <div th:replace="supervisor/sup-share/navbar :: navbar"></div>
 
-        <div class="content">
-            <input type="hidden" th:value="${plotid.parkingLotId}">
-            <img th:each="item : ${live}" th:src="${item.value + plotid.parkingLotId}" width="100%" alt="Please check your connection!" />
+        <div class="my-live">
+            <input type="hidden" id="parkingLotId" th:value="${plotid.parkingLotId}">
+            <img th:each="item : ${live}" th:src="${item.value + plotid.parkingLotId}" width="100%"
+                 alt="Please check your connection!"/>
+        </div>
+        <div class="booking">
+            <input id="accountId" type="hidden" th:value="${session.User.accountId}"/>
+            <table>
+                <tr>
+                    <td>Booking / Available</td>
+                </tr>
+                <tr>
+                    <td id="numBook"></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -21,20 +33,22 @@
 
 
 <script>
-    var socket = new WebSocket('ws://' + window.location.host + '/my-websocket-endpoint');
+    let myData;
 
-    // Add an event listener for when a connection is open
-    socket.onopen = function() {
-        console.log('WebSocket connection opened. Ready to send messages.');
+    ready(function () {
+        myData = setInterval(loadData, 10000);
+    });
 
-        // Send a message to the server
-        socket.send('Hello, from WebSocket client!');
-    };
-
-    // Add an event listener for when a message is received from the server
-    socket.onmessage = function(message) {
-        console.log('Message received from server: ' + message);
-    };
+    function loadData() {
+        let accountId = document.getElementById("accountId").value;
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        doAjax("/supervisor/count_booking?parkingLotId=" + parkingLotId, "GET", null, function (response) {
+            let data = response.objectResponse;
+            document.getElementById("numBook").innerHTML = data;
+        }, function (error) {
+            console.log(error.message)
+        });
+    }
 </script>
 
 </html>
