@@ -2,6 +2,7 @@ package Core.Service.Impl;
 
 import Core.BrainTreePayPal.BrainTreeAction;
 import Core.Constant.Const;
+import Core.Controller.MVC.MessageController;
 import Core.DTO.*;
 import Core.Entity.*;
 import Core.Repository.AccountRepository;
@@ -134,7 +135,10 @@ public class BookingServiceImpl implements BookingService {
                                 //return response
                                 responseDTO.setStatus(true);
                                 responseDTO.setObjectResponse(dto);
-                                responseDTO.setMessage(Const.BOOKING_SUCCESS);
+                                responseDTO.setMessage(Const.PAYPAL);
+                                MessageController messageController = new MessageController();
+                                messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
+                                messageController.sendToUser(responseDTO, "supervisor_666");
                             } else {
                                 responseDTO.setMessage(Const.BOOKING_FAIL);
                             }
@@ -209,7 +213,9 @@ public class BookingServiceImpl implements BookingService {
                             //return response
                             responseDTO.setStatus(true);
                             responseDTO.setObjectResponse(dto);
-                            responseDTO.setMessage(Const.BOOKING_CHECK_IN_SUCCESS);
+                            responseDTO.setMessage(Const.CHECKIN);
+                            MessageController messageController = new MessageController();
+                            messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
                         } else {
                             //Time Out Check In
                             booking.setTimeStart(timeStart);

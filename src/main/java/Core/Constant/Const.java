@@ -97,6 +97,8 @@ public class Const {
     public static final String BOOKING_CHECK_IN_FAIL = "Check in fail";
     public static final String BOOKING_CHECK_OUT_FAIL = "Check out fail";
     public static final String BOOKING_OUT_OF_SLOT = "No one slot can booking";
+    public static final String PAYPAL = "PAYPAL";
+    public static final String CHECKIN = "CHECKIN";
 
 
     //Admin Account API

@@ -35,7 +35,6 @@ import java.util.Objects;
  */
 @Controller
 @EnableAutoConfiguration
-@ComponentScan(basePackages = {"org.robins.io.pubnub.api.web"})
 public class MessageController {
 
     private final static String PUBLISH_KEY = "pub-c-80463209-5f78-4ea8-b026-916cd755c43c";
@@ -45,8 +44,8 @@ public class MessageController {
     Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, (JsonDeserializer) (json, typeOfT, context)
             -> new Date(json.getAsJsonPrimitive().getAsLong())).setLenient().create();
 
-    public void sendToUser(ResponseDTO responseOnject, String channel) {
-        JSONObject jsonObj = new JSONObject(gson.toJson(responseOnject));
+    public void sendToUser(ResponseDTO responseObject, String channel) {
+        JSONObject jsonObj = new JSONObject(gson.toJson(responseObject));
         Callback callback = new Callback() {
             public void successCallback(String channel, Object response) {
                 System.out.println("Success: " + response.toString());
