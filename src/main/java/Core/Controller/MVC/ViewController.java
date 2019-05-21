@@ -64,6 +64,12 @@ public class ViewController {
     @Autowired
     CameraService cameraService;
 
+    @Autowired
+    BookingService bookingService;
+
+    @Autowired
+    TransactionService transactionService;
+
     /**
      * Login Page
      *
@@ -476,8 +482,13 @@ public class ViewController {
      * @return
      */
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public String toReportSupervisor(Model model) {
-        return "supervisor/report";
+    public ModelAndView toReportSupervisor(Model model) {
+        ModelAndView view = new ModelAndView("supervisor/report");
+        ResponseDTO listBooked = bookingService.getAllBookingFinish();
+        ResponseDTO revenue = transactionService.getRevenue();
+        view.addObject("listBooked", listBooked.getObjectResponse());
+        view.addObject("revenue", revenue.getObjectResponse());
+        return view;
     }
 
     /**

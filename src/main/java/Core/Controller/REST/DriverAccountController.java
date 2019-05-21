@@ -180,4 +180,14 @@ public class DriverAccountController {
     public ResponseDTO generateTokenClient() {
         return transactionService.generateTokenClient();
     }
+
+    /**
+     * Check Payment
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.CHECK_BOOKING_USE, method = RequestMethod.GET)
+    public ResponseDTO checkBookingUse(@RequestParam Integer bookingId) {
+        return bookingService.checkBooking(bookingId);
+    }
 }

@@ -60,6 +60,7 @@ public class Const {
     public static final String ADD_CASH_SUCCESS = "Add cash successfull";
     public static final String BOOKING_IS_NOT_EXISTED = "Booking is not existed";
     public static final String GET_BOOKING_SUCCESS = "Get Booking Success";
+    public static final String GET_BOOKING_FAIL = "Get Booking Fail";
     public static final String LOGIN_SUCCESS = "Login Successful";
     public static final String WRONG_USERNAME_PASSWORD = "Wrong username or password";
     public static final String ACCESS_DENIED = "Access Denied";
@@ -79,6 +80,7 @@ public class Const {
     public static final String SAVE_TRANSACTION = "/save_transaction";
     public static final String CHECK_PAYMENT = "/check_payment";
     public static final String GENERATE_TOKEN_CLIENT = "/generate_token_client";
+    public static final String CHECK_BOOKING_USE = "/check_booking_use";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";
@@ -99,7 +101,7 @@ public class Const {
     public static final String BOOKING_OUT_OF_SLOT = "No one slot can booking";
     public static final String PAYPAL = "PAYPAL";
     public static final String CHECKIN = "CHECKIN";
-
+    public static final String CHECKOUT = "CHECKOUT";
 
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";

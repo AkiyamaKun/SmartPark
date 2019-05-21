@@ -502,4 +502,76 @@ public class BookingServiceImpl implements BookingService {
         }
         return responseDTO;
     }
+
+    @Override
+    public ResponseDTO getAllBookingFinish() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try{
+            List<BookingDTO> bookingDTOS = new ArrayList<>();
+            BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+            List<Booking> bookings = bookingRepository.findByBookingStatus(bookingStatus);
+
+            for(Booking booking: bookings){
+                BookingDTO tmp = new BookingDTO();
+                convertDTOFromEntity(tmp, booking);
+                bookingDTOS.add(tmp);
+            }
+            if(!bookings.isEmpty()){
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
+                responseDTO.setObjectResponse(bookingDTOS);
+            }else{
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
+            }
+        }catch (Exception e){
+            responseDTO.setMessage(Const.GET_LIST_BOOKING_FAIL);
+        }
+
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO checkBooking(Integer bookingId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        MessageController messageController = new MessageController();
+        try {
+            Booking booking = bookingRepository.findByBookingId(bookingId);
+            if (booking != null) {
+                BookingDTO dto = new BookingDTO();
+                if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_USE)) {
+                    dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.CHECKOUT);
+                    responseDTO.setObjectResponse(dto);
+                    messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
+                } else {
+                    responseDTO.setMessage(Const.GET_BOOKING_FAIL);
+                }
+            } else {
+                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    /**
+     * Function Convert DTO From Entity
+     * @param dto
+     * @param entity
+     */
+    public void convertDTOFromEntity(BookingDTO dto, Booking entity){
+        dto.setBookingId(entity.getBookingId());
+        dto.setBookingTime(entity.getBookingTime());
+        dto.setTimeStart(entity.getTimeStart());
+        dto.setTimeEnd(entity.getTimeEnd());
+        dto.setPlateNumber(entity.getPlateNumber());
+        dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
+        dto.setUrlApiCheckIn(entity.getUrlApiCheckIn());
+        dto.setUrlApiCheckOut(entity.getUrlApiCheckOut());
+    }
 }

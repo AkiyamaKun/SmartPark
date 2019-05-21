@@ -16,7 +16,9 @@ import Core.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -73,8 +75,26 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseDTO getListTransaction() {
-        return null;
+    public ResponseDTO getRevenue() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Integer totalMoney = transactionRepository.totalMoney();
+            Integer totalCash = bookingRepository.totalCashToPay();
+            Integer total = 0;
+            if (totalMoney >= 0 || totalCash >= 0) {
+                total = totalMoney + totalCash;
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
+                responseDTO.setObjectResponse(total);
+            } else {
+                responseDTO.setStatus(false);
+                responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
+        }
+        return responseDTO;
     }
 
     @Override

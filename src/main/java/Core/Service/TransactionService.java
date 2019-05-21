@@ -7,7 +7,7 @@ public interface TransactionService {
 
     ResponseDTO getTransaction(Integer id);
 
-    ResponseDTO getListTransaction();
+    ResponseDTO getRevenue();
 
     ResponseDTO saveTransaction(TransactionDTO transactionDTO);
 
