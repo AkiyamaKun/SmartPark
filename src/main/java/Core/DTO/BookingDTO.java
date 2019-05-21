@@ -11,6 +11,8 @@ public class BookingDTO {
     private Date timeEnd;
     private String tokenInput;
     private String tokenOutput;
+    private long timeUseBySecond;
+    private String email;
 
     /**
      * Booking Status
@@ -178,5 +180,21 @@ public class BookingDTO {
 
     public void setCashToPay(Integer cashToPay) {
         this.cashToPay = cashToPay;
+    }
+
+    public long getTimeUseBySecond() {
+        return timeUseBySecond;
+    }
+
+    public void setTimeUseBySecond(long timeUseBySecond) {
+        this.timeUseBySecond = timeUseBySecond;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -293,29 +293,29 @@ public class BookingServiceImpl implements BookingService {
                         bookingRepository.save(booking);
 
                         //Return response DTO
-                        CheckOutDTO checkOutDTO = new CheckOutDTO();
-                        checkOutDTO.setBookingId(bookingId);
-                        checkOutDTO.setEmail(booking.getAccount().getEmail());
-                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
-                        checkOutDTO.setPrice(booking.getParkingLot().getPrice());
-                        checkOutDTO.setBookingTime(booking.getBookingTime());
-                        checkOutDTO.setTimeStart(booking.getTimeStart());
-                        checkOutDTO.setTimeEnd(booking.getTimeEnd());
-                        checkOutDTO.setTimeUseBySecond(second);
-                        checkOutDTO.setMoneyToPay(moneyToPay);
-                        checkOutDTO.setPlateNumber(booking.getPlateNumber());
+                        BookingDTO bookingDTO = new BookingDTO();
+                        bookingDTO.setBookingId(bookingId);
+                        bookingDTO.setEmail(booking.getAccount().getEmail());
+                        bookingDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
+                        bookingDTO.setPrice(booking.getParkingLot().getPrice());
+                        bookingDTO.setBookingTime(booking.getBookingTime());
+                        bookingDTO.setTimeStart(booking.getTimeStart());
+                        bookingDTO.setTimeEnd(booking.getTimeEnd());
+                        bookingDTO.setTimeUseBySecond(second);
+                        bookingDTO.setCashToPay(moneyToPay);
+                        bookingDTO.setPlateNumber(booking.getPlateNumber());
 
                         responseDTO.setStatus(true);
-                        responseDTO.setObjectResponse(checkOutDTO);
+                        responseDTO.setObjectResponse(bookingDTO);
                         responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
                     } else {
                         //Money not enough
-                        CheckOutDTO checkOutDTO = new CheckOutDTO();
-                        checkOutDTO.setBookingId(bookingId);
-                        checkOutDTO.setMoneyToPay(moneyToPay);
-                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
-                        responseDTO.setMessage(Const.MONEY_NOT_ENOUGH);
-                        bookingRepository.save(booking);
+//                        CheckOutDTO checkOutDTO = new CheckOutDTO();
+//                        checkOutDTO.setBookingId(bookingId);
+//                        checkOutDTO.setMoneyToPay(moneyToPay);
+//                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
+                        responseDTO.setMessage(Const.BOOKING_CHECK_OUT_FAIL);
+                        //bookingRepository.save(booking);
                     }
                 } else {
                     //Booking had finished
@@ -545,6 +545,12 @@ public class BookingServiceImpl implements BookingService {
                     dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.CHECKOUT);
+                    responseDTO.setObjectResponse(dto);
+                    messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
+                } else if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_BOOK)){
+                    dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                    responseDTO.setStatus(true);
+                    responseDTO.setMessage(Const.CHECKIN);
                     responseDTO.setObjectResponse(dto);
                     messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
                 } else {
