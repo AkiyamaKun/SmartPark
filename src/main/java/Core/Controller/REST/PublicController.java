@@ -71,4 +71,14 @@ public class PublicController {
                                 @RequestParam(value = "token") String token) {
         return bookingService.checkOut(bookingId, token);
     }
+
+    /**
+     * Check Payment
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.CHECK_BOOKING_USE, method = RequestMethod.GET)
+    public ResponseDTO checkBookingUse(@RequestParam Integer bookingId) {
+        return bookingService.checkBooking(bookingId);
+    }
 }
