@@ -12,7 +12,7 @@ public class TransactionDTO {
 
     private Date rechargeDate;
 
-    private Integer money;
+    private float money;
 
     private Integer bookingId;
 
@@ -27,7 +27,7 @@ public class TransactionDTO {
     public TransactionDTO() {
     }
 
-    public TransactionDTO(Integer transactionId, Integer accountId, Date rechargeDate, Integer money, Integer bookingId, String cardType, String cardId, String typeOfTransaction, String transactionCode) {
+    public TransactionDTO(Integer transactionId, Integer accountId, Date rechargeDate, float money, Integer bookingId, String cardType, String cardId, String typeOfTransaction, String transactionCode) {
         this.transactionId = transactionId;
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
@@ -63,11 +63,11 @@ public class TransactionDTO {
         this.rechargeDate = rechargeDate;
     }
 
-    public Integer getMoney() {
+    public float getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 

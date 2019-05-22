@@ -23,7 +23,7 @@ public class Transaction {
     private Date rechargeDate;
 
     @Column(name = "money")
-    private Integer money;
+    private float money;
 
     @OneToOne(targetEntity=Booking.class,cascade=CascadeType.ALL)
     @JoinColumn(name="booking_id",referencedColumnName="booking_id")
@@ -44,7 +44,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Account accountId, Date rechargeDate, Integer money, Booking bookingId, String typeOfTransaction, String cardType, String cardId, String transactionCode) {
+    public Transaction(Account accountId, Date rechargeDate, float money, Booking bookingId, String typeOfTransaction, String cardType, String cardId, String transactionCode) {
         this.accountId = accountId;
         this.rechargeDate = rechargeDate;
         this.money = money;
@@ -79,11 +79,11 @@ public class Transaction {
         this.rechargeDate = rechargeDate;
     }
 
-    public Integer getMoney() {
+    public float getMoney() {
         return money;
     }
 
-    public void setMoney(Integer money) {
+    public void setMoney(float money) {
         this.money = money;
     }
 
