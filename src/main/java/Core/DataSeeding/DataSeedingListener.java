@@ -121,7 +121,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             account.setFirstName("Driver");
             account.setLastName("Account");
             account.setPhoneNumber("0909123123");
-            account.setCash(200000);
+            //account.setCash(200000);
             account.setPlateNumber("A1-111111");
             account.setCreatedDate(createDate);
             account.setActive(true);

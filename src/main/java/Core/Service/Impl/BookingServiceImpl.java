@@ -106,6 +106,8 @@ public class BookingServiceImpl implements BookingService {
                                     //Return response DTO
                                     BookingDTO bookingDTO = new BookingDTO();
                                     bookingDTO.setBookingId(book.getBookingId());
+                                    bookingDTO.setAccountId(book.getAccount().getAccountId());
+                                    bookingDTO.setParkingLotId(book.getParkingLot().getParkingLotId());
                                     bookingDTO.setEmail(book.getAccount().getEmail());
                                     bookingDTO.setParkingLotName(book.getParkingLot().getDisplayName());
                                     bookingDTO.setPrice(book.getParkingLot().getPrice());
@@ -113,6 +115,7 @@ public class BookingServiceImpl implements BookingService {
                                     bookingDTO.setTimeStart(book.getTimeStart());
                                     bookingDTO.setTimeEnd(book.getTimeEnd());
                                     bookingDTO.setTimeUseBySecond(second);
+                                    bookingDTO.setBookingStatus(book.getBookingStatus().getBookingStatusName());
                                     bookingDTO.setCashToPay(moneyToPay);
                                     bookingDTO.setPlateNumber(book.getPlateNumber());
                                     responseDTO.setObjectResponse(bookingDTO);

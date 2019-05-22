@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
         dto.setActive(entity.isActive());
         dto.setAvatar(entity.getAvatar());
         dto.setToken(entity.getToken());
-        dto.setCash(entity.getCash());
+        //dto.setCash(entity.getCash());
         dto.setPlateNumber(entity.getPlateNumber());
     }
 
@@ -148,7 +148,7 @@ public class AccountServiceImpl implements AccountService {
                     String token = jwtService.generateTokenLogin(account.getEmail());
                     user.setToken(token);
                     user.setAvatar(account.getAvatar());
-                    user.setCash(account.getCash());
+                    //user.setCash(account.getCash());
 
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.LOGIN_SUCCESS);
@@ -366,7 +366,7 @@ public class AccountServiceImpl implements AccountService {
                             if(accountDTO.getAvatar() != null){
                                 account.setAvatar(accountDTO.getAvatar());
                             }
-                            account.setCash(0);
+                            //account.setCash(0);
                             account.setPlateNumber(accountDTO.getPlateNumber());
                         }
                         responseDTO.setStatus(true);
@@ -403,7 +403,7 @@ public class AccountServiceImpl implements AccountService {
                             {
                                 if(accountDTO.getAvatar() != null)
                                     account.setAvatar(accountDTO.getAvatar());
-                                account.setCash(0);
+                                //account.setCash(0);
                                 account.setPlateNumber(accountDTO.getPlateNumber());
                             }
                             accountRepository.save(account);
@@ -513,9 +513,9 @@ public class AccountServiceImpl implements AccountService {
         try{
             Account account = accountRepository.findByAccountId(accountId);
             if(account != null){
-                Integer oldCash = account.getCash();
-                Integer newCash = oldCash + amountOfCash;
-                account.setCash(newCash);
+                //Integer oldCash = account.getCash();
+                //Integer newCash = oldCash + amountOfCash;
+                //account.setCash(newCash);
                 accountRepository.save(account);
 
                 responseDTO.setStatus(true);
