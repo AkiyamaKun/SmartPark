@@ -80,7 +80,48 @@ public class BookingServiceImpl implements BookingService {
                         for (Booking book : checkInfoUse) {
                             if (book.getParkingLot().getParkingLotId().equals(parkingLotId)) {
                                 responseDTO.setStatus(true);
-                                return checkOut(book.getBookingId(), book.getTokenOutput());
+                                if (!book.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_FINISH)) {
+                                    //Generate currentTime
+                                    Date timeEnd = new Date();
+                                    //Calculate the amount to pay
+                                    long milisecond = timeEnd.getTime() - book.getTimeStart().getTime();
+                                    long second = milisecond / 1000;
+                                    Integer hour = Math.toIntExact(second / 3600);
+                                    Integer remainder = Math.toIntExact(second % 3600);
+                                    if (remainder > 0) {
+                                        hour++;
+                                    }
+                                    Integer moneyToPay = ((int) book.getParkingLot().getPrice()) * hour;
+
+                                    book.setTimeEnd(timeEnd);
+                                    BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+                                    if (bookingStatus == null) {
+                                        bookingStatus = new BookingStatus(Const.STATUS_BOOKING_FINISH);
+                                        bookingStatusRepository.save(bookingStatus);
+                                    }
+                                    book.setBookingStatus(bookingStatus);
+                                    book.setCashToPay(moneyToPay);
+                                    bookingRepository.save(book);
+
+                                    //Return response DTO
+                                    BookingDTO bookingDTO = new BookingDTO();
+                                    bookingDTO.setBookingId(book.getBookingId());
+                                    bookingDTO.setEmail(book.getAccount().getEmail());
+                                    bookingDTO.setParkingLotName(book.getParkingLot().getDisplayName());
+                                    bookingDTO.setPrice(book.getParkingLot().getPrice());
+                                    bookingDTO.setBookingTime(book.getBookingTime());
+                                    bookingDTO.setTimeStart(book.getTimeStart());
+                                    bookingDTO.setTimeEnd(book.getTimeEnd());
+                                    bookingDTO.setTimeUseBySecond(second);
+                                    bookingDTO.setCashToPay(moneyToPay);
+                                    bookingDTO.setPlateNumber(book.getPlateNumber());
+                                    responseDTO.setObjectResponse(bookingDTO);
+                                }
+                                responseDTO.setStatus(true);
+                                responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+                                MessageController messageController = new MessageController();
+                                messageController.sendToUser(responseDTO, book.getAccount().getEmail());
+                                return responseDTO;
                             } else {
                                 responseDTO.setStatus(false);
                                 responseDTO.setMessage(Const.BOOKING_FAIL);
@@ -277,11 +318,11 @@ public class BookingServiceImpl implements BookingService {
                     Integer moneyToPay = ((int) booking.getParkingLot().getPrice()) * hour;
 
                     //Excute payment
-                    if (booking.getAccount().getCash() >= moneyToPay) {
-                        Integer newCash = booking.getAccount().getCash() - moneyToPay;
-                        Account account = booking.getAccount();
-                        account.setCash(newCash);
-                        accountRepository.save(account);
+//                    if (booking.getAccount().getCash() >= moneyToPay) {
+//                        Integer newCash = booking.getAccount().getCash() - moneyToPay;
+//                        Account account = booking.getAccount();
+//                        account.setCash(newCash);
+//                        accountRepository.save(account);
                         booking.setTimeEnd(timeEnd);
                         BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
                         if (bookingStatus == null) {
@@ -308,6 +349,9 @@ public class BookingServiceImpl implements BookingService {
                         responseDTO.setStatus(true);
                         responseDTO.setObjectResponse(bookingDTO);
                         responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+
+                        MessageController messageController = new MessageController();
+                        messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
                     } else {
                         //Money not enough
 //                        CheckOutDTO checkOutDTO = new CheckOutDTO();
@@ -321,10 +365,10 @@ public class BookingServiceImpl implements BookingService {
                     //Booking had finished
                     responseDTO.setMessage(Const.BOOKING_HAD_FINISH);
                 }
-            } else {
-                //Booking is not existed
-                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
-            }
+//            } else {
+//                //Booking is not existed
+//                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
+//            }
         } catch (Exception e) {
             responseDTO.setMessage(Const.BOOKING_CHECK_OUT_FAIL + ": " + e.getMessage());
         }

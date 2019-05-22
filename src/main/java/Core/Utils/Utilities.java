@@ -49,7 +49,7 @@ public class Utilities {
             dto.setFirstName(account.getFirstName());
             dto.setLastName(account.getLastName());
             dto.setPhoneNumber(account.getPhoneNumber());
-            dto.setCash(account.getCash());
+            //dto.setCash(account.getCash());
             dto.setActive(account.isActive());
             dto.setPlateNumber(account.getPlateNumber());
             dto.setAvatar(account.getAvatar());
