@@ -5,6 +5,7 @@ import Core.DTO.ParkingSlotDTO;
 import Core.DTO.ResponseDTO;
 import Core.Service.BookingService;
 import Core.Service.PublicService;
+import Core.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public class PublicController {
 
     @Autowired
     BookingService bookingService;
+
+    @Autowired
+    TransactionService transactionService;
 
     /**
      * Update Status Parking Slot From Deep Learning

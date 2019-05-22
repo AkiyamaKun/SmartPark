@@ -167,4 +167,46 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return responseDTO;
     }
+
+    @Override
+    public ResponseDTO getTransactionByAccountId(Integer accountId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Transaction transaction = transactionRepository.findByAccountId_AccountId(accountId);
+            TransactionDTO dto = new TransactionDTO();
+            if (transaction != null) {
+                convertDTOFromEntity(dto, transaction);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            } else {
+                responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Transaction is exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getTransactionByBookingId(Integer bookingId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Transaction transaction = transactionRepository.findByBookingId_BookingId(bookingId);
+            TransactionDTO dto = new TransactionDTO();
+            if (transaction != null) {
+                convertDTOFromEntity(dto, transaction);
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
+                responseDTO.setObjectResponse(dto);
+            } else {
+                responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Transaction is exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
 }

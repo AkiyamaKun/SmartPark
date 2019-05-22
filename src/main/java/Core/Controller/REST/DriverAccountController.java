@@ -180,4 +180,24 @@ public class DriverAccountController {
     public ResponseDTO generateTokenClient() {
         return transactionService.generateTokenClient();
     }
+
+    /**
+     * Get Transaction by account id
+     * @param accountId
+     * @return
+     */
+    @RequestMapping(value = Const.GET_TRANSACTION_BY_ACCOUNT_ID, method = RequestMethod.GET)
+    public ResponseDTO getTransactionByAccountId(@RequestParam Integer accountId) {
+        return transactionService.getTransactionByAccountId(accountId);
+    }
+
+    /**
+     * Get Transaction by booking id
+     * @param bookingId
+     * @return
+     */
+    @RequestMapping(value = Const.GET_TRANSACTION_BY_BOOKING_ID, method = RequestMethod.GET)
+    public ResponseDTO getTransactionByBookingId(@RequestParam Integer bookingId) {
+        return transactionService.getTransactionByBookingId(bookingId);
+    }
 }

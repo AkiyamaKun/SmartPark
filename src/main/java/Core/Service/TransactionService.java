@@ -14,4 +14,8 @@ public interface TransactionService {
     ResponseDTO checkPayment(Integer parkingLotId, String nonce);
 
     ResponseDTO generateTokenClient();
+
+    ResponseDTO getTransactionByAccountId(Integer accountId);
+
+    ResponseDTO getTransactionByBookingId(Integer bookingId);
 }

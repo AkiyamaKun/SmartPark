@@ -81,6 +81,8 @@ public class Const {
     public static final String CHECK_PAYMENT = "/check_payment";
     public static final String GENERATE_TOKEN_CLIENT = "/generate_token_client";
     public static final String CHECK_BOOKING_USE = "/check_booking_use";
+    public static final String GET_TRANSACTION_BY_ACCOUNT_ID = "/get_transaction_account";
+    public static final String GET_TRANSACTION_BY_BOOKING_ID = "/get_transaction_booking";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";

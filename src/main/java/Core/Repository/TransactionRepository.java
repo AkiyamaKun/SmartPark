@@ -8,6 +8,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     Transaction findByTransactionId(Integer transactionId);
 
+    Transaction findByAccountId_AccountId(Integer accountId);
+
+    Transaction findByBookingId_BookingId(Integer bookingId);
+
     @Query("SELECT SUM(t.money) FROM Transaction t")
     Integer totalMoney();
 }
