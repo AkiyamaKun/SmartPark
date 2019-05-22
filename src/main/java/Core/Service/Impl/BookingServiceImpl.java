@@ -79,6 +79,7 @@ public class BookingServiceImpl implements BookingService {
                     BookingStatus bookingStatusUse = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_USE);
                     List<Booking> checkInfoBook = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusBook.getBookingStatusId(), accountId);
                     List<Booking> checkInfoUse = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusUse.getBookingStatusId(), accountId);
+                    BrainTreeAction brainTreeAction = new BrainTreeAction();
                     if (checkInfoBook.size() > 0 || checkInfoUse.size() > 0) {
                         for (Booking book : checkInfoUse) {
                             if (book.getParkingLot().getParkingLotId().equals(parkingLotId)) {
@@ -95,6 +96,7 @@ public class BookingServiceImpl implements BookingService {
                                         hour++;
                                     }
                                     Integer moneyToPay = ((int) book.getParkingLot().getPrice()) * hour;
+                                    Integer bookMoney = book.getCashToPay();
 
                                     book.setTimeEnd(timeEnd);
                                     BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
@@ -102,10 +104,16 @@ public class BookingServiceImpl implements BookingService {
                                         bookingStatus = new BookingStatus(Const.STATUS_BOOKING_FINISH);
                                         bookingStatusRepository.save(bookingStatus);
                                     }
-                                    book.setBookingStatus(bookingStatus);
-                                    book.setCashToPay(moneyToPay);
-                                    bookingRepository.save(book);
 
+                                    book.setBookingStatus(bookingStatus);
+                                    book.setCashToPay(moneyToPay + bookMoney);
+                                    bookingRepository.save(book);
+                                    if (brainTreeAction.configAction()) {
+                                        TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(book.getCashToPay()), nonce);
+                                        if (transactionDTO != null) {
+                                            saveTransaction(transactionDTO, accountId, book.getBookingId());
+                                        }
+                                    }
                                     //Return response DTO
                                     BookingDTO bookingDTO = new BookingDTO();
                                     bookingDTO.setBookingId(book.getBookingId());
@@ -119,7 +127,7 @@ public class BookingServiceImpl implements BookingService {
                                     bookingDTO.setTimeEnd(book.getTimeEnd());
                                     bookingDTO.setTimeUseBySecond(second);
                                     bookingDTO.setBookingStatus(book.getBookingStatus().getBookingStatusName());
-                                    bookingDTO.setCashToPay(moneyToPay);
+                                    bookingDTO.setCashToPay(moneyToPay + bookMoney);
                                     bookingDTO.setPlateNumber(book.getPlateNumber());
                                     responseDTO.setObjectResponse(bookingDTO);
                                 }
@@ -136,7 +144,7 @@ public class BookingServiceImpl implements BookingService {
                             }
                         }
                     } else if (checkInfoBook.isEmpty() || checkInfoUse.isEmpty()) {
-                        BrainTreeAction brainTreeAction = new BrainTreeAction();
+                        brainTreeAction = new BrainTreeAction();
                         if (brainTreeAction.configAction()) {
                             int amount = Math.round(parkingLot.getPrice() / 4);
                             TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(amount), nonce);
@@ -152,6 +160,7 @@ public class BookingServiceImpl implements BookingService {
                                 } else {
                                     booking.setPlateNumber(account.getPlateNumber());
                                 }
+                                booking.setCashToPay(amount);
                                 BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
                                 if (bookingStatus == null) {
                                     bookingStatus = new BookingStatus(Const.STATUS_BOOKING_BOOK);
@@ -603,7 +612,21 @@ public class BookingServiceImpl implements BookingService {
             if (booking != null) {
                 BookingDTO dto = new BookingDTO();
                 if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_USE)) {
+                    //Generate currentTime
+                    Date timeEnd = new Date();
+                    //Calculate the amount to pay
+                    long milisecond = timeEnd.getTime() - booking.getTimeStart().getTime();
+                    long second = milisecond / 1000;
+                    Integer hour = Math.toIntExact(second / 3600);
+                    Integer remainder = Math.toIntExact(second % 3600);
+                    if (remainder > 0) {
+                        hour++;
+                    }
+                    Integer moneyToPay = ((int) booking.getParkingLot().getPrice()) * hour;
+
+                    booking.setTimeEnd(timeEnd);
                     dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                    dto.setCashToPay(moneyToPay);
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.CHECKOUT);
                     responseDTO.setObjectResponse(dto);

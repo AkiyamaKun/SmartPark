@@ -143,7 +143,7 @@ demo = {
             low: 0,
             high: 800,
             showArea: true,
-            height: "245px",
+            height: "250px",
             axisX: {
                 showGrid: false,
             },
@@ -155,7 +155,7 @@ demo = {
         };
 
         var responsiveSales = [
-            ['screen and (max-width: 640px)', {
+            ['screen and (max-width: 720px)', {
                 axisX: {
                     labelInterpolationFnc: function (value) {
                         return value[0];
