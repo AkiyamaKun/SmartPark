@@ -101,10 +101,11 @@ public class BrainTreeAction {
         }
         if (Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus())) {
             transactionResult = new TransactionDTO();
-            transactionResult.setCardId(creditCard.getCustomerId());
-            transactionResult.setCardType(creditCard.getCardType());
+            transactionResult.setCardId(transaction.getPayPalDetails().getPayerId());
+            transactionResult.setCardType("PAYPAL");
             transactionResult.setMoney(transaction.getAmount().intValue());
             transactionResult.setRechargeDate(transaction.getCreatedAt().getTime());
+            transactionResult.setTransactionCode(transactionId);
         }
         //model.addAttribute("isSuccess", Arrays.asList(TRANSACTION_SUCCESS_STATUSES).contains(transaction.getStatus()));
         //model.addAttribute("transaction", transaction);
