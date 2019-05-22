@@ -133,8 +133,9 @@ public class DriverAccountController {
     @RequestMapping(value = Const.LIST_BOOKING_BY_ACCOUNT_ID, method = RequestMethod.GET)
     public ResponseDTO getListBookingByAccountId(@PathVariable Integer accountId,
                                                  @RequestParam(value = "statusName", required = true) String statusName,
+                                                 @RequestParam(value = "statusName2", required = true) String statusName2,
                                                  @RequestParam(value = "quantity", required = true) Integer quantity) {
-        return bookingService.getListBookingByAccountId(accountId, statusName, quantity);
+        return bookingService.getListBookingByAccountId(accountId, statusName, statusName2, quantity);
     }
 
     /**
@@ -187,8 +188,8 @@ public class DriverAccountController {
      * @return
      */
     @RequestMapping(value = Const.GET_TRANSACTION_BY_ACCOUNT_ID, method = RequestMethod.GET)
-    public ResponseDTO getTransactionByAccountId(@RequestParam Integer accountId) {
-        return transactionService.getTransactionByAccountId(accountId);
+    public ResponseDTO getTransactionByAccountId(@RequestParam Integer accountId, @RequestParam Integer amount) {
+        return transactionService.getTransactionByAccountId(accountId, amount);
     }
 
     /**

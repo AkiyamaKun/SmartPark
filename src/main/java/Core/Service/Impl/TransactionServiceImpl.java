@@ -15,6 +15,7 @@ import Core.Repository.TransactionRepository;
 import Core.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -169,17 +170,28 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseDTO getTransactionByAccountId(Integer accountId) {
+    public ResponseDTO getTransactionByAccountId(Integer accountId, Integer amount) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            Transaction transaction = transactionRepository.findByAccountId_AccountId(accountId);
-            TransactionDTO dto = new TransactionDTO();
-            if (transaction != null) {
-                convertDTOFromEntity(dto, transaction);
+            List<Transaction> transactions = transactionRepository.findByAccountId_AccountIdOrderByTransactionIdDesc(accountId);
+            List<TransactionDTO> transactionDTOS = new ArrayList<>();
+            if (!StringUtils.isEmpty(transactions)) {
+                int countNumber = 0;
+                for (Transaction transaction : transactions) {
+                    TransactionDTO transactionDTO = new TransactionDTO();
+                    convertDTOFromEntity(transactionDTO, transaction);
+                    transactionDTOS.add(transactionDTO);
+                    countNumber++;
+
+                    if (countNumber >= amount) {
+                        break;
+                    }
+                }
+
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
-                responseDTO.setObjectResponse(dto);
+                responseDTO.setObjectResponse(transactionDTOS);
             } else {
                 responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
             }
@@ -194,13 +206,18 @@ public class TransactionServiceImpl implements TransactionService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            Transaction transaction = transactionRepository.findByBookingId_BookingId(bookingId);
-            TransactionDTO dto = new TransactionDTO();
-            if (transaction != null) {
-                convertDTOFromEntity(dto, transaction);
+            List<Transaction> transactions = transactionRepository.findByBookingId_BookingId(bookingId);
+            List<TransactionDTO> transactionDTOS = new ArrayList<>();
+            if (!StringUtils.isEmpty(transactions)) {
+                for (Transaction transaction : transactions) {
+                    TransactionDTO dto = new TransactionDTO();
+                    convertDTOFromEntity(dto, transaction);
+                    transactionDTOS.add(dto);
+                }
+
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
-                responseDTO.setObjectResponse(dto);
+                responseDTO.setObjectResponse(transactionDTOS);
             } else {
                 responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
             }

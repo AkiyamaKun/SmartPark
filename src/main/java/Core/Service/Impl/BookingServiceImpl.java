@@ -11,6 +11,7 @@ import Core.Utils.Utilities;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -419,7 +420,7 @@ public class BookingServiceImpl implements BookingService {
      * @return
      */
     @Override
-    public ResponseDTO getListBookingByAccountId(Integer accountId, String statusName, Integer quantity) {
+    public ResponseDTO getListBookingByAccountId(Integer accountId, String statusName, String statusName2, Integer quantity) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
@@ -431,11 +432,21 @@ public class BookingServiceImpl implements BookingService {
                     List<BookingDTO> bookingDTOList = new ArrayList<>();
                     for (Booking element : bookings) {
                         BookingDTO bookingDTO = new BookingDTO();
-                        if (element.getBookingStatus().getBookingStatusName().equals(statusName)) {
-                            Utilities.convertBookingDTOFromBookingEntity(bookingDTO, element);
-                            bookingDTOList.add(bookingDTO);
-                            countNumber++;
+                        if (!StringUtils.isEmpty(statusName2)) {
+                            if (element.getBookingStatus().getBookingStatusName().equals(statusName) ||
+                                    element.getBookingStatus().getBookingStatusName().equals(statusName2)) {
+                                Utilities.convertBookingDTOFromBookingEntity(bookingDTO, element);
+                                bookingDTOList.add(bookingDTO);
+                                countNumber++;
+                            }
+                        } else {
+                            if (element.getBookingStatus().getBookingStatusName().equals(statusName)) {
+                                Utilities.convertBookingDTOFromBookingEntity(bookingDTO, element);
+                                bookingDTOList.add(bookingDTO);
+                                countNumber++;
+                            }
                         }
+
                         if (countNumber >= quantity) {
                             break;
                         }

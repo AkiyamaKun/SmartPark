@@ -15,7 +15,7 @@ public interface TransactionService {
 
     ResponseDTO generateTokenClient();
 
-    ResponseDTO getTransactionByAccountId(Integer accountId);
+    ResponseDTO getTransactionByAccountId(Integer accountId, Integer amount);
 
     ResponseDTO getTransactionByBookingId(Integer bookingId);
 }
