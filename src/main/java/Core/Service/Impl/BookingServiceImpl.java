@@ -5,12 +5,10 @@ import Core.Constant.Const;
 import Core.Controller.MVC.MessageController;
 import Core.DTO.*;
 import Core.Entity.*;
-import Core.Repository.AccountRepository;
-import Core.Repository.BookingRepository;
-import Core.Repository.BookingStatusRepository;
-import Core.Repository.ParkingLotRepository;
+import Core.Repository.*;
 import Core.Service.BookingService;
 import Core.Utils.Utilities;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +35,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     BookingStatusRepository bookingStatusRepository;
 
+    @Autowired
+    TransactionRepository transactionRepository;
+
     /**
      * Function Convert DTO From Entity
      *
@@ -54,6 +55,7 @@ public class BookingServiceImpl implements BookingService {
         transaction.setAccountId(account);
         transaction.setTransactionCode(transactionDTO.getTransactionCode());
         transaction.setTypeOfTransaction(transactionDTO.getTypeOfTransaction());
+        transactionRepository.save(transaction);
     }
 
     /**
