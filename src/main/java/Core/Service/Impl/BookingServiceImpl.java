@@ -124,6 +124,7 @@ public class BookingServiceImpl implements BookingService {
                                 responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
                                 MessageController messageController = new MessageController();
                                 messageController.sendToUser(responseDTO, book.getAccount().getEmail());
+                                messageController.sendToUser(responseDTO, "supervisor_666");
                                 return responseDTO;
                             } else {
                                 responseDTO.setStatus(false);
