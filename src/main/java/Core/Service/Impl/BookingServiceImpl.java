@@ -75,12 +75,14 @@ public class BookingServiceImpl implements BookingService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (account != null || parkingLot != null) {
                 if (parkingLotService.getAvailableSlot(parkingLot) > 0) {
+                    List<Booking> check = bookingRepository.getBookingUseOrBook();
                     BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
                     BookingStatus bookingStatusUse = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_USE);
                     List<Booking> checkInfoBook = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusBook.getBookingStatusId(), accountId);
                     List<Booking> checkInfoUse = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusUse.getBookingStatusId(), accountId);
                     BrainTreeAction brainTreeAction = new BrainTreeAction();
-                    if (checkInfoBook.size() > 0 || checkInfoUse.size() > 0) {
+                    if (check.size() > 0) {
+                    //if (checkInfoBook.size() > 0 || checkInfoUse.size() > 0) {
                         for (Booking book : checkInfoUse) {
                             if (book.getParkingLot().getParkingLotId().equals(parkingLotId)) {
                                 responseDTO.setStatus(true);
@@ -143,7 +145,8 @@ public class BookingServiceImpl implements BookingService {
                                 return responseDTO;
                             }
                         }
-                    } else if (checkInfoBook.isEmpty() || checkInfoUse.isEmpty()) {
+                        //checkInfoBook.isEmpty() || checkInfoUse.isEmpty()
+                    } else if (check.isEmpty()) {
                         brainTreeAction = new BrainTreeAction();
                         if (brainTreeAction.configAction()) {
                             int amount = Math.round(parkingLot.getPrice() / 4);

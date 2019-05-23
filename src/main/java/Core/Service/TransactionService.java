@@ -18,4 +18,6 @@ public interface TransactionService {
     ResponseDTO getTransactionByAccountId(Integer accountId, Integer amount);
 
     ResponseDTO getTransactionByBookingId(Integer bookingId);
+
+    ResponseDTO refundForDriver();
 }

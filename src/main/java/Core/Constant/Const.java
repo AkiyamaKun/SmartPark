@@ -105,6 +105,8 @@ public class Const {
     public static final String PAYPAL = "PAYPAL";
     public static final String CHECKIN = "CHECKIN";
     public static final String CHECKOUT = "CHECKOUT";
+    public static final String REFUND = "REFUND";
+    public static final String REFUND_FAIL = "Refund fail";
 
     //Admin Account API
     public static final String ADMIN_ACCOUNT = "/admin";

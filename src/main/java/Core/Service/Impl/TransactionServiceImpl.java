@@ -2,16 +2,12 @@ package Core.Service.Impl;
 
 import Core.BrainTreePayPal.BrainTreeAction;
 import Core.Constant.Const;
+import Core.Controller.MVC.MessageController;
 import Core.DTO.ResponseDTO;
 import Core.DTO.TransactionDTO;
-import Core.Entity.Account;
-import Core.Entity.Booking;
-import Core.Entity.ParkingLot;
-import Core.Entity.Transaction;
-import Core.Repository.AccountRepository;
-import Core.Repository.BookingRepository;
-import Core.Repository.ParkingLotRepository;
-import Core.Repository.TransactionRepository;
+import Core.Entity.*;
+import Core.Repository.*;
+import Core.Service.ParkingLotService;
 import Core.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +31,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private BookingStatusRepository bookingStatusRepository;
+
+    @Autowired
+    private ParkingLotServiceImpl parkingLotService;
 
     /**
      * Function Convert DTO From Entity
@@ -223,6 +225,51 @@ public class TransactionServiceImpl implements TransactionService {
             }
         } catch (Exception e) {
             responseDTO.setMessage("Get Transaction is exception: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO refundForDriver() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        int count = 0;
+        try {
+            BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
+            List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatusBook);
+            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(1);
+            BookingStatus bookingStatusFinish = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+            MessageController messageController = new MessageController();
+
+            if (parkingLotService.getAvailableSlot(parkingLot) < bookingList.size()) {
+                count++;
+            }
+
+            if (count == 3) {
+                BrainTreeAction brainTreeAction = new BrainTreeAction();
+                for (Booking booking : bookingList) {
+                    Account account = accountRepository.findByAccountId(booking.getAccount().getAccountId());
+                    Transaction transaction = transactionRepository.findByAccountIdAndBookingId(account, booking);
+                    boolean check = brainTreeAction.refundOrder(transaction.getTransactionCode());
+                    if (check == true) {
+                        TransactionDTO dto = new TransactionDTO();
+                        convertDTOFromEntity(dto, transaction);
+                        responseDTO.setStatus(true);
+                        responseDTO.setMessage(Const.REFUND);
+                        responseDTO.setObjectResponse(dto);
+                        messageController.sendToUser(responseDTO, transaction.getAccountId().getEmail());
+                        transaction.setMoney(0);
+                        transactionRepository.save(transaction);
+                        booking.setBookingStatus(bookingStatusFinish);
+                        booking.setCashToPay(0);
+                        bookingRepository.save(booking);
+                    } else {
+                        responseDTO.setMessage(Const.REFUND_FAIL);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Refund is exception: " + e.getMessage());
         }
         return responseDTO;
     }

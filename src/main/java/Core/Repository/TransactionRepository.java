@@ -1,5 +1,7 @@
 package Core.Repository;
 
+import Core.Entity.Account;
+import Core.Entity.Booking;
 import Core.Entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +20,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     Integer totalMoney();
 
     List<Transaction> findByAccountId_AccountIdOrderByTransactionIdDesc(Integer accountId);
+
+    Transaction findByAccountIdAndBookingId(Account account, Booking booking);
 }
