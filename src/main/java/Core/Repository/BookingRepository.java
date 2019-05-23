@@ -19,14 +19,8 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByAccountOrderByBookingIdDesc(Account account);
     List<Booking> findByBookingStatus(BookingStatus status);
     List<Booking> findByBookingStatus_BookingStatusIdAndAccount_AccountId(Integer bookingStatusId, Integer accountId);
-    List<Booking> findByAccount_AccountId(Integer accountId);
+    List<Booking> findByAccount_AccountIdOrderByBookingTimeDesc(Integer accountId);
 
     @Query("SELECT SUM(b.cashToPay) FROM Booking b")
     Integer totalCashToPay();
-
-    @Query("select b " +
-            "from Booking b, BookingStatus bs " +
-            "where b.bookingStatus.bookingStatusId = bs.bookingStatusId and " +
-            "(bs.bookingStatusName='BOOK' or bs.bookingStatusName='USE')")
-    List<Booking> getBookingUseOrBook();
 }
