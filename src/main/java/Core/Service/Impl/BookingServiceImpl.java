@@ -132,7 +132,7 @@ public class BookingServiceImpl implements BookingService {
                                     responseDTO.setObjectResponse(bookingDTO);
                                 }
                                 responseDTO.setStatus(true);
-                                responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+                                responseDTO.setMessage(Const.CHECKOUT);
                                 MessageController messageController = new MessageController();
                                 messageController.sendToUser(responseDTO, book.getAccount().getEmail());
                                 messageController.sendToUser(responseDTO, "supervisor_666");
@@ -645,6 +645,38 @@ public class BookingServiceImpl implements BookingService {
             }
         } catch (Exception e) {
             responseDTO.setMessage("Get Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getBookingByAccountId(Integer accountId, Integer amount) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            List<Booking> bookings = bookingRepository.findByAccount_AccountId(accountId);
+            List<BookingDTO> bookingDTOS = new ArrayList<>();
+            if (!StringUtils.isEmpty(bookings)) {
+                int countNumber = 0;
+                for (Booking booking : bookings) {
+                    BookingDTO bookingDTO = new BookingDTO();
+                    bookingDTO = Utilities.convertBookingDTOFromBookingEntity(bookingDTO, booking);
+                    bookingDTOS.add(bookingDTO);
+                    countNumber++;
+
+                    if (countNumber >= amount) {
+                        break;
+                    }
+                }
+
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+                responseDTO.setObjectResponse(bookingDTOS);
+            } else {
+                responseDTO.setMessage(Const.GET_BOOKING_FAIL);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Booking is exception: " + e.getMessage());
         }
         return responseDTO;
     }

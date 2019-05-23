@@ -15,4 +15,5 @@ public interface BookingService {
     ResponseDTO countBookingSlotByStatus(Integer parkingLotId);
     ResponseDTO getAllBookingFinish();
     ResponseDTO checkBooking(Integer bookingId);
+    ResponseDTO getBookingByAccountId(Integer accountId, Integer amount);
 }

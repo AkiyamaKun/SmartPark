@@ -83,6 +83,7 @@ public class Const {
     public static final String CHECK_BOOKING_USE = "/check_booking_use";
     public static final String GET_TRANSACTION_BY_ACCOUNT_ID = "/get_transaction_account";
     public static final String GET_TRANSACTION_BY_BOOKING_ID = "/get_transaction_booking";
+    public static final String GET_BOOKING_BY_ACCOUNT_ID = "/get_booking_by_account";
 
     //Driver Account Message Response
     public static final String VERIFY_ACCOUNT_SUCCESS = "Verify Account Successful";

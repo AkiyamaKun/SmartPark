@@ -201,4 +201,16 @@ public class DriverAccountController {
     public ResponseDTO getTransactionByBookingId(@RequestParam Integer bookingId) {
         return transactionService.getTransactionByBookingId(bookingId);
     }
+
+    /**
+     * Get Booking by account id
+     * @param accountId
+     * @param amount
+     * @return
+     */
+    @RequestMapping(value = Const.GET_BOOKING_BY_ACCOUNT_ID, method = RequestMethod.GET)
+    public ResponseDTO getBookingByAccountId(@RequestParam Integer accountId, @RequestParam Integer amount) {
+        return bookingService.getBookingByAccountId(accountId, amount);
+    }
+
 }

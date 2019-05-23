@@ -68,6 +68,7 @@ public class Utilities {
         dto.setBookingId(entity.getBookingId());
         dto.setAccountId(entity.getAccount().getAccountId());
         dto.setParkingLotId(entity.getParkingLot().getParkingLotId());
+        dto.setEmail(entity.getAccount().getEmail());
         dto.setBookingTime(entity.getBookingTime());
         dto.setTokenInput(entity.getTokenInput());
         dto.setTokenOutput(entity.getTokenOutput());
@@ -80,6 +81,7 @@ public class Utilities {
         dto.setPrice(entity.getParkingLot().getPrice());
         dto.setPlateNumber(entity.getPlateNumber());
         dto.setCashToPay(entity.getCashToPay());
+        dto.setBookingStatus(entity.getBookingStatus().getBookingStatusName());
         return dto;
     }
 
