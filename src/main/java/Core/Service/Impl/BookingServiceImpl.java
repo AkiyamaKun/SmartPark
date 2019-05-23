@@ -109,7 +109,7 @@ public class BookingServiceImpl implements BookingService {
                                     book.setCashToPay(moneyToPay + bookMoney);
                                     bookingRepository.save(book);
                                     if (brainTreeAction.configAction()) {
-                                        TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(book.getCashToPay()), nonce);
+                                        TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(moneyToPay), nonce);
                                         if (transactionDTO != null) {
                                             saveTransaction(transactionDTO, accountId, book.getBookingId());
                                         }
