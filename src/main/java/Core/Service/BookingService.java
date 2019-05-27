@@ -16,4 +16,6 @@ public interface BookingService {
     ResponseDTO getAllBookingFinish();
     ResponseDTO checkBooking(Integer bookingId);
     ResponseDTO getBookingByAccountId(Integer accountId, Integer amount);
+    ResponseDTO listBookingForReport();
+    ResponseDTO getTotalDriverBooking(String email);
 }

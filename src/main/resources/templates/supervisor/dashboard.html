@@ -34,9 +34,11 @@
 
 <script>
     let myData;
+    let refund;
 
     ready(function () {
         myData = setInterval(loadData, 10000);
+        refund = setInterval(refundForDriver, 15000);
     });
 
     function loadData() {
@@ -45,6 +47,17 @@
         doAjax("/supervisor/count_booking?parkingLotId=" + parkingLotId, "GET", null, function (response) {
             let data = response.objectResponse;
             document.getElementById("numBook").innerHTML = data;
+        }, function (error) {
+            console.log(error.message)
+        });
+    }
+
+    function refundForDriver() {
+        let accountId = document.getElementById("accountId").value;
+        let parkingLotId = document.getElementById("parkingLotId").value;
+        doAjax("/supervisor/refund_for_driver", "GET", null, function (response) {
+            // let data = response.objectResponse;
+            // document.getElementById("numBook").innerHTML = data;
         }, function (error) {
             console.log(error.message)
         });

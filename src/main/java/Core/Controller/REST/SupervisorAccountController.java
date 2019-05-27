@@ -31,6 +31,9 @@ public class SupervisorAccountController {
     @Autowired
     BookingService bookingService;
 
+    @Autowired
+    TransactionService transactionService;
+
     /**
      * Get List Parking Lot Control By Supervisor
      * @param supervisorId
@@ -83,12 +86,32 @@ public class SupervisorAccountController {
     }
 
     /**
-     * Get List Camera
-     *
+     * Count booking slot
+     * @param parkingLotId
      * @return
      */
     @RequestMapping(value = Const.COUNT_BOOKING, method = RequestMethod.GET)
     public ResponseDTO countBookingSlotByStatus(@RequestParam Integer parkingLotId){
         return bookingService.countBookingSlotByStatus(parkingLotId);
+    }
+
+    /**
+     * Get List booking for report
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.LIST_BOOKING_FOR_REPORT, method = RequestMethod.GET)
+    public ResponseDTO listBookingForReport(){
+        return bookingService.listBookingForReport();
+    }
+
+    /**
+     * Refund for driver
+     *
+     * @return
+     */
+    @RequestMapping(value = Const.REFUND_FOR_DRIVER, method = RequestMethod.GET)
+    public ResponseDTO refundForDriver(){
+        return transactionService.refundForDriver();
     }
 }

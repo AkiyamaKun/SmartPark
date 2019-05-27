@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -478,16 +479,18 @@ public class ViewController {
     /**
      * Report Page
      *
-     * @param model
+     * @param email
      * @return
      */
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public ModelAndView toReportSupervisor(Model model) {
+    public ModelAndView toReportSupervisor(@RequestParam String email) {
         ModelAndView view = new ModelAndView("supervisor/report");
         ResponseDTO listBooked = bookingService.getAllBookingFinish();
         ResponseDTO revenue = transactionService.getRevenue();
+        ResponseDTO driver = bookingService.getTotalDriverBooking(email);
         view.addObject("listBooked", listBooked.getObjectResponse());
         view.addObject("revenue", revenue.getObjectResponse());
+        view.addObject("totalDriver", driver.getObjectResponse());
         return view;
     }
 

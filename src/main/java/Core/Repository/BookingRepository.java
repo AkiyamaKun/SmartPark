@@ -23,4 +23,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT SUM(b.cashToPay) FROM Booking b")
     Integer totalCashToPay();
+
+    @Query("SELECT b.bookingTime, b.cashToPay FROM Booking b")
+    List<Booking> getBookingTimeAndCash();
+
+    @Query("SELECT COUNT(DISTINCT b.account.accountId) FROM Booking b")
+    Integer totalDriverBooking();
 }

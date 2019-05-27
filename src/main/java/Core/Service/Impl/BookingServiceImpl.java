@@ -39,6 +39,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     TransactionRepository transactionRepository;
 
+    @Autowired
+    SupervisionRepository supervisionRepository;
+
     /**
      * Function Convert DTO From Entity
      *
@@ -340,48 +343,48 @@ public class BookingServiceImpl implements BookingService {
 //                        Account account = booking.getAccount();
 //                        account.setCash(newCash);
 //                        accountRepository.save(account);
-                        booking.setTimeEnd(timeEnd);
-                        BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
-                        if (bookingStatus == null) {
-                            bookingStatus = new BookingStatus(Const.STATUS_BOOKING_FINISH);
-                            bookingStatusRepository.save(bookingStatus);
-                        }
-                        booking.setBookingStatus(bookingStatus);
-                        booking.setCashToPay(moneyToPay);
-                        bookingRepository.save(booking);
+                    booking.setTimeEnd(timeEnd);
+                    BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+                    if (bookingStatus == null) {
+                        bookingStatus = new BookingStatus(Const.STATUS_BOOKING_FINISH);
+                        bookingStatusRepository.save(bookingStatus);
+                    }
+                    booking.setBookingStatus(bookingStatus);
+                    booking.setCashToPay(moneyToPay);
+                    bookingRepository.save(booking);
 
-                        //Return response DTO
-                        BookingDTO bookingDTO = new BookingDTO();
-                        bookingDTO.setBookingId(bookingId);
-                        bookingDTO.setEmail(booking.getAccount().getEmail());
-                        bookingDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
-                        bookingDTO.setPrice(booking.getParkingLot().getPrice());
-                        bookingDTO.setBookingTime(booking.getBookingTime());
-                        bookingDTO.setTimeStart(booking.getTimeStart());
-                        bookingDTO.setTimeEnd(booking.getTimeEnd());
-                        bookingDTO.setTimeUseBySecond(second);
-                        bookingDTO.setCashToPay(moneyToPay);
-                        bookingDTO.setPlateNumber(booking.getPlateNumber());
+                    //Return response DTO
+                    BookingDTO bookingDTO = new BookingDTO();
+                    bookingDTO.setBookingId(bookingId);
+                    bookingDTO.setEmail(booking.getAccount().getEmail());
+                    bookingDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
+                    bookingDTO.setPrice(booking.getParkingLot().getPrice());
+                    bookingDTO.setBookingTime(booking.getBookingTime());
+                    bookingDTO.setTimeStart(booking.getTimeStart());
+                    bookingDTO.setTimeEnd(booking.getTimeEnd());
+                    bookingDTO.setTimeUseBySecond(second);
+                    bookingDTO.setCashToPay(moneyToPay);
+                    bookingDTO.setPlateNumber(booking.getPlateNumber());
 
-                        responseDTO.setStatus(true);
-                        responseDTO.setObjectResponse(bookingDTO);
-                        responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
+                    responseDTO.setStatus(true);
+                    responseDTO.setObjectResponse(bookingDTO);
+                    responseDTO.setMessage(Const.BOOKING_CHECK_OUT_SUCCESS);
 
-                        MessageController messageController = new MessageController();
-                        messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
-                    } else {
-                        //Money not enough
+                    MessageController messageController = new MessageController();
+                    messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
+                } else {
+                    //Money not enough
 //                        CheckOutDTO checkOutDTO = new CheckOutDTO();
 //                        checkOutDTO.setBookingId(bookingId);
 //                        checkOutDTO.setMoneyToPay(moneyToPay);
 //                        checkOutDTO.setParkingLotName(booking.getParkingLot().getDisplayName());
-                        responseDTO.setMessage(Const.BOOKING_CHECK_OUT_FAIL);
-                        //bookingRepository.save(booking);
-                    }
-                } else {
-                    //Booking had finished
-                    responseDTO.setMessage(Const.BOOKING_HAD_FINISH);
+                    responseDTO.setMessage(Const.BOOKING_CHECK_OUT_FAIL);
+                    //bookingRepository.save(booking);
                 }
+            } else {
+                //Booking had finished
+                responseDTO.setMessage(Const.BOOKING_HAD_FINISH);
+            }
 //            } else {
 //                //Booking is not existed
 //                responseDTO.setMessage(Const.BOOKING_IS_NOT_EXISTED);
@@ -405,11 +408,17 @@ public class BookingServiceImpl implements BookingService {
         try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (parkingLot != null) {
-                List<Booking> bookings = bookingRepository.findByParkingLot(parkingLot);
-                if (!bookings.isEmpty()) {
+                List<Booking> bookingList = bookingRepository.findByParkingLot(parkingLot);
+                List<BookingDTO> bookingDTOS = new ArrayList<>();
+                if (!StringUtils.isEmpty(bookingList)) {
+                    for (Booking booking : bookingList) {
+                        BookingDTO bookingDTO = new BookingDTO();
+                        bookingDTO = Utilities.convertBookingDTOFromBookingEntity(bookingDTO, booking);
+                        bookingDTOS.add(bookingDTO);
+                    }
                     responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
                     responseDTO.setStatus(true);
-                    responseDTO.setObjectResponse(bookings);
+                    responseDTO.setObjectResponse(bookingDTOS);
                 } else {
                     responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
                     responseDTO.setStatus(true);
@@ -539,7 +548,7 @@ public class BookingServiceImpl implements BookingService {
             if (booking != null) {
                 BookingDTO dto = new BookingDTO();
                 Account account = accountRepository.findByAccountId(booking.getAccount().getAccountId());
-                Utilities.convertBookingDTOFromBookingEntity(dto, booking);
+                dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(account.getEmail());
                 responseDTO.setObjectResponse(dto);
@@ -578,25 +587,25 @@ public class BookingServiceImpl implements BookingService {
     public ResponseDTO getAllBookingFinish() {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             List<BookingDTO> bookingDTOS = new ArrayList<>();
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
             List<Booking> bookings = bookingRepository.findByBookingStatus(bookingStatus);
 
-            for(Booking booking: bookings){
-                BookingDTO tmp = new BookingDTO();
-                convertDTOFromEntity(tmp, booking);
-                bookingDTOS.add(tmp);
-            }
-            if(!bookings.isEmpty()){
+            if (!bookings.isEmpty()) {
+                for (Booking booking : bookings) {
+                    BookingDTO tmp = new BookingDTO();
+                    convertDTOFromEntity(tmp, booking);
+                    bookingDTOS.add(tmp);
+                }
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
                 responseDTO.setObjectResponse(bookingDTOS);
-            }else{
+            } else {
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage(Const.GET_LIST_BOOKING_FAIL);
         }
 
@@ -632,7 +641,7 @@ public class BookingServiceImpl implements BookingService {
                     responseDTO.setMessage(Const.CHECKOUT);
                     responseDTO.setObjectResponse(dto);
                     messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
-                } else if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_BOOK)){
+                } else if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_BOOK)) {
                     dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                     responseDTO.setStatus(true);
                     responseDTO.setMessage(Const.CHECKIN);
@@ -682,12 +691,71 @@ public class BookingServiceImpl implements BookingService {
         return responseDTO;
     }
 
+    @Override
+    public ResponseDTO listBookingForReport() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            List<Booking> bookings = bookingRepository.findAll();
+            List<BookingDTO> bookingDTOS = new ArrayList<>();
+            if (!StringUtils.isEmpty(bookings)) {
+                for (Booking booking : bookings) {
+                    BookingDTO bookingDTO = new BookingDTO();
+                    bookingDTO = Utilities.convertBookingDTOFromBookingEntity(bookingDTO, booking);
+                    bookingDTOS.add(bookingDTO);
+                }
+                responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
+                responseDTO.setStatus(true);
+                responseDTO.setObjectResponse(bookingDTOS);
+            } else {
+                responseDTO.setMessage(Const.GET_LIST_BOOKING_FAIL);
+                responseDTO.setStatus(true);
+            }
+
+        } catch (Exception e) {
+            responseDTO.setMessage("Get List Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO getTotalDriverBooking(String email) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            Account account = accountRepository.findByEmail(email);
+            List<Supervision> supervision = supervisionRepository.findBySupervisor(account);
+            List<Booking> bookingList = bookingRepository.findByBookingStatus_BookingStatusName(Const.STATUS_BOOKING_FINISH);
+            if (!StringUtils.isEmpty(bookingList) && !StringUtils.isEmpty(supervision)) {
+                bookingList.stream().forEach(book -> {
+                    supervision.stream().forEach(e -> {
+                        if (book.getParkingLot().getParkingLotId().equals(e.getParkingLot().getParkingLotId())) {
+                            Integer totalDriver = bookingRepository.totalDriverBooking();
+                            responseDTO.setStatus(true);
+                            responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+                            responseDTO.setObjectResponse(totalDriver);
+                        }
+                    });
+                });
+            } else {
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_BOOKING_FAIL);
+                responseDTO.setObjectResponse(0);
+            }
+
+        } catch (Exception e) {
+            responseDTO.setMessage("Get Booking Error: " + e.getMessage());
+        }
+        return responseDTO;
+    }
+
     /**
      * Function Convert DTO From Entity
+     *
      * @param dto
      * @param entity
      */
-    public void convertDTOFromEntity(BookingDTO dto, Booking entity){
+    public void convertDTOFromEntity(BookingDTO dto, Booking entity) {
         dto.setBookingId(entity.getBookingId());
         dto.setBookingTime(entity.getBookingTime());
         dto.setTimeStart(entity.getTimeStart());
