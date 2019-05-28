@@ -29,4 +29,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT COUNT(DISTINCT b.account.accountId) FROM Booking b")
     Integer totalDriverBooking();
+
+    @Query("SELECT b FROM Booking b, BookingStatus bs " +
+            "WHERE b.bookingStatus.bookingStatusId = bs.bookingStatusId " +
+            "AND (bs.bookingStatusName = 'BOOK' " +
+            "OR bs.bookingStatusName = 'USE') AND b.account.accountId = ?1")
+    List<Booking> listBookingStatusAndAccount(Integer accountId);
 }

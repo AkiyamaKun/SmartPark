@@ -14,15 +14,18 @@ public class CameraDTO {
 
     private boolean isActive;
 
+    private String urlLiveStream;
+
     public CameraDTO() {
     }
 
-    public CameraDTO(Integer cameraId, Integer parkingLotId, String cameraName, String ipAddress, boolean isActive) {
+    public CameraDTO(Integer cameraId, Integer parkingLotId, String cameraName, String ipAddress, boolean isActive, String urlLiveStream) {
         this.cameraId = cameraId;
         this.parkingLotId = parkingLotId;
         this.cameraName = cameraName;
         this.ipAddress = ipAddress;
         this.isActive = isActive;
+        this.urlLiveStream = urlLiveStream;
     }
 
     public Integer getCameraId() {
@@ -63,5 +66,13 @@ public class CameraDTO {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getUrlLiveStream() {
+        return urlLiveStream;
+    }
+
+    public void setUrlLiveStream(String urlLiveStream) {
+        this.urlLiveStream = urlLiveStream;
     }
 }

@@ -117,6 +117,7 @@ public class BrainTreeAction {
 
     public boolean refundOrder(String transactionCode){
         Result<Transaction> result = gateway.transaction().refund(transactionCode);
+        System.out.println(result);
         if(result.isSuccess()){
             System.out.println("Refund success: " + (result.getMessage() != null? result.getMessage() : "No message"));
             return true;

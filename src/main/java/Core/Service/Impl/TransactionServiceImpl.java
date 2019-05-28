@@ -38,6 +38,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private ParkingLotServiceImpl parkingLotService;
 
+    @Autowired
+    private ParkingSlotRepository parkingSlotRepository;
+
+    private int count = 0;
+
     /**
      * Function Convert DTO From Entity
      *
@@ -82,14 +87,11 @@ public class TransactionServiceImpl implements TransactionService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            Integer totalMoney = transactionRepository.totalMoney();
             Integer totalCash = bookingRepository.totalCashToPay();
-            Integer total = 0;
-            if (totalMoney >= 0 || totalCash >= 0) {
-                total = totalMoney + totalCash;
+            if (totalCash >= 0) {
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.GET_TRANSACTION_SUCCESS);
-                responseDTO.setObjectResponse(total);
+                responseDTO.setObjectResponse(totalCash);
             } else {
                 responseDTO.setStatus(false);
                 responseDTO.setMessage(Const.GET_TRANSACTION_FAIL);
@@ -233,39 +235,53 @@ public class TransactionServiceImpl implements TransactionService {
     public ResponseDTO refundForDriver() {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        int count = 0;
+        //int count = 0;
         try {
             BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatusBook);
-            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(1);
-            BookingStatus bookingStatusFinish = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+            //ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(1);
+            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusName(Const.STATUS_SLOT_EMPTY);
+            BookingStatus bookingStatusCancel = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_CANCEL);
             MessageController messageController = new MessageController();
 
-            if (parkingLotService.getAvailableSlot(parkingLot) < bookingList.size()) {
+            if (parkingSlots.size() < bookingList.size()) {
                 count++;
+                System.out.println(count);
             }
 
             if (count == 3) {
                 BrainTreeAction brainTreeAction = new BrainTreeAction();
+                System.out.println("bbbbbbb");
                 for (Booking booking : bookingList) {
                     Account account = accountRepository.findByAccountId(booking.getAccount().getAccountId());
+                    System.out.println(account);
                     Transaction transaction = transactionRepository.findByAccountIdAndBookingId(account, booking);
-                    boolean check = brainTreeAction.refundOrder(transaction.getTransactionCode());
-                    if (check == true) {
-                        TransactionDTO dto = new TransactionDTO();
-                        convertDTOFromEntity(dto, transaction);
-                        responseDTO.setStatus(true);
-                        responseDTO.setMessage(Const.REFUND);
-                        responseDTO.setObjectResponse(dto);
-                        messageController.sendToUser(responseDTO, transaction.getAccountId().getEmail());
-                        transaction.setMoney(0);
-                        transactionRepository.save(transaction);
-                        booking.setBookingStatus(bookingStatusFinish);
-                        booking.setCashToPay(0);
-                        bookingRepository.save(booking);
+                    if (brainTreeAction.configAction()) {
+                        boolean checked = brainTreeAction.refundOrder(transaction.getTransactionCode());
+                        System.out.println(checked);
+                        if (checked == true) {
+                            System.out.println("aaa" + checked);
+                            TransactionDTO dto = new TransactionDTO();
+                            convertDTOFromEntity(dto, transaction);
+                            responseDTO.setStatus(true);
+                            responseDTO.setMessage(Const.REFUND);
+                            responseDTO.setObjectResponse(dto);
+                            messageController.sendToUser(responseDTO, transaction.getAccountId().getEmail());
+                            transaction.setMoney(0);
+                            transaction.setTypeOfTransaction(Const.REFUND);
+                            transactionRepository.save(transaction);
+                            booking.setBookingStatus(bookingStatusCancel);
+                            booking.setCashToPay(0);
+                            bookingRepository.save(booking);
+                            count = 0;
+                        } else {
+                            count = 0;
+                            responseDTO.setMessage(Const.REFUND_FAIL);
+                        }
                     } else {
                         responseDTO.setMessage(Const.REFUND_FAIL);
                     }
+
                 }
             }
         } catch (Exception e) {

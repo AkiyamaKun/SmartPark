@@ -14,7 +14,7 @@
 <!--                </a>-->
 <!--            </li>-->
             <li>
-                <a th:href="@{/report}">
+                <a th:href="@{/report(email=${session.User.email})}">
                     <i class="pe-7s-graph"></i>
                     <p>Report</p>
                 </a>

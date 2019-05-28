@@ -106,6 +106,8 @@ public class Const {
     public static final String CHECKIN = "CHECKIN";
     public static final String CHECKOUT = "CHECKOUT";
     public static final String REFUND = "REFUND";
+    public static final String PAYMENT = "PAYMENT";
+    public static final String BOOKED = "BOOKED";
     public static final String REFUND_FAIL = "Refund fail";
 
     //Admin Account API
@@ -275,6 +277,7 @@ public class Const {
     public static final String STATUS_BOOKING_BOOK = "BOOK";
     public static final String STATUS_BOOKING_USE = "USE";
     public static final String STATUS_BOOKING_FINISH = "FINISH";
+    public static final String STATUS_BOOKING_CANCEL = "CANCEL";
     public static final String ACCOUNT_ADMIN_DEFAULT = "admin@gmail.com";
     public static final String ACCOUNT_SUPERVISOR_DEFAULT = "supervisor@gmail.com";
     public static final String ACCOUNT_DRIVER_DEFAULT = "driver@gmail.com";

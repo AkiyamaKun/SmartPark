@@ -37,6 +37,7 @@ public class CameraImpl implements CameraService {
         dto.setCameraName(entity.getCameraName());
         dto.setIpAddress(entity.getIpAddress());
         dto.setParkingLotId(entity.getParkingLotId().getParkingLotId());
+        dto.setUrlLiveStream(entity.getUrlLiveStream());
         dto.setActive(entity.isActive());
     }
 
@@ -172,7 +173,8 @@ public class CameraImpl implements CameraService {
             camera.setIpAddress(cameraDTO.getIpAddress());
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(cameraDTO.getParkingLotId());
             camera.setParkingLotId(parkingLot);
-            camera.setActive(true);
+            camera.setActive(false);
+            camera.setUrlLiveStream("http://870f6f3d.ngrok.io/video_feed/");
             cameraRepository.save(camera);
             convertDTOFromEntity(cameraDTO, camera);
             responseDTO.setStatus(true);

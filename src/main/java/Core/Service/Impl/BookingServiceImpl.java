@@ -42,6 +42,9 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     SupervisionRepository supervisionRepository;
 
+    @Autowired
+    ParkingSlotRepository parkingSlotRepository;
+
     /**
      * Function Convert DTO From Entity
      *
@@ -78,14 +81,15 @@ public class BookingServiceImpl implements BookingService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (account != null || parkingLot != null) {
                 if (parkingLotService.getAvailableSlot(parkingLot) > 0) {
-                    BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
-                    BookingStatus bookingStatusUse = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_USE);
-                    List<Booking> checkInfoBook = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusBook.getBookingStatusId(), accountId);
-                    List<Booking> checkInfoUse = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusUse.getBookingStatusId(), accountId);
+//                    BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
+//                    BookingStatus bookingStatusUse = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_USE);
+//                    List<Booking> checkInfoBook = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusBook.getBookingStatusId(), accountId);
+//                    List<Booking> checkInfoUse = bookingRepository.findByBookingStatus_BookingStatusIdAndAccount_AccountId(bookingStatusUse.getBookingStatusId(), accountId);
+                    List<Booking> bookingList = bookingRepository.listBookingStatusAndAccount(accountId);
                     BrainTreeAction brainTreeAction = new BrainTreeAction();
-
-                    if (checkInfoBook.size() > 0 || checkInfoUse.size() > 0) {
-                        for (Booking book : checkInfoUse) {
+                    //checkInfoBook.size() > 0 || checkInfoUse.size() > 0
+                    if (bookingList.size() > 0) {
+                        for (Booking book : bookingList) {
                             if (book.getParkingLot().getParkingLotId().equals(parkingLotId)) {
                                 responseDTO.setStatus(true);
                                 if (!book.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_FINISH)) {
@@ -115,6 +119,7 @@ public class BookingServiceImpl implements BookingService {
                                     if (brainTreeAction.configAction()) {
                                         TransactionDTO transactionDTO = brainTreeAction.acceptPayment(String.valueOf(moneyToPay), nonce);
                                         if (transactionDTO != null) {
+                                            transactionDTO.setTypeOfTransaction(Const.PAYMENT);
                                             saveTransaction(transactionDTO, accountId, book.getBookingId());
                                         }
                                     }
@@ -146,8 +151,8 @@ public class BookingServiceImpl implements BookingService {
                                 responseDTO.setMessage(Const.BOOKING_FAIL);
                                 return responseDTO;
                             }
-                        }
-                    } else if (StringUtils.isEmpty(checkInfoBook) || StringUtils.isEmpty(checkInfoUse)) {
+                        }//StringUtils.isEmpty(checkInfoBook) || StringUtils.isEmpty(checkInfoUse)
+                    } else if (bookingList.isEmpty() || bookingList.size() == 0) {
                         brainTreeAction = new BrainTreeAction();
                         if (brainTreeAction.configAction()) {
                             int amount = Math.round(parkingLot.getPrice() / 4);
@@ -181,6 +186,7 @@ public class BookingServiceImpl implements BookingService {
                                 Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                                 dto.setPrice(parkingLot.getPrice());
                                 dto.setParkingLotName(parkingLot.getDisplayName());
+                                transactionDTO.setTypeOfTransaction(Const.BOOKED);
                                 saveTransaction(transactionDTO, accountId, booking.getBookingId());
 
                                 //Excute update field 'bookingSlot' in Parking Lot
@@ -500,9 +506,9 @@ public class BookingServiceImpl implements BookingService {
             Booking booking = bookingRepository.findByBookingId(bookingId);
             if (booking != null) {
                 if (booking.getBookingStatus().getBookingStatusName().equals(Const.STATUS_BOOKING_BOOK)) {
-                    BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_FINISH);
+                    BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_CANCEL);
                     if (bookingStatus == null) {
-                        bookingStatus = new BookingStatus(Const.STATUS_BOOKING_FINISH);
+                        bookingStatus = new BookingStatus(Const.STATUS_BOOKING_CANCEL);
                         bookingStatusRepository.save(bookingStatus);
                     }
                     booking.setBookingStatus(bookingStatus);
@@ -569,13 +575,13 @@ public class BookingServiceImpl implements BookingService {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            Integer available = parkingLotService.getAvailableSlot(parkingLot);
+            //ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
+            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusName(Const.STATUS_SLOT_EMPTY);
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatus);
             responseDTO.setStatus(true);
             responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
-            responseDTO.setObjectResponse(bookingList.size() + " / " + available);
+            responseDTO.setObjectResponse(bookingList.size() + " / " + parkingSlots.size());
 
         } catch (Exception e) {
             responseDTO.setMessage("Get Booking Error: " + e.getMessage());
@@ -608,7 +614,34 @@ public class BookingServiceImpl implements BookingService {
         } catch (Exception e) {
             responseDTO.setMessage(Const.GET_LIST_BOOKING_FAIL);
         }
+        return responseDTO;
+    }
 
+    @Override
+    public ResponseDTO getAllBookingCancel() {
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setStatus(false);
+        try {
+            List<BookingDTO> bookingDTOS = new ArrayList<>();
+            BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_CANCEL);
+            List<Booking> bookings = bookingRepository.findByBookingStatus(bookingStatus);
+
+            if (!bookings.isEmpty()) {
+                for (Booking booking : bookings) {
+                    BookingDTO tmp = new BookingDTO();
+                    convertDTOFromEntity(tmp, booking);
+                    bookingDTOS.add(tmp);
+                }
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.GET_LIST_BOOKING_SUCCESS);
+                responseDTO.setObjectResponse(bookingDTOS);
+            } else {
+                responseDTO.setStatus(true);
+                responseDTO.setMessage(Const.NOTHING_DATA_ON_SERVER);
+            }
+        } catch (Exception e) {
+            responseDTO.setMessage(Const.GET_LIST_BOOKING_FAIL);
+        }
         return responseDTO;
     }
 

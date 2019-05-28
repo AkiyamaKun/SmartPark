@@ -43,14 +43,12 @@ public class PublicServiceImpl implements PublicService {
     ParkingSlotStatusRepository parkingSlotStatusRepository;
 
     /**
-     *
      * @param email
      * @param token
-     * @param type (1: Register Admin,
-     *             2: Register Supervisor,
-     *             3: Register Driver,
-     *             4: Forget Password)
-     *
+     * @param type  (1: Register Admin,
+     *              2: Register Supervisor,
+     *              3: Register Driver,
+     *              4: Forget Password)
      * @return
      */
     @Override
@@ -80,22 +78,22 @@ public class PublicServiceImpl implements PublicService {
 
         String welcomeMail = "Hello " + nameAccount + ",\n";
         String congratulationMail = "Congratulations on successful registration of your account " + email + "\n";
-        switch (type){
+        switch (type) {
             case 1:
                 //Admin Account
             case 2:
                 //Supervisor Account
                 //Forget Passowrd of Admin and Supervisor Account
-                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email +"&token=" + token;
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_PASSWORD_PAGE + "?email=" + email + "&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + Const.MAIL_CONTENT_SET_PASSWORD_PAGE + ": " + urlVerify);
                 break;
             case 3:
                 //Driver Account
-                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email +"&token=" + token;
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.VERIFY_DRIVER_ACCOUNT + "?email=" + email + "&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + congratulationMail + Const.MAIL_CONTENT_VERIFY_DRIVER_ACCOUNT + ": " + urlVerify);
                 break;
             case 4:
-                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email +"&token=" + token;
+                urlVerify = Const.DOMAIN + Const.ACCOUNT + Const.SET_NEW_PASSWORD + "?email=" + email + "&token=" + token;
                 EmailUtil.sendEmail(session, toEmail, Const.MAIL_TILLE, welcomeMail + Const.MAIL_CONTENT_SET_NEW_PASSWORD + ": " + urlVerify);
                 //Forget Passowrd of Driver Account
             default:
@@ -111,6 +109,7 @@ public class PublicServiceImpl implements PublicService {
 
     /**
      * Update Status of Parking Slot From Deep Learning
+     *
      * @param parkingLotId
      * @param listParkingSlot
      * @return
@@ -119,22 +118,22 @@ public class PublicServiceImpl implements PublicService {
     public ResponseDTO updateStatusSlot(Integer parkingLotId, List<ParkingSlotDTO> listParkingSlot) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 List<ParkingSlot> listSlotEntity = parkingSlotRepository.findByParkingLot(parkingLot);
                 int sizeListParkingSlot = listParkingSlot.size();
                 int sizeListSlotEntity = listSlotEntity.size();
                 int minSize = sizeListParkingSlot < sizeListSlotEntity ? sizeListParkingSlot : sizeListSlotEntity;
-                for(int i = 0 ; i < minSize; i++){
+                for (int i = 0; i < minSize; i++) {
                     ParkingSlot parkingSlotEntity = listSlotEntity.get(i);
                     ParkingSlotDTO parkingSlotDTO = listParkingSlot.get(i);
                     parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
                     parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
                     ParkingSlotStatus parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
-                    if(parkingSlotStatus != null){
+                    if (parkingSlotStatus != null) {
                         parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
-                    }else{
+                    } else {
                         parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(Const.STATUS_SLOT_UNDEFINED);
                         parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     }
@@ -142,10 +141,10 @@ public class PublicServiceImpl implements PublicService {
                 }
                 responseDTO.setMessage(Const.UPDATE_STATUS_SLOT_SUCCESS);
                 responseDTO.setStatus(true);
-            }else{
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Update Status Parking Slot Error: " + e.getMessage());
         }
         return responseDTO;
@@ -153,6 +152,7 @@ public class PublicServiceImpl implements PublicService {
 
     /**
      * Upload Image For Parking Lot
+     *
      * @param multipartFile
      * @param parkingLotId
      * @return
@@ -161,9 +161,9 @@ public class PublicServiceImpl implements PublicService {
     public ResponseDTO uploadImageForParkingLot(MultipartFile multipartFile, Integer parkingLotId) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
-        try{
+        try {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            if(parkingLot != null){
+            if (parkingLot != null) {
                 File file = Utilities.multipartToFile(multipartFile);
                 byte[] image = Utilities.fileToByteArray(file);
                 parkingLot.setParklotImage(image);
@@ -171,10 +171,10 @@ public class PublicServiceImpl implements PublicService {
                 responseDTO.setStatus(true);
                 responseDTO.setMessage(Const.UPLOAD_IMAGE_SUCCESS);
 
-            }else{
+            } else {
                 responseDTO.setMessage(Const.PARKING_LOT_IS_NOT_EXISTED);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setMessage("Upload Image Error : " + e.getMessage());
         }
         return responseDTO;

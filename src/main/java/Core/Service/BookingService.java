@@ -14,6 +14,7 @@ public interface BookingService {
     ResponseDTO getBookingById(Integer bookingId);
     ResponseDTO countBookingSlotByStatus(Integer parkingLotId);
     ResponseDTO getAllBookingFinish();
+    ResponseDTO getAllBookingCancel();
     ResponseDTO checkBooking(Integer bookingId);
     ResponseDTO getBookingByAccountId(Integer accountId, Integer amount);
     ResponseDTO listBookingForReport();

@@ -110,7 +110,7 @@ public class SupervisorAccountController {
      *
      * @return
      */
-    @RequestMapping(value = Const.REFUND_FOR_DRIVER, method = RequestMethod.GET)
+    @RequestMapping(value = Const.REFUND_FOR_DRIVER, method = RequestMethod.PUT)
     public ResponseDTO refundForDriver(){
         return transactionService.refundForDriver();
     }

@@ -53,14 +53,19 @@
     }
 
     function refundForDriver() {
-        let accountId = document.getElementById("accountId").value;
-        let parkingLotId = document.getElementById("parkingLotId").value;
-        doAjax("/supervisor/refund_for_driver", "GET", null, function (response) {
-            // let data = response.objectResponse;
-            // document.getElementById("numBook").innerHTML = data;
-        }, function (error) {
-            console.log(error.message)
-        });
+        CallAjaxWithFetch(`/supervisor/refund_for_driver`,
+            "PUT", {},
+            (data) => {
+                if (data.status === true) {
+                    console.log(data.message);
+                } else {
+                    console.log(data.message);
+                }
+            },
+            (err) => {
+                console.log("bbbbbb" + err.message);
+            }
+        );
     }
 </script>
 

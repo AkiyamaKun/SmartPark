@@ -486,9 +486,11 @@ public class ViewController {
     public ModelAndView toReportSupervisor(@RequestParam String email) {
         ModelAndView view = new ModelAndView("supervisor/report");
         ResponseDTO listBooked = bookingService.getAllBookingFinish();
+        ResponseDTO listCancel = bookingService.getAllBookingCancel();
         ResponseDTO revenue = transactionService.getRevenue();
         ResponseDTO driver = bookingService.getTotalDriverBooking(email);
         view.addObject("listBooked", listBooked.getObjectResponse());
+        view.addObject("listCancel", listCancel.getObjectResponse());
         view.addObject("revenue", revenue.getObjectResponse());
         view.addObject("totalDriver", driver.getObjectResponse());
         return view;
