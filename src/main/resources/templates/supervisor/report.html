@@ -23,20 +23,20 @@
                                             <i class="pe-7s-vector"></i>
                                         </div>
                                     </div>
-                                    <div class="col-7">
+                                    <div class="col-7" th:if="${revenue != null}">
                                         <div class="numbers">
                                             <p class="card-category">Revenue</p>
                                             <h4 class="card-title" th:text="${revenue} + ' VND'"></h4>
                                         </div>
                                     </div>
+                                    <div class="col-7" th:if="${revenue == null}">
+                                        <div class="numbers">
+                                            <p class="card-category">Revenue</p>
+                                            <h4 class="card-title" th:text="0"></h4>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--                            <div class="card-footer ">-->
-                            <!--                                <hr>-->
-                            <!--                                <div class="stats">-->
-                            <!--                                    <i class="fa fa-refresh"></i> Update Now-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6">
@@ -48,20 +48,20 @@
                                             <i class="pe-7s-graph1"></i>
                                         </div>
                                     </div>
-                                    <div class="col-7">
+                                    <div class="col-7" th:if="${not #lists.isEmpty(listBooked)}">
                                         <div class="numbers">
                                             <p class="card-category">Booking</p>
                                             <h4 class="card-title" th:text="${#lists.size(listBooked)}"></h4>
                                         </div>
                                     </div>
+                                    <div class="col-7" th:if="${#lists.isEmpty(listBooked)}">
+                                        <div class="numbers">
+                                            <p class="card-category">Booking</p>
+                                            <h4 class="card-title" th:text="0"></h4>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <!--                            <div class="card-footer ">-->
-                            <!--                                <hr>-->
-                            <!--                                <div class="stats">-->
-                            <!--                                    <i class="fa fa-calendar-o"></i> Last day-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -74,10 +74,16 @@
                                             <i class="pe-7s-attention"></i>
                                         </div>
                                     </div>
-                                    <div class="col-7">
+                                    <div class="col-7" th:if="${not #lists.isEmpty(listCancel)}">
                                         <div class="numbers">
                                             <p class="card-category">Cancel</p>
                                             <h4 class="card-title" th:text="${#lists.size(listCancel)}"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-7" th:if="${#lists.isEmpty(listCancel)}">
+                                        <div class="numbers">
+                                            <p class="card-category">Cancel</p>
+                                            <h4 class="card-title" th:text="0"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -94,10 +100,16 @@
                                             <i class="pe-7s-star"></i>
                                         </div>
                                     </div>
-                                    <div class="col-7">
+                                    <div class="col-7" th:if="${totalDriver != null}">
                                         <div class="numbers">
                                             <p class="card-category">Total drivers</p>
                                             <h4 class="card-title" th:text="${totalDriver}"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-7" th:if="${totalDriver == null}">
+                                        <div class="numbers">
+                                            <p class="card-category">Total drivers</p>
+                                            <h4 class="card-title" th:text="0"></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -165,11 +177,14 @@
 
             $.each(jsonData, function (index, value) {
                 let date = new Date(value.bookingTime);
-                if (date.toLocaleDateString())
-                //arrSales.push([value.bookingTime.getTime(), value.cashToPay, value.price]);
-                    data.addRows([
-                        [date.toLocaleTimeString(), value.cashToPay]
-                    ]);
+                let current = new Date();
+                if (date.toLocaleDateString() === current.toLocaleDateString()) {
+                    if (date.toLocaleDateString())
+                    //arrSales.push([value.bookingTime.getTime(), value.cashToPay, value.price]);
+                        data.addRows([
+                            [date.toLocaleTimeString(), value.cashToPay]
+                        ]);
+                }
             });
 
             var options = {

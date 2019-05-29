@@ -479,16 +479,16 @@ public class ViewController {
     /**
      * Report Page
      *
-     * @param email
+     * @param id
      * @return
      */
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public ModelAndView toReportSupervisor(@RequestParam String email) {
+    public ModelAndView toReportSupervisor(@RequestParam Integer id) {
         ModelAndView view = new ModelAndView("supervisor/report");
         ResponseDTO listBooked = bookingService.getAllBookingFinish();
         ResponseDTO listCancel = bookingService.getAllBookingCancel();
         ResponseDTO revenue = transactionService.getRevenue();
-        ResponseDTO driver = bookingService.getTotalDriverBooking(email);
+        ResponseDTO driver = bookingService.getTotalDriverBooking(id);
         view.addObject("listBooked", listBooked.getObjectResponse());
         view.addObject("listCancel", listCancel.getObjectResponse());
         view.addObject("revenue", revenue.getObjectResponse());
@@ -530,7 +530,6 @@ public class ViewController {
      */
     @RequestMapping(value = "/list-plot-supervisor", method = RequestMethod.GET)
     public String toListCameraSupervisor(Model model) throws Exception{
-        Thread.sleep(10000);
         //Excute anything here
         return "supervisor/list-plot-supervisor";
     }

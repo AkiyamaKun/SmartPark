@@ -95,7 +95,12 @@
                     //alert(data.message);
                     let authorizationToken = data.objectResponse.token;
                     localStorage.setItem("authorizationToken", authorizationToken);
-                    window.location.href = "/report?email=" + email;
+                    doAjax("/account/get_by_email?email=" + email, "GET", null, function (response) {
+                        let data = response.objectResponse;
+                        window.location.href = "/report?id=" + data.accountId;
+                    }, function (error) {
+                        console.log(error.message)
+                    });
                 }
                 if (data.status === false) {
                     alert(data.message);

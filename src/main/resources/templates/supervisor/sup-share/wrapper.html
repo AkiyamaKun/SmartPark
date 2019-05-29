@@ -2,7 +2,7 @@
      data-color="purple" data-image="st-supervisor/img/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a th:href="@{/dashboard}" class="simple-text">
+            <a th:href="@{/report(id=${session.User.accountId})}" class="simple-text">
                 Smart Parking
             </a>
         </div>
@@ -14,7 +14,7 @@
 <!--                </a>-->
 <!--            </li>-->
             <li>
-                <a th:href="@{/report(email=${session.User.email})}">
+                <a th:href="@{/report(id=${session.User.accountId})}">
                     <i class="pe-7s-graph"></i>
                     <p>Report</p>
                 </a>

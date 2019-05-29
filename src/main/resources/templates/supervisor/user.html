@@ -136,7 +136,7 @@
                 (data) => {
                     alert(data.message);
                     $('#btn-update').prop('disabled', true);
-                    document.location.href = "/dashboard";
+                    document.location.href = "/report?id=" + accountId;
                 },
                 (err) => {
                     alert(err.message);

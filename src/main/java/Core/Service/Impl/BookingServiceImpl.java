@@ -752,11 +752,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public ResponseDTO getTotalDriverBooking(String email) {
+    public ResponseDTO getTotalDriverBooking(Integer id) {
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setStatus(false);
         try {
-            Account account = accountRepository.findByEmail(email);
+            Account account = accountRepository.findByAccountId(id);
             List<Supervision> supervision = supervisionRepository.findBySupervisor(account);
             List<Booking> bookingList = bookingRepository.findByBookingStatus_BookingStatusName(Const.STATUS_BOOKING_FINISH);
             if (!StringUtils.isEmpty(bookingList) && !StringUtils.isEmpty(supervision)) {
