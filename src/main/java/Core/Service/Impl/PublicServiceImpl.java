@@ -122,15 +122,28 @@ public class PublicServiceImpl implements PublicService {
             ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
             if (parkingLot != null) {
                 List<ParkingSlot> listSlotEntity = parkingSlotRepository.findByParkingLot(parkingLot);
-                int sizeListParkingSlot = listParkingSlot.size();
+                //int sizeListParkingSlot = listParkingSlot.size();
                 int sizeListSlotEntity = listSlotEntity.size();
-                int minSize = sizeListParkingSlot < sizeListSlotEntity ? sizeListParkingSlot : sizeListSlotEntity;
-                for (int i = 0; i < minSize; i++) {
+                //int minSize = sizeListParkingSlot < sizeListSlotEntity ? sizeListParkingSlot : sizeListSlotEntity;
+                for (int i = 0; i < sizeListSlotEntity; i++) {
                     ParkingSlot parkingSlotEntity = listSlotEntity.get(i);
-                    ParkingSlotDTO parkingSlotDTO = listParkingSlot.get(i);
-                    parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
-                    parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
-                    ParkingSlotStatus parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
+                    ParkingSlotDTO parkingSlotDTO;
+                    try {
+                        parkingSlotDTO = listParkingSlot.get(i);
+                    }
+                    catch(Exception e){
+                        parkingSlotDTO = null;
+                    }
+                    ParkingSlotStatus parkingSlotStatus;
+                    if(parkingSlotDTO != null) {
+                        parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
+                        parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
+                        parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
+                    }
+                    else{
+                        parkingSlotStatus = null;
+                    }
+
                     if (parkingSlotStatus != null) {
                         parkingSlotEntity.setParkingSlotStatus(parkingSlotStatus);
                     } else {
