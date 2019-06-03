@@ -33,12 +33,10 @@
 
 
 <script>
-    let myData;
-    let refund;
 
     ready(function () {
-        myData = setInterval(loadData, 10000);
-        refund = setInterval(refundForDriver, 15000);
+        let myData = setInterval(loadData, 10000);
+        let refund = setInterval(refundForDriver, 15000);
     });
 
     function loadData() {

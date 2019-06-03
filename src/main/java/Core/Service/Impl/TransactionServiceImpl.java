@@ -240,7 +240,7 @@ public class TransactionServiceImpl implements TransactionService {
             BookingStatus bookingStatusBook = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatusBook);
             //ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(1);
-            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusName(Const.STATUS_SLOT_EMPTY);
+            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusNameAndParkingLot_ParkingLotId(Const.STATUS_SLOT_EMPTY, 1);
             BookingStatus bookingStatusCancel = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_CANCEL);
             MessageController messageController = new MessageController();
 

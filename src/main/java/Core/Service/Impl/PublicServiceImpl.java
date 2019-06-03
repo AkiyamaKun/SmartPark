@@ -123,23 +123,24 @@ public class PublicServiceImpl implements PublicService {
             if (parkingLot != null) {
                 List<ParkingSlot> listSlotEntity = parkingSlotRepository.findByParkingLot(parkingLot);
                 //int sizeListParkingSlot = listParkingSlot.size();
-                //int sizeListSlotEntity = listSlotEntity.size();
+                int sizeListSlotEntity = listSlotEntity.size();
                 //int minSize = sizeListParkingSlot < sizeListSlotEntity ? sizeListParkingSlot : sizeListSlotEntity;
-
-                for (int i = 0; i < listSlotEntity.size(); i++) {
+                for (int i = 0; i < sizeListSlotEntity; i++) {
                     ParkingSlot parkingSlotEntity = listSlotEntity.get(i);
                     ParkingSlotDTO parkingSlotDTO;
                     try {
                         parkingSlotDTO = listParkingSlot.get(i);
-                    } catch (Exception e) {
+                    }
+                    catch(Exception e){
                         parkingSlotDTO = null;
                     }
                     ParkingSlotStatus parkingSlotStatus;
-                    if (parkingSlotDTO != null) {
+                    if(parkingSlotDTO != null) {
                         parkingSlotEntity.setSlotLane(parkingSlotDTO.getLane());
                         parkingSlotEntity.setSlotRow(parkingSlotDTO.getRow());
                         parkingSlotStatus = parkingSlotStatusRepository.findByStatusName(parkingSlotDTO.getStatus());
-                    } else {
+                    }
+                    else{
                         parkingSlotStatus = null;
                     }
 

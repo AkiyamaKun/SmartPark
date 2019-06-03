@@ -576,7 +576,7 @@ public class BookingServiceImpl implements BookingService {
         responseDTO.setStatus(false);
         try {
             //ParkingLot parkingLot = parkingLotRepository.findByParkingLotId(parkingLotId);
-            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusName(Const.STATUS_SLOT_EMPTY);
+            List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusNameAndParkingLot_ParkingLotId(Const.STATUS_SLOT_EMPTY, parkingLotId);
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatus);
             responseDTO.setStatus(true);
