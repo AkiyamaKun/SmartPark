@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -44,6 +45,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     ParkingSlotRepository parkingSlotRepository;
+
+    @Autowired
+    CameraRepository cameraRepository;
 
     /**
      * Function Convert DTO From Entity
@@ -579,8 +583,30 @@ public class BookingServiceImpl implements BookingService {
             List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusNameAndParkingLot_ParkingLotId(Const.STATUS_SLOT_EMPTY, parkingLotId);
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatus);
+            List<Camera> cameras = cameraRepository.findByParkingLotId_ParkingLotId(parkingLotId);
+
+            if (cameras.get(0).getUrlLiveStream() != null) {
+                String urlStr = cameras.get(0).getUrlLiveStream() + parkingLotId;
+                System.out.println(urlStr);
+                URL url = null;
+                try {
+                    url = new URL(urlStr);
+                    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+                    urlConn.connect();
+                    if (urlConn.getResponseCode() == 200) {
+                        responseDTO.setMessage("active");
+                    } else {
+                        responseDTO.setMessage("not active");
+                    }
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
+                } catch (IOException o) {
+                    o.printStackTrace();
+                }
+            }
+
             responseDTO.setStatus(true);
-            responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+            //responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
             responseDTO.setObjectResponse(bookingList.size() + " / " + parkingSlots.size());
 
         } catch (Exception e) {

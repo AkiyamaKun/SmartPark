@@ -25,6 +25,12 @@
                 <tr>
                     <td id="numBook"></td>
                 </tr>
+                <tr>
+                    <td>Status of webcam</td>
+                </tr>
+                <tr>
+                    <td id="statusCam"></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -44,7 +50,9 @@
         let parkingLotId = document.getElementById("parkingLotId").value;
         doAjax("/supervisor/count_booking?parkingLotId=" + parkingLotId, "GET", null, function (response) {
             let data = response.objectResponse;
+            let msg = response.message;
             document.getElementById("numBook").innerHTML = data;
+            document.getElementById("statusCam").innerHTML = msg;
         }, function (error) {
             console.log(error.message)
         });

@@ -28,7 +28,7 @@ public class BrainTreeAction {
                 gateway = BraintreeGatewayFactory.fromConfigFile(configFile);
                 return true;
             } else {
-                gateway = BraintreeGatewayFactory.fromConfigMapping(System.getenv());
+                gateway = BraintreeGatewayFactory.fromConfigMapping();
                 return true;
             }
         } catch (NullPointerException e) {

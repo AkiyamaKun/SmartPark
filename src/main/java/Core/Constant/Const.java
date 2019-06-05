@@ -282,6 +282,10 @@ public class Const {
     public static final String ACCOUNT_SUPERVISOR_DEFAULT = "supervisor@gmail.com";
     public static final String ACCOUNT_DRIVER_DEFAULT = "driver@gmail.com";
     public static final String ACCOUNT_PASSWORD_DEFAULT = "123456";
+    public static final String BT_ENVIRONMENT="sandbox";
+    public static final String BT_MERCHANT_ID="d3k583gm5jx7msfb";
+    public static final String BT_PUBLIC_KEY="55hgc8vprysjvzw5";
+    public static final String BT_PRIVATE_KEY="4f8d97cd751a72724e7fd0b84e93664d";
 
     //Time is counted as seconds
     //1800 seconds = 30 minutes

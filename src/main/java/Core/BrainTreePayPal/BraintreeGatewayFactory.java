@@ -1,5 +1,6 @@
 package Core.BrainTreePayPal;
 
+import Core.Constant.Const;
 import com.braintreegateway.BraintreeGateway;
 
 import java.io.File;
@@ -12,12 +13,13 @@ import java.util.Map;
 import java.util.Properties;
 
 public class BraintreeGatewayFactory {
-    public static BraintreeGateway fromConfigMapping(Map<String, String> mapping) {
+    public static BraintreeGateway fromConfigMapping() {
         return new BraintreeGateway(
-            mapping.get("BT_ENVIRONMENT"),
-            mapping.get("BT_MERCHANT_ID"),
-            mapping.get("BT_PUBLIC_KEY"),
-            mapping.get("BT_PRIVATE_KEY")
+//            mapping.get("BT_ENVIRONMENT"),
+//            mapping.get("BT_MERCHANT_ID"),
+//            mapping.get("BT_PUBLIC_KEY"),
+//            mapping.get("BT_PRIVATE_KEY")
+                Const.BT_ENVIRONMENT, Const.BT_MERCHANT_ID, Const.BT_PUBLIC_KEY, Const.BT_PRIVATE_KEY
         );
     }
 
