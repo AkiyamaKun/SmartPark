@@ -19,5 +19,5 @@ public interface TransactionService {
 
     ResponseDTO getTransactionByBookingId(Integer bookingId);
 
-    ResponseDTO refundForDriver();
+    ResponseDTO refundForDriver(Integer parkingLotId);
 }

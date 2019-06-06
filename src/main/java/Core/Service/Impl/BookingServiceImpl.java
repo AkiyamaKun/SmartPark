@@ -147,7 +147,7 @@ public class BookingServiceImpl implements BookingService {
                                 responseDTO.setStatus(true);
                                 responseDTO.setMessage(Const.CHECKOUT);
                                 MessageController messageController = new MessageController();
-                                messageController.sendToUser(responseDTO, book.getAccount().getEmail());
+                                //messageController.sendToUser(responseDTO, book.getAccount().getEmail());
                                 messageController.sendToUser(responseDTO, "supervisor_666");
                                 return responseDTO;
                             } else {
@@ -583,30 +583,31 @@ public class BookingServiceImpl implements BookingService {
             List<ParkingSlot> parkingSlots = parkingSlotRepository.findByParkingSlotStatus_StatusNameAndParkingLot_ParkingLotId(Const.STATUS_SLOT_EMPTY, parkingLotId);
             BookingStatus bookingStatus = bookingStatusRepository.findByBookingStatusName(Const.STATUS_BOOKING_BOOK);
             List<Booking> bookingList = bookingRepository.findByBookingStatus(bookingStatus);
-            List<Camera> cameras = cameraRepository.findByParkingLotId_ParkingLotId(parkingLotId);
+//            List<Camera> cameras = cameraRepository.findByParkingLotId_ParkingLotId(parkingLotId);
 
-            if (cameras.get(0).getUrlLiveStream() != null) {
-                String urlStr = cameras.get(0).getUrlLiveStream() + parkingLotId;
-                System.out.println(urlStr);
-                URL url = null;
-                try {
-                    url = new URL(urlStr);
-                    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
-                    urlConn.connect();
-                    if (urlConn.getResponseCode() == 200) {
-                        responseDTO.setMessage("active");
-                    } else {
-                        responseDTO.setMessage("not active");
-                    }
-                } catch (MalformedURLException ex) {
-                    ex.printStackTrace();
-                } catch (IOException o) {
-                    o.printStackTrace();
-                }
-            }
+
+//            if (cameras.get(0).getUrlLiveStream() != null) {
+//                String urlStr = cameras.get(0).getUrlLiveStream() + parkingLotId;
+//                System.out.println(urlStr);
+//                URL url = null;
+//                try {
+//                    url = new URL(urlStr);
+//                    HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+//                    urlConn.connect();
+//                    if (urlConn.getResponseCode() == 200) {
+//                        responseDTO.setMessage("active");
+//                    } else {
+//                        responseDTO.setMessage("not active");
+//                    }
+//                } catch (MalformedURLException ex) {
+//                    ex.printStackTrace();
+//                } catch (IOException o) {
+//                    o.printStackTrace();
+//                }
+//            }
 
             responseDTO.setStatus(true);
-            //responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
+            responseDTO.setMessage(Const.GET_BOOKING_SUCCESS);
             responseDTO.setObjectResponse(bookingList.size() + " / " + parkingSlots.size());
 
         } catch (Exception e) {
@@ -700,6 +701,7 @@ public class BookingServiceImpl implements BookingService {
                     responseDTO.setMessage(Const.CHECKOUT);
                     responseDTO.setObjectResponse(dto);
                     messageController.sendToUser(responseDTO, booking.getAccount().getEmail());
+                    //messageController.sendToUser(responseDTO, "supervisor_666");
                 } else if (booking.getBookingStatus().getBookingStatusName().equalsIgnoreCase(Const.STATUS_BOOKING_BOOK)) {
                     dto = Utilities.convertBookingDTOFromBookingEntity(dto, booking);
                     responseDTO.setStatus(true);
